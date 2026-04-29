@@ -1,0 +1,20 @@
+type: scrollView
+category: scroll
+profile: Core
+description: |
+  Scrollable viewport wrapping a single child (virtualization not required).
+properties:
+  direction:
+    type: "string"
+    default: "\"vertical\""
+    description: "`vertical` or `horizontal`."
+  padding:
+    type: "EdgeInsets"
+    description: "Inner padding."
+  child:
+    type: "Widget"
+    description: "Scrolled content. Required when `children` is omitted."
+  children:
+    type: "Widget[]"
+    description: "Multiple widgets; the runtime wraps them in a linear column along `direction`. Mutually exclusive with `child`."
+# examples migrated verbatim from prose JSON fences.

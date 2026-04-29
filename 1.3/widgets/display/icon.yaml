@@ -1,0 +1,37 @@
+type: icon
+category: display
+profile: Core
+description: |
+  Displays an icon. The `icon` property accepts three forms so authors can
+  pick the lightest option for the asset they need:
+
+  1. **Named (built-in)** — a string that matches a Material Icon name in the
+     runtime's resolver table (e.g. `"home"`, `"folder_open"`). Zero-cost;
+     common icons are always available.
+  2. **Codepoint** — object `{codepoint, fontFamily?, fontPackage?}` for any
+     Material Icons codepoint that isn't in the name table
+     (`{"codepoint": 0xe88a}` renders the same glyph as `"home"`).
+  3. **URL** — string starting with `http://` / `https://` (SVG or raster
+     image). The runtime fetches and caches the asset at first render; no
+     bundled asset needed. Useful for app-specific or third-party icon sets.
+properties:
+  icon:
+    type: "string | object"
+    required: true
+    description: "Name (`\"home\"`), URL (`\"https://.../icon.svg\"`), or codepoint object (`{codepoint: 0xe88a}`)."
+  size:
+    type: "number"
+    description: "Icon size in logical pixels."
+  color:
+    type: "Color"
+    description: "Icon color. Applied to named / codepoint forms; for URL form it tints raster icons when supported."
+examples:
+  - name: named
+    dsl: |
+      { "type": "icon", "icon": "home", "size": 24, "color": "#2196F3" }
+  - name: codepoint
+    dsl: |
+      { "type": "icon", "icon": { "codepoint": 59530 }, "size": 24 }
+  - name: url
+    dsl: |
+      { "type": "icon", "icon": "https://raw.githubusercontent.com/google/material-design-icons/master/png/action/settings/materialicons/48dp/2x/baseline_settings_black_48dp.png", "size": 32 }

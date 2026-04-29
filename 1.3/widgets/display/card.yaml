@@ -1,0 +1,36 @@
+type: card
+category: display
+profile: Core
+description: |
+  Elevated single-child container.
+properties:
+  elevation:
+    type: "number"
+    default: 1
+    description: "Shadow elevation."
+  margin:
+    type: "EdgeInsets"
+    description: "Outer margin."
+  shape:
+    type: "object"
+    description: "`{ type: \"rounded\", radius: 12 }`."
+  color:
+    type: "Color"
+    description: "Card surface color."
+    aliases:
+      - backgroundColor
+  child:
+    type: "Widget"
+    required: true
+    description: "Card content."
+# examples migrated verbatim from prose JSON fences.
+examples:
+  - name: prose_example_0
+    dsl: |
+      {
+        "type": "card",
+        "elevation": 2,
+        "margin": { "all": 8 },
+        "shape": { "type": "rounded", "radius": 12 },
+        "child": { "type": "text", "text": "Card content" }
+      }

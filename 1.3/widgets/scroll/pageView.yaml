@@ -1,0 +1,33 @@
+type: pageView
+category: scroll
+profile: Core
+description: |
+  Full-width/height paged scroll view, one page at a time.
+properties:
+  direction:
+    type: "string"
+    default: "\"horizontal\""
+    description: "`horizontal` or `vertical`."
+  children:
+    type: "Widget[]"
+    required: true
+    description: "One child per page."
+  onPageChanged:
+    type: "Action"
+    description: "Fired when the active page changes."
+# examples migrated verbatim from prose JSON fences.
+examples:
+  - name: prose_example_0
+    dsl: |
+      {
+        "type": "pageView",
+        "direction": "horizontal",
+        "children": [
+          { "type": "center", "child": { "type": "text", "text": "Page 1" } },
+          { "type": "center", "child": { "type": "text", "text": "Page 2" } }
+        ],
+        "onPageChanged": {
+          "type": "state", "action": "set",
+          "binding": "currentPage", "value": "{{event.page}}"
+        }
+      }

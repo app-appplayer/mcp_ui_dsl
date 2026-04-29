@@ -1,0 +1,25 @@
+type: bottomSheet
+category: dialog
+profile: Core
+description: |
+  Modal bottom sheet with swipeable handle.
+properties:
+  child:
+    type: "Widget"
+    required: true
+    description: "Sheet content."
+  isDismissible:
+    type: "boolean"
+    default: true
+    description: "Allow dismiss by tapping scrim."
+  enableDrag:
+    type: "boolean"
+    default: true
+    description: "Allow drag to dismiss."
+  backgroundColor:
+    type: "string"
+    description: "Sheet background."
+  shape:
+    type: "object"
+    description: "`{ type: \"rounded\", radius: { top: 16 } }`."
+# examples migrated verbatim from prose JSON fences.

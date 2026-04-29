@@ -1,0 +1,35 @@
+type: text
+category: display
+profile: Core
+description: |
+  Renders a string. The canonical content field is `text`.
+properties:
+  text:
+    type: "string"
+    required: true
+    description: "Text content. Supports binding expressions."
+    aliases:
+      - content
+  style:
+    type: "object"
+    description: "`fontSize`, `fontWeight`, `color`, `fontFamily`, `letterSpacing`, `lineHeight`, `decoration`."
+  maxLines:
+    type: "number"
+    description: "Maximum rendered lines."
+  overflow:
+    type: "string"
+    default: "\"clip\""
+    description: "`clip`, `ellipsis`, `fade`, `visible`."
+  textAlign:
+    type: "string"
+    default: "\"start\""
+    description: "`start`, `center`, `end`, `justify`."
+# examples migrated verbatim from prose JSON fences.
+examples:
+  - name: prose_example_0
+    dsl: |
+      {
+        "type": "text",
+        "text": "Hello {{user.name}}",
+        "style": { "fontSize": 16, "fontWeight": "bold", "color": "#333333" }
+      }

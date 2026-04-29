@@ -1,0 +1,25 @@
+type: richText
+category: display
+profile: Core
+description: |
+  Styled text composed of inline spans.
+properties:
+  spans:
+    type: "Span[]"
+    required: true
+    description: "Inline spans `{ text, style, onTap? }`."
+  textAlign:
+    type: "string"
+    default: "\"start\""
+    description: "Alignment for the composed text."
+# examples migrated verbatim from prose JSON fences.
+examples:
+  - name: prose_example_0
+    dsl: |
+      {
+        "type": "richText",
+        "spans": [
+          { "text": "Hello ", "style": { "color": "#333333" } },
+          { "text": "{{user.name}}", "style": { "fontWeight": "bold" } }
+        ]
+      }

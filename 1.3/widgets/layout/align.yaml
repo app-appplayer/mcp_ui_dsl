@@ -1,0 +1,20 @@
+type: align
+category: layout
+profile: Core
+description: |
+  Aligns a single child at a specified alignment.
+properties:
+  alignment:
+    type: "string"
+    default: "\"center\""
+    description: "`topStart`, `topCenter`, `topEnd`, `centerStart`, `center`, `centerEnd`, `bottomStart`, `bottomCenter`, `bottomEnd`. Defaults to `center` when omitted."
+  child:
+    type: "Widget"
+    required: true
+    description: "Aligned widget."
+# examples migrated verbatim from prose JSON fences.
+examples:
+  - name: prose_example_0
+    dsl: |
+      { "type": "align", "alignment": "bottomEnd",
+        "child": { "type": "icon", "icon": "close" } }

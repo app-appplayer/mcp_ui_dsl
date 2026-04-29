@@ -1,0 +1,15 @@
+type: clipRRect
+category: utility
+profile: Core
+description: |
+  Clips a child to a rounded rectangle.
+properties:
+  borderRadius:
+    type: "number | object"
+    default: 0
+    description: "Corner radius (uniform or `{topLeft, topRight, bottomLeft, bottomRight}`)."
+  child:
+    type: "Widget"
+    required: true
+    description: "Clipped child."
+# examples migrated verbatim from prose JSON fences.

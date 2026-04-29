@@ -1,0 +1,31 @@
+type: decoration
+category: display
+profile: Core
+description: |
+  Wraps a child with a decoration box (color, border, gradient, shadow) without otherwise affecting layout.
+properties:
+  decoration:
+    type: "object"
+    description: "Nested `{color, borderRadius, border, gradient, boxShadow}`. Alternatively, each key may appear flat at the top level."
+  color:
+    type: "Color"
+    description: "Flat shorthand for `decoration.color`."
+  borderRadius:
+    type: "number"
+    description: "Flat shorthand for `decoration.borderRadius`."
+  border:
+    type: "object"
+    description: "Flat shorthand for `decoration.border`."
+  gradient:
+    type: "object"
+    description: "Flat shorthand for `decoration.gradient`."
+  boxShadow:
+    type: "array"
+    description: "Flat shorthand for `decoration.boxShadow`."
+  child:
+    type: "Widget"
+    description: "Decorated widget. Required when `children` is omitted."
+  children:
+    type: "Widget[]"
+    description: "Multiple widgets; runtime wraps them in a linear column."
+# examples migrated verbatim from prose JSON fences.

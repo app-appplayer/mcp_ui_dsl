@@ -1,0 +1,45 @@
+type: animatedContainer
+category: animation
+profile: Core
+description: |
+  Container with implicit animations on property changes.
+properties:
+  duration:
+    type: "number"
+    default: 300
+    description: "Animation duration in milliseconds."
+  curve:
+    type: "string"
+    default: "\"easeInOut\""
+    description: "Animation curve."
+  decoration:
+    type: "object"
+    description: "Decoration; changes are animated."
+  onEnd:
+    type: "Action"
+    description: "Fired when the animation completes."
+  child:
+    type: "Widget"
+    description: "Child widget."
+# examples migrated verbatim from prose JSON fences.
+examples:
+  - name: prose_example_0
+    dsl: |
+      {
+        "type": "animatedContainer",
+        "duration": 500,
+        "curve": "easeInOut",
+        "width": "{{expanded ? 300 : 100}}",
+        "height": "{{expanded ? 200 : 50}}",
+        "padding": { "all": 16 },
+        "decoration": {
+          "color": "{{expanded ? '#2196F3' : '#E0E0E0'}}",
+          "borderRadius": 8
+        },
+        "onEnd": {
+          "type": "state", "action": "set",
+          "binding": "animationComplete", "value": true
+        },
+        "child": { "type": "center",
+                   "child": { "type": "text", "text": "Animated" } }
+      }
