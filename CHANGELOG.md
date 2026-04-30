@@ -1,5 +1,23 @@
 # MCP UI DSL — Changelog
 
+## [1.3.1]
+
+### Templates ([`09_Templates.md`](1.3/09_Templates.md))
+
+- Rename template body field `body` → `content` for consistency with page-level `content`.
+- Remove legacy inline-`name` definition form. Templates declare exclusively in the **map-key form** (`templates: { name: { ... } }`).
+- Remove legacy invocation aliases. The `use` widget is the sole canonical invocation type; `template` / `useTemplate` are no longer accepted. `params` is the sole canonical field name; `arguments` / `overrides` are no longer accepted.
+
+### Theme ([`05_Theme.md`](1.3/05_Theme.md) §5.3.6)
+
+- Define mode-specific fallback policy for sparse `theme` blocks. A bundle that omits the `theme` block entirely MUST resolve to the M3 default **dark** scheme under dark host brightness (rather than re-tagging the light scheme). Common-only `theme.color` (no `light`/`dark` variant) MUST apply to both modes unchanged.
+
+### Schema / generated artifacts
+
+- `schema/widgets.schema.json`, `generated/widgets.md`, `generated/llm_prompt_card.md` regenerated from the updated `widgets/utility/use.yaml` (aliases removed).
+
+---
+
 ## [1.3] — Modern Theme System
 
 Adopts a modern design-system standard (Material 3 + DTCG + shadcn-style + HCT seed) as canonical. No legacy aliases.
