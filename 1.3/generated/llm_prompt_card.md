@@ -1,4 +1,4 @@
-<!-- GENERATED: do not edit. Source: ../widgets/*.yaml. -->
+<!-- GENERATED: do not edit. Source: specs/mcp_ui_dsl/spec/1.3/widgets/*.yaml. -->
 # MCP UI DSL — LLM Prompt Card
 
 Authoritative catalog of every widget type recognised by the MCP UI DSL runtime. Use as context when generating or editing DSL. Widget types and property names listed here are the only sanctioned ones; anything else is either a legacy alias (§17.3) or invalid.
@@ -415,6 +415,5 @@ Format per widget:
 - properties: `permissions?: string[]`, `permissionType?: string`, `style?: string`, `title?: string`, `description?: string`, `icon?: string`, `allowPartial?: boolean`, `onAllow?: Action`, `onDeny?: Action`
 
 ### `use`
-- aliases: `template`, `useTemplate`
 - properties: `template: string`, `params?: object`, `slots?: object`
 

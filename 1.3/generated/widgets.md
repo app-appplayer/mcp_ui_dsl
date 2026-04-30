@@ -1,7 +1,7 @@
-<!-- GENERATED: do not edit. Source: ../widgets/*.yaml. -->
+<!-- GENERATED: do not edit. Source: specs/mcp_ui_dsl/spec/1.3/widgets/*.yaml. -->
 # Widget Registry — Generated Reference
 
-This file is regenerated from the machine-readable widget registry at [`../widgets/`](../widgets/).
+Run `dart run tools/spec_codegen/bin/spec_codegen.dart` to regenerate.
 
 | type | category | profile | since | aliases |
 |---|---|---|---|---|
@@ -124,7 +124,7 @@ This file is regenerated from the machine-readable widget registry at [`../widge
 | `tooltip` | display | Core | — | — |
 | `transform` | animation | Core | v1.3 | — |
 | `tree` | advanced | Core | v1.0 | — |
-| `use` | utility | Core | — | `template`, `useTemplate` |
+| `use` | utility | Core | — | — |
 | `verticalDivider` | display | Core | — | — |
 | `visibility` | layout | Core | — | — |
 | `webView` | advanced | Core | v1.0 | — |
@@ -3628,16 +3628,14 @@ Hierarchical tree view with expandable nodes.
 
 ## `use`  *(utility · Core)*
 
-**Aliases:** `template`, `useTemplate`
-
-Instantiates a named template (see §9.6). `use` is canonical; `template` and `useTemplate` are accepted legacy aliases for the invocation widget type.
+Instantiates a named template (see §9.6).
 
 ### Properties
 
 | Property | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `template` | `string` | yes | — | Template name to instantiate. |
-| `params` *(aliases: `arguments`, `overrides`)* | `object` | no | — | Parameter values; merged with the template's declared defaults. |
+| `params` | `object` | no | — | Parameter values; merged with the template's declared defaults. |
 | `slots` | `object` | no | — | Widget subtrees keyed by slot name. |
 
 ---

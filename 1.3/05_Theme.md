@@ -188,6 +188,19 @@ Hex MUST. Functional SHOULD. Named CSS-keyword colors are not canonical.
 
 Define mode-independent defaults in `theme.color`, then override per mode under `theme.light.color` / `theme.dark.color`. When a seed is present both light and dark are auto-derived, so explicit overrides are unnecessary.
 
+### 5.3.6 Mode-specific fallback
+
+The runtime MUST resolve a theme for both `light` and `dark` even when the bundle's `theme` block is sparse, so the `system` toggle always produces a sensible scheme.
+
+| Bundle declares | `mode: light` resolves to | `mode: dark` resolves to |
+|---|---|---|
+| Full theme (`color`, `light`, `dark`) | `theme + theme.light` (deep-merged) | `theme + theme.dark` (deep-merged) |
+| Common `color` only (no `light` / `dark` variant) | `theme` | `theme` (the bundle's common colors apply to both modes) |
+| `seed` only | M3 light scheme derived from seed | M3 dark scheme derived from seed |
+| **No `theme` block at all** | **M3 default light scheme (HCT-derived)** | **M3 default dark scheme (HCT-derived)** |
+
+The "no `theme` block" row is the key contract: a bundle that omits the `theme` block entirely MUST still render a usable dark scheme when the host brightness is dark — the runtime falls back to the M3 default dark scheme rather than re-tagging the light scheme as dark. Conversely, a bundle that supplies `theme.color` (common-level) without per-mode variants signals that the same colors apply to both modes; the runtime MUST NOT replace those with M3 defaults.
+
 [m3color]: https://m3.material.io/styles/color/the-color-system/key-colors-tones
 
 ---

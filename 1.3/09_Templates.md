@@ -23,9 +23,9 @@ Templates are registered at three scopes — page, application, and remote libra
 
 ## 9.2 Template Definition
 
-Two surface forms are accepted. The **map-key form** is the recommended form; the **inline-`name` form** is also accepted.
+Templates are declared in the **map-key form**: as entries in a `templates` object on the application root.
 
-### 9.2.1 Map-key form (recommended)
+### 9.2.1 Declaration form
 
 Template definitions appear as entries in a `templates` object. The object key is the template name.
 
@@ -40,7 +40,7 @@ Template definitions appear as entries in a `templates` object. The object key i
       "slots": {
         "trailing": { "required": false }
       },
-      "body": {
+      "content": {
         "type": "linear",
         "direction": "vertical",
         "children": [
@@ -53,20 +53,7 @@ Template definitions appear as entries in a `templates` object. The object key i
 }
 ```
 
-### 9.2.2 Inline-`name` form (legacy, accepted)
-
-A template definition MAY appear as a standalone object with `"type": "template"` and an explicit `name` field.
-
-```json
-{
-  "type": "template",
-  "name": "formField",
-  "params": { "label": { "type": "string", "required": true } },
-  "body": { "type": "text", "text": "{{label}}" }
-}
-```
-
-### 9.2.3 Definition fields
+### 9.2.2 Definition fields
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
@@ -74,15 +61,11 @@ A template definition MAY appear as a standalone object with `"type": "template"
 | `slots` | object | no | Slot declarations (§9.4) |
 | `styles` | object | no | Scoped style definitions (§9.5) |
 | `scopedStyles` | boolean | no | When `true`, styles declared in the template do not leak outside the template boundary. Default `false`. |
-| `body` | widget | yes | Widget tree that is the template's output |
+| `content` | widget | yes | Widget tree that is the template's output |
 | `stateDefaults` | object | no | Instance-scoped initial local state *(since v1.3)* |
 | `onMount` | action \| action[] | no | Runs once per instance mount, after `stateDefaults` initialization *(since v1.3)* |
 | `onUnmount` | action \| action[] | no | Runs once per instance unmount *(since v1.3)* |
 | `description` | string | no | Human-readable description |
-
-### 9.2.4 Precedence between definition forms
-
-If both forms register a template with the same name, the **map-key form wins**. Runtimes MAY emit a warning when the same name is defined in both forms.
 
 ---
 
@@ -99,7 +82,7 @@ A parameter declaration is an object on `params.<name>`.
 | `validator` | string | Binding expression evaluated against `value`; falsy result rejects the value |
 | `description` | string | Documentation |
 
-Within the template `body`, parameter values resolve as bare identifiers (`{{label}}`) or through the `{{...}}` binding syntax. Parameters occupy position 3 in the binding resolution chain defined in [`03_Data_Binding.md`](03_Data_Binding.md) — after bare locals and `local.*`, before page state.
+Within the template `content`, parameter values resolve as bare identifiers (`{{label}}`) or through the `{{...}}` binding syntax. Parameters occupy position 3 in the binding resolution chain defined in [`03_Data_Binding.md`](03_Data_Binding.md) — after bare locals and `local.*`, before page state.
 
 ### 9.3.1 Validation
 
@@ -121,7 +104,7 @@ A slot is a named insertion point filled by the caller.
   "templates": {
     "card": {
       "params": { "title": { "type": "string", "required": true } },
-      "body": {
+      "content": {
         "type": "box",
         "children": [
           { "type": "text", "text": "{{title}}" },
@@ -152,7 +135,7 @@ Invocation supplies `slots`:
 }
 ```
 
-### 9.4.1 Slot fields (within the template body)
+### 9.4.1 Slot fields (within the template content)
 
 | Field | Type | Description |
 |-------|------|-------------|
@@ -179,7 +162,7 @@ A template MAY declare `styles` — a named style map — and set `scopedStyles:
         "text": { "type": "string", "required": true },
         "color": { "type": "string", "default": "{{theme.colorScheme.primary}}" }
       },
-      "body": {
+      "content": {
         "type": "box",
         "style": "{{styles.container}}",
         "children": [
@@ -214,7 +197,7 @@ When `scopedStyles` is `false` or absent, styles behave as inline widgets with n
 
 ## 9.6 Template Invocation
 
-Two widget types invoke a template. `use` is canonical; `template` is an accepted alias (see [`17_Naming.md`](17_Naming.md) §17.3.2 — `itemTemplate` vs. `template` alias registry entry).
+A template is invoked through the `use` widget.
 
 ```json
 {
@@ -229,7 +212,7 @@ Two widget types invoke a template. `use` is canonical; `template` is an accepte
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `type` | string | yes | `"use"` (canonical) or `"template"` (accepted alias) |
+| `type` | string | yes | `"use"` |
 | `template` | string | yes | Template name to instantiate |
 | `params` | object | no | Parameter values; merged with declared `default` values |
 | `slots` | object | no | Widget subtrees keyed by slot name |
@@ -254,14 +237,14 @@ Inside `list`, `grid`, and other iterating widgets, the per-item widget is decla
 
 ## 9.7 Nested Templates
 
-A template body MAY invoke other templates. Recursion is bounded: a runtime MUST enforce a maximum expansion depth (default **10** levels) and MUST terminate expansion with an error when the limit is exceeded. The limit guards against self-referential templates and mutual recursion.
+A template content MAY invoke other templates. Recursion is bounded: a runtime MUST enforce a maximum expansion depth (default **10** levels) and MUST terminate expansion with an error when the limit is exceeded. The limit guards against self-referential templates and mutual recursion.
 
 ```json
 {
   "templates": {
     "labeledField": {
       "params": { "label": { "type": "string", "required": true } },
-      "body": {
+      "content": {
         "type": "use",
         "template": "formField",
         "params": { "label": "{{label}}" }
@@ -283,7 +266,7 @@ A template MAY declare `stateDefaults` — a map of initial values for instance-
     "accordion": {
       "params": { "title": { "type": "string", "required": true } },
       "stateDefaults": { "expanded": false },
-      "body": {
+      "content": {
         "type": "linear",
         "direction": "vertical",
         "children": [
@@ -367,7 +350,7 @@ Top-level `onMount` and `onUnmount` on a template definition fire **per instance
           "channel": "device.{{deviceId}}.status"
         }
       ],
-      "body": { "type": "text", "text": "Status: {{local.status}}" }
+      "content": { "type": "text", "text": "Status: {{local.status}}" }
     }
   }
 }
@@ -407,7 +390,7 @@ An `ApplicationDefinition` MAY declare external template collections that are lo
     { "uri": "bundle://components/design-system.json" }
   ],
   "templates": {
-    "myLocalTemplate": { "params": {}, "body": {} }
+    "myLocalTemplate": { "params": {}, "content": {} }
   },
   "routes": {}
 }
@@ -434,8 +417,8 @@ An `ApplicationDefinition` MAY declare external template collections that are lo
   "name": "charts-v2",
   "version": "2.0.0",
   "templates": {
-    "barChart":  { "params": {}, "body": {} },
-    "lineChart": { "params": {}, "body": {} }
+    "barChart":  { "params": {}, "content": {} },
+    "lineChart": { "params": {}, "content": {} }
   }
 }
 ```
@@ -490,7 +473,7 @@ The exact built-in set is implementation-defined; a runtime MAY register additio
           "enum": ["online", "offline", "degraded"]
         }
       },
-      "body": {
+      "content": {
         "type": "chip",
         "label": "{{status}}",
         "variant": "filled"
@@ -502,7 +485,7 @@ The exact built-in set is implementation-defined; a runtime MAY register additio
         "status": { "type": "string", "required": true }
       },
       "stateDefaults": { "expanded": false },
-      "body": {
+      "content": {
         "type": "linear",
         "direction": "vertical",
         "children": [
@@ -531,7 +514,7 @@ The exact built-in set is implementation-defined; a runtime MAY register additio
   "routes": {
     "/devices": {
       "type": "page",
-      "body": {
+      "content": {
         "type": "list",
         "binding": "devices",
         "itemTemplate": {

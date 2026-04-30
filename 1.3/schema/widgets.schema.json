@@ -11161,14 +11161,12 @@
     },
     "use": {
       "type": "object",
-      "description": "Instantiates a named template (see §9.6). `use` is canonical; `template` and `useTemplate` are accepted legacy aliases for the invocation widget type.",
+      "description": "Instantiates a named template (see §9.6).",
       "properties": {
         "type": {
           "type": "string",
           "enum": [
-            "use",
-            "template",
-            "useTemplate"
+            "use"
           ]
         },
         "template": {
@@ -11178,16 +11176,6 @@
         "params": {
           "type": "object",
           "description": "Parameter values; merged with the template's declared defaults.",
-          "additionalProperties": true
-        },
-        "arguments": {
-          "type": "object",
-          "description": "Legacy alias of `params`.",
-          "additionalProperties": true
-        },
-        "overrides": {
-          "type": "object",
-          "description": "Legacy alias of `params`.",
           "additionalProperties": true
         },
         "slots": {
