@@ -58,9 +58,11 @@ Rectangular region with padding, margin, border, decoration, and size constraint
 |----------|------|----------|---------|-------------|
 | `width` | number \| object | no | — | Explicit width in logical pixels or `{value, unit}`. |
 | `height` | number \| object | no | — | Explicit height in logical pixels or `{value, unit}`. |
-| `minWidth` / `maxWidth` | number | no | — | Width bounds. |
-| `minHeight` / `maxHeight` | number | no | — | Height bounds. |
-| `padding` | EdgeInsets | no | — | Inner spacing. `{all}`, `{horizontal, vertical}`, or `{top, right, bottom, left}`. |
+| `minWidth` | number | no | — | Minimum width constraint. Honored independently of `width`. |
+| `maxWidth` | number | no | — | Maximum width constraint; caps the child's width. |
+| `minHeight` | number | no | — | Minimum height constraint. |
+| `maxHeight` | number | no | — | Maximum height constraint. |
+| `padding` | string \| EdgeInsets | no | — | Inner spacing. String form accepts an M3 spacing token (`xxs` / `xs` / `sm` / `md` / `lg` / `xl` / `2xl` / `3xl` / `4xl`, or any custom slot in `theme.spacing`) that resolves through `theme.spacing.<token>` to a uniform inset; object form is `{all}`, `{horizontal, vertical}`, `{top, right, bottom, left}`, or `{token: "md"}`. |
 | `margin` | EdgeInsets | no | — | Outer spacing. |
 | `alignment` | string | no | — | Alignment of the child within the box. |
 | `decoration` | object | no | — | `color`, `borderRadius`, `border`, `boxShadow`, `gradient`. |
@@ -293,17 +295,7 @@ Sizes the child to a specific aspect ratio.
 | `aspectRatio` | number | yes | — | Width-to-height ratio (e.g., `1.5` for 3:2). |
 | `child` | Widget | yes | — | Child widget. |
 
-### 2.4.16 `constrained`
-
-Applies explicit size constraints to a child.
-
-| Property | Type | Required | Default | Description |
-|----------|------|----------|---------|-------------|
-| `minWidth` / `maxWidth` | number | no | — | Width bounds. |
-| `minHeight` / `maxHeight` | number | no | — | Height bounds. |
-| `child` | Widget | yes | — | Constrained widget. |
-
-### 2.4.17 `fractionallySized`
+### 2.4.16 `fractionallySized`
 
 Sizes the child as a fraction of the parent.
 
@@ -313,7 +305,7 @@ Sizes the child as a fraction of the parent.
 | `heightFactor` | number | no | — | Height fraction in `0.0..1.0`. |
 | `child` | Widget | yes | — | Child widget. |
 
-### 2.4.18 `intrinsicHeight`
+### 2.4.17 `intrinsicHeight`
 
 Constrains a child to the intrinsic height required by its content.
 
@@ -321,7 +313,7 @@ Constrains a child to the intrinsic height required by its content.
 |----------|------|----------|---------|-------------|
 | `child` | Widget | yes | — | Child widget. |
 
-### 2.4.19 `intrinsicWidth`
+### 2.4.18 `intrinsicWidth`
 
 Constrains a child to the intrinsic width required by its content.
 
@@ -329,7 +321,7 @@ Constrains a child to the intrinsic width required by its content.
 |----------|------|----------|---------|-------------|
 | `child` | Widget | yes | — | Child widget. |
 
-### 2.4.20 `visibility`
+### 2.4.19 `visibility`
 
 Shows or hides a child with optional state preservation and replacement content.
 
@@ -350,7 +342,7 @@ Shows or hides a child with optional state preservation and replacement content.
 }
 ```
 
-### 2.4.21 `conditional`
+### 2.4.20 `conditional`
 
 Renders different branches based on an expression. Two forms are supported: then/else and multi-branch (`switch`/`cases`).
 
@@ -396,7 +388,7 @@ Renders different branches based on an expression. Two forms are supported: then
 }
 ```
 
-### 2.4.22 `indexedStack`
+### 2.4.21 `indexedStack`
 
 Displays a single child selected by index. All children retain state.
 
@@ -429,10 +421,15 @@ Renders a string. The canonical content field is `text`.
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
 | `text` | string | yes | — | Text content. Supports binding expressions. |
-| `style` | object | no | — | `fontSize`, `fontWeight`, `color`, `fontFamily`, `letterSpacing`, `lineHeight`, `decoration`. |
+| `variant` | string | no | — | M3 typography role — one of `displayLarge` / `displayMedium` / `displaySmall` / `headlineLarge` / `headlineMedium` / `headlineSmall` / `titleLarge` / `titleMedium` / `titleSmall` / `bodyLarge` / `bodyMedium` / `bodySmall` / `labelLarge` / `labelMedium` / `labelSmall`. Resolves through `theme.typography.<variant>`; the inline `style` block layers on top. |
+| `style` | string \| object | no | — | Inline `{ fontSize, fontWeight, color, fontFamily, letterSpacing, lineHeight, decoration }`. String form accepts a binding to a typography map (typically `"{{theme.typography.<role>}}"`, equivalent to `variant: "<role>"`). When both `variant` and an object `style` are set, `style` overrides individual fields on top of the variant base. |
 | `maxLines` | number | no | — | Maximum rendered lines. |
 | `overflow` | string | no | `"clip"` | `clip`, `ellipsis`, `fade`, `visible`. |
 | `textAlign` | string | no | `"start"` | `start`, `center`, `end`, `justify`. |
+
+```json
+{ "type": "text", "text": "Title", "variant": "headlineLarge" }
+```
 
 ```json
 {
@@ -489,12 +486,13 @@ Displays a named icon from the runtime's icon set.
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| `icon` | string | yes | — | Icon name (e.g., `"home"`, `"settings"`). |
-| `size` | number | no | — | Icon size in logical pixels. |
+| `icon` | string | yes | — | Icon name (e.g., `"home"`, `"settings"`), `http(s)://` URL, or codepoint object `{codepoint, fontFamily?, fontPackage?}`. |
+| `size` | string \| number | no | — | Numeric dp, or an `AppIconSizes` token (`sm` / `md` / `lg` / `xl`) that scales with the active form factor. |
+| `sizeToken` | string | no | — | Equivalent to `size` when given as a token; explicit form for tooling. |
 | `color` | string | no | — | Icon color. |
 
 ```json
-{ "type": "icon", "icon": "home", "size": 24, "color": "#2196F3" }
+{ "type": "icon", "icon": "home", "sizeToken": "md", "color": "#2196F3" }
 ```
 
 ### 2.5.5 `card`
@@ -503,9 +501,9 @@ Elevated single-child container.
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| `elevation` | number | no | `1` | Shadow elevation. |
+| `elevation` | number \| string | no | `1` | Shadow elevation. String form accepts an M3 elevation token (`level0` … `level5`) that resolves through `theme.elevation.<token>.shadow`. |
 | `margin` | EdgeInsets | no | — | Outer margin. |
-| `shape` | object | no | — | `{ type: "rounded", radius: 12 }`. |
+| `shape` | object \| string | no | — | M3 shape family token (`extraSmall` / `small` / `medium` / `large` / `extraLarge` / `full` / `none`) that resolves through `theme.shape.<token>`, or the legacy object `{ type: "rounded", radius: 12 }`. |
 | `child` | Widget | yes | — | Card content. |
 
 ```json
@@ -725,6 +723,7 @@ Interactive button. The canonical label field is `label`.
 |----------|------|----------|---------|-------------|
 | `label` | string | yes | — | Button text. |
 | `variant` | string | no | `"elevated"` | `elevated`, `filled`, `outlined`, `text`, `icon`. |
+| `elevation` | number \| string | no | — | Shadow elevation. String form accepts an M3 elevation token (`level0` … `level5`) that resolves through `theme.elevation.<token>.shadow`. Honored only by the `elevated` variant; ignored by other variants. |
 | `icon` | string | no | — | Optional leading icon name. |
 | `enabled` | boolean | no | `true` | Whether the button is interactive. |
 | `onTap` | Action | no | — | Tap handler. |

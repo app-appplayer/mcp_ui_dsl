@@ -253,7 +253,7 @@ If `dashboard` is not defined, runtimes rendering in dashboard mode MAY display 
   "templates": {
     "statusBadge": {
       "params": { "status": { "type": "string", "required": true } },
-      "body": {
+      "content": {
         "type": "chip",
         "label": "{{status}}",
         "variant": "filled",

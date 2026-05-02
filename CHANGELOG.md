@@ -1,5 +1,28 @@
 # MCP UI DSL — Changelog
 
+## [1.3.2]
+
+### Widgets ([`02_Widgets.md`](1.3/02_Widgets.md))
+
+- `box` — added `minWidth` / `maxWidth` / `minHeight` / `maxHeight` flat-form constraint properties so `box` is a true superset of the legacy `constrained` widget.
+- Removed `constrained` from the canonical surface (yaml + schema + 02_Widgets section). Runtimes MAY retain it as a legacy alias of `box`.
+
+### Theme tokens ([`widgets/`](1.3/widgets/))
+
+- M3 token shorthand on `text.variant` (15 typography roles), `box.padding`, `card.shape` / `card.elevation`, `button.elevation`, `icon.size` / `sizeToken` — accept the M3 token name; resolved through `theme.<domain>.<token>`.
+
+### Responsive ([`14_Responsive_Events.md`](1.3/14_Responsive_Events.md))
+
+- Rewritten on M3 5-class FormFactor — `compact` / `medium` / `expanded` / `large` / `extraLarge` plus `embedded`. Earlier `xs` / `sm` / `md` / `lg` / `xl` labels removed.
+- `{{runtime.breakpoint}}` renamed to `{{runtime.formFactor}}`.
+- Per-form-factor property override map formalised (`{compact, medium, expanded, large, extraLarge, embedded, default}`) on every property.
+
+### Schema / generated artifacts
+
+- `schema/widgets.schema.json`, `schema/app.schema.json`, `generated/widgets.md`, `generated/llm_prompt_card.md` regenerated.
+
+---
+
 ## [1.3.1]
 
 ### Templates ([`09_Templates.md`](1.3/09_Templates.md))

@@ -20,8 +20,18 @@ properties:
     required: true
     description: "Name (`\"home\"`), URL (`\"https://.../icon.svg\"`), or codepoint object (`{codepoint: 0xe88a}`)."
   size:
-    type: "number"
-    description: "Icon size in logical pixels."
+    type: ["string", "number"]
+    description: |
+      Icon size. Accepts either a numeric dp value or an `AppIconSizes`
+      token shorthand (`sm` / `md` / `lg` / `xl`) which scales with the
+      active form factor.
+  sizeToken:
+    type: "string"
+    enum: [sm, md, lg, xl]
+    description: |
+      Responsive icon-size token. Equivalent to passing the same string
+      via `size`; resolves through `AppIconSizes.of(context)` and tracks
+      the form-factor scale (compact / medium / desktop / embedded).
   color:
     type: "Color"
     description: "Icon color. Applied to named / codepoint forms; for URL form it tints raster icons when supported."

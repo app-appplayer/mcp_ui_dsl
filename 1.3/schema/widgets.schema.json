@@ -571,9 +571,7 @@
           "type": "string",
           "enum": [
             "box",
-            "container",
-            "decoratedBox",
-            "constrainedBox"
+            "container"
           ]
         },
         "width": {
@@ -634,11 +632,17 @@
             }
           ]
         },
-        "padding": {
-          "description": "Space inside the box, between the border and the child.",
+        "minWidth": {
+          "description": "Minimum width constraint. Honored independently of `width`; a child wider than `minWidth` is allowed.",
           "anyOf": [
             {
-              "type": "number"
+              "type": "number",
+              "description": "Minimum width constraint. Honored independently of `width`; a child wider than `minWidth` is allowed."
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression."
             },
             {
               "type": "object",
@@ -652,159 +656,277 @@
               },
               "required": [
                 "value"
-              ]
+              ],
+              "description": "Dimension object: `{value, unit}`."
+            }
+          ]
+        },
+        "maxWidth": {
+          "description": "Maximum width constraint. Caps the child's width regardless of intrinsic size.",
+          "anyOf": [
+            {
+              "type": "number",
+              "description": "Maximum width constraint. Caps the child's width regardless of intrinsic size."
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression."
             },
             {
               "type": "object",
               "properties": {
-                "all": {
-                  "anyOf": [
-                    {
-                      "type": "number"
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "value": {
-                          "type": "number"
-                        },
-                        "unit": {
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "value"
-                      ]
-                    }
-                  ]
+                "value": {
+                  "type": "number"
                 },
-                "horizontal": {
-                  "anyOf": [
-                    {
-                      "type": "number"
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "value": {
-                          "type": "number"
-                        },
-                        "unit": {
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "value"
-                      ]
-                    }
-                  ]
-                },
-                "vertical": {
-                  "anyOf": [
-                    {
-                      "type": "number"
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "value": {
-                          "type": "number"
-                        },
-                        "unit": {
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "value"
-                      ]
-                    }
-                  ]
-                },
-                "top": {
-                  "anyOf": [
-                    {
-                      "type": "number"
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "value": {
-                          "type": "number"
-                        },
-                        "unit": {
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "value"
-                      ]
-                    }
-                  ]
-                },
-                "right": {
-                  "anyOf": [
-                    {
-                      "type": "number"
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "value": {
-                          "type": "number"
-                        },
-                        "unit": {
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "value"
-                      ]
-                    }
-                  ]
-                },
-                "bottom": {
-                  "anyOf": [
-                    {
-                      "type": "number"
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "value": {
-                          "type": "number"
-                        },
-                        "unit": {
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "value"
-                      ]
-                    }
-                  ]
-                },
-                "left": {
-                  "anyOf": [
-                    {
-                      "type": "number"
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "value": {
-                          "type": "number"
-                        },
-                        "unit": {
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "value"
-                      ]
-                    }
-                  ]
+                "unit": {
+                  "type": "string"
                 }
-              }
+              },
+              "required": [
+                "value"
+              ],
+              "description": "Dimension object: `{value, unit}`."
+            }
+          ]
+        },
+        "minHeight": {
+          "description": "Minimum height constraint.",
+          "anyOf": [
+            {
+              "type": "number",
+              "description": "Minimum height constraint."
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression."
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "number"
+                },
+                "unit": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "value"
+              ],
+              "description": "Dimension object: `{value, unit}`."
+            }
+          ]
+        },
+        "maxHeight": {
+          "description": "Maximum height constraint.",
+          "anyOf": [
+            {
+              "type": "number",
+              "description": "Maximum height constraint."
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression."
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "number"
+                },
+                "unit": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "value"
+              ],
+              "description": "Dimension object: `{value, unit}`."
+            }
+          ]
+        },
+        "padding": {
+          "description": "Space inside the box, between the border and the child. Accepts an\nM3 spacing token shorthand (`xxs` / `xs` / `sm` / `md` / `lg` /\n`xl` / `2xl` / `3xl` / `4xl`, or any custom slot in\n`theme.spacing`) — resolved through `theme.spacing.<token>` to a\nuniform inset — or the legacy EdgeInsets object form.\n",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "description": "Edge insets.",
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": "number"
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "value"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "all": {
+                      "anyOf": [
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "value": {
+                              "type": "number"
+                            },
+                            "unit": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "value"
+                          ]
+                        }
+                      ]
+                    },
+                    "horizontal": {
+                      "anyOf": [
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "value": {
+                              "type": "number"
+                            },
+                            "unit": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "value"
+                          ]
+                        }
+                      ]
+                    },
+                    "vertical": {
+                      "anyOf": [
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "value": {
+                              "type": "number"
+                            },
+                            "unit": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "value"
+                          ]
+                        }
+                      ]
+                    },
+                    "top": {
+                      "anyOf": [
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "value": {
+                              "type": "number"
+                            },
+                            "unit": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "value"
+                          ]
+                        }
+                      ]
+                    },
+                    "right": {
+                      "anyOf": [
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "value": {
+                              "type": "number"
+                            },
+                            "unit": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "value"
+                          ]
+                        }
+                      ]
+                    },
+                    "bottom": {
+                      "anyOf": [
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "value": {
+                              "type": "number"
+                            },
+                            "unit": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "value"
+                          ]
+                        }
+                      ]
+                    },
+                    "left": {
+                      "anyOf": [
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "value": {
+                              "type": "number"
+                            },
+                            "unit": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "value"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
             }
           ]
         },
@@ -1049,6 +1171,32 @@
           "default": "\"elevated\"",
           "description": "Legacy alias of `variant`."
         },
+        "elevation": {
+          "description": "Shadow elevation. Accepts either a numeric dp value or an M3\nelevation token shorthand (`level0` … `level5`) that resolves\nthrough `theme.elevation.<token>.shadow`. Honored only by the\n`elevated` variant; ignored by `filled`/`outlined`/`text`/`icon`.\n",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "number"
+                },
+                "unit": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "value"
+              ],
+              "description": "Dimension object: `{value, unit}`."
+            }
+          ]
+        },
         "icon": {
           "type": "string",
           "description": "Optional leading icon name."
@@ -1165,17 +1313,13 @@
           ]
         },
         "elevation": {
-          "description": "Shadow elevation.",
+          "description": "Shadow elevation. Accepts either a numeric dp value or an M3\nelevation token shorthand (`level0` … `level5`) which resolves\nthrough `theme.elevation.<token>.shadow`.\n",
           "anyOf": [
             {
-              "type": "number",
-              "default": 1,
-              "description": "Shadow elevation."
+              "type": "string"
             },
             {
-              "type": "string",
-              "pattern": "^\\{\\{.*\\}\\}$",
-              "description": "Binding expression."
+              "type": "number"
             },
             {
               "type": "object",
@@ -1369,9 +1513,16 @@
           ]
         },
         "shape": {
-          "type": "object",
-          "description": "`{ type: \"rounded\", radius: 12 }`.",
-          "additionalProperties": true
+          "description": "Shape of the card surface. M3 shape token shorthand (`extraSmall` /\n`small` / `medium` / `large` / `extraLarge` / `full` / `none`)\nresolves through `theme.shape.<token>`. Object form\n`{ type: \"rounded\", radius: 12 }` is also accepted.\n",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "additionalProperties": true
+            }
+          ]
         },
         "color": {
           "type": "string",
@@ -2326,33 +2477,6 @@
         },
         "default": {
           "$ref": "#/$defs/Widget"
-        }
-      },
-      "required": [
-        "type"
-      ],
-      "additionalProperties": true
-    },
-    "constrained": {
-      "type": "object",
-      "description": "Applies explicit size constraints to a child.",
-      "properties": {
-        "type": {
-          "type": "string",
-          "enum": [
-            "constrained",
-            "constrainedBox"
-          ]
-        },
-        "child": {
-          "$ref": "#/$defs/Widget"
-        },
-        "children": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/Widget"
-          },
-          "description": "Multiple widgets; runtime wraps them into an implicit column. Alternative to `child` — mutually exclusive."
         }
       },
       "required": [
@@ -4596,16 +4720,13 @@
           ]
         },
         "size": {
-          "description": "Icon size in logical pixels.",
+          "description": "Icon size. Accepts either a numeric dp value or an `AppIconSizes`\ntoken shorthand (`sm` / `md` / `lg` / `xl`) which scales with the\nactive form factor.\n",
           "anyOf": [
             {
-              "type": "number",
-              "description": "Icon size in logical pixels."
+              "type": "string"
             },
             {
-              "type": "string",
-              "pattern": "^\\{\\{.*\\}\\}$",
-              "description": "Binding expression."
+              "type": "number"
             },
             {
               "type": "object",
@@ -4623,6 +4744,16 @@
               "description": "Dimension object: `{value, unit}`."
             }
           ]
+        },
+        "sizeToken": {
+          "type": "string",
+          "enum": [
+            "sm",
+            "md",
+            "lg",
+            "xl"
+          ],
+          "description": "Responsive icon-size token. Equivalent to passing the same string\nvia `size`; resolves through `AppIconSizes.of(context)` and tracks\nthe form-factor scale (compact / medium / desktop / embedded).\n"
         },
         "color": {
           "type": "string",
@@ -5010,7 +5141,7 @@
     },
     "lazy": {
       "type": "object",
-      "description": "Defers construction of a child until it is first rendered.",
+      "description": "Defer rendering of an expensive subtree until it enters the viewport (or until explicitly loaded). `lazy` belongs to the Utility group in [`02_Widgets.md`](02_Widgets.md) and is listed here because its schema pairs conceptually with the heavy Advanced widgets above.",
       "properties": {
         "type": {
           "type": "string",
@@ -5018,15 +5149,40 @@
             "lazy"
           ]
         },
-        "child": {
+        "placeholder": {
           "$ref": "#/$defs/Widget"
         },
+        "content": {
+          "description": "Inline widget, or `{ source: \"ui://...\" }` to fetch a remote page fragment. Required when `children` is omitted.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Widget"
+            },
+            {
+              "type": "object",
+              "description": "object",
+              "additionalProperties": true
+            }
+          ]
+        },
         "children": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/Widget"
-          },
-          "description": "Multiple widgets; runtime wraps them into an implicit column. Alternative to `child` — mutually exclusive."
+          "description": "Multiple deferred widgets; runtime wraps them in a linear column."
+        },
+        "trigger": {
+          "type": "string",
+          "enum": [
+            "viewport",
+            "immediate",
+            "manual"
+          ],
+          "default": "viewport",
+          "description": "`viewport` renders when scrolled into view; `immediate` renders on mount; `manual` renders when a `load()` signal is received."
+        },
+        "onLoad": {
+          "$ref": "#/$defs/Action"
+        },
+        "onError": {
+          "$ref": "#/$defs/Action"
         }
       },
       "required": [
@@ -9970,10 +10126,38 @@
           "type": "string",
           "description": "Legacy alias of `text`."
         },
+        "variant": {
+          "type": "string",
+          "enum": [
+            "displayLarge",
+            "displayMedium",
+            "displaySmall",
+            "headlineLarge",
+            "headlineMedium",
+            "headlineSmall",
+            "titleLarge",
+            "titleMedium",
+            "titleSmall",
+            "bodyLarge",
+            "bodyMedium",
+            "bodySmall",
+            "labelLarge",
+            "labelMedium",
+            "labelSmall"
+          ],
+          "description": "M3 typography role. The runtime resolves it through\n`theme.typography.<variant>` (see `05_Theme.md` § 5.4) and uses the\nresult as the base TextStyle. Inline `style` (if present) overrides\nindividual fields on top of the resolved role.\n"
+        },
         "style": {
-          "type": "object",
-          "description": "`fontSize`, `fontWeight`, `color`, `fontFamily`, `letterSpacing`, `lineHeight`, `decoration`.",
-          "additionalProperties": true
+          "description": "`fontSize`, `fontWeight`, `color`, `fontFamily`, `letterSpacing`,\n`lineHeight`, `decoration`. Object form is layered on top of\n`variant` when both are set. String form is a binding expression\nthat resolves to a typography object — typically\n`\"{{theme.typography.<role>}}\"`, equivalent to writing\n`variant: \"<role>\"`.\n",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "object",
+              "additionalProperties": true
+            }
+          ]
         },
         "maxLines": {
           "description": "Maximum rendered lines.",
@@ -11713,9 +11897,6 @@
           "$ref": "#/$defs/conditional"
         },
         {
-          "$ref": "#/$defs/constrained"
-        },
-        {
           "$ref": "#/$defs/customDialog"
         },
         {
@@ -12007,6 +12188,20 @@
           "$ref": "#/$defs/wrap"
         }
       ]
+    },
+    "ResponsiveValue": {
+      "type": "object",
+      "description": "Per-form-factor property override. Keys are FormFactor labels (`compact` / `medium` / `expanded` / `large` / `extraLarge` / `embedded`) plus an optional `default`. Values match the property's normal type. See `14_Responsive_Events.md` § 14.2.",
+      "properties": {
+        "compact": {},
+        "medium": {},
+        "expanded": {},
+        "large": {},
+        "extraLarge": {},
+        "embedded": {},
+        "default": {}
+      },
+      "additionalProperties": false
     },
     "Action": {
       "type": "object",

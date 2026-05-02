@@ -16,7 +16,7 @@ Run `dart run tools/spec_codegen/bin/spec_codegen.dart` to regenerate.
 | `baseline` | utility | Core | — | — |
 | `bottomNavigation` | navigation | Core | — | `bottomNav`, `bottomnavigationbar` |
 | `bottomSheet` | dialog | Core | — | — |
-| `box` | layout | Core | v1.0 | `container`, `decoratedBox`, `constrainedBox` |
+| `box` | layout | Core | v1.0 | `container` |
 | `button` | input | Core | — | — |
 | `calendar` | advanced | Core | v1.0 | — |
 | `canvas` | advanced | Core | v1.3 | — |
@@ -31,7 +31,6 @@ Run `dart run tools/spec_codegen/bin/spec_codegen.dart` to regenerate.
 | `codeEditor` | advanced | Core | v1.0 | — |
 | `colorPicker` | input | Core | — | — |
 | `conditional` | layout | Core | — | — |
-| `constrained` | layout | Core | — | `constrainedBox` |
 | `customDialog` | dialog | Core | — | — |
 | `dashboard` | utility | Core | v1.3 | — |
 | `dataTable` | advanced | Core | v1.0 | — |
@@ -67,8 +66,8 @@ Run `dart run tools/spec_codegen/bin/spec_codegen.dart` to regenerate.
 | `intrinsicHeight` | layout | Core | — | — |
 | `intrinsicWidth` | layout | Core | — | — |
 | `layoutBuilder` | utility | Core | — | — |
-| `lazy` | advanced | Core | v1.0 | — |
 | `lazy` | utility | Core | — | — |
+| `lazy` | advanced | Core | v1.0 | — |
 | `limitedBox` | utility | Core | — | — |
 | `linear` | layout | Core | — | `row`, `column` |
 | `list` | list | Core | — | `listView`, `listview` |
@@ -444,7 +443,7 @@ Modal bottom sheet with swipeable handle.
 
 ## `box`  *(layout · Core · v1.0)*
 
-**Aliases:** `container`, `decoratedBox`, `constrainedBox`
+**Aliases:** `container`
 
 Generic single-child container that applies size, padding, margin, and a
 decoration (background color, border, shadow, gradient, borderRadius). Most
@@ -456,7 +455,11 @@ commonly used as a styled wrapper around any child widget.
 |---|---|---|---|---|
 | `width` | `number` | no | — | Fixed width in logical pixels. When omitted, the box shrinks to its child's width. |
 | `height` | `number` | no | — | Fixed height in logical pixels. When omitted, the box shrinks to its child's height. |
-| `padding` | `EdgeInsets` | no | — | Space inside the box, between the border and the child. |
+| `minWidth` | `number` | no | — | Minimum width constraint. Honored independently of `width`; a child wider than `minWidth` is allowed. |
+| `maxWidth` | `number` | no | — | Maximum width constraint. Caps the child's width regardless of intrinsic size. |
+| `minHeight` | `number` | no | — | Minimum height constraint. |
+| `maxHeight` | `number` | no | — | Maximum height constraint. |
+| `padding` | `string` | no | — | Space inside the box, between the border and the child. Accepts an M3 spacing token shorthand (`xxs` / `xs` / `sm` / `md` / `lg` / `xl` / `2xl` / `3xl` / `4xl`, or any custom slot in `theme.spacing`) — resolved through `theme.spacing.<token>` to a uniform inset — or the legacy EdgeInsets object form.  |
 | `margin` | `EdgeInsets` | no | — | Space outside the box, between the box and its parent. |
 | `alignment` | `string` | no | — | Alignment of the child inside the box when the box is larger than the child. |
 | `color` *(aliases: `backgroundColor`)* | `Color` | no | — | Solid background color. Shorthand for `decoration.color`; mutually exclusive with `decoration`. |
@@ -516,6 +519,7 @@ Interactive button. The canonical label field is `label`.
 |---|---|---|---|---|
 | `label` *(aliases: `text`)* | `string` | yes | — | Button text. |
 | `variant` *(aliases: `style`)* | `string` | no | "elevated" | `elevated`, `filled`, `outlined`, `text`, `icon`. |
+| `elevation` | `string` | no | — | Shadow elevation. Accepts either a numeric dp value or an M3 elevation token shorthand (`level0` … `level5`) that resolves through `theme.elevation.<token>.shadow`. Honored only by the `elevated` variant; ignored by `filled`/`outlined`/`text`/`icon`.  |
 | `icon` | `string` | no | — | Optional leading icon name. |
 | `enabled` | `boolean` | no | true | Whether the button is interactive. |
 | `onTap` | `Action` | no | — | Tap handler. |
@@ -617,9 +621,9 @@ Elevated single-child container.
 
 | Property | Type | Required | Default | Description |
 |---|---|---|---|---|
-| `elevation` | `number` | no | 1 | Shadow elevation. |
+| `elevation` | `string` | no | 1 | Shadow elevation. Accepts either a numeric dp value or an M3 elevation token shorthand (`level0` … `level5`) which resolves through `theme.elevation.<token>.shadow`.  |
 | `margin` | `EdgeInsets` | no | — | Outer margin. |
-| `shape` | `object` | no | — | `{ type: "rounded", radius: 12 }`. |
+| `shape` | `string` | no | — | Shape of the card surface. M3 shape token shorthand (`extraSmall` / `small` / `medium` / `large` / `extraLarge` / `full` / `none`) resolves through `theme.shape.<token>`. Object form `{ type: "rounded", radius: 12 }` is also accepted.  |
 | `color` *(aliases: `backgroundColor`)* | `Color` | no | — | Card surface color. |
 | `child` | `Widget` | yes | — | Card content. |
 
@@ -941,20 +945,6 @@ Renders different branches based on an expression. Two forms are supported: then
   "default": { "type": "text", "text": "Ready" }
 }
 ```
-
----
-
-## `constrained`  *(layout · Core)*
-
-**Aliases:** `constrainedBox`
-
-Applies explicit size constraints to a child.
-
-### Properties
-
-| Property | Type | Required | Default | Description |
-|---|---|---|---|---|
-| `child` | `Widget` | yes | — | Constrained widget. |
 
 ---
 
@@ -1715,7 +1705,8 @@ pick the lightest option for the asset they need:
 | Property | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `icon` | `string | object` | yes | — | Name (`"home"`), URL (`"https://.../icon.svg"`), or codepoint object (`{codepoint: 0xe88a}`). |
-| `size` | `number` | no | — | Icon size in logical pixels. |
+| `size` | `string` | no | — | Icon size. Accepts either a numeric dp value or an `AppIconSizes` token shorthand (`sm` / `md` / `lg` / `xl`) which scales with the active form factor.  |
+| `sizeToken` | `string` | no | — | Responsive icon-size token. Equivalent to passing the same string via `size`; resolves through `AppIconSizes.of(context)` and tracks the form-factor scale (compact / medium / desktop / embedded).  |
 | `color` | `Color` | no | — | Icon color. Applied to named / codepoint forms; for URL form it tints raster icons when supported. |
 
 ### Examples
@@ -1882,6 +1873,18 @@ Runtime-only responsive container: picks a child by matching the current constra
 
 ---
 
+## `lazy`  *(utility · Core)*
+
+Defers construction of a child until it is first rendered.
+
+### Properties
+
+| Property | Type | Required | Default | Description |
+|---|---|---|---|---|
+| `child` | `Widget` | yes | — | Deferred child. |
+
+---
+
 ## `lazy`  *(advanced · Core · v1.0)*
 
 Defer rendering of an expensive subtree until it enters the viewport (or until explicitly loaded). `lazy` belongs to the Utility group in [`02_Widgets.md`](02_Widgets.md) and is listed here because its schema pairs conceptually with the heavy Advanced widgets above.
@@ -1932,18 +1935,6 @@ Defer rendering of an expensive subtree until it enters the viewport (or until e
   }
 }
 ```
-
----
-
-## `lazy`  *(utility · Core)*
-
-Defers construction of a child until it is first rendered.
-
-### Properties
-
-| Property | Type | Required | Default | Description |
-|---|---|---|---|---|
-| `child` | `Widget` | yes | — | Deferred child. |
 
 ---
 
@@ -3285,7 +3276,8 @@ Renders a string. The canonical content field is `text`.
 | Property | Type | Required | Default | Description |
 |---|---|---|---|---|
 | `text` *(aliases: `content`)* | `string` | yes | — | Text content. Supports binding expressions. |
-| `style` | `object` | no | — | `fontSize`, `fontWeight`, `color`, `fontFamily`, `letterSpacing`, `lineHeight`, `decoration`. |
+| `variant` | `string` | no | — | M3 typography role. The runtime resolves it through `theme.typography.<variant>` (see `05_Theme.md` § 5.4) and uses the result as the base TextStyle. Inline `style` (if present) overrides individual fields on top of the resolved role.  |
+| `style` | `string` | no | — | `fontSize`, `fontWeight`, `color`, `fontFamily`, `letterSpacing`, `lineHeight`, `decoration`. Object form is layered on top of `variant` when both are set. String form is a binding expression that resolves to a typography object — typically `"{{theme.typography.<role>}}"`, equivalent to writing `variant: "<role>"`.  |
 | `maxLines` | `number` | no | — | Maximum rendered lines. |
 | `overflow` | `string` | no | "clip" | `clip`, `ellipsis`, `fade`, `visible`. |
 | `textAlign` | `string` | no | "start" | `start`, `center`, `end`, `justify`. |

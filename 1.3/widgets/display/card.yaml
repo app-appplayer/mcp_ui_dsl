@@ -5,15 +5,22 @@ description: |
   Elevated single-child container.
 properties:
   elevation:
-    type: "number"
+    type: ["string", "number"]
     default: 1
-    description: "Shadow elevation."
+    description: |
+      Shadow elevation. Accepts either a numeric dp value or an M3
+      elevation token shorthand (`level0` … `level5`) which resolves
+      through `theme.elevation.<token>.shadow`.
   margin:
     type: "EdgeInsets"
     description: "Outer margin."
   shape:
-    type: "object"
-    description: "`{ type: \"rounded\", radius: 12 }`."
+    type: ["string", "object"]
+    description: |
+      Shape of the card surface. M3 shape token shorthand (`extraSmall` /
+      `small` / `medium` / `large` / `extraLarge` / `full` / `none`)
+      resolves through `theme.shape.<token>`. Object form
+      `{ type: "rounded", radius: 12 }` is also accepted.
   color:
     type: "Color"
     description: "Card surface color."

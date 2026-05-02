@@ -114,7 +114,7 @@ Format per widget:
 - properties: `message: string`, `severity?: string`, `actions?: BannerAction[]`
 
 ### `card`
-- properties: `elevation?: number`, `margin?: EdgeInsets`, `shape?: object`, `color?: Color`, `child: Widget`
+- properties: `elevation?: string`, `margin?: EdgeInsets`, `shape?: string`, `color?: Color`, `child: Widget`
 
 ### `chip`
 - properties: `label: string`, `avatar?: Widget`, `selected?: boolean`, `variant?: string`, `onDelete?: Action`, `onTap?: Action`
@@ -126,7 +126,7 @@ Format per widget:
 - properties: `thickness?: number`, `color?: string`, `indent?: number`, `endIndent?: number`
 
 ### `icon`
-- properties: `icon: string | object`, `size?: number`, `color?: Color`
+- properties: `icon: string | object`, `size?: string`, `sizeToken?: string`, `color?: Color`
 
 ### `image`
 - properties: `src: string`, `width?: number`, `height?: number`, `fit?: string`, `alignment?: string`
@@ -142,7 +142,7 @@ Format per widget:
 - properties: `spans: Span[]`, `textAlign?: string`
 
 ### `text`
-- properties: `text: string`, `style?: object`, `maxLines?: number`, `overflow?: string`, `textAlign?: string`
+- properties: `text: string`, `variant?: string`, `style?: string`, `maxLines?: number`, `overflow?: string`, `textAlign?: string`
 
 ### `tooltip`
 - properties: `message: string`, `child: Widget`
@@ -153,7 +153,7 @@ Format per widget:
 ## Input
 
 ### `button`
-- properties: `label: string`, `variant?: string`, `icon?: string`, `enabled?: boolean`, `onTap?: Action`, `onDoubleTap?: Action`, `onLongPress?: Action`
+- properties: `label: string`, `variant?: string`, `elevation?: string`, `icon?: string`, `enabled?: boolean`, `onTap?: Action`, `onDoubleTap?: Action`, `onLongPress?: Action`
 
 ### `checkbox`
 - properties: `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `label?: string`
@@ -248,8 +248,8 @@ Format per widget:
 - properties: `aspectRatio?: number`, `child: Widget`
 
 ### `box` *(since v1.0)*
-- aliases: `container`, `decoratedBox`, `constrainedBox`
-- properties: `width?: number`, `height?: number`, `padding?: EdgeInsets`, `margin?: EdgeInsets`, `alignment?: string`, `color?: Color`, `decoration?: object{ color: Color, borderRadius: number, border: object, boxShadow: array<object>, gradient: object }`
+- aliases: `container`
+- properties: `width?: number`, `height?: number`, `minWidth?: number`, `maxWidth?: number`, `minHeight?: number`, `maxHeight?: number`, `padding?: string`, `margin?: EdgeInsets`, `alignment?: string`, `color?: Color`, `decoration?: object{ color: Color, borderRadius: number, border: object, boxShadow: array<object>, gradient: object }`
 - children: single (key: `child`)
 
 ### `center`
@@ -257,10 +257,6 @@ Format per widget:
 
 ### `conditional`
 - properties: `condition?: boolean | binding`, `then?: Widget`, `else?: Widget`, `switch?: binding`, `cases?: array`, `default?: Widget`
-
-### `constrained`
-- aliases: `constrainedBox`
-- properties: `child: Widget`
 
 ### `expanded`
 - properties: `flex?: number`, `child: Widget`

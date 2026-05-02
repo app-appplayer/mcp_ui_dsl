@@ -7,75 +7,124 @@ Responsive properties and event propagation are part of the Core Profile. See [`
 
 ---
 
-## 14.1 Breakpoints
+## 14.1 Form Factor Classes
 
-A breakpoint is a named minimum-width threshold. The runtime selects the matching value for any responsive property based on the current viewport width.
+A form factor is a named viewport-width class. The runtime classifies the
+current logical-pixel window width into exactly one of the six classes
+below and exposes it through `FormFactorScope`. Responsive property
+values (§14.2) and the `mediaQuery` widget (§14.3) both branch on this
+classification.
 
-### 14.1.1 Default Breakpoints
+The classes mirror Material 3's window-size guidance (3 standard +
+extraLarge for ultra-wide hardware) plus an out-of-band `embedded`
+class hosts can pin for kiosk / industrial chrome.
 
-| Label | Min width (dp) | Typical device |
-|-------|----------------|----------------|
-| `xs` | 0 | Phone, portrait |
-| `sm` | 600 | Phone landscape, small tablet |
-| `md` | 900 | Tablet |
-| `lg` | 1200 | Desktop |
-| `xl` | 1536 | Wide desktop |
+### 14.1.1 Default Classes
 
-Each label represents a minimum width. A viewport of 1024 dp matches `md` (≥ 900 and < 1200).
+| Label | Width (dp) | Typical device |
+|-------|------------|----------------|
+| `compact` | `< 600` | Phone, narrow split pane |
+| `medium` | `600 – 839` | Tablet portrait, foldable |
+| `expanded` | `840 – 1199` | Tablet landscape, small desktop |
+| `large` | `1200 – 1599` | Desktop |
+| `extraLarge` | `≥ 1600` | Wide / external monitor, dashboard wall |
+| `embedded` | n/a (host-pinned) | Kiosk / industrial / vehicle chrome — set by the host, not derived from width |
 
-### 14.1.2 Custom Breakpoints
+A viewport of 1024 dp resolves to `expanded` (≥ 840 and < 1200). The
+boundary values are inclusive on the low end and exclusive on the high
+end so each pixel maps to exactly one class.
 
-An application MAY override breakpoints via `theme.breakpoints` or an application-level `breakpoints` field:
+### 14.1.2 Custom Boundaries
+
+An application MAY override the four numeric boundaries via
+`theme.breakpoints` (§5.7 of the Theme spec) or an application-level
+`breakpoints` field. The class names themselves are fixed — only the dp
+thresholds may move.
 
 ```json
 {
   "type": "application",
   "breakpoints": {
-    "xs": 0,
-    "sm": 600,
-    "md": 900,
-    "lg": 1280,
-    "xl": 1920
+    "compact": 0,
+    "medium": 600,
+    "expanded": 840,
+    "large": 1280,
+    "extraLarge": 1920
   }
 }
 ```
 
-Custom labels (e.g., `mobile`, `tablet`, `desktop`) MAY be added; they become valid keys in responsive property objects.
+`embedded` has no width threshold; it is selected only when the host
+explicitly pins it (see §14.1.3).
 
-### 14.1.3 Current Breakpoint Binding
+### 14.1.3 Resolved Class Sources
 
-`{{runtime.breakpoint}}` resolves to the active breakpoint label (`"xs"`, `"sm"`, `"md"`, `"lg"`, or `"xl"`, or a custom label).
+The runtime picks the active class from this priority chain — the first
+non-`auto` rung wins:
+
+1. Per-page DSL pin (`page.responsive.formFactor`).
+2. Application pin (`application.responsive.formFactor`).
+3. Host-supplied `FormFactorScope` (e.g. an embedded shell pinning
+   `embedded`).
+4. Width derived from `MediaQuery.sizeOf(context)` and the boundaries
+   above.
+
+`{{runtime.formFactor}}` resolves to the active class label
+(`"compact"` / `"medium"` / `"expanded"` / `"large"` / `"extraLarge"` /
+`"embedded"`). The legacy `{{runtime.breakpoint}}` binding name is
+retired in 1.3 — no alias is provided.
 
 ---
 
 ## 14.2 Responsive Property Values
 
-Any property MAY accept a **responsive object** — a JSON object whose keys are breakpoint labels and whose values are the property's normal type:
+Any property MAY accept a **responsive object** — a JSON object whose
+keys are form-factor labels (§14.1.1) and whose values are the
+property's normal type:
 
 ```json
 {
   "type": "text",
   "text": "Hello",
   "style": {
-    "fontSize": { "xs": 14, "sm": 16, "md": 18, "lg": 20, "xl": 24 }
+    "fontSize": {
+      "compact": 14,
+      "medium": 16,
+      "expanded": 18,
+      "large": 20,
+      "extraLarge": 24
+    }
   }
 }
 ```
 
 ### 14.2.1 Resolution Rule
 
-1. Find all breakpoint keys in the responsive object whose minimum width is ≤ current viewport width.
-2. Pick the value of the largest matching breakpoint.
-3. If no breakpoint matches (viewport smaller than the smallest), use the smallest defined breakpoint's value.
-4. A `default` key MAY be used as a fallback for any unmatched case.
+The runtime resolves a responsive value by walking from the active
+class toward the smaller classes and picking the first key that is
+present:
+
+1. Try the active class directly.
+2. If absent, fall back through `extraLarge → large → expanded →
+   medium → compact`.
+3. If still no key matches, use a `default` key when present.
+4. `embedded` is standalone — it tries `embedded`, then `compact`, then
+   `default`. (The width-based fallback chain does not reach it.)
 
 ```json
-{ "columns": { "default": 1, "sm": 2, "md": 3, "lg": 4 } }
+{ "columns": { "default": 1, "medium": 2, "expanded": 3, "large": 4 } }
 ```
+
+This means authors can define only the breakpoints that matter — e.g.
+`{ default: 8, expanded: 24 }` keeps 8 dp on phone+tablet and 24 dp on
+desktop+ without enumerating every class.
 
 ### 14.2.2 Where Responsive Objects Are Accepted
 
-Responsive objects are accepted on any numeric, string, or enum property. Non-scalar properties (children, actions, widget subtrees) are resolved via the `mediaQuery` widget (§14.3), not via responsive objects.
+Responsive objects are accepted on any numeric, string, enum, or token
+shorthand property. Non-scalar properties (children, actions, widget
+subtrees) are resolved via the `mediaQuery` widget (§14.3), not via
+responsive objects.
 
 ---
 

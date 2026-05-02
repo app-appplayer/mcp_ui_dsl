@@ -10,9 +10,38 @@ properties:
     description: "Text content. Supports binding expressions."
     aliases:
       - content
+  variant:
+    type: "string"
+    enum:
+      - displayLarge
+      - displayMedium
+      - displaySmall
+      - headlineLarge
+      - headlineMedium
+      - headlineSmall
+      - titleLarge
+      - titleMedium
+      - titleSmall
+      - bodyLarge
+      - bodyMedium
+      - bodySmall
+      - labelLarge
+      - labelMedium
+      - labelSmall
+    description: |
+      M3 typography role. The runtime resolves it through
+      `theme.typography.<variant>` (see `05_Theme.md` § 5.4) and uses the
+      result as the base TextStyle. Inline `style` (if present) overrides
+      individual fields on top of the resolved role.
   style:
-    type: "object"
-    description: "`fontSize`, `fontWeight`, `color`, `fontFamily`, `letterSpacing`, `lineHeight`, `decoration`."
+    type: ["string", "object"]
+    description: |
+      `fontSize`, `fontWeight`, `color`, `fontFamily`, `letterSpacing`,
+      `lineHeight`, `decoration`. Object form is layered on top of
+      `variant` when both are set. String form is a binding expression
+      that resolves to a typography object — typically
+      `"{{theme.typography.<role>}}"`, equivalent to writing
+      `variant: "<role>"`.
   maxLines:
     type: "number"
     description: "Maximum rendered lines."
