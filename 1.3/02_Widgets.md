@@ -32,10 +32,14 @@ Every widget accepts the following common properties:
 | `child` | Widget | no | — | Single-child slot for single-child widgets. |
 | `children` | Widget[] | no | — | Multi-child slot for multi-child widgets. |
 | `visible` | boolean \| binding | no | `true` | Whether the widget is rendered. |
+| `tooltip` | string \| binding | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface. |
+| `click` | Action \| binding | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Accepts any action object form (see [`04_Actions.md`](04_Actions.md)); the action may be supplied inline or via binding. Widget-local activation surfaces (e.g. `button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot. |
 | `accessibility` | object | no | — | Accessibility annotations; see [`13_Accessibility.md`](13_Accessibility.md). |
 | `key` | string | no | — | Stable identity hint for reconciliation. |
 
 Single-child widgets accept either a `child` object or the first element of a `children` array; multi-child widgets require `children`.
+
+`click` is additive on top of any widget-local tap surface. When a widget already exposes its own activation (`button.onTap`, etc.) those remain the canonical author surface; `click` simply guarantees that **any** widget — including pure layout / decoration widgets like `box`, `card`, `linear`, `stack` — can be made tappable without nesting a `gestureDetector` wrapper. The runtime wraps the widget in a gesture surface only when `click` is present; bundles that omit it are unaffected.
 
 Layout wrappers `padding`, `margin`, `align`, and `flex` may appear on any widget placed inside a `linear` or flex context.
 
@@ -678,12 +682,46 @@ Progress indicator (linear or circular).
 
 ### 2.5.15 `decoration`
 
-Wraps a child with a decoration box (color, border, gradient, shadow) without otherwise affecting layout.
+Wraps a child with a decoration box (color, gradient, border, shadow, image, blur) without otherwise affecting layout. Accepts the full `BoxDecoration` via `decoration:` OR any of its fields flat at the top level for ergonomic shorthand.
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| `decoration` | object | yes | — | `color`, `borderRadius`, `border`, `gradient`, `boxShadow`. |
+| `decoration` | `BoxDecoration` | no | — | Full decoration object. Constituent fields may also appear flat. |
+| `color` | Color | no | — | Flat shorthand for `decoration.color`. |
+| `gradient` | `Gradient` | no | — | Flat shorthand for `decoration.gradient`. |
+| `image` | `BackgroundImage` | no | — | Flat shorthand for `decoration.image`. |
+| `border` | `BoxBorder` | no | — | Flat shorthand for `decoration.border`. |
+| `borderRadius` | `BorderRadius` | no | — | Flat shorthand for `decoration.borderRadius`. |
+| `boxShadow` | array\<`BoxShadow`\> | no | — | Flat shorthand for `decoration.boxShadow`. |
+| `shape` | string | no | `"rectangle"` | `rectangle` or `circle`. |
+| `backdropBlur` | number | no | — | Gaussian backdrop-filter sigma. |
 | `child` | Widget | yes | — | Decorated widget. |
+
+### 2.5.16 `kenBurnsImage` *(since v1.3)*
+
+Image with an automatic slow zoom-and-pan animation (the "Ken Burns effect"). Used for cinematic stills in book chapter openings, landing pages, slideshow frames.
+
+| Property | Type | Required | Default | Description |
+|----------|------|----------|---------|-------------|
+| `src` | `AssetRef` | yes | — | Image source. |
+| `duration` | number | no | `8000` | Total animation duration in ms. |
+| `intensity` | number | no | `0.15` | Zoom amount (1.0 → 1.0 + intensity). Practical range `0.05` (subtle) .. `0.30` (dramatic). |
+| `startAlignment` | `Alignment` | no | `"topStart"` | Pan start position. |
+| `endAlignment` | `Alignment` | no | `"bottomEnd"` | Pan end position. |
+| `loop` | boolean | no | `true` | Reverse and replay continuously when true. |
+| `curve` | `AnimationCurve` | no | `"linear"` | Easing curve over the zoom/pan progression. |
+| `width` / `height` | number | no | — | Render dimensions. |
+| `fit` | string | no | `"cover"` | How the image scales to bounds before the Ken Burns animation overlays. |
+
+### 2.5.17 `imageFilter` *(since v1.3)*
+
+Wraps a child with a colour / blur filter. Filters the entire rendered subtree (distinct from `BoxDecoration.image.colorFilter` which colours an image background).
+
+| Property | Type | Required | Default | Description |
+|----------|------|----------|---------|-------------|
+| `filter` | string | yes | — | `sepia`, `grayscale`, `blur`, `saturation`, `brightness`, `contrast`, `invert`. |
+| `intensity` | number | no | `1.0` | Filter strength. Range depends on `filter` (`0..1` for sepia/grayscale/invert; sigma-px for blur; multiplier for saturation/brightness/contrast). |
+| `child` | Widget | yes | — | Filtered subtree. |
 
 ---
 
@@ -1196,6 +1234,70 @@ Single row in a list with optional leading/trailing widgets. Replaces Material `
 }
 ```
 
+### 2.7.4 `staggeredGrid`
+
+Pinterest-style masonry layout — items keep their intrinsic height and pack by column without uniform row alignment. Use for content shelves where covers have different aspect ratios. Distinct from `grid` (uniform rows) and `carousel` (single-axis scrolling).
+
+| Property | Type | Required | Default | Description |
+|----------|------|----------|---------|-------------|
+| `items` | binding | no | — | Array source. Required when `children` is omitted. |
+| `itemTemplate` | Widget | no | — | Template rendered per bound item. Required with `items`. |
+| `children` | Widget[] | no | — | Static cells. Mutually exclusive with `items` + `itemTemplate`. |
+| `columns` | number \| object | yes | — | Column count; may use responsive `{default, sm, md, lg}`. |
+| `mainAxisSpacing` | number | no | `0` | Gap along the scroll axis. |
+| `crossAxisSpacing` | number | no | `0` | Gap across the scroll axis. |
+| `padding` | EdgeInsets | no | — | Inner padding around the grid. |
+| `scrollDirection` | string | no | `"vertical"` | `vertical` or `horizontal`. |
+
+```json
+{
+  "type": "staggeredGrid",
+  "items": "{{albums}}",
+  "columns": { "default": 2, "md": 3, "lg": 4 },
+  "mainAxisSpacing": 12,
+  "crossAxisSpacing": 12,
+  "itemTemplate": {
+    "type": "card",
+    "child": {
+      "type": "image", "src": "{{item.cover}}", "fit": "cover"
+    }
+  }
+}
+```
+
+### 2.7.5 `carousel`
+
+Horizontally scrolling browser with optional partial-viewport framing (cover-flow / album-shelf style). Distinct from `pageView` (which always snaps a full viewport per page) — `carousel` lets authors set `viewportFraction < 1` so adjacent items peek in.
+
+| Property | Type | Required | Default | Description |
+|----------|------|----------|---------|-------------|
+| `items` | binding | no | — | Array source. Required when `children` is omitted. |
+| `itemTemplate` | Widget | no | — | Per-item template. |
+| `children` | Widget[] | no | — | Static slides. |
+| `scrollDirection` | string | no | `"horizontal"` | `horizontal` or `vertical`. |
+| `viewportFraction` | number | no | `1.0` | Slide width as a fraction of carousel width. `0.85` leaves both neighbours peeking. |
+| `loop` | boolean | no | `false` | Wrap around — last → first → last. |
+| `autoPlay` | number | no | — | Advance every `autoPlay` ms. Pair with `loop: true`. |
+| `initialIndex` | number | no | `0` | Slide rendered first. |
+| `transition` | string | no | `"slide"` | `slide`, `fade`, `coverflow`, `depth`. `coverflow`/`depth` need a perspective compositor (fall back to `slide`). |
+| `indicatorPosition` | string | no | `"bottom"` | `bottom`, `top`, `none`. |
+| `onPageChanged` | Action | no | — | Fires after the active slide settles. `event.page` carries the new index. |
+
+```json
+{
+  "type": "carousel",
+  "items": "{{books}}",
+  "viewportFraction": 0.7,
+  "loop": true,
+  "autoPlay": 4000,
+  "transition": "coverflow",
+  "itemTemplate": {
+    "type": "card",
+    "child": { "type": "image", "src": "{{item.cover}}", "fit": "cover" }
+  }
+}
+```
+
 ---
 
 ## 2.8 Navigation Widgets
@@ -1411,13 +1513,39 @@ Button that reveals a popup menu of options.
 
 ### 2.9.1 `scrollView`
 
-Scrollable viewport wrapping a single child (virtualization not required).
+Scrollable viewport. Two layout modes — pick one per instance: linear mode (`child` or `children`) or sliver mode (`slivers` array).
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
 | `direction` | string | no | `"vertical"` | `vertical` or `horizontal`. |
-| `padding` | EdgeInsets | no | — | Inner padding. |
-| `child` | Widget | yes | — | Scrolled content. |
+| `padding` | EdgeInsets | no | — | Inner padding around the scrollable content. |
+| `scrollPhysics` | string | no | `"clamping"` | `bouncing`, `clamping`, `neverScrollable`. |
+| `child` | Widget | no | — | Single scrolled child. Mutually exclusive with `children` and `slivers`. |
+| `children` | Widget[] | no | — | Multiple widgets wrapped in an implicit linear column along `direction`. |
+| `slivers` | array\<Sliver\> | no | — | Sliver entries (sliverAppBar / sliverPersistentHeader / sliverList / sliverGrid / sliverFixedExtentList). Mutually exclusive with `child` and `children`. |
+
+`Sliver` is one of five discriminated shapes — see `Sliver` in `configs/widget/Sliver.yaml`. Sliver mode unlocks collapsing app bars, sticky section headers, parallax mastheads, and mixing list/grid sections in one viewport.
+
+```json
+{
+  "type": "scrollView",
+  "slivers": [
+    {
+      "type": "sliverAppBar",
+      "expandedHeight": 240,
+      "pinned": true,
+      "stretch": true,
+      "title": { "type": "text", "text": "Library" },
+      "background": { "type": "image", "src": "{{cover}}", "fit": "cover" }
+    },
+    {
+      "type": "sliverList",
+      "items": "{{books}}",
+      "itemTemplate": { "type": "listItem", "title": "{{item.title}}" }
+    }
+  ]
+}
+```
 
 ### 2.9.2 `singleChildScrollView`
 
@@ -1458,13 +1586,17 @@ Wraps a scrollable child with a visible scroll bar.
 
 ### 2.9.4 `pageView`
 
-Full-width/height paged scroll view, one page at a time.
+Full-viewport paged scroll view. Snaps one page per swipe; ideal for book pages, photo galleries, onboarding flows. Distinct from `carousel` (partial-viewport) — pageView is always one full page.
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
 | `direction` | string | no | `"horizontal"` | `horizontal` or `vertical`. |
 | `children` | Widget[] | yes | — | One child per page. |
-| `onPageChanged` | Action | no | — | Fired when the active page changes. |
+| `initialPage` | number | no | `0` | Page rendered first. |
+| `loop` | boolean | no | `false` | Wrap around — last → first. |
+| `scrollPhysics` | string | no | `"clamping"` | `bouncing`, `clamping`, `neverScrollable`. |
+| `allowImplicitScrolling` | boolean | no | `false` | Pre-render adjacent pages off-screen for instant subsequent swipes. |
+| `onPageChanged` | Action | no | — | Fires after the active page settles. `event.page` carries the new index. |
 
 ```json
 {
@@ -1666,10 +1798,11 @@ Container with implicit animations on property changes.
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
 | `duration` | number | no | `300` | Animation duration in milliseconds. |
-| `curve` | string | no | `"easeInOut"` | Animation curve. |
+| `curve` | `AnimationCurve` | no | `"easeInOut"` | Easing curve. |
 | `width` / `height` | number | no | — | Size; changes are animated. |
 | `padding` / `margin` | EdgeInsets | no | — | Spacing; changes are animated. |
-| `decoration` | object | no | — | Decoration; changes are animated. |
+| `alignment` | `Alignment` | no | — | Child alignment; changes are animated. |
+| `decoration` | `BoxDecoration` | no | — | Decoration (color/gradient/border/shadow/image); changes are animated. |
 | `onEnd` | Action | no | — | Fired when the animation completes. |
 | `child` | Widget | no | — | Child widget. |
 
@@ -1759,6 +1892,94 @@ Embedded Lottie/JSON animation playback.
 | `autoPlay` | boolean | no | `true` | Play on mount. |
 | `loop` | boolean | no | `true` | Loop playback. |
 
+### 2.12.5 `hero` *(since v1.3)*
+
+Shared-element transition wrapper. Wrap a child on the source page AND the destination page with the same `tag`; the runtime morphs the source bounds → destination bounds during the route transition (cover → detail magnification). Pairs naturally with `RouteTransition` styles such as `fade` or `sharedAxis`.
+
+| Property | Type | Required | Default | Description |
+|----------|------|----------|---------|-------------|
+| `tag` | string | yes | — | Identifier shared between source and destination. Both sides MUST set the same tag. Unique within each page. |
+| `child` | Widget | yes | — | The widget that morphs across the route boundary. |
+| `transitionOnUserGestures` | boolean | no | `false` | Also morph during gesture-driven back navigation. |
+| `flightShuttleBuilder` | Widget | no | — | Optional intermediate widget rendered during the morph. |
+
+```json
+{ "type": "hero", "tag": "album-{{album.id}}",
+  "child": { "type": "image", "src": "{{album.cover}}", "fit": "cover" } }
+```
+
+### 2.12.6 `animatedOpacity` *(since v1.3)*
+
+Implicitly animates the child's `opacity` whenever it changes.
+
+| Property | Type | Required | Default | Description |
+|----------|------|----------|---------|-------------|
+| `opacity` | number | yes | — | Target opacity in `[0, 1]`. Changes are tweened. |
+| `duration` | number | no | `300` | Duration in ms. |
+| `curve` | `AnimationCurve` | no | `"easeInOut"` | Easing. |
+| `onEnd` | Action | no | — | Fires when the animation completes. |
+| `child` | Widget | yes | — | Faded child. |
+
+### 2.12.7 `animatedAlign` *(since v1.3)*
+
+Implicitly animates a child's `alignment` within its bounds.
+
+| Property | Type | Required | Default | Description |
+|----------|------|----------|---------|-------------|
+| `alignment` | `Alignment` | yes | — | Target alignment. |
+| `duration` | number | no | `300` | Duration in ms. |
+| `curve` | `AnimationCurve` | no | `"easeInOut"` | Easing. |
+| `onEnd` | Action | no | — | Completion handler. |
+| `child` | Widget | yes | — | Aligned child. |
+
+### 2.12.8 `animatedPositioned` *(since v1.3)*
+
+Implicitly animates a child's edge offsets inside a `stack`. Same contract as `positioned` but the offset/size changes are tweened. Only valid as a `stack` child.
+
+| Property | Type | Required | Default | Description |
+|----------|------|----------|---------|-------------|
+| `top` / `right` / `bottom` / `left` | number | no | — | Edge offsets. |
+| `width` / `height` | number | no | — | Size. |
+| `duration` | number | no | `300` | Duration in ms. |
+| `curve` | `AnimationCurve` | no | `"easeInOut"` | Easing. |
+| `onEnd` | Action | no | — | Completion handler. |
+| `child` | Widget | yes | — | Positioned child. |
+
+### 2.12.9 `animatedDefaultTextStyle` *(since v1.3)*
+
+Implicitly animates the default `TextStyle` applied to descendant text widgets. Each style field tweens independently.
+
+| Property | Type | Required | Default | Description |
+|----------|------|----------|---------|-------------|
+| `style` | `TextStyle` | yes | — | Target style. |
+| `duration` | number | no | `300` | Duration in ms. |
+| `curve` | `AnimationCurve` | no | `"easeInOut"` | Easing. |
+| `child` | Widget | yes | — | Subtree whose default text style is tweened. |
+
+### 2.12.10 `scrollAnimated` *(since v1.3)*
+
+Animation driven by scroll position rather than time. Wraps a child and reads from an ancestor scroll view's offset; each `binding` maps a scroll-offset window to a property tween. Common uses: parallax masthead, reveal-on-scroll, shrinking title.
+
+| Property | Type | Required | Default | Description |
+|----------|------|----------|---------|-------------|
+| `bindings` | array\<object\> | yes | — | Per-property scroll bindings: `{property, fromOffset, toOffset, fromValue, toValue, curve?}`. `property` is one of `opacity`, `scale`, `translateX`, `translateY`, `rotate`. |
+| `child` | Widget | yes | — | Animated subtree. |
+
+### 2.12.11 `rive` *(since v1.3)*
+
+Plays a Rive animation (`.riv` asset) — alternative to `lottieAnimation` when authored in Rive. State-machine inputs are driven via `inputs`.
+
+| Property | Type | Required | Default | Description |
+|----------|------|----------|---------|-------------|
+| `src` | `AssetRef` | yes | — | Rive asset path. |
+| `artboard` | string | no | — | Named artboard (defaults to primary). |
+| `animation` | string | no | — | Named timeline animation. Mutually exclusive with `stateMachine`. |
+| `stateMachine` | string | no | — | Named state machine. Mutually exclusive with `animation`. |
+| `inputs` | object | no | — | Map of state-machine input name → value (`boolean` / `number` / `trigger`). |
+| `fit` | string | no | `"contain"` | Scale within bounds. |
+| `alignment` | `Alignment` | no | `"center"` | Alignment within bounds. |
+| `width` / `height` | number | no | — | Render dimensions. |
+
 ---
 
 ## 2.13 Utility Widgets
@@ -1795,7 +2016,7 @@ Clips a child to a rounded rectangle.
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| `borderRadius` | number \| object | no | `0` | Corner radius (uniform or `{topLeft, topRight, bottomLeft, bottomRight}`). |
+| `borderRadius` | `BorderRadius` | no | `0` | Corner radius — uniform number or directional `{topStart, topEnd, bottomStart, bottomEnd, all}`. |
 | `child` | Widget | yes | — | Clipped child. |
 
 ### 2.13.5 `flow`

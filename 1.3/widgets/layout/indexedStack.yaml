@@ -9,9 +9,9 @@ properties:
     default: 0
     description: "Index of the child to display."
   alignment:
-    type: "string"
-    default: "\"start\""
-    description: "Alignment of the displayed child."
+    type: Alignment
+    default: "\"topStart\""
+    description: Alignment of the displayed child.
   children:
     type: "Widget[]"
     required: true

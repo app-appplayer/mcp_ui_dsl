@@ -12,4 +12,7 @@ properties:
     type: "boolean"
     default: true
     description: "Whether tapping outside dismisses."
+  onClose:
+    type: Action
+    description: "Fired when the dialog is dismissed (outside-tap when `dismissible: true`, escape key)."
 # examples migrated verbatim from prose JSON fences.

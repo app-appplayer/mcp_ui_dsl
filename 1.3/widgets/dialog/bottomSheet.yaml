@@ -22,4 +22,7 @@ properties:
   shape:
     type: "object"
     description: "`{ type: \"rounded\", radius: { top: 16 } }`."
+  onClose:
+    type: "Action"
+    description: "Fired when the sheet is dismissed (scrim tap when `isDismissible` is true, drag-down when `enableDrag` is true)."
 # examples migrated verbatim from prose JSON fences.

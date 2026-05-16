@@ -10,7 +10,7 @@ Normative requirements live in [`18_Conformance.md`](18_Conformance.md) §18.2.7
 
 ## 5.1 Theme Shape
 
-`theme` is a top-level field of `ApplicationDefinition`. 14 token domains:
+`theme` is a top-level field of `ApplicationDefinition`. 16 token domains:
 
 ```json
 {
@@ -29,6 +29,8 @@ Normative requirements live in [`18_Conformance.md`](18_Conformance.md) §18.2.7
     "focusRing":   { "...": "..." },
     "zIndex":      { "...": "..." },
     "component":   { "...": "..." },
+    "preset":      "warm",
+    "fonts":       { "...": "..." },
     "light": { "...": "..." },
     "dark":  { "...": "..." }
   }
@@ -631,7 +633,64 @@ Use when the application wants the host look-and-feel. Otherwise use `theme.*`.
 
 ---
 
-## 5.16 DTCG JSON interchange
+## 5.16 Theme preset *(since v1.3)*
+
+`theme.preset` selects a curated content-app theme bundle that ships with the runtime. The preset is applied first as a base; individual `theme.*` fields then layer overrides on top — authors pick a mood and tweak only one or two tokens rather than building the entire theme from scratch.
+
+| Preset | Mood | Color tone | Typography character | Spacing |
+|---|---|---|---|---|
+| `warm` | Book-shelf paper tones | Warm neutrals (cream, terracotta) | Serif | Cozy |
+| `cool` | Album / streaming ambient | Cool blues, deep neutrals | Sans-serif | Standard |
+| `sepia` | Long-form reading | Aged-paper background | Serif, tall line-height | Narrow content column |
+| `mono` | Typography-led, neutral grays | Generous line-height, minimal accents | Sans-serif | Open |
+| `highContrast` | Accessibility-first (WCAG AAA) | Maximum-contrast pairs | Bold weights, enlarged hit targets | Standard |
+
+```json
+{
+  "theme": {
+    "preset": "sepia",
+    "color": { "primary": "#8B4513" }
+  }
+}
+```
+
+The above starts with the `sepia` bundle and overrides only `color.primary`.
+
+---
+
+## 5.17 Font registry *(since v1.3)*
+
+`theme.fonts` registers font assets the runtime should make available for `text.style.fontFamily`. Map of family name → declaration. Each declaration carries:
+
+- **`weights`** — map of weight value (`100`..`900` or named `regular`/`bold`/etc.) to `AssetRef`. Set per file you want to ship.
+- **`variableAxes`** — list of variable-font axis tunings. Each entry is `{ tag, min, max, default }` for axes like `wght` (weight), `wdth` (width), `opsz` (optical size), `ital` (italic), `slnt` (slant). When set, `weights` becomes optional — the runtime drives the `wght` axis from `text.style.fontWeight`.
+- **`fallbacks`** — ordered family-name list used when a glyph isn't in the primary font (CJK, emoji, math).
+
+```json
+{
+  "theme": {
+    "fonts": {
+      "Inter": {
+        "variableAxes": [
+          { "tag": "wght", "min": 100, "max": 900, "default": 400 },
+          { "tag": "opsz", "min": 14,  "max": 32,  "default": 16  }
+        ],
+        "fallbacks": ["NotoSansKR", "AppleSDGothicNeo"]
+      },
+      "Caveat": {
+        "weights": {
+          "400": "bundle://fonts/Caveat-Regular.ttf",
+          "700": "bundle://fonts/Caveat-Bold.ttf"
+        }
+      }
+    }
+  }
+}
+```
+
+---
+
+## 5.18 DTCG JSON interchange
 
 The mcp_ui 1.3 theme exports and imports the [W3C Design Tokens Community Group draft][dtcg] JSON format.
 

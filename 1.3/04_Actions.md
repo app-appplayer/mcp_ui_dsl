@@ -18,6 +18,8 @@ Every action has a required `type`. Most types take a sub-operation in an `actio
 
 An action MAY nest callbacks (`onSuccess`, `onError`, `onMessage`, etc.). Callbacks receive the triggering event data through the `event.*` binding scope (see [`03_Data_Binding.md`](03_Data_Binding.md) §3.5.2).
 
+Actions are dispatched from three kinds of carriers: lifecycle hooks (see [`01_Core_Concepts.md`](01_Core_Concepts.md) §1.5), widget-local activation slots (e.g. `button.onTap`, `richText.spans[].onTap`), and the universal `click` common property (see [`02_Widgets.md`](02_Widgets.md) §2.2) which wraps **any** widget in a gesture surface. The action payload shape is identical in all three positions — `type` plus type-specific fields, optionally nesting `onSuccess` / `onError` callbacks.
+
 ## 4.2 State Actions
 
 Mutates state. Required fields: `type: "state"`, `action`, `binding`; `value` is required for most sub-actions.
@@ -147,7 +149,16 @@ On success, the response's parsed JSON text is auto-merged into page state — e
 
 ### 4.4.2 Response and Error Context
 
-Inside `onSuccess`: the full response is available as `event.*` (`event.name`, `event.value`, etc.). Inside `onError`: `event.code`, `event.message`, `event.details`.
+Inside `onSuccess`: the parsed response is exposed through the `event.*` scope. Inside `onError`: `event.code`, `event.message`, `event.details`.
+
+`event.*` resolution depends on the response shape:
+
+| Response shape | `event.*` resolution |
+|----------------|----------------------|
+| Object (Map) | Each top-level key resolves as `event.<key>` (e.g. `event.name`, `event.value`). `event` itself resolves to the full Map. |
+| List, scalar (string, number, boolean), or `null` | The full response is exposed as `event.value`. `event.message`, `event.code`, and other nested keys resolve to `null`. |
+
+For `onError`, the runtime always exposes `event.code`, `event.message`, and `event.details` from the error object regardless of response shape (these fields are part of the error structure, not the success payload).
 
 ## 4.5 Resource Actions
 

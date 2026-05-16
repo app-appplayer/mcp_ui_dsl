@@ -44,7 +44,7 @@ Rationale: matches React's convention (the dominant component-based UI grammar).
 - Syntax: `{{expression}}`
 - Prefixes use dot notation: `{{state.count}}`, `{{route.params.id}}`, `{{theme.colorScheme.primary}}`
 - Nested access: `{{user.profile.name}}`
-- See §3 (Data Binding) for full prefix list and resolution order.
+- See [`03_Data_Binding.md`](03_Data_Binding.md) for the full prefix list and resolution order.
 
 ### 17.1.6 Action Types — Single word or dotted namespace
 
@@ -90,7 +90,7 @@ Full widget catalog in [`02_Widgets.md`](02_Widgets.md). Names below are normati
 
 #### Scroll and layout (Core Profile)
 
-`scrollView`, `singleChildScrollView`, `pageView`, `sizedBox`, `aspectRatio`, `constrained`, `fractionallySized`, `intrinsicHeight`, `intrinsicWidth`, `wrap`, `positioned`, `safeArea`, `margin`, `visibility`, `conditional`
+`scrollView`, `singleChildScrollView`, `pageView`, `sizedBox`, `aspectRatio`, `fractionallySized`, `intrinsicHeight`, `intrinsicWidth`, `wrap`, `positioned`, `safeArea`, `margin`, `visibility`, `conditional`
 
 #### Form controls (Core Profile)
 
@@ -205,7 +205,6 @@ Every entry is accepted by conformant runtimes. Emitters SHOULD prefer the canon
 | `headerBar` | `appbar` |
 | `list` | `listView`, `listview` (Flutter-style casing) |
 | `grid` | `gridview` (Flutter-style casing) |
-| `constrained` | `constrainedBox` (Flutter-style name) |
 
 ### 17.3.2 Property Aliases
 

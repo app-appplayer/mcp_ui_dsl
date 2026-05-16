@@ -2,33 +2,50 @@ type: animatedContainer
 category: animation
 profile: Core
 description: |
-  Container with implicit animations on property changes.
+  Container that implicitly animates property changes. Whenever any
+  of the size/decoration/alignment/padding fields change between
+  builds the runtime tweens between the old and new values over
+  `duration` using `curve`.
 properties:
   duration:
-    type: "number"
+    type: Dimension
     default: 300
-    description: "Animation duration in milliseconds."
+    description: Animation duration in milliseconds.
   curve:
-    type: "string"
+    type: AnimationCurve
     default: "\"easeInOut\""
-    description: "Animation curve."
+    description: Easing curve.
+  width:
+    type: Dimension
+    description: Animated width.
+  height:
+    type: Dimension
+    description: Animated height.
+  padding:
+    type: EdgeInsets
+    description: Animated inner padding.
+  margin:
+    type: EdgeInsets
+    description: Animated outer margin.
+  alignment:
+    type: Alignment
+    description: Animated child alignment.
   decoration:
-    type: "object"
-    description: "Decoration; changes are animated."
+    type: BoxDecoration
+    description: Animated decoration (color/gradient/border/shadow/image).
   onEnd:
-    type: "Action"
-    description: "Fired when the animation completes."
+    type: Action
+    description: Fires when the animation completes.
   child:
-    type: "Widget"
-    description: "Child widget."
-# examples migrated verbatim from prose JSON fences.
+    type: Widget
+    description: Animated child widget.
 examples:
-  - name: prose_example_0
+  - name: expand_collapse
     dsl: |
       {
         "type": "animatedContainer",
         "duration": 500,
-        "curve": "easeInOut",
+        "curve": "emphasized",
         "width": "{{expanded ? 300 : 100}}",
         "height": "{{expanded ? 200 : 50}}",
         "padding": { "all": 16 },

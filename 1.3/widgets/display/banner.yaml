@@ -15,6 +15,9 @@ properties:
   actions:
     type: "BannerAction[]"
     description: "Action buttons `{ label, onTap }`."
+  onClose:
+    type: Action
+    description: "Fired when the banner is dismissed (close-button tap or programmatic hide)."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

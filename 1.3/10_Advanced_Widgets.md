@@ -29,6 +29,7 @@ All examples use canonical names only. Binding expressions (`{{...}}`) follow [`
 | `webView` | Embedded web view | v1.0 |
 | `signature` | Signature capture pad | v1.0 |
 | `canvas` | General-purpose drawing canvas | v1.3 |
+| `lightbox` | Full-screen image viewer with pinch-zoom + swipe | v1.3 |
 
 ## 10.2 `chart` *(since v1.0)*
 
@@ -256,14 +257,15 @@ Audio / video player widget.
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `source` | string | required | Media URL (`bundle://`, `https://`, `client://`) |
+| `source` | `AssetRef` | required | Media asset reference. |
 | `mediaType` | enum | inferred | `audio`, `video` |
 | `autoPlay` | boolean | `false` | Start playing automatically |
 | `loop` | boolean | `false` | Loop at end |
 | `muted` | boolean | `false` | Start muted |
 | `volume` | number | 1.0 | Volume 0.0–1.0 |
 | `controls` | boolean | `true` | Show native controls |
-| `poster` | string | null | Poster image (video only) |
+| `poster` | `AssetRef` | — | Preview image rendered before playback (video only). |
+| `waveform` | boolean | `false` | Audio mode only — render the audio's amplitude waveform above the transport controls, advancing with playback. |
 | `width` | number | null | Display width |
 | `height` | number | null | Display height |
 | `onPlay` | Action | null | Fired when playback starts |
@@ -874,7 +876,36 @@ A command whose `op` is not in the list above MUST be **skipped** by the runtime
 }
 ```
 
-## 10.21 `lazy` *(since v1.0)*
+## 10.21 `lightbox` *(since v1.3)*
+
+Full-screen modal image viewer with pinch-zoom and swipe-between-images. Used as a tap target on a thumbnail — opening the lightbox transitions the thumbnail into the full-screen view. Pairs naturally with `hero` for the cover-to-detail morph.
+
+```json
+{
+  "type": "lightbox",
+  "images": "{{photos}}",
+  "initialIndex": "{{tappedIndex}}",
+  "allowZoom": true,
+  "maxZoom": 6,
+  "onClose": {
+    "type": "state", "action": "set",
+    "binding": "lightboxOpen", "value": false
+  }
+}
+```
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `images` | array\<`AssetRef`\> | required | Image asset list. |
+| `initialIndex` | number | `0` | Image shown first. |
+| `allowZoom` | boolean | `true` | Enable pinch-zoom and double-tap-to-zoom. |
+| `maxZoom` | number | `4.0` | Maximum zoom factor (1.0 = fit-bounds). |
+| `allowSwipe` | boolean | `true` | Enable swipe-between-images. |
+| `backgroundColor` | Color | `"#FF000000"` | Backdrop color. |
+| `onIndexChanged` | Action | — | Fires when the user swipes to a new image. `event.index` carries the new index. |
+| `onClose` | Action | — | Fires when the user dismisses the lightbox. |
+
+## 10.22 `lazy` *(since v1.0)*
 
 Defer rendering of an expensive subtree until it enters the viewport (or until explicitly loaded). `lazy` belongs to the Utility group in [`02_Widgets.md`](02_Widgets.md) and is listed here because its schema pairs conceptually with the heavy Advanced widgets above.
 

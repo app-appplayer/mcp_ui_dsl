@@ -6,9 +6,9 @@ description: |
   Audio / video player widget.
 properties:
   source:
-    type: "string"
+    type: AssetRef
     required: true
-    description: "Media URL (`bundle://`, `https://`, `client://`)"
+    description: Media asset reference (audio or video file).
     aliases:
       - src
   mediaType:
@@ -37,9 +37,15 @@ properties:
     default: true
     description: "Show native controls"
   poster:
-    type: "string"
-    default: null
-    description: "Poster image (video only)"
+    type: AssetRef
+    description: Preview image rendered before playback starts (video only).
+  waveform:
+    type: boolean
+    default: "false"
+    description: |
+      Audio mode only. When true, the audio's amplitude waveform is
+      rendered above the transport controls, advancing with playback.
+      Ignored for video sources.
   width:
     type: "number"
     default: null

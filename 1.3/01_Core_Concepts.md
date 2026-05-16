@@ -41,7 +41,7 @@ An ApplicationDefinition is the entry point. The runtime loads it first and deri
 | Field | Type | Required | Since | Description |
 |-------|------|:--------:|:-----:|-------------|
 | `type` | string (`"application"`) | yes | v1.0 | Discriminator. |
-| `routes` | `{ [path: string]: PageDefinition \| string }` | yes | v1.0 | Map of route path to inline page or `ui://` URI. Path syntax supports parameters: `"/users/:id"`. |
+| `routes` | `{ [path: string]: RouteValue }` | yes | v1.0 | Map of route path to a `RouteValue`: inline `PageDefinition`, a `ui://` URI string, or a `{ page, transition }` wrapper that attaches a per-route `RouteTransition` (since v1.3). Path syntax supports parameters: `"/users/:id"`. |
 | `title` | string | no | v1.0 | Human-readable name shown by hosts and app launchers. |
 | `version` | string | no | v1.0 | DSL version the definition targets. Defaults to `"1.0"`. See §1.7. |
 | `initialRoute` | string | no | v1.0 | Route entered at launch. If omitted the runtime picks the first route in declaration order. |
@@ -96,6 +96,32 @@ An ApplicationDefinition is the entry point. The runtime loads it first and deri
     "items": [
       { "label": "Dashboard", "route": "/dashboard", "icon": "dashboard" }
     ]
+  }
+}
+```
+
+### 1.2.3 NavigationConfig
+
+The `navigation` field on ApplicationDefinition declares the global navigation chrome.
+
+| Field | Type | Required | Since | Description |
+|-------|------|:--------:|:-----:|-------------|
+| `type` | enum (`drawer` / `bottomBar` / `rail` / `tabs`) | yes | v1.0 | Chrome style. `drawer` = side drawer; `bottomBar` = bottom navigation; `rail` = vertical rail; `tabs` = tab strip. |
+| `items` | NavItem[] | no | v1.0 | Navigation entries. Each entry: `{ label, icon?, route, badge?, children?, onTap?, style? }`. |
+| `header` | Widget | no | v1.0 | Optional header widget rendered above `items` (used by `drawer` / `rail`). |
+| `footer` | Widget | no | v1.0 | Optional footer widget rendered below `items` (used by `drawer` / `rail`). |
+| `style` | `NavigationStyle` | no | v1.3 | Visual styling for the navigation surface (backgroundColor / backgroundImage / indicatorColor / indicatorShape / dividerColor+thickness+indent / labelStyle / iconStyle / selectedColor / unselectedColor / elevation). Per-item overrides via `NavItem.style`. |
+
+```json
+{
+  "navigation": {
+    "type": "drawer",
+    "items": [
+      { "label": "Home", "route": "/", "icon": "home" },
+      { "label": "Settings", "route": "/settings", "icon": "settings" }
+    ],
+    "header": { "type": "text", "text": "Acme Corp" },
+    "footer": { "type": "button", "label": "Sign out", "onTap": { "type": "tool", "tool": "signOut" } }
   }
 }
 ```
@@ -161,6 +187,8 @@ A WidgetDefinition is any JSON object with a `type` field that names a widget fr
 | `child` | WidgetDefinition | Sole child (single-child widgets). |
 | `children` | WidgetDefinition[] | Children list (multi-child widgets). Single-child widgets accept a one-element `children` array for authoring convenience. |
 | `visible` | boolean | Default `true`. When `false` the subtree is not rendered. |
+| `tooltip` | string | Hover / long-press tooltip wrapper. See [`02_Widgets.md`](02_Widgets.md) §2.2. |
+| `click` | Action | Tap action fired by a gesture-surface wrap. See [`02_Widgets.md`](02_Widgets.md) §2.2 and [`04_Actions.md`](04_Actions.md). |
 | `accessibility` | AccessibilityBlock | Grouped a11y fields (`label`, `hint`, `role`, `live`, ...). See [`13_Accessibility.md`](13_Accessibility.md). |
 | `style`, `padding`, `margin`, `width`, `height`, ... | widget-specific | Per-widget properties. See [`02_Widgets.md`](02_Widgets.md). |
 | `id` | string | Optional stable handle for test hooks and action targeting. |

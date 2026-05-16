@@ -5,9 +5,11 @@ description: |
   Clips a child to a rounded rectangle.
 properties:
   borderRadius:
-    type: "number | object"
+    type: BorderRadius
     default: 0
-    description: "Corner radius (uniform or `{topLeft, topRight, bottomLeft, bottomRight}`)."
+    description: |
+      Corner radius — uniform number or directional `{topStart, topEnd,
+      bottomStart, bottomEnd, all}` per the `BorderRadius` primitive.
   child:
     type: "Widget"
     required: true

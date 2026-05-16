@@ -3,6 +3,930 @@
   "$id": "https://specs.makemind.ai/mcp_ui_dsl/1.3/widgets.schema.json",
   "title": "MCP UI DSL 1.3 — Widget Registry (Phase 1)",
   "$defs": {
+    "Binding": {
+      "type": "string",
+      "pattern": "^\\{\\{.*\\}\\}$",
+      "description": "Binding-expression string of the form `\"{{...}}\"`. Authors may\nsubstitute any primitive value with a binding so the runtime\nresolves the value at render time. Used as an alternative branch\nin primitives that otherwise expect a specific structural shape\n(AssetRef, Dimension, BorderRadius, Alignment, …)."
+    },
+    "BorderRadius": {
+      "oneOf": [
+        {
+          "type": "number",
+          "minimum": 0
+        },
+        {
+          "type": "object",
+          "properties": {
+            "topStart": {
+              "type": "number",
+              "minimum": 0
+            },
+            "topEnd": {
+              "type": "number",
+              "minimum": 0
+            },
+            "bottomStart": {
+              "type": "number",
+              "minimum": 0
+            },
+            "bottomEnd": {
+              "type": "number",
+              "minimum": 0
+            },
+            "all": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Binding"
+        }
+      ],
+      "description": "Per-corner radius value. A bare number applies uniformly to all\nfour corners; the object form lets each corner take an independent\nradius. `all` is a shorthand for setting every corner at once and\nis overridden by individual corner keys.\n\nCorner names are **directional** (RTL-aware) per Material 3:\n\n- `topStart` — top corner on the leading edge (top-left in LTR,\n  top-right in RTL).\n- `topEnd` — top corner on the trailing edge.\n- `bottomStart` / `bottomEnd` — same convention on the bottom row.\n\nThis is the cross-schema canonical for any \"per-corner radius\"\nshape — referenced by `theme.Shape` (M3 shape token sizes) and by\nthe `BoxDecoration.borderRadius` widget property."
+    },
+    "AssetRef": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^(bundle://|https?://|data:|assets/|client://)"
+        },
+        {
+          "$ref": "#/$defs/Binding"
+        }
+      ],
+      "description": "Reference to an asset (image, font, audio, video, SVG, …). Five\nscheme prefixes are accepted, picked by the runtime to dispatch\nthe right loader:\n\n- `bundle://<path>` — asset packaged inside the active bundle.\n- `https://<url>` / `http://<url>` — fetched over the network and\n  cached on first render.\n- `data:<mime>;base64,<payload>` (or `data:<mime>,<urlencoded>`) —\n  inline bytes carried in the DSL itself.\n- `assets/<path>` — Flutter-style local asset path declared in the\n  consumer app's pubspec asset list (used by host integrations that\n  ship icon SVGs alongside the runtime).\n- `client://<channel>/<id>` — resource served by the client / host\n  process via an MCP client-extension channel.\n\nUsed cross-schema by `app` (splash · publisher logos · font\nassets), `page`/widgets (image · icon · BackgroundImage · video\nsrc), and `theme` (font asset registration). Lives under\n`configs/_primitive/` for that reason."
+    },
+    "Dimension": {
+      "oneOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "number"
+            },
+            "unit": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Binding"
+        }
+      ],
+      "description": "Numeric size — accepts a plain `number` (logical pixels) OR the\nlegacy MCP UI DSL v1.0 `{value, unit}` object form. The `unit`\nfield is informational; the runtime treats every dimension as\nlogical pixels."
+    },
+    "Alignment": {
+      "oneOf": [
+        {
+          "enum": [
+            "topStart",
+            "topCenter",
+            "topEnd",
+            "centerStart",
+            "center",
+            "centerEnd",
+            "bottomStart",
+            "bottomCenter",
+            "bottomEnd"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "number",
+              "minimum": -1,
+              "maximum": 1
+            },
+            "y": {
+              "type": "number",
+              "minimum": -1,
+              "maximum": 1
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "$ref": "#/$defs/Binding"
+        }
+      ],
+      "description": "2D alignment within a rectangle. Token names are **directional**\n(RTL-aware) per Material 3:\n\n- `topStart` — top corner on the leading edge (top-left in LTR,\n  top-right in RTL).\n- `topEnd` — top corner on the trailing edge.\n- `centerStart` / `centerEnd`, `bottomStart` / `bottomEnd` — same\n  convention on the middle / bottom rows.\n- `topCenter`, `center`, `bottomCenter` — neutral on the cross\n  axis.\n\nObject form `{x, y}` is a numeric pair where each axis runs from\n-1 (start) through 0 (center) to 1 (end). The numeric form\nsupports any point inside or outside the rectangle.\n\nCross-schema canonical for any \"2D rectangle alignment\" use —\nchild placement (`box.alignment`, `align.alignment`,\n`stack.alignment`), gradient endpoints (`Gradient.begin/end`),\nimage fit (`BackgroundImage.alignment`)."
+    },
+    "AnimationCurve": {
+      "enum": [
+        "linear",
+        "easeIn",
+        "easeOut",
+        "easeInOut",
+        "standard",
+        "standardAccelerate",
+        "standardDecelerate",
+        "emphasized",
+        "emphasizedAccelerate",
+        "emphasizedDecelerate",
+        "bounceIn",
+        "bounceOut"
+      ],
+      "description": "Easing curve applied to an animation's progress. Eleven canonical\nvalues cover the M3-recommended palette plus the CSS-familiar\nbasics:\n\n- **CSS-familiar** — `linear`, `easeIn`, `easeOut`, `easeInOut`.\n- **M3 standard** — `standard`, `standardAccelerate`,\n  `standardDecelerate`. Used for everyday transitions; minimal\n  overshoot, clean cubic.\n- **M3 emphasized** — `emphasized`, `emphasizedAccelerate`,\n  `emphasizedDecelerate`. Used for hero / page transitions; more\n  dramatic acceleration profile.\n- **Bounce** — `bounceIn`, `bounceOut`. For attention / alert\n  micro-interactions.\n\nCross-schema canonical for `animatedContainer.curve`,\n`animatedOpacity.curve`, RouteTransition, scrollAnimated easing,\nand any future implicit-animation widget. Matches the M3 motion\nspec's named tokens 1:1 so theme-level motion overrides stay\nvendor-neutral."
+    },
+    "Gradient": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "enum": [
+            "linear",
+            "radial",
+            "sweep"
+          ]
+        },
+        "colors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 2
+        },
+        "stops": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "begin": {
+          "$ref": "#/$defs/Alignment"
+        },
+        "end": {
+          "$ref": "#/$defs/Alignment"
+        },
+        "center": {
+          "$ref": "#/$defs/Alignment"
+        },
+        "radius": {
+          "type": "number",
+          "minimum": 0
+        },
+        "startAngle": {
+          "type": "number"
+        },
+        "endAngle": {
+          "type": "number"
+        },
+        "tileMode": {
+          "enum": [
+            "clamp",
+            "repeated",
+            "mirror"
+          ],
+          "default": "clamp"
+        }
+      },
+      "required": [
+        "type",
+        "colors"
+      ],
+      "additionalProperties": false,
+      "description": "Multi-stop gradient fill. Selected by `type`:\n\n- `linear` — straight axis from `begin` (default `centerLeft`) to\n  `end` (default `centerRight`).\n- `radial` — circular gradient out from `center` (default `center`)\n  to `radius` (default `0.5`, expressed as a fraction of the\n  bounding rectangle's longest side).\n- `sweep` — angular gradient around `center`, swept from\n  `startAngle` (default `0`) to `endAngle` (default `2π`) in\n  radians.\n\n`colors` lists at least two color values; `stops` (optional) places\neach color at a position in `[0, 1]`. `tileMode` controls behaviour\npast the gradient extents."
+    },
+    "BackgroundImage": {
+      "type": "object",
+      "properties": {
+        "image": {
+          "$ref": "#/$defs/AssetRef"
+        },
+        "fit": {
+          "enum": [
+            "fill",
+            "contain",
+            "cover",
+            "fitWidth",
+            "fitHeight",
+            "none",
+            "scaleDown"
+          ],
+          "default": "cover"
+        },
+        "alignment": {
+          "$ref": "#/$defs/Alignment"
+        },
+        "opacity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "colorFilter": {
+          "type": "object",
+          "properties": {
+            "color": {
+              "type": "string"
+            },
+            "blendMode": {
+              "enum": [
+                "srcIn",
+                "color",
+                "screen",
+                "overlay",
+                "multiply"
+              ],
+              "default": "srcIn",
+              "description": "Curated subset of blend modes covering the common tinting use cases (`srcIn` for solid tint, `color` for hue swap, `screen`/`overlay`/`multiply` for atmosphere)."
+            }
+          },
+          "required": [
+            "color"
+          ],
+          "additionalProperties": false
+        },
+        "repeat": {
+          "enum": [
+            "noRepeat",
+            "repeat",
+            "repeatX",
+            "repeatY"
+          ],
+          "default": "noRepeat"
+        }
+      },
+      "required": [
+        "image"
+      ],
+      "additionalProperties": false,
+      "description": "Image fill behind a box's content. `image` accepts the same forms as\nthe `image` widget's `src` (`bundle://`, `https?://`, `data:`,\n`client://`). `fit` and `alignment` mirror the `image` widget's\nsemantics. `opacity` applies an alpha multiplier; `colorFilter`\ncomposites a tint via the named blend mode. `repeat` controls\ntiling behaviour outside the image's natural bounds."
+    },
+    "RouteTransition": {
+      "type": "object",
+      "properties": {
+        "style": {
+          "enum": [
+            "slide",
+            "fade",
+            "scale",
+            "cube",
+            "sharedAxis",
+            "fadeThrough"
+          ]
+        },
+        "duration": {
+          "$ref": "#/$defs/Dimension",
+          "description": "Total transition duration in milliseconds. Defaults to the M3 motion-system value for the chosen style."
+        },
+        "curve": {
+          "$ref": "#/$defs/AnimationCurve",
+          "description": "Easing curve for the transition's progress. Defaults to `emphasized`."
+        },
+        "axis": {
+          "enum": [
+            "horizontal",
+            "vertical"
+          ],
+          "description": "Direction for `slide` / `sharedAxis`. Defaults to `horizontal`."
+        },
+        "reverse": {
+          "type": "boolean",
+          "default": false,
+          "description": "When true, run the transition in reverse direction (for back navigation)."
+        }
+      },
+      "required": [
+        "style"
+      ],
+      "additionalProperties": false,
+      "description": "Per-route page transition. Declared on a `RouteValue` so every\n`navigate` to that route uses the same transition, OR overridden\ninline on a `navigate` action. Six canonical styles:\n\n- `slide` — incoming page slides over the outgoing along the\n  direction (M3 default for forward navigation).\n- `fade` — cross-fade between pages at the same position.\n- `scale` — outgoing scales out, incoming scales in.\n- `cube` — perspective-rotate as if turning a 3D cube; needs a\n  perspective-aware compositor (falls back to `slide` when\n  unavailable).\n- `sharedAxis` — coordinated slide+fade across an axis (M3 motion\n  pattern for sibling-level navigation).\n- `fadeThrough` — outgoing fades out while incoming fades in\n  after a brief zero-opacity bridge (M3 motion pattern for\n  top-level navigation)."
+    },
+    "NavigationStyle": {
+      "type": "object",
+      "properties": {
+        "backgroundColor": {
+          "type": "string"
+        },
+        "backgroundImage": {
+          "$ref": "#/$defs/BackgroundImage"
+        },
+        "indicatorColor": {
+          "type": "string",
+          "description": "Selection indicator pill color (rail / drawer / tabs)."
+        },
+        "indicatorShape": {
+          "$ref": "#/$defs/BorderRadius",
+          "description": "Selection indicator corner radius. Defaults to a fully-rounded pill."
+        },
+        "dividerColor": {
+          "type": "string",
+          "description": "Drawer-only — color of dividers between item groups."
+        },
+        "dividerThickness": {
+          "$ref": "#/$defs/Dimension"
+        },
+        "dividerIndent": {
+          "$ref": "#/$defs/Dimension",
+          "description": "Drawer-only — leading inset before each divider."
+        },
+        "labelStyle": {
+          "$ref": "#/$defs/TextStyle",
+          "description": "Default text style for item labels (selected and unselected). Per-item override via NavItem.style.labelStyle."
+        },
+        "iconStyle": {
+          "type": "object",
+          "properties": {
+            "color": {
+              "type": "string"
+            },
+            "size": {
+              "$ref": "#/$defs/Dimension"
+            }
+          },
+          "additionalProperties": false,
+          "description": "Default icon color and size."
+        },
+        "selectedColor": {
+          "type": "string",
+          "description": "Foreground color (icon + label) for the selected item."
+        },
+        "unselectedColor": {
+          "type": "string",
+          "description": "Foreground color for non-selected items."
+        },
+        "elevation": {
+          "$ref": "#/$defs/Dimension"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Visual styling for a navigation surface (drawer / rail / tabs /\nbottomBar). Every field is optional — omitted fields fall back to\nthe active theme's component defaults. Used by\n`NavigationConfig.style` (whole surface) and `NavItem.style`\n(per-item override).\n\nBackgrounds compose: `backgroundColor` paints first, then\n`backgroundImage` paints over it."
+    },
+    "TextStyle": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^\\{\\{.*\\}\\}$",
+          "description": "Binding expression that resolves to a TextStyle object — typically `{{theme.typography.<role>}}`."
+        },
+        {
+          "type": "object",
+          "properties": {
+            "fontFamily": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ]
+            },
+            "fontSize": {
+              "$ref": "#/$defs/Dimension"
+            },
+            "fontWeight": {
+              "oneOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "enum": [
+                    "thin",
+                    "extraLight",
+                    "light",
+                    "normal",
+                    "medium",
+                    "semiBold",
+                    "bold",
+                    "extraBold",
+                    "black",
+                    "regular",
+                    "w100",
+                    "w200",
+                    "w300",
+                    "w400",
+                    "w500",
+                    "w600",
+                    "w700",
+                    "w800",
+                    "w900"
+                  ]
+                },
+                {
+                  "$ref": "#/$defs/Binding"
+                }
+              ]
+            },
+            "fontStyle": {
+              "oneOf": [
+                {
+                  "enum": [
+                    "normal",
+                    "italic"
+                  ]
+                },
+                {
+                  "$ref": "#/$defs/Binding"
+                }
+              ]
+            },
+            "color": {
+              "type": "string"
+            },
+            "backgroundColor": {
+              "type": "string"
+            },
+            "letterSpacing": {
+              "$ref": "#/$defs/Dimension"
+            },
+            "wordSpacing": {
+              "$ref": "#/$defs/Dimension"
+            },
+            "height": {
+              "$ref": "#/$defs/Dimension",
+              "description": "Line-height multiplier — `height * fontSize` is the per-line vertical advance."
+            },
+            "decoration": {
+              "oneOf": [
+                {
+                  "enum": [
+                    "none",
+                    "underline",
+                    "overline",
+                    "lineThrough"
+                  ]
+                },
+                {
+                  "$ref": "#/$defs/Binding"
+                }
+              ]
+            },
+            "decorationColor": {
+              "type": "string"
+            },
+            "decorationStyle": {
+              "oneOf": [
+                {
+                  "enum": [
+                    "solid",
+                    "double",
+                    "dotted",
+                    "dashed",
+                    "wavy"
+                  ]
+                },
+                {
+                  "$ref": "#/$defs/Binding"
+                }
+              ]
+            },
+            "decorationThickness": {
+              "$ref": "#/$defs/Dimension"
+            },
+            "fontFeatures": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "OpenType feature tags (`smcp`, `lnum`, `tnum`, `liga`, `dlig`, …)."
+            },
+            "shadows": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "color": {
+                    "type": "string"
+                  },
+                  "offset": {
+                    "type": "object",
+                    "properties": {
+                      "dx": {
+                        "type": "number"
+                      },
+                      "dy": {
+                        "type": "number"
+                      },
+                      "x": {
+                        "type": "number"
+                      },
+                      "y": {
+                        "type": "number"
+                      }
+                    },
+                    "additionalProperties": false,
+                    "description": "`{dx, dy}` (canonical) or `{x, y}` (legacy alias) offset."
+                  },
+                  "blurRadius": {
+                    "$ref": "#/$defs/Dimension"
+                  }
+                },
+                "required": [
+                  "color"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "shader": {
+              "$ref": "#/$defs/Gradient",
+              "description": "Gradient/shader fill applied to the rendered text via a shader mask. When set, `color` is ignored."
+            }
+          },
+          "additionalProperties": false
+        }
+      ],
+      "description": "Inline text style applied per `text` widget instance. Layered on\ntop of an M3 typography role when `variant` is set, or used\nstandalone. Mirrors the theme `TextStyle` token shape (fontFamily,\nfontSize, fontWeight, lineHeight, letterSpacing, fontFeatureSettings)\nand adds the per-instance fields a content app needs: color,\ndecoration, shader (gradient fill), and shadow stack."
+    },
+    "BorderSide": {
+      "type": "object",
+      "properties": {
+        "color": {
+          "type": "string"
+        },
+        "width": {
+          "type": "number",
+          "minimum": 0
+        },
+        "style": {
+          "enum": [
+            "solid",
+            "none"
+          ],
+          "default": "solid"
+        }
+      },
+      "additionalProperties": false,
+      "description": "One side of a box border."
+    },
+    "DropCap": {
+      "type": "object",
+      "properties": {
+        "lines": {
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 6,
+          "default": 3,
+          "description": "Number of body-text lines the cap spans vertically."
+        },
+        "glyph": {
+          "type": "string",
+          "description": "Override character. Default: first character of the text widget's `text`."
+        },
+        "style": {
+          "$ref": "#/$defs/TextStyle",
+          "description": "Cap-specific style overrides, layered on top of the parent widget's style. `fontSize` is computed from `lines × parent.fontSize` when omitted."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Typographic drop-cap ornament for long-form text (book chapters,\nmagazine articles). The first character of the text widget's content\nis rendered enlarged in the top-left corner; the surrounding text\nflows in a left-indented column for `lines` lines and then continues\nfull width below the cap. `glyph` overrides the cap character (e.g.\nrendering a stylised dingbat instead of the literal first letter).\n`style` layers on top of the parent text widget's resolved style for\ncap-specific overrides (typically a different `fontFamily` and\nlarger `fontWeight`)."
+    },
+    "Sliver": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "sliverAppBar"
+            },
+            "title": {
+              "$ref": "#/$defs/Widget"
+            },
+            "expandedHeight": {
+              "$ref": "#/$defs/Dimension"
+            },
+            "flexibleSpace": {
+              "$ref": "#/$defs/Widget"
+            },
+            "background": {
+              "$ref": "#/$defs/Widget"
+            },
+            "pinned": {
+              "type": "boolean",
+              "default": false
+            },
+            "floating": {
+              "type": "boolean",
+              "default": false
+            },
+            "snap": {
+              "type": "boolean",
+              "default": false
+            },
+            "stretch": {
+              "type": "boolean",
+              "default": false
+            },
+            "elevation": {
+              "$ref": "#/$defs/Dimension"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "sliverPersistentHeader"
+            },
+            "minExtent": {
+              "$ref": "#/$defs/Dimension"
+            },
+            "maxExtent": {
+              "$ref": "#/$defs/Dimension"
+            },
+            "child": {
+              "$ref": "#/$defs/Widget"
+            },
+            "pinned": {
+              "type": "boolean",
+              "default": false
+            },
+            "floating": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          "required": [
+            "type",
+            "minExtent",
+            "maxExtent",
+            "child"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "sliverList"
+            },
+            "items": {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$"
+            },
+            "itemTemplate": {
+              "$ref": "#/$defs/Widget"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "sliverGrid"
+            },
+            "items": {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$"
+            },
+            "itemTemplate": {
+              "$ref": "#/$defs/Widget"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            },
+            "columns": {
+              "type": "number",
+              "minimum": 1
+            },
+            "mainAxisSpacing": {
+              "type": "number",
+              "minimum": 0
+            },
+            "crossAxisSpacing": {
+              "type": "number",
+              "minimum": 0
+            },
+            "itemAspectRatio": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          },
+          "required": [
+            "type",
+            "columns"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "sliverFixedExtentList"
+            },
+            "itemExtent": {
+              "$ref": "#/$defs/Dimension"
+            },
+            "items": {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$"
+            },
+            "itemTemplate": {
+              "$ref": "#/$defs/Widget"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            }
+          },
+          "required": [
+            "type",
+            "itemExtent"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "description": "Scrollable region inside `scrollView.slivers`. Discriminated by\n`type`:\n\n- **sliverAppBar** — collapsing parallax masthead at the top of a\n  scroll view. Expands to `expandedHeight` then shrinks to a\n  fixed bar as the user scrolls. `flexibleSpace` paints the hero\n  area; `pinned`/`floating` control whether the bar sticks.\n- **sliverPersistentHeader** — section header that stays visible\n  while its section's items scroll. `minExtent`/`maxExtent` set\n  the size envelope; the runtime morphs the header within it.\n- **sliverList** — vertical list with variable-height items.\n  Same `items` + `itemTemplate` contract as the `list` widget.\n- **sliverGrid** — 2D grid with the same `items` / `columns`\n  contract as `grid`.\n- **sliverFixedExtentList** — list whose items all share the\n  same scroll-axis extent (uniform row height). Faster than\n  `sliverList` because the runtime can skip per-item measurement.\n\nEach shape carries the type discriminator on `type` and is only\nvalid inside a `scrollView.slivers` array. The runtime rejects\nthese shapes at the top level."
+    },
+    "Span": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "text": {
+              "type": "string"
+            },
+            "style": {
+              "$ref": "#/$defs/TextStyle"
+            },
+            "onTap": {
+              "$ref": "#/$defs/Action"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Span"
+              }
+            }
+          },
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "widget": {
+              "$ref": "#/$defs/Widget"
+            },
+            "alignment": {
+              "enum": [
+                "top",
+                "middle",
+                "bottom",
+                "aboveBaseline",
+                "belowBaseline",
+                "baseline"
+              ],
+              "default": "bottom"
+            },
+            "baseline": {
+              "enum": [
+                "alphabetic",
+                "ideographic"
+              ]
+            }
+          },
+          "required": [
+            "widget"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "description": "Inline span in a `richText` composition. Discriminated by which\nidentifying field is present:\n\n- `text` (string) → **TextSpan** — a styled run of text. Optional\n  `style: TextStyle`, `onTap: Action`, and nested `children:\n  Span[]` for further inline structure.\n- `widget` (Widget) → **WidgetSpan** — an inline-widget placeholder\n  (icon, image, custom badge) that the rich-text layout treats as\n  a single character. `alignment` and `baseline` control its\n  vertical placement relative to the surrounding line.\n\nThe two shapes are mutually exclusive — a span MUST NOT carry both\n`text` and `widget`."
+    },
+    "BoxShadow": {
+      "type": "object",
+      "properties": {
+        "color": {
+          "type": "string"
+        },
+        "offset": {
+          "type": "object",
+          "properties": {
+            "dx": {
+              "type": "number"
+            },
+            "dy": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "dx",
+            "dy"
+          ],
+          "additionalProperties": false
+        },
+        "blurRadius": {
+          "type": "number",
+          "minimum": 0
+        },
+        "spreadRadius": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "color"
+      ],
+      "additionalProperties": false,
+      "description": "A drop shadow painted beneath the box. Multiple shadows compose via\n`decoration.boxShadow: array<BoxShadow>` and stack from the first\n(closest to the box) outward."
+    },
+    "BoxBorder": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/BorderSide"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "top": {
+              "$ref": "#/$defs/BorderSide"
+            },
+            "bottom": {
+              "$ref": "#/$defs/BorderSide"
+            },
+            "left": {
+              "$ref": "#/$defs/BorderSide"
+            },
+            "right": {
+              "$ref": "#/$defs/BorderSide"
+            },
+            "all": {
+              "$ref": "#/$defs/BorderSide"
+            }
+          },
+          "additionalProperties": false
+        }
+      ],
+      "description": "Border around a box. Either a single uniform side applied to all four\nedges, or per-side overrides. Per-side keys (`top` / `bottom` /\n`left` / `right`) take precedence over `all`."
+    },
+    "BoxDecoration": {
+      "type": "object",
+      "properties": {
+        "color": {
+          "type": "string"
+        },
+        "gradient": {
+          "$ref": "#/$defs/Gradient"
+        },
+        "image": {
+          "$ref": "#/$defs/BackgroundImage"
+        },
+        "border": {
+          "$ref": "#/$defs/BoxBorder"
+        },
+        "borderRadius": {
+          "$ref": "#/$defs/BorderRadius"
+        },
+        "boxShadow": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/BoxShadow"
+          }
+        },
+        "shape": {
+          "enum": [
+            "rectangle",
+            "circle"
+          ],
+          "default": "rectangle"
+        },
+        "backdropBlur": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "description": "Visual decoration for a box. `color` and `gradient` are mutually\nexclusive — when both are present `gradient` wins. `image` paints\nbeneath the gradient/color (background image layer). `border`,\n`borderRadius`, and `boxShadow` apply on top of the fill. `shape`\ntoggles between rectangle (default) and circle (uses the box's\nshorter side as diameter; ignores `borderRadius`). `backdropBlur`\napplies a Gaussian blur to whatever is behind the box (for frosted-\nglass overlays); the value is the blur sigma."
+    },
     "accessibleWrapper": {
       "type": "object",
       "description": "Wraps a child with accessibility annotations (ARIA-style). See [`13_Accessibility.md`](13_Accessibility.md) for the full property set.",
@@ -12,6 +936,13 @@
           "enum": [
             "accessibleWrapper"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "child": {
           "$ref": "#/$defs/Widget"
@@ -45,6 +976,13 @@
             "alert"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "title": {
           "type": "string",
           "description": "Dialog title shown at the top."
@@ -75,14 +1013,26 @@
             }
           ]
         },
+        "onClose": {
+          "$ref": "#/$defs/Action"
+        },
         "actions": {
-          "type": "array",
           "description": "Action buttons rendered in the dialog footer. Each entry:\n  - `label` (required): button text.\n  - `variant`: one of `text` / `elevated` / `outlined` / `filled`; default `text`.\n  - `primary`: highlights the button as the default action.\n  - `onTap`: the action fired on press. The runtime pops the dialog\n    BEFORE executing `onTap`, so handlers that trigger state changes or\n    navigation do not race with the dialog dismissal.\n",
-          "items": {
-            "type": "object",
-            "description": "object{ label: string, variant: string, primary: boolean, onTap: Action }",
-            "additionalProperties": true
-          }
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "description": "object{ label: string, variant: string, primary: boolean, onTap: Action }",
+                "additionalProperties": true
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         }
       },
       "required": [
@@ -100,10 +1050,16 @@
             "align"
           ]
         },
-        "alignment": {
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
           "type": "string",
-          "default": "\"center\"",
-          "description": "`topStart`, `topCenter`, `topEnd`, `centerStart`, `center`, `centerEnd`, `bottomStart`, `bottomCenter`, `bottomEnd`. Defaults to `center` when omitted."
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
+        "alignment": {
+          "$ref": "#/$defs/Alignment",
+          "description": "Alignment of the child within this widget's bounds. Defaults to `center` when omitted."
         },
         "child": {
           "$ref": "#/$defs/Widget"
@@ -121,9 +1077,58 @@
       ],
       "additionalProperties": true
     },
+    "animatedAlign": {
+      "type": "object",
+      "description": "Implicitly animates a child's `alignment` within its bounds. Use\nfor slide-from-edge / settle-to-position micro-interactions.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "animatedAlign"
+          ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
+        "alignment": {
+          "$ref": "#/$defs/Alignment",
+          "description": "Target alignment. Changes are tweened."
+        },
+        "duration": {
+          "$ref": "#/$defs/Dimension",
+          "description": "Animation duration in milliseconds."
+        },
+        "curve": {
+          "$ref": "#/$defs/AnimationCurve",
+          "description": "Easing curve."
+        },
+        "onEnd": {
+          "$ref": "#/$defs/Action"
+        },
+        "child": {
+          "$ref": "#/$defs/Widget"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Widget"
+          },
+          "description": "Multiple widgets; runtime wraps them into an implicit column. Alternative to `child` — mutually exclusive."
+        }
+      },
+      "required": [
+        "type",
+        "alignment"
+      ],
+      "additionalProperties": true
+    },
     "animatedContainer": {
       "type": "object",
-      "description": "Container with implicit animations on property changes.",
+      "description": "Container that implicitly animates property changes. Whenever any\nof the size/decoration/alignment/padding fields change between\nbuilds the runtime tweens between the old and new values over\n`duration` using `curve`.",
       "properties": {
         "type": {
           "type": "string",
@@ -131,13 +1136,476 @@
             "animatedContainer"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "duration": {
-          "description": "Animation duration in milliseconds.",
+          "$ref": "#/$defs/Dimension",
+          "description": "Animation duration in milliseconds."
+        },
+        "curve": {
+          "$ref": "#/$defs/AnimationCurve",
+          "description": "Easing curve."
+        },
+        "width": {
+          "$ref": "#/$defs/Dimension",
+          "description": "Animated width."
+        },
+        "height": {
+          "$ref": "#/$defs/Dimension",
+          "description": "Animated height."
+        },
+        "padding": {
+          "description": "Animated inner padding.",
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "number"
+                },
+                "unit": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "value"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "all": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "number"
+                        },
+                        "unit": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "value"
+                      ]
+                    }
+                  ]
+                },
+                "horizontal": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "number"
+                        },
+                        "unit": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "value"
+                      ]
+                    }
+                  ]
+                },
+                "vertical": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "number"
+                        },
+                        "unit": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "value"
+                      ]
+                    }
+                  ]
+                },
+                "top": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "number"
+                        },
+                        "unit": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "value"
+                      ]
+                    }
+                  ]
+                },
+                "right": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "number"
+                        },
+                        "unit": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "value"
+                      ]
+                    }
+                  ]
+                },
+                "bottom": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "number"
+                        },
+                        "unit": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "value"
+                      ]
+                    }
+                  ]
+                },
+                "left": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "number"
+                        },
+                        "unit": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "value"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "margin": {
+          "description": "Animated outer margin.",
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "number"
+                },
+                "unit": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "value"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "all": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "number"
+                        },
+                        "unit": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "value"
+                      ]
+                    }
+                  ]
+                },
+                "horizontal": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "number"
+                        },
+                        "unit": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "value"
+                      ]
+                    }
+                  ]
+                },
+                "vertical": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "number"
+                        },
+                        "unit": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "value"
+                      ]
+                    }
+                  ]
+                },
+                "top": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "number"
+                        },
+                        "unit": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "value"
+                      ]
+                    }
+                  ]
+                },
+                "right": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "number"
+                        },
+                        "unit": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "value"
+                      ]
+                    }
+                  ]
+                },
+                "bottom": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "number"
+                        },
+                        "unit": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "value"
+                      ]
+                    }
+                  ]
+                },
+                "left": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "number"
+                        },
+                        "unit": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "value"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "alignment": {
+          "$ref": "#/$defs/Alignment",
+          "description": "Animated child alignment."
+        },
+        "decoration": {
+          "$ref": "#/$defs/BoxDecoration",
+          "description": "Animated decoration (color/gradient/border/shadow/image)."
+        },
+        "onEnd": {
+          "$ref": "#/$defs/Action"
+        },
+        "child": {
+          "$ref": "#/$defs/Widget"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Widget"
+          },
+          "description": "Multiple widgets; runtime wraps them into an implicit column. Alternative to `child` — mutually exclusive."
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": true
+    },
+    "animatedDefaultTextStyle": {
+      "type": "object",
+      "description": "Implicitly animates the default `TextStyle` applied to descendant\n`text` / `richText` widgets. Each style field (color, fontSize,\nfontWeight, letterSpacing, lineHeight, …) tweens independently.\nUse for emphasis transitions (e.g., headline grows + bolds when\nselected).",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "animatedDefaultTextStyle"
+          ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
+        "style": {
+          "$ref": "#/$defs/TextStyle",
+          "description": "Target text style. Changes are tweened."
+        },
+        "duration": {
+          "$ref": "#/$defs/Dimension",
+          "description": "Animation duration in milliseconds."
+        },
+        "curve": {
+          "$ref": "#/$defs/AnimationCurve",
+          "description": "Easing curve."
+        },
+        "onEnd": {
+          "$ref": "#/$defs/Action"
+        },
+        "child": {
+          "$ref": "#/$defs/Widget"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Widget"
+          },
+          "description": "Multiple widgets; runtime wraps them into an implicit column. Alternative to `child` — mutually exclusive."
+        }
+      },
+      "required": [
+        "type",
+        "style"
+      ],
+      "additionalProperties": true
+    },
+    "animatedOpacity": {
+      "type": "object",
+      "description": "Implicitly animates the child's `opacity` whenever it changes.\nUse for fade-in / fade-out micro-interactions without explicit\nanimation controllers.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "animatedOpacity"
+          ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
+        "opacity": {
+          "description": "Target opacity in `[0, 1]`. Changes are tweened.",
           "anyOf": [
             {
               "type": "number",
-              "default": 300,
-              "description": "Animation duration in milliseconds."
+              "description": "Target opacity in `[0, 1]`. Changes are tweened."
             },
             {
               "type": "string",
@@ -161,15 +1629,82 @@
             }
           ]
         },
-        "curve": {
-          "type": "string",
-          "default": "\"easeInOut\"",
-          "description": "Animation curve."
+        "duration": {
+          "$ref": "#/$defs/Dimension",
+          "description": "Animation duration in milliseconds."
         },
-        "decoration": {
-          "type": "object",
-          "description": "Decoration; changes are animated.",
-          "additionalProperties": true
+        "curve": {
+          "$ref": "#/$defs/AnimationCurve",
+          "description": "Easing curve."
+        },
+        "onEnd": {
+          "$ref": "#/$defs/Action"
+        },
+        "child": {
+          "$ref": "#/$defs/Widget"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Widget"
+          },
+          "description": "Multiple widgets; runtime wraps them into an implicit column. Alternative to `child` — mutually exclusive."
+        }
+      },
+      "required": [
+        "type",
+        "opacity"
+      ],
+      "additionalProperties": true
+    },
+    "animatedPositioned": {
+      "type": "object",
+      "description": "Implicitly animates a child's edge offsets inside a `stack`. Same\ncontract as `positioned` (top/right/bottom/left/width/height) but\nchanges are tweened. Only valid as a `stack` child.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "animatedPositioned"
+          ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
+        "top": {
+          "$ref": "#/$defs/Dimension",
+          "description": "Distance from the parent stack's top edge."
+        },
+        "right": {
+          "$ref": "#/$defs/Dimension",
+          "description": "Distance from the parent stack's right edge."
+        },
+        "bottom": {
+          "$ref": "#/$defs/Dimension",
+          "description": "Distance from the parent stack's bottom edge."
+        },
+        "left": {
+          "$ref": "#/$defs/Dimension",
+          "description": "Distance from the parent stack's left edge."
+        },
+        "width": {
+          "$ref": "#/$defs/Dimension",
+          "description": "Animated width."
+        },
+        "height": {
+          "$ref": "#/$defs/Dimension",
+          "description": "Animated height."
+        },
+        "duration": {
+          "$ref": "#/$defs/Dimension",
+          "description": "Animation duration in milliseconds."
+        },
+        "curve": {
+          "$ref": "#/$defs/AnimationCurve",
+          "description": "Easing curve."
         },
         "onEnd": {
           "$ref": "#/$defs/Action"
@@ -199,6 +1734,13 @@
           "enum": [
             "aspectRatio"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "aspectRatio": {
           "description": "Width-to-height ratio (e.g., `1.5` for 3:2). Defaults to `1.0` (square) when omitted.",
@@ -255,6 +1797,13 @@
           "enum": [
             "avatar"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "src": {
           "type": "string",
@@ -322,6 +1871,13 @@
             "badge"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "label": {
           "type": "string",
           "description": "Text content of the badge."
@@ -356,6 +1912,13 @@
             "banner"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "message": {
           "type": "string",
           "description": "Banner text."
@@ -367,6 +1930,9 @@
         },
         "actions": {
           "description": "Action buttons `{ label, onTap }`."
+        },
+        "onClose": {
+          "$ref": "#/$defs/Action"
         }
       },
       "required": [
@@ -384,6 +1950,13 @@
           "enum": [
             "baseline"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "baseline": {
           "description": "Distance from the top to the child's baseline.",
@@ -448,6 +2021,13 @@
             "bottomnavigationbar"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "selectedIndex": {
           "description": "Currently selected index. Defaults to 0 when omitted.",
           "anyOf": [
@@ -508,6 +2088,13 @@
             "bottomSheet"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "child": {
           "$ref": "#/$defs/Widget"
         },
@@ -550,6 +2137,9 @@
           "description": "`{ type: \"rounded\", radius: { top: 16 } }`.",
           "additionalProperties": true
         },
+        "onClose": {
+          "$ref": "#/$defs/Action"
+        },
         "children": {
           "type": "array",
           "items": {
@@ -573,6 +2163,13 @@
             "box",
             "container"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "width": {
           "description": "Fixed width in logical pixels. When omitted, the box shrinks to its child's width.",
@@ -1105,19 +2702,8 @@
           ]
         },
         "alignment": {
-          "type": "string",
-          "enum": [
-            "topLeft",
-            "topCenter",
-            "topRight",
-            "centerLeft",
-            "center",
-            "centerRight",
-            "bottomLeft",
-            "bottomCenter",
-            "bottomRight"
-          ],
-          "description": "Alignment of the child inside the box when the box is larger than the child."
+          "$ref": "#/$defs/Alignment",
+          "description": "Alignment of the child inside the box when the box is larger\nthan the child. See the `Alignment` primitive for the canonical\n9-token directional set and the `{x, y}` numeric form.\n"
         },
         "color": {
           "type": "string",
@@ -1130,9 +2716,8 @@
           "description": "Legacy alias of `color`."
         },
         "decoration": {
-          "type": "object",
-          "description": "Visual decoration. When set, do NOT also set top-level `color` — the runtime treats `decoration` as authoritative.\n",
-          "additionalProperties": true
+          "$ref": "#/$defs/BoxDecoration",
+          "description": "Visual decoration. Mutually exclusive with the top-level `color`\nshorthand — when both are present `decoration` wins. See the\n`BoxDecoration` $def for the full property set: `color`,\n`gradient`, `image`, `border`, `borderRadius`, `boxShadow`,\n`shape`, `backdropBlur`.\n"
         },
         "child": {
           "$ref": "#/$defs/Widget"
@@ -1152,6 +2737,13 @@
           "enum": [
             "button"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "label": {
           "type": "string",
@@ -1241,6 +2833,13 @@
             "calendar"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "selectedDate": {
           "description": "Currently selected date (ISO 8601 string, or binding to a string).",
           "anyOf": [
@@ -1295,6 +2894,13 @@
           "enum": [
             "canvas"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         }
       },
       "required": [
@@ -1311,6 +2917,13 @@
           "enum": [
             "card"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "elevation": {
           "description": "Shadow elevation. Accepts either a numeric dp value or an M3\nelevation token shorthand (`level0` … `level5`) which resolves\nthrough `theme.elevation.<token>.shadow`.\n",
@@ -1550,6 +3163,177 @@
       ],
       "additionalProperties": true
     },
+    "carousel": {
+      "type": "object",
+      "description": "Horizontally scrolling browser with optional partial-viewport\nframing (cover-flow / album-shelf style). Distinct from `pageView`\n(which always snaps a full viewport per page) — `carousel` lets\nauthors set `viewportFraction` < 1 so adjacent items peek in,\nsignalling \"more to scroll\". Used for content shelves (book\ncovers, album browsers, magazine front pages).",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "carousel"
+          ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
+        "items": {
+          "type": "string",
+          "pattern": "^\\{\\{.*\\}\\}$|^[a-zA-Z_][a-zA-Z0-9_.\\[\\]]*$",
+          "description": "Array source. Required when `children` is omitted."
+        },
+        "itemTemplate": {
+          "$ref": "#/$defs/Widget"
+        },
+        "children": {
+          "description": "Static slides. Mutually exclusive with `items` + `itemTemplate`."
+        },
+        "scrollDirection": {
+          "type": "string",
+          "enum": [
+            "horizontal",
+            "vertical"
+          ],
+          "default": "\"horizontal\"",
+          "description": "Scroll axis."
+        },
+        "viewportFraction": {
+          "description": "Each slide's width as a fraction of the carousel width.\n`1.0` = one item fills the viewport (matches `pageView`);\n`0.85` leaves both neighbours peeking; `0.6` shows three items.\n",
+          "anyOf": [
+            {
+              "type": "number",
+              "default": 1.0,
+              "description": "Each slide's width as a fraction of the carousel width.\n`1.0` = one item fills the viewport (matches `pageView`);\n`0.85` leaves both neighbours peeking; `0.6` shows three items.\n"
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression."
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "number"
+                },
+                "unit": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "value"
+              ],
+              "description": "Dimension object: `{value, unit}`."
+            }
+          ]
+        },
+        "loop": {
+          "description": "When true the list wraps around — last → first → last.",
+          "anyOf": [
+            {
+              "type": "boolean",
+              "default": "false",
+              "description": "When true the list wraps around — last → first → last."
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression."
+            }
+          ]
+        },
+        "autoPlay": {
+          "description": "When set, advances one item every `autoPlay` ms. Authors\ntypically pair with `loop: true`.\n",
+          "anyOf": [
+            {
+              "type": "number",
+              "description": "When set, advances one item every `autoPlay` ms. Authors\ntypically pair with `loop: true`.\n"
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression."
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "number"
+                },
+                "unit": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "value"
+              ],
+              "description": "Dimension object: `{value, unit}`."
+            }
+          ]
+        },
+        "initialIndex": {
+          "description": "Index of the slide rendered first.",
+          "anyOf": [
+            {
+              "type": "number",
+              "default": 0,
+              "description": "Index of the slide rendered first."
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression."
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "number"
+                },
+                "unit": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "value"
+              ],
+              "description": "Dimension object: `{value, unit}`."
+            }
+          ]
+        },
+        "transition": {
+          "type": "string",
+          "enum": [
+            "slide",
+            "fade",
+            "coverflow",
+            "depth"
+          ],
+          "default": "\"slide\"",
+          "description": "Per-slide transition. `slide` is the default linear scroll;\n`fade` cross-fades between slides at the same position;\n`coverflow` rotates and depth-shifts neighbours; `depth`\nscales/translates Z-axis. `coverflow`/`depth` need a\nperspective-aware compositor — runtimes without it fall\nback to `slide`.\n"
+        },
+        "indicatorPosition": {
+          "type": "string",
+          "enum": [
+            "bottom",
+            "top",
+            "none"
+          ],
+          "default": "\"bottom\"",
+          "description": "Page indicator dot bar."
+        },
+        "onPageChanged": {
+          "$ref": "#/$defs/Action"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": true
+    },
     "center": {
       "type": "object",
       "description": "Centers a single child within available space.",
@@ -1559,6 +3343,13 @@
           "enum": [
             "center"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "child": {
           "$ref": "#/$defs/Widget"
@@ -1585,6 +3376,13 @@
           "enum": [
             "chart"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "chartType": {
           "type": "string",
@@ -1695,6 +3493,13 @@
             "checkbox"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "binding": {
           "type": "string",
           "description": "State path bound two-way to the widget value (§2.6.0). Runtime reads/writes this path without requiring an explicit onChange."
@@ -1791,6 +3596,13 @@
           "enum": [
             "checkboxGroup"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "binding": {
           "type": "string",
@@ -1896,6 +3708,13 @@
             "chip"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "label": {
           "type": "string",
           "description": "Display text."
@@ -1946,6 +3765,13 @@
             "clipOval"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "child": {
           "$ref": "#/$defs/Widget"
         },
@@ -1972,42 +3798,16 @@
             "clipRRect"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "borderRadius": {
-          "description": "Corner radius (uniform or `{topLeft, topRight, bottomLeft, bottomRight}`).",
-          "anyOf": [
-            {
-              "anyOf": [
-                {
-                  "type": "number"
-                },
-                {
-                  "type": "string",
-                  "pattern": "^\\{\\{.*\\}\\}$",
-                  "description": "Binding expression."
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "value": {
-                      "type": "number"
-                    },
-                    "unit": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "value"
-                  ],
-                  "description": "Dimension object: `{value, unit}`."
-                }
-              ]
-            },
-            {
-              "type": "object",
-              "description": "object",
-              "additionalProperties": true
-            }
-          ]
+          "$ref": "#/$defs/BorderRadius",
+          "description": "Corner radius — uniform number or directional `{topStart, topEnd,\nbottomStart, bottomEnd, all}` per the `BorderRadius` primitive.\n"
         },
         "child": {
           "$ref": "#/$defs/Widget"
@@ -2034,6 +3834,13 @@
           "enum": [
             "codeEditor"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "code": {
           "description": "Code content — literal string or binding.",
@@ -2296,6 +4103,13 @@
             "colorPicker"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "binding": {
           "type": "string",
           "description": "State path bound two-way to the widget value (§2.6.0). Runtime reads/writes this path without requiring an explicit onChange."
@@ -2439,6 +4253,13 @@
             "conditional"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "condition": {
           "description": "Boolean literal or boolean-producing expression (then/else form).",
           "anyOf": [
@@ -2494,6 +4315,13 @@
             "customDialog"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "child": {
           "$ref": "#/$defs/Widget"
         },
@@ -2511,6 +4339,9 @@
               "description": "Binding expression."
             }
           ]
+        },
+        "onClose": {
+          "$ref": "#/$defs/Action"
         },
         "children": {
           "type": "array",
@@ -2534,6 +4365,13 @@
           "enum": [
             "dashboard"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "content": {
           "$ref": "#/$defs/Widget"
@@ -2585,6 +4423,13 @@
           "enum": [
             "dataTable"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "columns": {
           "description": "Column definitions"
@@ -2642,6 +4487,13 @@
           "enum": [
             "dateField"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "binding": {
           "type": "string",
@@ -2762,6 +4614,13 @@
             "datePicker"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "binding": {
           "type": "string",
           "description": "State path bound two-way to the widget value (§2.6.0). Runtime reads/writes this path without requiring an explicit onChange."
@@ -2862,6 +4721,13 @@
           "enum": [
             "dateRangePicker"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "binding": {
           "type": "string",
@@ -2977,7 +4843,7 @@
     },
     "decoration": {
       "type": "object",
-      "description": "Wraps a child with a decoration box (color, border, gradient, shadow) without otherwise affecting layout.",
+      "description": "Wraps a child with a decoration box (color, gradient, border, shadow,\nimage, blur) without otherwise affecting layout. The full\n`BoxDecoration` may be supplied via `decoration:`, or any of its\nfields may appear flat at the top level for ergonomic shorthand.",
       "properties": {
         "type": {
           "type": "string",
@@ -2985,10 +4851,16 @@
             "decoration"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "decoration": {
-          "type": "object",
-          "description": "Nested `{color, borderRadius, border, gradient, boxShadow}`. Alternatively, each key may appear flat at the top level.",
-          "additionalProperties": true
+          "$ref": "#/$defs/BoxDecoration",
+          "description": "Full decoration object. Alternatively, the constituent fields\n(`color`, `gradient`, `image`, `border`, `borderRadius`,\n`boxShadow`, `shape`, `backdropBlur`) may appear flat at the top\nlevel. Flat keys override matching `decoration.<field>` entries.\n"
         },
         "color": {
           "type": "string",
@@ -2996,11 +4868,52 @@
           "description": "Flat shorthand for `decoration.color`."
         },
         "borderRadius": {
-          "description": "Flat shorthand for `decoration.borderRadius`.",
+          "$ref": "#/$defs/BorderRadius",
+          "description": "Flat shorthand for `decoration.borderRadius`."
+        },
+        "border": {
+          "$ref": "#/$defs/BoxBorder",
+          "description": "Flat shorthand for `decoration.border`."
+        },
+        "gradient": {
+          "$ref": "#/$defs/Gradient",
+          "description": "Flat shorthand for `decoration.gradient`."
+        },
+        "image": {
+          "$ref": "#/$defs/BackgroundImage",
+          "description": "Flat shorthand for `decoration.image`."
+        },
+        "boxShadow": {
+          "description": "Flat shorthand for `decoration.boxShadow`.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/BoxShadow"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
+        },
+        "shape": {
+          "type": "string",
+          "enum": [
+            "rectangle",
+            "circle"
+          ],
+          "default": "\"rectangle\"",
+          "description": "Flat shorthand for `decoration.shape`."
+        },
+        "backdropBlur": {
+          "description": "Flat shorthand for `decoration.backdropBlur` (Gaussian blur sigma).",
           "anyOf": [
             {
               "type": "number",
-              "description": "Flat shorthand for `decoration.borderRadius`."
+              "description": "Flat shorthand for `decoration.backdropBlur` (Gaussian blur sigma)."
             },
             {
               "type": "string",
@@ -3024,19 +4937,6 @@
             }
           ]
         },
-        "border": {
-          "type": "object",
-          "description": "Flat shorthand for `decoration.border`.",
-          "additionalProperties": true
-        },
-        "gradient": {
-          "type": "object",
-          "description": "Flat shorthand for `decoration.gradient`.",
-          "additionalProperties": true
-        },
-        "boxShadow": {
-          "description": "Flat shorthand for `decoration.boxShadow`."
-        },
         "child": {
           "$ref": "#/$defs/Widget"
         },
@@ -3058,6 +4958,13 @@
           "enum": [
             "divider"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "thickness": {
           "description": "Line thickness.",
@@ -3167,6 +5074,13 @@
             "dragTarget"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "canDrop": {
           "type": "string",
           "pattern": "^\\{\\{.*\\}\\}$|^[a-zA-Z_][a-zA-Z0-9_.\\[\\]]*$",
@@ -3206,6 +5120,13 @@
           "enum": [
             "draggable"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "data": {
           "description": "Payload emitted on drop.",
@@ -3253,6 +5174,13 @@
             "drawer"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "items": {
           "description": "`{ icon, label, route? }` entries. Required when `children` is omitted."
         },
@@ -3263,6 +5191,9 @@
           "$ref": "#/$defs/Widget"
         },
         "onSelect": {
+          "$ref": "#/$defs/Action"
+        },
+        "onClose": {
           "$ref": "#/$defs/Action"
         }
       },
@@ -3280,6 +5211,13 @@
           "enum": [
             "errorBoundary"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "child": {
           "$ref": "#/$defs/Widget"
@@ -3312,6 +5250,13 @@
           "enum": [
             "errorRecovery"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "child": {
           "$ref": "#/$defs/Widget"
@@ -3360,6 +5305,13 @@
           "enum": [
             "expanded"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "flex": {
           "description": "Flex weight.",
@@ -3416,6 +5368,13 @@
           "enum": [
             "fileExplorer"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "items": {
           "type": "string",
@@ -3561,14 +5520,20 @@
             "fittedBox"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "fit": {
           "type": "string",
           "default": "\"contain\"",
           "description": "`cover`, `contain`, `fill`, `scaleDown`, `none`."
         },
         "alignment": {
-          "type": "string",
-          "default": "\"center\"",
+          "$ref": "#/$defs/Alignment",
           "description": "Alignment within the fitted bounds."
         },
         "child": {
@@ -3596,6 +5561,13 @@
           "enum": [
             "flexible"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "flex": {
           "description": "Flex weight.",
@@ -3658,6 +5630,13 @@
             "floatingActionButton"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "icon": {
           "type": "string",
           "description": "Icon name."
@@ -3684,6 +5663,13 @@
           "enum": [
             "flow"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "children": {
           "description": "Flow children."
@@ -3745,6 +5731,13 @@
             "form"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "children": {
           "description": "Form field widgets."
         },
@@ -3772,6 +5765,13 @@
           "enum": [
             "fractionallySized"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "widthFactor": {
           "description": "Width fraction in `0.0..1.0`.",
@@ -3856,6 +5856,13 @@
           "enum": [
             "gauge"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "value": {
           "description": "Current value",
@@ -4116,6 +6123,13 @@
             "gestureDetector"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "child": {
           "$ref": "#/$defs/Widget"
         },
@@ -4159,6 +6173,13 @@
           "enum": [
             "graph"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "data": {
           "description": "required | Array of `{ x, y }` points (or `{ label, value }`)."
@@ -4325,6 +6346,13 @@
             "grid",
             "gridview"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "items": {
           "type": "string",
@@ -4517,6 +6545,13 @@
             "appbar"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "title": {
           "description": "Header title.",
           "anyOf": [
@@ -4619,6 +6654,13 @@
             "heatmap"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "data": {
           "description": "2D numeric array (rows × columns). Literal array or binding.",
           "anyOf": [
@@ -4696,9 +6738,65 @@
       ],
       "additionalProperties": true
     },
+    "hero": {
+      "type": "object",
+      "description": "Shared-element transition wrapper. Wrap a child widget on the\nsource page AND on the destination page with the SAME `tag`; the\nruntime morphs the source widget's bounds → destination widget's\nbounds during the route transition (cover → detail magnification,\nalbum cover → expanded album view). Pairs naturally with\n`RouteTransition` styles such as `fade` or `sharedAxis`.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "hero"
+          ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
+        "tag": {
+          "type": "string",
+          "description": "Identifier shared between source and destination pages. Both\nsides MUST set the same tag for the morph to engage. Tags must\nbe unique within each page (a single page cannot have two heroes\nwith the same tag).\n"
+        },
+        "child": {
+          "$ref": "#/$defs/Widget"
+        },
+        "transitionOnUserGestures": {
+          "description": "When true, also morphs during gesture-driven back navigation\n(iOS swipe-from-edge). Adds slight render cost.\n",
+          "anyOf": [
+            {
+              "type": "boolean",
+              "default": "false",
+              "description": "When true, also morphs during gesture-driven back navigation\n(iOS swipe-from-edge). Adds slight render cost.\n"
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression."
+            }
+          ]
+        },
+        "flightShuttleBuilder": {
+          "$ref": "#/$defs/Widget"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Widget"
+          },
+          "description": "Multiple widgets; runtime wraps them into an implicit column. Alternative to `child` — mutually exclusive."
+        }
+      },
+      "required": [
+        "type",
+        "tag"
+      ],
+      "additionalProperties": true
+    },
     "icon": {
       "type": "object",
-      "description": "Displays an icon. The `icon` property accepts three forms so authors can\npick the lightest option for the asset they need:\n\n1. **Named (built-in)** — a string that matches a Material Icon name in the\n   runtime's resolver table (e.g. `\"home\"`, `\"folder_open\"`). Zero-cost;\n   common icons are always available.\n2. **Codepoint** — object `{codepoint, fontFamily?, fontPackage?}` for any\n   Material Icons codepoint that isn't in the name table\n   (`{\"codepoint\": 0xe88a}` renders the same glyph as `\"home\"`).\n3. **URL** — string starting with `http://` / `https://` (SVG or raster\n   image). The runtime fetches and caches the asset at first render; no\n   bundled asset needed. Useful for app-specific or third-party icon sets.",
+      "description": "Displays an icon. The `icon` property accepts five source forms — pick\nthe lightest option that fits the asset:\n\n1. **Named (built-in)** — `\"home\"`, `\"folder_open\"`, … from the runtime's\n   Material Icons resolver table. Zero-cost.\n2. **Codepoint** — `{codepoint, fontFamily?, fontPackage?}` for Material\n   Icons codepoints not in the name table.\n3. **URL** — `https://…` or `http://…` (raster or SVG). Fetched and cached\n   at first render.\n4. **Bundle SVG asset** — `assets/icons/<name>.svg` resolved from the bundle\n   asset map. Used for app-specific icon sets shipped with the bundle.\n5. **Local SVG inline** — `data:image/svg+xml;…` data URI for one-off icons\n   embedded directly in the DSL.\n\nThe optional `shader` field paints the icon with a gradient/shader fill\n(rather than a solid `color`). When both are set the shader wins.",
       "properties": {
         "type": {
           "type": "string",
@@ -4706,8 +6804,15 @@
             "icon"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "icon": {
-          "description": "Name (`\"home\"`), URL (`\"https://.../icon.svg\"`), or codepoint object (`{codepoint: 0xe88a}`).",
+          "description": "Name, URL, bundle path, data URI, or codepoint object — see the\nfive forms documented in the widget summary.\n",
           "anyOf": [
             {
               "type": "string"
@@ -4758,7 +6863,11 @@
         "color": {
           "type": "string",
           "pattern": "^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$",
-          "description": "Icon color. Applied to named / codepoint forms; for URL form it tints raster icons when supported."
+          "description": "Icon color. Applied to named / codepoint / SVG forms; for raster\n`URL` form it tints when supported. Ignored when `shader` is set.\n"
+        },
+        "shader": {
+          "$ref": "#/$defs/Gradient",
+          "description": "Gradient/shader fill (linear / radial / sweep). Painted via a\nshader mask over the icon's glyph alpha. Mutually exclusive with\n`color` — when both are present `shader` wins.\n"
         }
       },
       "required": [
@@ -4776,6 +6885,13 @@
           "enum": [
             "iconButton"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "icon": {
           "type": "string",
@@ -4848,6 +6964,13 @@
           "enum": [
             "image"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "src": {
           "type": "string",
@@ -4925,13 +7048,89 @@
           "description": "`cover`, `contain`, `fill`, `none`, `scaleDown`, `fitHeight`, `fitWidth`."
         },
         "alignment": {
-          "type": "string",
-          "default": "\"center\"",
+          "$ref": "#/$defs/Alignment",
           "description": "Alignment within bounds."
         }
       },
       "required": [
         "type"
+      ],
+      "additionalProperties": true
+    },
+    "imageFilter": {
+      "type": "object",
+      "description": "Wraps a child with a colour / blur filter. Distinct from\n`BoxDecoration.image.colorFilter` (which colours an image\nbackground) — `imageFilter` filters the entire rendered subtree.\nUse for sepia/grayscale book pages, blur-on-hover thumbnails,\nsaturation-bumped hero shots.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "imageFilter"
+          ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
+        "filter": {
+          "type": "string",
+          "enum": [
+            "sepia",
+            "grayscale",
+            "blur",
+            "saturation",
+            "brightness",
+            "contrast",
+            "invert"
+          ],
+          "description": "Filter kind:\n- `sepia` — warm-tone tint mimicking aged photograph.\n- `grayscale` — desaturate to luminance.\n- `blur` — Gaussian blur (sigma controlled by `intensity`).\n- `saturation` — multiply chroma by `intensity` (0 = grayscale, 1 = unchanged, >1 = pop).\n- `brightness` — multiply luminance.\n- `contrast` — increase / decrease contrast.\n- `invert` — colour invert (negative).\n"
+        },
+        "intensity": {
+          "description": "Filter strength. Range and default depend on `filter`:\n- `sepia` / `grayscale` / `invert` — `0.0` (off) .. `1.0` (full). Default `1.0`.\n- `blur` — sigma in pixels (`0.0` off, typical 4..16).\n- `saturation` / `brightness` / `contrast` — multiplier (`1.0` unchanged).\n",
+          "anyOf": [
+            {
+              "type": "number",
+              "default": 1.0,
+              "description": "Filter strength. Range and default depend on `filter`:\n- `sepia` / `grayscale` / `invert` — `0.0` (off) .. `1.0` (full). Default `1.0`.\n- `blur` — sigma in pixels (`0.0` off, typical 4..16).\n- `saturation` / `brightness` / `contrast` — multiplier (`1.0` unchanged).\n"
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression."
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "number"
+                },
+                "unit": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "value"
+              ],
+              "description": "Dimension object: `{value, unit}`."
+            }
+          ]
+        },
+        "child": {
+          "$ref": "#/$defs/Widget"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Widget"
+          },
+          "description": "Multiple widgets; runtime wraps them into an implicit column. Alternative to `child` — mutually exclusive."
+        }
+      },
+      "required": [
+        "type",
+        "filter"
       ],
       "additionalProperties": true
     },
@@ -4944,6 +7143,13 @@
           "enum": [
             "indexedStack"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "index": {
           "description": "Index of the child to display.",
@@ -4983,8 +7189,7 @@
           ]
         },
         "alignment": {
-          "type": "string",
-          "default": "\"start\"",
+          "$ref": "#/$defs/Alignment",
           "description": "Alignment of the displayed child."
         },
         "children": {
@@ -5006,6 +7211,13 @@
           "enum": [
             "inkWell"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "child": {
           "$ref": "#/$defs/Widget"
@@ -5068,6 +7280,13 @@
             "intrinsicHeight"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "child": {
           "$ref": "#/$defs/Widget"
         },
@@ -5094,6 +7313,13 @@
             "intrinsicWidth"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "child": {
           "$ref": "#/$defs/Widget"
         },
@@ -5110,6 +7336,115 @@
       ],
       "additionalProperties": true
     },
+    "kenBurnsImage": {
+      "type": "object",
+      "description": "Image with an automatic slow zoom-and-pan animation (the \"Ken\nBurns effect\"). Used for cinematic stills in book chapter\nopenings, landing pages, and slideshow frames. The image holds\nintrinsic resolution and is animated within fit-bounds — no\ncropping outside the rendered rectangle.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "kenBurnsImage"
+          ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
+        "src": {
+          "$ref": "#/$defs/AssetRef",
+          "description": "Image source."
+        },
+        "duration": {
+          "$ref": "#/$defs/Dimension",
+          "description": "Total animation duration in milliseconds."
+        },
+        "intensity": {
+          "description": "Zoom amount. The image zooms from 1.0 to (1.0 + `intensity`)\nacross `duration`. Practical range: `0.05` (subtle) ..\n`0.30` (dramatic).\n",
+          "anyOf": [
+            {
+              "type": "number",
+              "default": 0.15,
+              "description": "Zoom amount. The image zooms from 1.0 to (1.0 + `intensity`)\nacross `duration`. Practical range: `0.05` (subtle) ..\n`0.30` (dramatic).\n"
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression."
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "number"
+                },
+                "unit": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "value"
+              ],
+              "description": "Dimension object: `{value, unit}`."
+            }
+          ]
+        },
+        "startAlignment": {
+          "$ref": "#/$defs/Alignment",
+          "description": "Pan start position within the rendered bounds."
+        },
+        "endAlignment": {
+          "$ref": "#/$defs/Alignment",
+          "description": "Pan end position within the rendered bounds."
+        },
+        "loop": {
+          "description": "When true the animation reverses and replays continuously; when false it stops at the end position.",
+          "anyOf": [
+            {
+              "type": "boolean",
+              "default": "true",
+              "description": "When true the animation reverses and replays continuously; when false it stops at the end position."
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression."
+            }
+          ]
+        },
+        "curve": {
+          "$ref": "#/$defs/AnimationCurve",
+          "description": "Easing curve over the zoom/pan progression."
+        },
+        "width": {
+          "$ref": "#/$defs/Dimension",
+          "description": "Render width."
+        },
+        "height": {
+          "$ref": "#/$defs/Dimension",
+          "description": "Render height."
+        },
+        "fit": {
+          "type": "string",
+          "enum": [
+            "cover",
+            "contain",
+            "fill",
+            "fitWidth",
+            "fitHeight"
+          ],
+          "default": "\"cover\"",
+          "description": "How the image scales to its render bounds before the Ken Burns animation overlays."
+        }
+      },
+      "required": [
+        "type",
+        "src"
+      ],
+      "additionalProperties": true
+    },
     "layoutBuilder": {
       "type": "object",
       "description": "Runtime-only responsive container: picks a child by matching the current constraints against a breakpoint map.",
@@ -5119,6 +7454,13 @@
           "enum": [
             "layoutBuilder"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "breakpoints": {
           "type": "object",
@@ -5149,6 +7491,13 @@
             "lazy"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "placeholder": {
           "$ref": "#/$defs/Widget"
         },
@@ -5171,12 +7520,12 @@
         "trigger": {
           "type": "string",
           "enum": [
-            "viewport",
+            "visible",
             "immediate",
             "manual"
           ],
-          "default": "viewport",
-          "description": "`viewport` renders when scrolled into view; `immediate` renders on mount; `manual` renders when a `load()` signal is received."
+          "default": "visible",
+          "description": "`visible` renders when the widget becomes visible to the user (typically scrolled into view); `immediate` renders on mount; `manual` renders when a `load()` signal is received."
         },
         "onLoad": {
           "$ref": "#/$defs/Action"
@@ -5190,6 +7539,147 @@
       ],
       "additionalProperties": true
     },
+    "lightbox": {
+      "type": "object",
+      "description": "Full-screen modal image viewer with pinch-zoom and swipe-between-\nimages. Used as a tap target on a thumbnail image — opening the\nlightbox transitions the thumbnail into the full-screen view.\nPairs naturally with `hero` for the cover-to-detail morph.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "lightbox"
+          ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
+        "images": {
+          "description": "Image asset list. Each entry is an AssetRef.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/AssetRef"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
+        },
+        "initialIndex": {
+          "description": "Index of the image shown first.",
+          "anyOf": [
+            {
+              "type": "number",
+              "default": 0,
+              "description": "Index of the image shown first."
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression."
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "number"
+                },
+                "unit": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "value"
+              ],
+              "description": "Dimension object: `{value, unit}`."
+            }
+          ]
+        },
+        "allowZoom": {
+          "description": "Enable pinch-zoom (and double-tap-to-zoom). When false the lightbox shows the image at fit-bounds only.",
+          "anyOf": [
+            {
+              "type": "boolean",
+              "default": "true",
+              "description": "Enable pinch-zoom (and double-tap-to-zoom). When false the lightbox shows the image at fit-bounds only."
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression."
+            }
+          ]
+        },
+        "maxZoom": {
+          "description": "Maximum zoom factor (1.0 = fit-bounds).",
+          "anyOf": [
+            {
+              "type": "number",
+              "default": 4.0,
+              "description": "Maximum zoom factor (1.0 = fit-bounds)."
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression."
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "number"
+                },
+                "unit": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "value"
+              ],
+              "description": "Dimension object: `{value, unit}`."
+            }
+          ]
+        },
+        "allowSwipe": {
+          "description": "Enable swipe-between-images. When false the lightbox shows only `images[initialIndex]`.",
+          "anyOf": [
+            {
+              "type": "boolean",
+              "default": "true",
+              "description": "Enable swipe-between-images. When false the lightbox shows only `images[initialIndex]`."
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression."
+            }
+          ]
+        },
+        "backgroundColor": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$",
+          "description": "Backdrop color behind the image (typically black or theme.scrim)."
+        },
+        "onIndexChanged": {
+          "$ref": "#/$defs/Action"
+        },
+        "onClose": {
+          "$ref": "#/$defs/Action"
+        }
+      },
+      "required": [
+        "type",
+        "images"
+      ],
+      "additionalProperties": true
+    },
     "limitedBox": {
       "type": "object",
       "description": "Limits a child's size only when it would otherwise be unbounded.",
@@ -5199,6 +7689,13 @@
           "enum": [
             "limitedBox"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "maxWidth": {
           "description": "Upper bound when width is unbounded.",
@@ -5287,6 +7784,13 @@
             "row",
             "column"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "mainAxisSize": {
           "type": "string",
@@ -5443,6 +7947,13 @@
             "listview"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "items": {
           "type": "string",
           "pattern": "^\\{\\{.*\\}\\}$|^[a-zA-Z_][a-zA-Z0-9_.\\[\\]]*$",
@@ -5540,6 +8051,13 @@
             "list-tile"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "title": {
           "description": "Primary text, or an inline Widget for rich titles.",
           "anyOf": [
@@ -5617,6 +8135,13 @@
             "lottieAnimation"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "src": {
           "type": "string",
           "description": "Animation source (`bundle://`, `client://`, URL)."
@@ -5667,6 +8192,13 @@
           "enum": [
             "map"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "center": {
           "description": "Map center coordinates. Required when flat `latitude` / `longitude` are omitted."
@@ -5797,6 +8329,13 @@
           "enum": [
             "margin"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "margin": {
           "description": "Outer margin.",
@@ -6172,6 +8711,13 @@
             "markdown"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "text": {
           "type": "string",
           "default": "binding",
@@ -6310,12 +8856,19 @@
             "mediaPlayer"
           ]
         },
-        "source": {
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
           "type": "string",
-          "description": "Media URL (`bundle://`, `https://`, `client://`)"
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
+        "source": {
+          "$ref": "#/$defs/AssetRef",
+          "description": "Media asset reference (audio or video file)."
         },
         "src": {
-          "type": "string",
+          "$ref": "#/$defs/AssetRef",
           "description": "Legacy alias of `source`."
         },
         "mediaType": {
@@ -6418,8 +8971,23 @@
           ]
         },
         "poster": {
-          "type": "string",
-          "description": "Poster image (video only)"
+          "$ref": "#/$defs/AssetRef",
+          "description": "Preview image rendered before playback starts (video only)."
+        },
+        "waveform": {
+          "description": "Audio mode only. When true, the audio's amplitude waveform is\nrendered above the transport controls, advancing with playback.\nIgnored for video sources.\n",
+          "anyOf": [
+            {
+              "type": "boolean",
+              "default": "false",
+              "description": "Audio mode only. When true, the audio's amplitude waveform is\nrendered above the transport controls, advancing with playback.\nIgnored for video sources.\n"
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression."
+            }
+          ]
         },
         "width": {
           "description": "Display width",
@@ -6510,6 +9078,13 @@
             "mediaQuery"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "condition": {
           "description": "Boolean expression (string) or constraint object like `{minWidth, maxWidth}`; selects `then` when truthy.",
           "anyOf": [
@@ -6554,6 +9129,13 @@
           "enum": [
             "navigationRail"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "selectedIndex": {
           "description": "Currently selected item.",
@@ -6616,6 +9198,13 @@
           "enum": [
             "networkGraph"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         }
       },
       "required": [
@@ -6632,6 +9221,13 @@
           "enum": [
             "numberField"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "binding": {
           "type": "string",
@@ -6860,6 +9456,13 @@
             "numberStepper"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "binding": {
           "type": "string",
           "description": "State path bound two-way to the widget value (§2.6.0). Runtime reads/writes this path without requiring an explicit onChange."
@@ -7041,6 +9644,13 @@
             "offlineFallback"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "online": {
           "$ref": "#/$defs/Widget"
         },
@@ -7110,6 +9720,13 @@
           "enum": [
             "opacity"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "opacity": {
           "description": "Opacity in `0.0..1.0`.",
@@ -7224,6 +9841,13 @@
           "enum": [
             "padding"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "padding": {
           "description": "Inset values.",
@@ -7418,7 +10042,7 @@
     },
     "pageView": {
       "type": "object",
-      "description": "Full-width/height paged scroll view, one page at a time.",
+      "description": "Full-viewport paged scroll view. Snaps one page per swipe; ideal\nfor book pages, photo galleries, onboarding flows. Distinct from\n`carousel` (partial-viewport, peeking neighbours) — pageView is\nalways one full page. Each child is rendered as a separate page.",
       "properties": {
         "type": {
           "type": "string",
@@ -7426,13 +10050,94 @@
             "pageView"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "direction": {
           "type": "string",
+          "enum": [
+            "horizontal",
+            "vertical"
+          ],
           "default": "\"horizontal\"",
-          "description": "`horizontal` or `vertical`."
+          "description": "Scroll axis."
         },
         "children": {
           "description": "One child per page."
+        },
+        "initialPage": {
+          "description": "Index of the page rendered first.",
+          "anyOf": [
+            {
+              "type": "number",
+              "default": 0,
+              "description": "Index of the page rendered first."
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression."
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "number"
+                },
+                "unit": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "value"
+              ],
+              "description": "Dimension object: `{value, unit}`."
+            }
+          ]
+        },
+        "loop": {
+          "description": "When true the list wraps around — last → first.",
+          "anyOf": [
+            {
+              "type": "boolean",
+              "default": "false",
+              "description": "When true the list wraps around — last → first."
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression."
+            }
+          ]
+        },
+        "scrollPhysics": {
+          "type": "string",
+          "enum": [
+            "bouncing",
+            "clamping",
+            "neverScrollable"
+          ],
+          "default": "\"clamping\"",
+          "description": "Edge / overscroll behaviour. `bouncing` mirrors iOS rubber-band;\n`clamping` is the Android-style hard stop; `neverScrollable`\ndisables user dragging (use programmatic page change only).\n"
+        },
+        "allowImplicitScrolling": {
+          "description": "Pre-render the adjacent pages off-screen so subsequent swipes\nare instant (assistive-technology friendly). Costs memory.\n",
+          "anyOf": [
+            {
+              "type": "boolean",
+              "default": "false",
+              "description": "Pre-render the adjacent pages off-screen so subsequent swipes\nare instant (assistive-technology friendly). Costs memory.\n"
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression."
+            }
+          ]
         },
         "onPageChanged": {
           "$ref": "#/$defs/Action"
@@ -7453,6 +10158,13 @@
           "enum": [
             "permissionPrompt"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "permissions": {
           "description": "Permission identifiers (e.g., `[\"client.clipboard\"]`). Required when `permissionType` is omitted."
@@ -7514,6 +10226,13 @@
           "enum": [
             "placeholder"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "fallbackWidth": {
           "description": "Width when unconstrained.",
@@ -7632,6 +10351,13 @@
             "popupMenuButton"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "icon": {
           "type": "string",
           "default": "\"more_vert\"",
@@ -7659,6 +10385,13 @@
           "enum": [
             "positioned"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "child": {
           "$ref": "#/$defs/Widget"
@@ -7690,6 +10423,13 @@
             "progress-bar",
             "progress"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "value": {
           "description": "Progress in `0.0..1.0`; omit for indeterminate.",
@@ -7758,6 +10498,13 @@
             "radio"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "value": {
           "description": "This button's value."
         },
@@ -7798,6 +10545,13 @@
           "enum": [
             "radioGroup"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "binding": {
           "type": "string",
@@ -7902,6 +10656,13 @@
           "enum": [
             "rangeSlider"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "binding": {
           "type": "string",
@@ -8085,6 +10846,13 @@
             "rating"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "binding": {
           "type": "string",
           "description": "State path bound two-way to the widget value (§2.6.0). Runtime reads/writes this path without requiring an explicit onChange."
@@ -8209,7 +10977,7 @@
     },
     "richText": {
       "type": "object",
-      "description": "Styled text composed of inline spans.",
+      "description": "Multi-span styled text — paragraph composition for long-form content\n(articles, book chapters, captions with inline emphasis or icons).\nEach `Span` is either a styled text run or an inline widget; the\nparagraph-level `style` provides the base TextStyle that individual\nspan styles layer on top of.",
       "properties": {
         "type": {
           "type": "string",
@@ -8217,18 +10985,188 @@
             "richText"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "spans": {
-          "description": "Inline spans `{ text, style, onTap? }`."
+          "description": "Inline span list. Each entry is a `Span` (TextSpan or\nWidgetSpan). See the `Span` $def for the two shapes.\n",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Span"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
+        },
+        "style": {
+          "$ref": "#/$defs/TextStyle",
+          "description": "Paragraph base style applied to every span unless overridden.\nUse this for a uniform `lineHeight` / `letterSpacing` /\n`fontFamily` / `color` across the paragraph; per-span styles\nlayer on top via `merge` semantics.\n"
+        },
+        "dropCap": {
+          "$ref": "#/$defs/DropCap",
+          "description": "Render the first character of the first `TextSpan` as an\nenlarged drop cap that the paragraph flows around. Mutually\nexclusive with `maxLines`.\n"
         },
         "textAlign": {
           "type": "string",
+          "enum": [
+            "start",
+            "end",
+            "left",
+            "right",
+            "center",
+            "justify"
+          ],
           "default": "\"start\"",
-          "description": "Alignment for the composed text."
+          "description": "Alignment for the composed paragraph."
+        },
+        "textDirection": {
+          "type": "string",
+          "enum": [
+            "ltr",
+            "rtl"
+          ],
+          "description": "Resolution direction for `start`/`end` alignment."
+        },
+        "maxLines": {
+          "description": "Maximum rendered lines. Mutually exclusive with `dropCap`.",
+          "anyOf": [
+            {
+              "type": "number",
+              "description": "Maximum rendered lines. Mutually exclusive with `dropCap`."
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression."
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "number"
+                },
+                "unit": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "value"
+              ],
+              "description": "Dimension object: `{value, unit}`."
+            }
+          ]
+        },
+        "overflow": {
+          "type": "string",
+          "enum": [
+            "clip",
+            "ellipsis",
+            "fade",
+            "visible"
+          ],
+          "default": "\"clip\"",
+          "description": "Overflow behaviour when content exceeds `maxLines`."
+        },
+        "softWrap": {
+          "description": "When false, the paragraph never wraps and overflow rules apply at the right edge.",
+          "anyOf": [
+            {
+              "type": "boolean",
+              "default": "true",
+              "description": "When false, the paragraph never wraps and overflow rules apply at the right edge."
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression."
+            }
+          ]
         }
       },
       "required": [
         "type",
         "spans"
+      ],
+      "additionalProperties": true
+    },
+    "rive": {
+      "type": "object",
+      "description": "Plays a Rive animation (`.riv` asset) — the alternative to\n`lottieAnimation` when the asset was authored in Rive. State-machine\ninputs are driven via `inputs` so the same asset reacts to host\nstate changes (toggle, scrub, trigger). Distinct from Lottie:\nRive supports interactive state machines, vector deformation, and\nsmaller binary footprints; Lottie is After Effects-based and\nbetter suited to time-driven motion graphics.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "rive"
+          ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
+        "src": {
+          "$ref": "#/$defs/AssetRef",
+          "description": "Rive asset path (`bundle://...riv`, `https://...riv`, `assets/...riv`)."
+        },
+        "artboard": {
+          "type": "string",
+          "description": "Named artboard to render. Defaults to the file's primary artboard."
+        },
+        "animation": {
+          "type": "string",
+          "description": "Named timeline animation. Mutually exclusive with `stateMachine`."
+        },
+        "stateMachine": {
+          "type": "string",
+          "description": "Named state machine. Mutually exclusive with `animation`."
+        },
+        "inputs": {
+          "type": "object",
+          "description": "Map of state-machine input name → value. `boolean` / `number` /\n`trigger` (set to `true` to fire) — type matches the input's\ndeclared type in the Rive file.\n",
+          "additionalProperties": true
+        },
+        "fit": {
+          "type": "string",
+          "enum": [
+            "fill",
+            "contain",
+            "cover",
+            "fitWidth",
+            "fitHeight",
+            "none",
+            "scaleDown"
+          ],
+          "default": "\"contain\"",
+          "description": "How the artboard scales within its render bounds."
+        },
+        "alignment": {
+          "$ref": "#/$defs/Alignment",
+          "description": "Alignment of the artboard within its render bounds."
+        },
+        "width": {
+          "$ref": "#/$defs/Dimension",
+          "description": "Render width in logical pixels."
+        },
+        "height": {
+          "$ref": "#/$defs/Dimension",
+          "description": "Render height in logical pixels."
+        }
+      },
+      "required": [
+        "type",
+        "src"
       ],
       "additionalProperties": true
     },
@@ -8241,6 +11179,13 @@
           "enum": [
             "safeArea"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "child": {
           "$ref": "#/$defs/Widget"
@@ -8258,6 +11203,58 @@
       ],
       "additionalProperties": true
     },
+    "scrollAnimated": {
+      "type": "object",
+      "description": "Animation driven by scroll position rather than time. Wraps a\nchild and reads from an ancestor scroll view's offset. Each\n`binding` maps a scroll-offset window to a property tween — when\nscroll passes through `[fromOffset, toOffset]` the property\ninterpolates between `fromValue` and `toValue` linearly (or via\n`curve`).\n\nCommon uses: parallax masthead (image translates 50% scroll\nspeed), reveal-on-scroll (fade in as element enters viewport),\nshrinking title (font scales as user scrolls down).",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "scrollAnimated"
+          ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
+        "bindings": {
+          "description": "Per-property scroll bindings. Each entry is\n`{property, fromOffset, toOffset, fromValue, toValue, curve?}`:\n- `property` — `opacity` / `scale` / `translateX` /\n  `translateY` / `rotate`. Other properties may be wired by\n  runtime extensions.\n- `fromOffset` / `toOffset` — scroll-position window in\n  logical pixels.\n- `fromValue` / `toValue` — interpolated target values for the\n  property at the window endpoints.\n- `curve` — optional easing across the window. Defaults to\n  `linear`.\n",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "description": "object",
+                "additionalProperties": true
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
+        },
+        "child": {
+          "$ref": "#/$defs/Widget"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Widget"
+          },
+          "description": "Multiple widgets; runtime wraps them into an implicit column. Alternative to `child` — mutually exclusive."
+        }
+      },
+      "required": [
+        "type",
+        "bindings"
+      ],
+      "additionalProperties": true
+    },
     "scrollBar": {
       "type": "object",
       "description": "Wraps a scrollable child with a visible scroll bar.\n\nThe runtime MUST provide a shared scroll controller to both the scroll bar and its scrollable child. When `thumbVisibility` or `trackVisibility` is `true`, the controller is required to drive the visibility; omitting it is a runtime error. Authors SHOULD NOT manage the controller manually — the runtime injects it transparently so the child scrollable (`scrollView`, `singleChildScrollView`, `list`, `grid`, `pageView`) binds to the same position.",
@@ -8267,6 +11264,13 @@
           "enum": [
             "scrollBar"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "thumbVisibility": {
           "description": "Whether the scroll thumb is always visible.",
@@ -8368,7 +11372,7 @@
     },
     "scrollView": {
       "type": "object",
-      "description": "Scrollable viewport wrapping a single child (virtualization not required).",
+      "description": "Scrollable viewport. Two layout modes — pick one per instance:\n\n- **Linear mode** — `child` (single widget) or `children` (wrapped\n  in an implicit linear column along `direction`). Simplest for\n  everyday scrolling content.\n- **Sliver mode** — `slivers` array of `Sliver` primitives. Use\n  for collapsing app bars, sticky section headers, parallax\n  mastheads, or mixing list/grid sections in one viewport.\n\nThe three input slots (`child`, `children`, `slivers`) are\nmutually exclusive.",
       "properties": {
         "type": {
           "type": "string",
@@ -8376,13 +11380,24 @@
             "scrollView"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "direction": {
           "type": "string",
+          "enum": [
+            "vertical",
+            "horizontal"
+          ],
           "default": "\"vertical\"",
-          "description": "`vertical` or `horizontal`."
+          "description": "Scroll axis."
         },
         "padding": {
-          "description": "Inner padding.",
+          "description": "Inner padding around the scrollable content.",
           "anyOf": [
             {
               "type": "number"
@@ -8555,11 +11570,37 @@
             }
           ]
         },
+        "scrollPhysics": {
+          "type": "string",
+          "enum": [
+            "bouncing",
+            "clamping",
+            "neverScrollable"
+          ],
+          "default": "\"clamping\"",
+          "description": "Edge / overscroll behaviour."
+        },
         "child": {
           "$ref": "#/$defs/Widget"
         },
         "children": {
-          "description": "Multiple widgets; the runtime wraps them in a linear column along `direction`. Mutually exclusive with `child`."
+          "description": "Multiple widgets wrapped in an implicit linear column along `direction`. Mutually exclusive with `child` and `slivers`."
+        },
+        "slivers": {
+          "description": "Sliver entries (sliverAppBar / sliverPersistentHeader /\nsliverList / sliverGrid / sliverFixedExtentList). Mutually\nexclusive with `child` and `children`.\n",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Sliver"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         }
       },
       "required": [
@@ -8576,6 +11617,13 @@
           "enum": [
             "segmentedControl"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "binding": {
           "type": "string",
@@ -8682,6 +11730,13 @@
             "dropdown"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "binding": {
           "type": "string",
           "description": "State path bound two-way to the widget value (§2.6.0). Runtime reads/writes this path without requiring an explicit onChange."
@@ -8784,6 +11839,13 @@
           "enum": [
             "signature"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "binding": {
           "type": "string",
@@ -8978,6 +12040,13 @@
             "simpleDialog"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "title": {
           "type": "string",
           "description": "Dialog title."
@@ -8989,6 +12058,9 @@
           "description": "Custom option widgets. Mutually exclusive with `options`."
         },
         "onSelect": {
+          "$ref": "#/$defs/Action"
+        },
+        "onClose": {
           "$ref": "#/$defs/Action"
         }
       },
@@ -9006,6 +12078,13 @@
           "enum": [
             "singleChildScrollView"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "direction": {
           "type": "string",
@@ -9208,6 +12287,13 @@
             "sizedBox"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "width": {
           "description": "Width in logical pixels.",
           "anyOf": [
@@ -9291,6 +12377,13 @@
           "enum": [
             "slider"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "binding": {
           "type": "string",
@@ -9477,6 +12570,13 @@
             "snackBar"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "content": {
           "type": "string",
           "description": "Message text."
@@ -9513,6 +12613,9 @@
         },
         "action": {
           "description": "`{ label, onTap }` optional action."
+        },
+        "onClose": {
+          "$ref": "#/$defs/Action"
         }
       },
       "required": [
@@ -9530,6 +12633,13 @@
           "enum": [
             "spacer"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "flex": {
           "description": "Proportion of available space to occupy.",
@@ -9577,10 +12687,16 @@
             "stack"
           ]
         },
-        "alignment": {
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
           "type": "string",
-          "default": "\"topStart\"",
-          "description": "Alignment of non-positioned children: `topStart`, `topCenter`, `topEnd`, `centerStart`, `center`, `centerEnd`, `bottomStart`, `bottomCenter`, `bottomEnd`."
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
+        "alignment": {
+          "$ref": "#/$defs/Alignment",
+          "description": "Alignment of non-positioned children."
         },
         "fit": {
           "type": "string",
@@ -9597,6 +12713,321 @@
       ],
       "additionalProperties": true
     },
+    "staggeredGrid": {
+      "type": "object",
+      "description": "Pinterest-style masonry layout — items keep their intrinsic height\nand are packed by column without uniform row alignment. Use for\nalbum / book / portfolio shelves where covers have different\naspect ratios. Distinct from `grid` (uniform row alignment) and\n`carousel` (single-axis scrolling).",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "staggeredGrid"
+          ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
+        "items": {
+          "type": "string",
+          "pattern": "^\\{\\{.*\\}\\}$|^[a-zA-Z_][a-zA-Z0-9_.\\[\\]]*$",
+          "description": "Array source. Required when `children` is omitted."
+        },
+        "itemTemplate": {
+          "$ref": "#/$defs/Widget"
+        },
+        "children": {
+          "description": "Static cells. Mutually exclusive with `items` + `itemTemplate`."
+        },
+        "columns": {
+          "description": "Column count; may use responsive `{default, sm, md, lg}`.",
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^\\{\\{.*\\}\\}$",
+                  "description": "Binding expression."
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": "number"
+                    },
+                    "unit": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "value"
+                  ],
+                  "description": "Dimension object: `{value, unit}`."
+                }
+              ]
+            },
+            {
+              "type": "object",
+              "description": "object",
+              "additionalProperties": true
+            }
+          ]
+        },
+        "mainAxisSpacing": {
+          "description": "Gap along the scroll axis (between consecutive items in a column).",
+          "anyOf": [
+            {
+              "type": "number",
+              "default": 0,
+              "description": "Gap along the scroll axis (between consecutive items in a column)."
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression."
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "number"
+                },
+                "unit": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "value"
+              ],
+              "description": "Dimension object: `{value, unit}`."
+            }
+          ]
+        },
+        "crossAxisSpacing": {
+          "description": "Gap across the scroll axis (between columns).",
+          "anyOf": [
+            {
+              "type": "number",
+              "default": 0,
+              "description": "Gap across the scroll axis (between columns)."
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression."
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "number"
+                },
+                "unit": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "value"
+              ],
+              "description": "Dimension object: `{value, unit}`."
+            }
+          ]
+        },
+        "padding": {
+          "description": "Inner padding around the grid.",
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "number"
+                },
+                "unit": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "value"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "all": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "number"
+                        },
+                        "unit": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "value"
+                      ]
+                    }
+                  ]
+                },
+                "horizontal": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "number"
+                        },
+                        "unit": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "value"
+                      ]
+                    }
+                  ]
+                },
+                "vertical": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "number"
+                        },
+                        "unit": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "value"
+                      ]
+                    }
+                  ]
+                },
+                "top": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "number"
+                        },
+                        "unit": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "value"
+                      ]
+                    }
+                  ]
+                },
+                "right": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "number"
+                        },
+                        "unit": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "value"
+                      ]
+                    }
+                  ]
+                },
+                "bottom": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "number"
+                        },
+                        "unit": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "value"
+                      ]
+                    }
+                  ]
+                },
+                "left": {
+                  "anyOf": [
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "number"
+                        },
+                        "unit": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "value"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        "scrollDirection": {
+          "type": "string",
+          "enum": [
+            "vertical",
+            "horizontal"
+          ],
+          "default": "\"vertical\"",
+          "description": "Scroll axis."
+        }
+      },
+      "required": [
+        "type",
+        "columns"
+      ],
+      "additionalProperties": true
+    },
     "stepper": {
       "type": "object",
       "description": "Step-by-step wizard. Shared `binding` / `value` / `enabled` / `onChange` per §2.6.0 — the bound value is the **active step index** (integer). `binding` and `currentStep` are aliases: when `binding` is set, it takes effect; otherwise `currentStep` is read as a one-way property.",
@@ -9606,6 +13037,13 @@
           "enum": [
             "stepper"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "binding": {
           "type": "string",
@@ -9755,6 +13193,13 @@
             "tabBar"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "selectedIndex": {
           "description": "Currently selected index. Defaults to 0 when omitted.",
           "anyOf": [
@@ -9815,6 +13260,13 @@
             "tabBarView"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "selectedIndex": {
           "description": "Displayed index (usually bound to the same state as a `tabBar`).",
           "anyOf": [
@@ -9871,6 +13323,13 @@
           "enum": [
             "table"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "rows": {
           "description": "Row definitions"
@@ -9945,6 +13404,13 @@
           "enum": [
             "terminal"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "lines": {
           "type": "string",
@@ -10118,6 +13584,13 @@
             "text"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "text": {
           "type": "string",
           "description": "Text content. Supports binding expressions."
@@ -10148,16 +13621,12 @@
           "description": "M3 typography role. The runtime resolves it through\n`theme.typography.<variant>` (see `05_Theme.md` § 5.4) and uses the\nresult as the base TextStyle. Inline `style` (if present) overrides\nindividual fields on top of the resolved role.\n"
         },
         "style": {
-          "description": "`fontSize`, `fontWeight`, `color`, `fontFamily`, `letterSpacing`,\n`lineHeight`, `decoration`. Object form is layered on top of\n`variant` when both are set. String form is a binding expression\nthat resolves to a typography object — typically\n`\"{{theme.typography.<role>}}\"`, equivalent to writing\n`variant: \"<role>\"`.\n",
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "object",
-              "additionalProperties": true
-            }
-          ]
+          "$ref": "#/$defs/TextStyle",
+          "description": "Inline `TextStyle` overrides (color, fontWeight, fontSize,\ndecoration, shader, shadows, fontFeatures, …). Layered on top of\n`variant` when both are set. A binding expression\n`\"{{theme.typography.<role>}}\"` is also accepted and resolves to\nthe same role's typography object — equivalent to writing\n`variant: \"<role>\"`.\n"
+        },
+        "dropCap": {
+          "$ref": "#/$defs/DropCap",
+          "description": "Render the first character of `text` as an enlarged drop cap that\nthe surrounding lines flow around (book / magazine ornament).\nMutually exclusive with `maxLines`.\n"
         },
         "maxLines": {
           "description": "Maximum rendered lines.",
@@ -10217,6 +13686,13 @@
             "textFormField",
             "text-form-field"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "binding": {
           "type": "string",
@@ -10434,6 +13910,13 @@
             "timeField"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "binding": {
           "type": "string",
           "description": "State path bound two-way to the widget value (§2.6.0). Runtime reads/writes this path without requiring an explicit onChange."
@@ -10556,6 +14039,13 @@
             "timePicker"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "binding": {
           "type": "string",
           "description": "State path bound two-way to the widget value (§2.6.0). Runtime reads/writes this path without requiring an explicit onChange."
@@ -10664,6 +14154,13 @@
             "timeline"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "items": {
           "description": "Timeline entries"
         },
@@ -10693,6 +14190,13 @@
             "toggle",
             "switch"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "binding": {
           "type": "string",
@@ -10787,6 +14291,13 @@
             "tooltip"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "message": {
           "type": "string",
           "description": "Tooltip text."
@@ -10817,6 +14328,13 @@
           "enum": [
             "transform"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "rotate": {
           "description": "Rotation in radians.",
@@ -10970,6 +14488,13 @@
           "enum": [
             "tree"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "data": {
           "description": "Hierarchical data; each node MAY carry a `children` array. Literal array or binding.",
@@ -11353,6 +14878,13 @@
             "use"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "template": {
           "type": "string",
           "description": "Template name to instantiate."
@@ -11383,6 +14915,13 @@
           "enum": [
             "verticalDivider"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "width": {
           "description": "Total width including spacing.",
@@ -11521,6 +15060,13 @@
             "visibility"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "visible": {
           "description": "Whether the child is visible. Defaults to `true` when omitted.",
           "anyOf": [
@@ -11597,6 +15143,13 @@
           "enum": [
             "webView"
           ]
+        },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "url": {
           "type": "string",
@@ -11736,6 +15289,13 @@
             "wrap"
           ]
         },
+        "click": {
+          "$ref": "#/$defs/Action"
+        },
+        "tooltip": {
+          "type": "string",
+          "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
+        },
         "direction": {
           "type": "string",
           "default": "\"horizontal\"",
@@ -11828,7 +15388,19 @@
           "$ref": "#/$defs/align"
         },
         {
+          "$ref": "#/$defs/animatedAlign"
+        },
+        {
           "$ref": "#/$defs/animatedContainer"
+        },
+        {
+          "$ref": "#/$defs/animatedDefaultTextStyle"
+        },
+        {
+          "$ref": "#/$defs/animatedOpacity"
+        },
+        {
+          "$ref": "#/$defs/animatedPositioned"
         },
         {
           "$ref": "#/$defs/aspectRatio"
@@ -11865,6 +15437,9 @@
         },
         {
           "$ref": "#/$defs/card"
+        },
+        {
+          "$ref": "#/$defs/carousel"
         },
         {
           "$ref": "#/$defs/center"
@@ -11978,6 +15553,9 @@
           "$ref": "#/$defs/heatmap"
         },
         {
+          "$ref": "#/$defs/hero"
+        },
+        {
           "$ref": "#/$defs/icon"
         },
         {
@@ -11985,6 +15563,9 @@
         },
         {
           "$ref": "#/$defs/image"
+        },
+        {
+          "$ref": "#/$defs/imageFilter"
         },
         {
           "$ref": "#/$defs/indexedStack"
@@ -11999,6 +15580,9 @@
           "$ref": "#/$defs/intrinsicWidth"
         },
         {
+          "$ref": "#/$defs/kenBurnsImage"
+        },
+        {
           "$ref": "#/$defs/layoutBuilder"
         },
         {
@@ -12006,6 +15590,9 @@
         },
         {
           "$ref": "#/$defs/lazy"
+        },
+        {
+          "$ref": "#/$defs/lightbox"
         },
         {
           "$ref": "#/$defs/limitedBox"
@@ -12092,7 +15679,13 @@
           "$ref": "#/$defs/richText"
         },
         {
+          "$ref": "#/$defs/rive"
+        },
+        {
           "$ref": "#/$defs/safeArea"
+        },
+        {
+          "$ref": "#/$defs/scrollAnimated"
         },
         {
           "$ref": "#/$defs/scrollBar"
@@ -12129,6 +15722,9 @@
         },
         {
           "$ref": "#/$defs/stack"
+        },
+        {
+          "$ref": "#/$defs/staggeredGrid"
         },
         {
           "$ref": "#/$defs/stepper"

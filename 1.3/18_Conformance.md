@@ -267,7 +267,7 @@ When an advanced widget is absent (either because the runtime does not claim the
 Runtimes claiming the Template Profile at v1.1 or later MUST implement [`09_Templates.md`](09_Templates.md):
 
 - The `use` and `template` widget types (§9.1, §9.2, §9.6).
-- Both map-key and inline-`name` template-definition forms, with the precedence rule in §9.2.4.
+- Map-key template-definition form (§9.2.1).
 - Parameter validation via `TemplateParamDefinition.validate()` (§9.3.1).
 - Slot resolution (§9.4).
 - Scoped styles with the isolation rules in §9.5.1 and the resolution order in §9.5.2.

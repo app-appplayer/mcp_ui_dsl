@@ -348,17 +348,27 @@ Channels are long-lived bidirectional streams declared at the page or applicatio
   "channels": {
     "fileWatch": {
       "type": "client.watchFile",
-      "path": "./config.json",
-      "events": ["change", "rename", "delete"]
+      "params": { "path": "./config.json", "events": ["change", "rename", "delete"] }
     },
     "systemMonitor": {
       "type": "client.systemMonitor",
-      "metrics": ["cpu", "memory"],
-      "interval": 1000
+      "params": { "metrics": ["cpu", "memory"], "interval": 1000 }
     }
   }
 }
 ```
+
+ChannelDefinition fields:
+
+| Field | Type | Required | Since | Description |
+|-------|------|:--------:|:-----:|-------------|
+| `type` | string | yes | v1.0 | Channel type — one of the values listed in §8.6.2 (e.g. `client.watchFile`, `client.poll`). |
+| `params` | object | no | v1.0 | Type-specific parameters per §8.6.2 (e.g. `{ path, events }` for `client.watchFile`). |
+| `url` | string | no | v1.0 | Endpoint URL for transport-style channels (`client.websocket` etc.). |
+| `tool` | string | no | v1.0 | MCP tool name to invoke when the channel kind dispatches via tool call (e.g. `client.poll` driving a server tool). |
+| `binding` | string | no | v1.0 | Override for where the latest payload binds. Default is `channels.<name>`; setting `binding` redirects to a custom path. |
+| `lifecycle` | ChannelLifecycle | no | v1.0 | Lifecycle config — see §8.6.5. |
+| `onMessage` / `onError` / `onConnect` / `onDisconnect` | Action | no | v1.0 | Callbacks — see §8.6.4. |
 
 ### 8.6.2 Channel Types
 

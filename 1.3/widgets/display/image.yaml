@@ -22,7 +22,7 @@ properties:
     default: "\"contain\""
     description: "`cover`, `contain`, `fill`, `none`, `scaleDown`, `fitHeight`, `fitWidth`."
   alignment:
-    type: "string"
+    type: Alignment
     default: "\"center\""
     description: "Alignment within bounds."
 # examples migrated verbatim from prose JSON fences.

@@ -5,9 +5,9 @@ description: |
   Overlapping children. Non-positioned children align per `alignment`; positioned children use explicit offsets (see `positioned`).
 properties:
   alignment:
-    type: "string"
+    type: Alignment
     default: "\"topStart\""
-    description: "Alignment of non-positioned children: `topStart`, `topCenter`, `topEnd`, `centerStart`, `center`, `centerEnd`, `bottomStart`, `bottomCenter`, `bottomEnd`."
+    description: Alignment of non-positioned children.
   fit:
     type: "string"
     default: "\"loose\""

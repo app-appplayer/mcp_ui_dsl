@@ -18,6 +18,12 @@ Widgets supporting implicit animation:
 | `animatedContainer` | always implicit | 300 ms | v1.0 |
 | `opacity` | optional (`animated: true`) | 300 ms | v1.3 |
 | `transform` | optional (`animated: true`) | 300 ms | v1.3 |
+| `animatedOpacity` | always implicit | 300 ms | v1.3 |
+| `animatedAlign` | always implicit | 300 ms | v1.3 |
+| `animatedPositioned` | always implicit | 300 ms | v1.3 |
+| `animatedDefaultTextStyle` | always implicit | 300 ms | v1.3 |
+
+The four `animated*` widgets (since v1.3) are dedicated implicit-animation wrappers — distinct from the `opacity` / `transform` widgets that gate animation behind `animated: true`. Each wraps a single property domain (opacity, alignment, edge offsets, default text style) and has no static-rendering mode. Use them when an animation is unconditional; use `opacity` / `transform` with `animated` toggled when an author needs to switch between animated and static.
 
 ### 16.1.1 Shape
 
@@ -102,82 +108,85 @@ The `animation` action drives a named property on a target widget from one value
 
 `ApplicationDefinition` MAY declare a default page transition, and individual `navigation` actions MAY override it per transition:
 
+Page transitions are declared via the `RouteTransition` primitive (`configs/_primitive/RouteTransition.yaml`). Two attachment points:
+
+**Per-route default** — wrap the route value in `{ page, transition }`. Every navigation to that route uses the declared transition.
+
 ```json
 {
-  "type": "application",
-  "navigation": {
-    "pageTransition": {
-      "type": "slide",
-      "direction": "right",
-      "duration": 300,
-      "curve": "easeInOut"
+  "routes": {
+    "/book/:id": {
+      "page": "ui://book/details",
+      "transition": {
+        "style": "sharedAxis",
+        "axis": "horizontal",
+        "duration": 350,
+        "curve": "emphasized"
+      }
     }
   }
 }
 ```
 
-Per-action override:
+**Per-call override** — pass a `transition` field on the `navigate` action.
 
 ```json
 {
   "type": "navigation",
   "action": "push",
   "route": "/detail/{{item.id}}",
-  "pageTransition": { "type": "fade", "duration": 250 }
+  "transition": { "style": "fade", "duration": 250 }
 }
 ```
 
-### 16.3.1 Transition Types
+### 16.3.1 Transition Styles
 
-| Type | Effect |
-|------|--------|
-| `slide` | New page slides in from a direction |
-| `fade` | New page fades in over old |
-| `scale` | New page scales in from a pivot |
-| `slideFade` | Combined slide and fade |
-| `rotation` | New page rotates in |
-| `custom` | Application-supplied animation; payload is runtime-specific |
-| `none` | No animation |
+The `RouteTransition.style` enum carries six canonical styles (Material 3 motion-pattern aligned):
+
+| Style | Effect |
+|-------|--------|
+| `slide` | Incoming page slides over the outgoing along `axis` (M3 default for forward navigation). |
+| `fade` | Cross-fade between pages at the same position. |
+| `scale` | Outgoing scales out, incoming scales in. |
+| `cube` | Perspective-rotate as if turning a 3D cube. Needs a perspective-aware compositor — falls back to `slide` when unavailable. |
+| `sharedAxis` | Coordinated slide+fade across an axis. M3 motion pattern for sibling-level navigation. |
+| `fadeThrough` | Outgoing fades out while incoming fades in after a brief zero-opacity bridge. M3 motion pattern for top-level navigation. |
 
 ### 16.3.2 Transition Fields
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `type` | transition type | Yes | See §16.3.1 |
-| `direction` | `"left"` \| `"right"` \| `"up"` \| `"down"` | When `type` is `slide` / `slideFade` | Slide direction |
-| `duration` | number (ms) | No | Default 300 |
-| `curve` | string \| object | No | See §16.6 |
-| `pivot` | `{ "x": number, "y": number }` | No (scale / rotation) | Fractional pivot (0.0–1.0) |
+| `style` | enum | Yes | See §16.3.1. |
+| `duration` | number (ms) | No | Defaults to the M3 motion-system value for the chosen style. |
+| `curve` | `AnimationCurve` | No | Defaults to `emphasized`. See §16.6. |
+| `axis` | `"horizontal"` \| `"vertical"` | No | Direction for `slide` / `sharedAxis`. Defaults to `horizontal`. |
+| `reverse` | boolean | No | When true, run in reverse direction (back navigation). |
 
 ---
 
 ## 16.4 Shared Element Transitions
 
-Widgets with matching `sharedElementConfig.tag` on the source and destination pages morph between pages during navigation:
+Wrap a child widget with the `hero` widget (§ 2.12.5) on BOTH the source page AND the destination page using the same `tag`; the runtime morphs the source widget's bounds → destination widget's bounds during the route transition. Pairs naturally with `RouteTransition` styles such as `fade`, `sharedAxis`, or `fadeThrough` — the hero morph runs concurrently with the page-level transition.
 
 ```json
 {
-  "type": "image",
-  "src": "{{item.image}}",
-  "sharedElementConfig": {
-    "tag": "hero-{{item.id}}",
-    "transitionDuration": 400,
-    "curve": "easeInOut"
+  "type": "hero",
+  "tag": "album-{{album.id}}",
+  "child": {
+    "type": "image",
+    "src": "{{album.cover}}",
+    "fit": "cover"
   }
 }
 ```
 
 ### 16.4.1 Fields
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| `tag` | string | Yes | Identifier matched between pages |
-| `transitionDuration` | number (ms) | No | Default 300 |
-| `curve` | string \| object | No | See §16.6 |
+See § 2.12.5 for the full field table. Tags MUST be unique within each page (a single page cannot host two `hero`s with the same tag).
 
 ### 16.4.2 Semantics
 
-During navigation, if a widget on the destination page carries the same `tag` as one on the source, the runtime animates the source widget's geometry (position, size) to the destination widget's geometry over `transitionDuration`. Multiple shared elements animate in parallel.
+During navigation, if a `hero` on the destination page carries the same `tag` as one on the source, the runtime animates the source widget's geometry (position, size) to the destination widget's geometry. Multiple shared elements animate in parallel. Setting `transitionOnUserGestures: true` extends the morph to gesture-driven back navigation (iOS swipe-from-edge).
 
 Shared-element transitions are optional. A runtime that does not support them MUST render both source and destination normally without a morph.
 
@@ -219,23 +228,24 @@ A curve is either a named string or a cubic Bezier object.
 
 ### 16.6.1 Named Curves
 
-| Name | Shape |
-|------|-------|
-| `linear` | Constant velocity |
-| `easeIn` | Starts slow, accelerates |
-| `easeOut` | Starts fast, decelerates |
-| `easeInOut` | Slow at both ends |
-| `fastOutSlowIn` | Material standard easing |
-| `slowMiddle` | Slow in the middle, fast at ends |
-| `bounceIn` | Bounces at the start |
-| `bounceOut` | Bounces at the end |
-| `bounceInOut` | Bounces at both ends |
-| `elasticIn` | Elastic overshoot at start |
-| `elasticOut` | Elastic overshoot at end |
-| `elasticInOut` | Elastic overshoot at both ends |
-| `decelerate` | Fast start, slow end (alias of `easeOut` variant) |
+The `AnimationCurve` primitive (`configs/_primitive/AnimationCurve.yaml`) is the canonical 12-value enum used wherever a curve is referenced (`animatedContainer.curve`, `animatedOpacity.curve`, `RouteTransition.curve`, `scrollAnimated` per-binding curve, etc.).
 
-Runtimes MUST implement all named curves.
+| Name | Shape | Group |
+|------|-------|-------|
+| `linear` | Constant velocity | CSS-familiar |
+| `easeIn` | Starts slow, accelerates | CSS-familiar |
+| `easeOut` | Starts fast, decelerates | CSS-familiar |
+| `easeInOut` | Slow at both ends | CSS-familiar |
+| `standard` | M3 standard motion — minimal overshoot, clean cubic | M3 standard |
+| `standardAccelerate` | M3 standard, accelerate-only | M3 standard |
+| `standardDecelerate` | M3 standard, decelerate-only | M3 standard |
+| `emphasized` | M3 emphasized — dramatic acceleration profile | M3 emphasized |
+| `emphasizedAccelerate` | M3 emphasized, accelerate-only | M3 emphasized |
+| `emphasizedDecelerate` | M3 emphasized, decelerate-only | M3 emphasized |
+| `bounceIn` | Bounces at the start | Bounce |
+| `bounceOut` | Bounces at the end | Bounce |
+
+Use M3 standard for everyday transitions; M3 emphasized for hero / page transitions; bounce for attention micro-interactions. Runtimes MUST implement all 12.
 
 ### 16.6.2 Cubic Bezier
 
@@ -300,11 +310,28 @@ An animation MAY be driven by scroll position:
 
 Scroll-linked animation is optional. Runtimes that do not support it render the target with its initial property values.
 
+The `scrollAnimated` widget (since v1.3, § 2.12.10) is the dedicated wrapper for scroll-linked animation: each binding maps a scroll-offset window to a property tween (`opacity` / `scale` / `translateX` / `translateY` / `rotate`). Use it for parallax mastheads, reveal-on-scroll, and shrinking titles without writing the inline `animation: { driver: "scroll" }` block on every target.
+
+```json
+{
+  "type": "scrollAnimated",
+  "bindings": [
+    { "property": "translateY", "fromOffset": 0, "toOffset": 240, "fromValue": 0, "toValue": -120 }
+  ],
+  "child": { "type": "image", "src": "{{cover}}", "fit": "cover" }
+}
+```
+
 ---
 
 ## 16.9 Lottie / Rive Integration
 
-`lottieAnimation` renders a Lottie JSON animation:
+Two widgets cover authored animation files:
+
+- `lottieAnimation` — for After Effects-derived Lottie JSON. Time-driven motion graphics.
+- `rive` (since v1.3, § 2.12.11) — for Rive `.riv` files. Supports interactive state machines, vector deformation, and smaller binary footprints than Lottie.
+
+### `lottieAnimation`
 
 ```json
 {
@@ -325,7 +352,25 @@ Scroll-linked animation is optional. Runtimes that do not support it render the 
 | `loop` | boolean | `true` | Repeat indefinitely |
 | `speed` | number | 1.0 | Playback speed multiplier |
 
-Support is optional. Runtimes without a Lottie engine SHOULD render a placeholder box of the requested size.
+### `rive`
+
+```json
+{
+  "type": "rive",
+  "src": "bundle://avatars/dragon.riv",
+  "stateMachine": "Idle",
+  "inputs": {
+    "happy": "{{user.online}}",
+    "wave":  "{{justGreeted}}"
+  },
+  "width": 120,
+  "height": 120
+}
+```
+
+State-machine `inputs` accept `boolean` / `number` / `trigger` types matching the input declared in the Rive file. `trigger` inputs fire when set to `true`. See § 2.12.11 for the full property table.
+
+Support is optional. Runtimes without a Lottie / Rive engine SHOULD render a placeholder box of the requested size.
 
 ---
 

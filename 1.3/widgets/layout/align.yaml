@@ -5,9 +5,9 @@ description: |
   Aligns a single child at a specified alignment.
 properties:
   alignment:
-    type: "string"
+    type: Alignment
     default: "\"center\""
-    description: "`topStart`, `topCenter`, `topEnd`, `centerStart`, `center`, `centerEnd`, `bottomStart`, `bottomCenter`, `bottomEnd`. Defaults to `center` when omitted."
+    description: Alignment of the child within this widget's bounds. Defaults to `center` when omitted.
   child:
     type: "Widget"
     required: true

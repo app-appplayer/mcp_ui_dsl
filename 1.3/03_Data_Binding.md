@@ -95,7 +95,7 @@ Full prefix catalog is maintained in [`17_Naming.md`](17_Naming.md) §17.2.5. Su
 | Prefix | Since | Scope | Access |
 |--------|-------|-------|--------|
 | *(bare)* | v1.0 | Resolved by order in §3.4 | Read-write (resolved target) |
-| `page.` | v1.0 | Current page state | Read-write |
+| `page.` | v1.0 | Current page state (explicit alias of the bare resolution target) | Read-write |
 | `app.` | v1.0 | Application-wide state | Read-write |
 | `local.` | v1.3 | Template instance state | Read-write |
 | `route.params.` | v1.0 | Current route parameters | Read-only |
@@ -281,10 +281,11 @@ A watcher triggers actions when a state path changes.
 
 When a `tool` action succeeds, the runtime parses the response text as JSON and merges each top-level key into page state.
 
-1. Top-level keys in the response become page state variables.
-2. Nested objects replace existing values (no deep merge).
+1. Top-level keys in the response become page state variables. Merged keys are available at the page root (e.g. `{{counter}}`) and equivalently via the explicit `page.*` prefix (e.g. `{{page.counter}}`) — see §3.5.
+2. Nested objects replace existing values (no deep merge). **Lists in the response REPLACE existing lists; the runtime does not append.** Authors who need to accumulate items MUST use a `state` action with `action: append` (see [`04_Actions.md`](04_Actions.md) §4.2) inside `onSuccess`, not rely on auto-merge.
 3. Widgets bound to changed keys re-render.
 4. Auto-merge is skipped when the tool action specifies `bindResult`; the full result is stored at that path instead.
+5. **Non-Map responses (list, scalar, or `null`) are not auto-merged.** If `bindResult` is set, the runtime stores the raw value at that path. If `bindResult` is absent, the runtime skips the merge silently and SHOULD emit a warning log; page state is unchanged. Authors that expect a non-Map response MUST declare `bindResult` (or transform the value in `onSuccess` via a `state` action).
 
 ## 3.11 StateChangeEvent
 

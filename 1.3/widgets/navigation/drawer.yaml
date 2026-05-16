@@ -16,6 +16,9 @@ properties:
   onSelect:
     type: "Action"
     description: "Fired when an item is selected."
+  onClose:
+    type: "Action"
+    description: "Fired when the drawer is dismissed (modal: scrim tap or escape; permanent: not fired)."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

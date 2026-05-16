@@ -15,6 +15,9 @@ properties:
   action:
     type: "SnackBarAction"
     description: "`{ label, onTap }` optional action."
+  onClose:
+    type: Action
+    description: "Fired when the snackbar is dismissed (timeout, swipe-away, or `action.onTap` complete)."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

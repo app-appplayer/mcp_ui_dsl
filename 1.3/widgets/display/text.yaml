@@ -34,14 +34,20 @@ properties:
       result as the base TextStyle. Inline `style` (if present) overrides
       individual fields on top of the resolved role.
   style:
-    type: ["string", "object"]
+    type: TextStyle
     description: |
-      `fontSize`, `fontWeight`, `color`, `fontFamily`, `letterSpacing`,
-      `lineHeight`, `decoration`. Object form is layered on top of
-      `variant` when both are set. String form is a binding expression
-      that resolves to a typography object — typically
-      `"{{theme.typography.<role>}}"`, equivalent to writing
+      Inline `TextStyle` overrides (color, fontWeight, fontSize,
+      decoration, shader, shadows, fontFeatures, …). Layered on top of
+      `variant` when both are set. A binding expression
+      `"{{theme.typography.<role>}}"` is also accepted and resolves to
+      the same role's typography object — equivalent to writing
       `variant: "<role>"`.
+  dropCap:
+    type: DropCap
+    description: |
+      Render the first character of `text` as an enlarged drop cap that
+      the surrounding lines flow around (book / magazine ornament).
+      Mutually exclusive with `maxLines`.
   maxLines:
     type: "number"
     description: "Maximum rendered lines."

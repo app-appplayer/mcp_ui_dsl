@@ -2,19 +2,72 @@ type: scrollView
 category: scroll
 profile: Core
 description: |
-  Scrollable viewport wrapping a single child (virtualization not required).
+  Scrollable viewport. Two layout modes — pick one per instance:
+
+  - **Linear mode** — `child` (single widget) or `children` (wrapped
+    in an implicit linear column along `direction`). Simplest for
+    everyday scrolling content.
+  - **Sliver mode** — `slivers` array of `Sliver` primitives. Use
+    for collapsing app bars, sticky section headers, parallax
+    mastheads, or mixing list/grid sections in one viewport.
+
+  The three input slots (`child`, `children`, `slivers`) are
+  mutually exclusive.
 properties:
   direction:
-    type: "string"
+    type: string
+    enum: [vertical, horizontal]
     default: "\"vertical\""
-    description: "`vertical` or `horizontal`."
+    description: Scroll axis.
   padding:
-    type: "EdgeInsets"
-    description: "Inner padding."
+    type: EdgeInsets
+    description: Inner padding around the scrollable content.
+  scrollPhysics:
+    type: string
+    enum: [bouncing, clamping, neverScrollable]
+    default: "\"clamping\""
+    description: Edge / overscroll behaviour.
   child:
-    type: "Widget"
-    description: "Scrolled content. Required when `children` is omitted."
+    type: Widget
+    description: Single scrolled child. Mutually exclusive with `children` and `slivers`.
   children:
     type: "Widget[]"
-    description: "Multiple widgets; the runtime wraps them in a linear column along `direction`. Mutually exclusive with `child`."
-# examples migrated verbatim from prose JSON fences.
+    description: Multiple widgets wrapped in an implicit linear column along `direction`. Mutually exclusive with `child` and `slivers`.
+  slivers:
+    type: array<Sliver>
+    description: |
+      Sliver entries (sliverAppBar / sliverPersistentHeader /
+      sliverList / sliverGrid / sliverFixedExtentList). Mutually
+      exclusive with `child` and `children`.
+examples:
+  - name: linear_mode
+    dsl: |
+      {
+        "type": "scrollView",
+        "direction": "vertical",
+        "padding": { "all": 16 },
+        "children": [
+          { "type": "text", "text": "Hello" },
+          { "type": "text", "text": "World" }
+        ]
+      }
+  - name: sliver_mode_collapsing_app_bar
+    dsl: |
+      {
+        "type": "scrollView",
+        "slivers": [
+          {
+            "type": "sliverAppBar",
+            "expandedHeight": 240,
+            "pinned": true,
+            "stretch": true,
+            "title": { "type": "text", "text": "Library" },
+            "background": { "type": "image", "src": "{{cover}}", "fit": "cover" }
+          },
+          {
+            "type": "sliverList",
+            "items": "{{books}}",
+            "itemTemplate": { "type": "listItem", "title": "{{item.title}}" }
+          }
+        ]
+      }

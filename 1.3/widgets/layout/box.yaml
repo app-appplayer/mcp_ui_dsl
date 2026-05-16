@@ -39,18 +39,24 @@ properties:
     type: EdgeInsets
     description: Space outside the box, between the box and its parent.
   alignment:
-    type: string
-    enum: [topLeft, topCenter, topRight, centerLeft, center, centerRight, bottomLeft, bottomCenter, bottomRight]
-    description: Alignment of the child inside the box when the box is larger than the child.
+    type: Alignment
+    description: |
+      Alignment of the child inside the box when the box is larger
+      than the child. See the `Alignment` primitive for the canonical
+      9-token directional set and the `{x, y}` numeric form.
   color:
     type: Color
     description: Solid background color. Shorthand for `decoration.color`; mutually exclusive with `decoration`.
     aliases:
       - backgroundColor
   decoration:
-    type: "object{ color: Color, borderRadius: number, border: object, boxShadow: array<object>, gradient: object }"
+    type: BoxDecoration
     description: |
-      Visual decoration. When set, do NOT also set top-level `color` — the runtime treats `decoration` as authoritative.
+      Visual decoration. Mutually exclusive with the top-level `color`
+      shorthand — when both are present `decoration` wins. See the
+      `BoxDecoration` $def for the full property set: `color`,
+      `gradient`, `image`, `border`, `borderRadius`, `boxShadow`,
+      `shape`, `backdropBlur`.
 
 children:
   kind: single

@@ -2,23 +2,29 @@ type: icon
 category: display
 profile: Core
 description: |
-  Displays an icon. The `icon` property accepts three forms so authors can
-  pick the lightest option for the asset they need:
+  Displays an icon. The `icon` property accepts five source forms — pick
+  the lightest option that fits the asset:
 
-  1. **Named (built-in)** — a string that matches a Material Icon name in the
-     runtime's resolver table (e.g. `"home"`, `"folder_open"`). Zero-cost;
-     common icons are always available.
-  2. **Codepoint** — object `{codepoint, fontFamily?, fontPackage?}` for any
-     Material Icons codepoint that isn't in the name table
-     (`{"codepoint": 0xe88a}` renders the same glyph as `"home"`).
-  3. **URL** — string starting with `http://` / `https://` (SVG or raster
-     image). The runtime fetches and caches the asset at first render; no
-     bundled asset needed. Useful for app-specific or third-party icon sets.
+  1. **Named (built-in)** — `"home"`, `"folder_open"`, … from the runtime's
+     Material Icons resolver table. Zero-cost.
+  2. **Codepoint** — `{codepoint, fontFamily?, fontPackage?}` for Material
+     Icons codepoints not in the name table.
+  3. **URL** — `https://…` or `http://…` (raster or SVG). Fetched and cached
+     at first render.
+  4. **Bundle SVG asset** — `assets/icons/<name>.svg` resolved from the bundle
+     asset map. Used for app-specific icon sets shipped with the bundle.
+  5. **Local SVG inline** — `data:image/svg+xml;…` data URI for one-off icons
+     embedded directly in the DSL.
+
+  The optional `shader` field paints the icon with a gradient/shader fill
+  (rather than a solid `color`). When both are set the shader wins.
 properties:
   icon:
     type: "string | object"
     required: true
-    description: "Name (`\"home\"`), URL (`\"https://.../icon.svg\"`), or codepoint object (`{codepoint: 0xe88a}`)."
+    description: |
+      Name, URL, bundle path, data URI, or codepoint object — see the
+      five forms documented in the widget summary.
   size:
     type: ["string", "number"]
     description: |
@@ -33,8 +39,16 @@ properties:
       via `size`; resolves through `AppIconSizes.of(context)` and tracks
       the form-factor scale (compact / medium / desktop / embedded).
   color:
-    type: "Color"
-    description: "Icon color. Applied to named / codepoint forms; for URL form it tints raster icons when supported."
+    type: Color
+    description: |
+      Icon color. Applied to named / codepoint / SVG forms; for raster
+      `URL` form it tints when supported. Ignored when `shader` is set.
+  shader:
+    type: Gradient
+    description: |
+      Gradient/shader fill (linear / radial / sweep). Painted via a
+      shader mask over the icon's glyph alpha. Mutually exclusive with
+      `color` — when both are present `shader` wins.
 examples:
   - name: named
     dsl: |
@@ -42,6 +56,23 @@ examples:
   - name: codepoint
     dsl: |
       { "type": "icon", "icon": { "codepoint": 59530 }, "size": 24 }
-  - name: url
+  - name: url_raster
     dsl: |
-      { "type": "icon", "icon": "https://raw.githubusercontent.com/google/material-design-icons/master/png/action/settings/materialicons/48dp/2x/baseline_settings_black_48dp.png", "size": 32 }
+      { "type": "icon", "icon": "https://example.com/icon.png", "size": 32 }
+  - name: bundle_svg
+    dsl: |
+      { "type": "icon", "icon": "assets/icons/heart.svg", "size": 32 }
+  - name: gradient_shader
+    description: Icon painted with a linear gradient instead of a solid color.
+    dsl: |
+      {
+        "type": "icon",
+        "icon": "favorite",
+        "size": 48,
+        "shader": {
+          "type": "linear",
+          "colors": ["#FF6B6B", "#FFD93D"],
+          "begin": "topStart",
+          "end": "bottomEnd"
+        }
+      }

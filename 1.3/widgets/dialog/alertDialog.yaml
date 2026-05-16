@@ -21,6 +21,9 @@ properties:
     type: boolean
     default: true
     description: Whether tapping outside the dialog closes it.
+  onClose:
+    type: Action
+    description: "Fired when the dialog is dismissed without one of `actions[].onTap` being selected (e.g., outside-tap when `dismissible: true`, escape key)."
   actions:
     type: "array<object{ label: string, variant: string, primary: boolean, onTap: Action }>"
     description: |

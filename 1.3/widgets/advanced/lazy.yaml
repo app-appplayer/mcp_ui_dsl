@@ -17,9 +17,9 @@ properties:
     description: "Multiple deferred widgets; runtime wraps them in a linear column."
   trigger:
     type: "string"
-    enum: ["viewport", "immediate", "manual"]
-    default: "viewport"
-    description: "`viewport` renders when scrolled into view; `immediate` renders on mount; `manual` renders when a `load()` signal is received."
+    enum: ["visible", "immediate", "manual"]
+    default: "visible"
+    description: "`visible` renders when the widget becomes visible to the user (typically scrolled into view); `immediate` renders on mount; `manual` renders when a `load()` signal is received."
   onLoad:
     type: "Action"
     default: null

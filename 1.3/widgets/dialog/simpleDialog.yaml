@@ -16,4 +16,7 @@ properties:
   onSelect:
     type: "Action"
     description: "Fired when an option is chosen."
+  onClose:
+    type: "Action"
+    description: "Fired when the dialog is dismissed without an option being selected."
 # examples migrated verbatim from prose JSON fences.
