@@ -67,7 +67,7 @@
     }
   },
   "additionalProperties": false,
-  "description": "Theme tokens per docs/05_Theme.md. M3 명명 + DTCG-friendly + shadcn-style semantic. legacy alias 없음.",
+  "description": "Theme tokens per docs/05_Theme.md. M3 naming + DTCG-friendly + shadcn-style semantic. No legacy aliases.",
   "$defs": {
     "Alignment": {
       "oneOf": [
