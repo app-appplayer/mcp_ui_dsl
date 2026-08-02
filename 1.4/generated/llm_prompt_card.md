@@ -56,9 +56,6 @@ Format per widget:
 - properties: `click?: Action`, `tooltip?: string`, `columns: array<object> | binding`, `itemTemplate: Widget`, `itemKey?: string`, `draggable?: boolean`, `columnWidth?: Dimension`, `optimistic?: boolean`
 - events: `onCardMove`, `onCardClick`
 
-### `lazy` *(since v1.0)*
-- properties: `click?: Action`, `tooltip?: string`, `placeholder?: Widget`, `content?: Widget | object`, `child?: Widget`, `children?: array<Widget>`, `trigger?: string`, `onLoad?: Action`, `onError?: Action`
-
 ### `lightbox` *(since v1.3)*
 - properties: `click?: Action`, `tooltip?: string`, `images: array<AssetRef>`, `initialIndex?: number`, `allowZoom?: boolean`, `maxZoom?: number`, `allowSwipe?: boolean`, `backgroundColor?: Color`, `onIndexChanged?: Action`, `onClose?: Action`
 
@@ -533,6 +530,9 @@ Format per widget:
 
 ### `layoutBuilder`
 - properties: `click?: Action`, `tooltip?: string`, `breakpoints?: object`, `layouts?: object`, `default?: Widget`
+
+### `lazy` *(since v1.0)*
+- properties: `click?: Action`, `tooltip?: string`, `placeholder?: Widget`, `content?: Widget | object`, `child?: Widget`, `children?: array<Widget>`, `trigger?: string`, `onLoad?: Action`, `onError?: Action`
 
 ### `limitedBox`
 - properties: `click?: Action`, `tooltip?: string`, `maxWidth?: number`, `maxHeight?: number`, `child: Widget`

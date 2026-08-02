@@ -84,7 +84,7 @@ Run `dart run tools/spec_codegen/bin/spec_codegen.dart` to regenerate.
 | `kanban` | advanced | Advanced | v1.4 | — |
 | `kenBurnsImage` | display | Core | v1.3 | — |
 | `layoutBuilder` | utility | Core | — | — |
-| `lazy` | advanced | Core | v1.0 | — |
+| `lazy` | utility | Core | v1.0 | — |
 | `lightbox` | advanced | Core | v1.3 | — |
 | `limitedBox` | utility | Core | — | — |
 | `linear` | layout | Core | — | `row`, `column` |
@@ -2900,9 +2900,9 @@ Runtime-only responsive container: picks a child by matching the current constra
 
 ---
 
-## `lazy`  *(advanced · Core · v1.0)*
+## `lazy`  *(utility · Core · v1.0)*
 
-Defer rendering of an expensive subtree until it enters the viewport (or until explicitly loaded). `lazy` belongs to the Utility group in [`02_Widgets.md`](02_Widgets.md) and is listed here because its schema pairs conceptually with the heavy Advanced widgets above.
+Defer rendering of an expensive subtree until it enters the viewport (or until explicitly loaded).
 
 ### Properties
 

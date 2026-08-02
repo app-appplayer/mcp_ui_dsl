@@ -2264,11 +2264,11 @@ Embeds a definition sourced from anywhere — including another MCP origin — a
 
 ### 2.13.2 `lazy`
 
-Defers construction of a child until it is first rendered.
-
-| Property | Type | Required | Default | Description |
-|----------|------|----------|---------|-------------|
-| `child` | Widget | yes | — | Deferred child. |
+Defers rendering of a subtree until it is needed. Documented in full at
+[`10_Advanced_Widgets.md`](10_Advanced_Widgets.md) §10.22 — it sits there
+because its trigger and error handling are the same shape as the heavy
+widgets around it, but it is a Utility widget and is registered as one
+(§17.2.1).
 
 ### 2.13.3 `fittedBox`
 
