@@ -25,7 +25,7 @@ properties:
     type: "Widget"
     description: "Template rendered per bound item. Required with `items`. Iteration variables `item`, `index`, `isFirst`, `isLast`, `isEven`, `isOdd` are in scope."
   children:
-    type: "Widget[]"
+    type: "array<Widget>"
     description: "Static list of widgets. Mutually exclusive with `items` + `itemTemplate`."
   spacing:
     type: "number"

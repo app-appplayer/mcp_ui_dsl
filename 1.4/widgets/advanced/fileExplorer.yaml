@@ -6,16 +6,16 @@ description: |
   File and directory browser.
 properties:
   items:
-    type: "binding"
+    type: "array<object> | binding"
     description: "Hierarchical `{ name, path, type, children? }` tree. Required when `rootPath`/`files`/`directories` legacy props are omitted."
   rootPath:
     type: "string"
     description: "Legacy: root path string; pairs with flat `files` / `directories`."
   files:
-    type: "string[]"
+    type: "array<string>"
     description: "Legacy: flat file list (alternative to hierarchical `items`)."
   directories:
-    type: "string[]"
+    type: "array<string>"
     description: "Legacy: flat directory list (alternative to hierarchical `items`)."
   showIcons:
     type: "boolean"

@@ -26,7 +26,7 @@ properties:
     type: number
     description: "Fixed row height in logical pixels. Required when `virtualScroll` is true."
   columns:
-    type: "Column[]"
+    type: "array<Column>"
     required: true
     description: "Column definitions"
   columns[].key:
@@ -51,7 +51,7 @@ properties:
     default: "start"
     description: "Horizontal text alignment."
   rows:
-    type: "binding"
+    type: "array<object> | binding"
     required: true
     description: "Array of row objects"
   selectable:

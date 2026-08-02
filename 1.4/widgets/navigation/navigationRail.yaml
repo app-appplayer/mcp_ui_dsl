@@ -8,7 +8,7 @@ properties:
     type: "number | binding"
     description: "Currently selected item."
   items:
-    type: "NavItem[]"
+    type: "array<NavItem>"
     required: true
     description: "`{ icon, label, route? }` entries."
     aliases:

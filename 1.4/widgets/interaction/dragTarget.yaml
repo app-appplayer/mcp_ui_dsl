@@ -13,7 +13,7 @@ properties:
     aliases:
       - child
   children:
-    type: "Widget[]"
+    type: "array<Widget>"
     description: "Multiple widgets; runtime wraps them in a linear column. Mutually exclusive with `builder`/`child`."
   onDrop:
     type: "Action"

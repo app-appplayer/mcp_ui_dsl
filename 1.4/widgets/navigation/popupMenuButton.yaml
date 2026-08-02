@@ -10,7 +10,7 @@ properties:
     default: "\"more_vert\""
     description: "Trigger icon. Any `IconRef` form."
   items:
-    type: "MenuItem[]"
+    type: "array<MenuItem>"
     required: true
     description: "`{ value, label, icon?, enabled? }` entries."
   onSelect:

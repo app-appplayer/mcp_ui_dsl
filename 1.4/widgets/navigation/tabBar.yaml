@@ -9,7 +9,7 @@ properties:
     default: 0
     description: "Currently selected index. Defaults to 0 when omitted."
   tabs:
-    type: "Tab[]"
+    type: "array<Tab>"
     required: true
     description: "`{ label, icon? }` entries."
   onChange:

@@ -43,7 +43,7 @@ properties:
       - gap
       - itemSpacing
   children:
-    type: "Widget[]"
+    type: "array<Widget>"
     required: true
     description: "Child widgets arranged along `direction`."
 # examples migrated verbatim from prose JSON fences.

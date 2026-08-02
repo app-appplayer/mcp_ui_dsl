@@ -32,7 +32,7 @@ properties:
     type: Widget
     description: Single scrolled child. Mutually exclusive with `children` and `slivers`.
   children:
-    type: "Widget[]"
+    type: "array<Widget>"
     description: Multiple widgets wrapped in an implicit linear column along `direction`. Mutually exclusive with `child` and `slivers`.
   slivers:
     type: array<Sliver>

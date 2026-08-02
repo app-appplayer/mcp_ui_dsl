@@ -2,7 +2,7 @@ type: box
 category: layout
 profile: Core
 since: v1.0
-aliases: [container]
+aliases: [container, constrained]
 description: |
   Generic single-child container that applies size, padding, margin, and a
   decoration (background color, border, shadow, gradient, borderRadius). Most

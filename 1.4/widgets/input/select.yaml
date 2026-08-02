@@ -7,7 +7,7 @@ description: |
   Single-value dropdown selection. Shared rows per §2.6.0.
 properties:
   options:
-    type: "Option[]"
+    type: "array<Option>"
     required: true
     description: "`{ value, label, icon? }` entries."
     aliases:

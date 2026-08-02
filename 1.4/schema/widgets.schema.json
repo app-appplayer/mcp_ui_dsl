@@ -65,6 +65,69 @@
       ],
       "description": "Where a definition comes from. Four forms: an inline definition, a resource\nURI on the current origin, a qualified `{ $ref, from }` reference to another\norigin, or a binding to a definition already held in state.\n\nOmitting `from` means the current origin, so every pre-1.4 document keeps its\nexact meaning. Naming an origin makes that origin ambient for the resolved\nsubtree — its tool calls, resource reads, state, storage and permissions all\nscope to it. See `01_Core_Concepts.md` §1.9 and `07_Security.md` §7.10.\n\nAccepted wherever `RouteValue` is accepted (§1.2.1) and as the `source` of the\n`view` widget (§2.13.1)."
     },
+    "Color": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$",
+          "description": "Hex — `#RGB`, `#RRGGBB`, or `#AARRGGBB` (alpha first)."
+        },
+        {
+          "description": "Material 3 scheme slot (§5.3) — adapts to light / dark mode.",
+          "enum": [
+            "primary",
+            "onPrimary",
+            "primaryContainer",
+            "onPrimaryContainer",
+            "secondary",
+            "onSecondary",
+            "secondaryContainer",
+            "onSecondaryContainer",
+            "tertiary",
+            "onTertiary",
+            "tertiaryContainer",
+            "onTertiaryContainer",
+            "error",
+            "onError",
+            "errorContainer",
+            "onErrorContainer",
+            "surface",
+            "onSurface",
+            "onSurfaceVariant",
+            "surfaceTint",
+            "surfaceBright",
+            "surfaceDim",
+            "surfaceContainerLowest",
+            "surfaceContainerLow",
+            "surfaceContainer",
+            "surfaceContainerHigh",
+            "surfaceContainerHighest",
+            "outline",
+            "outlineVariant",
+            "inverseSurface",
+            "onInverseSurface",
+            "inversePrimary",
+            "scrim",
+            "shadow",
+            "success",
+            "onSuccess",
+            "warning",
+            "onWarning",
+            "info",
+            "onInfo"
+          ]
+        },
+        {
+          "type": "string",
+          "pattern": "^(?i:red|blue|green|yellow|orange|purple|black|white|grey|gray)$",
+          "description": "CSS basic color name, case-insensitive."
+        },
+        {
+          "$ref": "#/$defs/Binding"
+        }
+      ],
+      "description": "A color value. Three spellings, all accepted wherever a color is\nexpected:\n\n- **Hex** — `#RGB`, `#RRGGBB`, or `#AARRGGBB`. The 8-digit form puts\n  alpha **first**, matching the runtime's parse order.\n- **Theme scheme slot** — a bare Material 3 role name from §5.3\n  (`primary`, `onSurfaceVariant`, `error`, …), plus the four semantic\n  pairs this spec adds (`success`, `warning`, `info` and their `on*`).\n  Resolved against the active theme, so it follows light / dark mode.\n  This is the preferred form: it is the only one that adapts.\n- **CSS basic name** — the ten colors a document can name without a\n  theme (`red`, `blue`, `green`, `yellow`, `orange`, `purple`,\n  `black`, `white`, `grey`/`gray`). Matched case-insensitively.\n\nBindings are accepted in all three positions.\n\nA bare word that is neither a scheme slot nor a basic name is **not**\na color: the runtime resolves it to null and the widget falls back to\nits default. Validators reject it rather than let it render as a\nsilent default."
+    },
     "BorderRadius": {
       "oneOf": [
         {
@@ -162,14 +225,20 @@
         {
           "enum": [
             "topStart",
+            "topLeft",
             "topCenter",
             "topEnd",
+            "topRight",
             "centerStart",
+            "centerLeft",
             "center",
             "centerEnd",
+            "centerRight",
             "bottomStart",
+            "bottomLeft",
             "bottomCenter",
-            "bottomEnd"
+            "bottomEnd",
+            "bottomRight"
           ]
         },
         {
@@ -947,7 +1016,7 @@
       "type": "object",
       "properties": {
         "color": {
-          "type": "string"
+          "$ref": "#/$defs/Color"
         },
         "offset": {
           "type": "object",
@@ -965,19 +1034,36 @@
           ],
           "additionalProperties": false
         },
+        "offsetX": {
+          "type": "number",
+          "description": "Legacy flat offset; use `offset.dx`."
+        },
+        "offsetY": {
+          "type": "number",
+          "description": "Legacy flat offset; use `offset.dy`."
+        },
         "blurRadius": {
           "type": "number",
           "minimum": 0
         },
+        "blur": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Legacy alias of `blurRadius`."
+        },
         "spreadRadius": {
           "type": "number"
+        },
+        "spread": {
+          "type": "number",
+          "description": "Legacy alias of `spreadRadius`."
         }
       },
       "required": [
         "color"
       ],
       "additionalProperties": false,
-      "description": "A drop shadow painted beneath the box. Multiple shadows compose via\n`decoration.boxShadow: array<BoxShadow>` and stack from the first\n(closest to the box) outward."
+      "description": "A drop shadow painted beneath the box. Multiple shadows compose via\n`decoration.boxShadow: array<BoxShadow>` and stack from the first\n(closest to the box) outward.\n\nThe offset has two spellings: `offset: {dx, dy}` (canonical) and the\nflat `offsetX` / `offsetY` pair kept from v1.0. Likewise `blurRadius`\nand `spreadRadius` each accept a short legacy name (`blur`, `spread`).\nCanonical wins when both are present."
     },
     "BoxBorder": {
       "oneOf": [
@@ -2152,7 +2238,20 @@
           "description": "`info`, `success`, `warning`, `error`."
         },
         "actions": {
-          "description": "Action buttons `{ label, onTap }`."
+          "description": "Action buttons `{ label, onTap }`.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "description": "BannerAction"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "onClose": {
           "$ref": "#/$defs/Action"
@@ -2284,13 +2383,11 @@
           ]
         },
         "foregroundColor": {
-          "type": "string",
-          "pattern": "^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$",
+          "$ref": "#/$defs/Color",
           "description": "Bar color."
         },
         "backgroundColor": {
-          "type": "string",
-          "pattern": "^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$",
+          "$ref": "#/$defs/Color",
           "description": "Background color."
         }
       },
@@ -2425,7 +2522,20 @@
           ]
         },
         "items": {
-          "description": "`{ icon, label, route? }` entries."
+          "description": "`{ icon, label, route? }` entries.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "description": "NavItem"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "onChange": {
           "$ref": "#/$defs/Action"
@@ -2520,7 +2630,8 @@
           "type": "string",
           "enum": [
             "box",
-            "container"
+            "container",
+            "constrained"
           ]
         },
         "click": {
@@ -3015,13 +3126,11 @@
           "description": "Alignment of the child inside the box when the box is larger\nthan the child. See the `Alignment` primitive for the canonical\n9-token directional set and the `{x, y}` numeric form.\n"
         },
         "color": {
-          "type": "string",
-          "pattern": "^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$",
+          "$ref": "#/$defs/Color",
           "description": "Solid background color. Shorthand for `decoration.color`; mutually exclusive with `decoration`."
         },
         "backgroundColor": {
-          "type": "string",
-          "pattern": "^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$",
+          "$ref": "#/$defs/Color",
           "description": "Legacy alias of `color`."
         },
         "decoration": {
@@ -3540,13 +3649,11 @@
           ]
         },
         "color": {
-          "type": "string",
-          "pattern": "^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$",
+          "$ref": "#/$defs/Color",
           "description": "Card surface color."
         },
         "backgroundColor": {
-          "type": "string",
-          "pattern": "^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$",
+          "$ref": "#/$defs/Color",
           "description": "Legacy alias of `color`."
         },
         "child": {
@@ -3591,7 +3698,20 @@
           "$ref": "#/$defs/Widget"
         },
         "children": {
-          "description": "Static slides. Mutually exclusive with `items` + `itemTemplate`."
+          "description": "Static slides. Mutually exclusive with `items` + `itemTemplate`.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "scrollDirection": {
           "type": "string",
@@ -4084,10 +4204,36 @@
           "$ref": "#/$defs/Action"
         },
         "options": {
-          "description": "`{ value, label }` entries."
+          "description": "`{ value, label }` entries.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "description": "Option"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "items": {
-          "description": "Legacy alias of `options`."
+          "description": "Legacy alias of `options`.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "description": "Option"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "orientation": {
           "type": "string",
@@ -4277,7 +4423,7 @@
           ]
         },
         "code": {
-          "description": "Code content — literal string or binding.",
+          "description": "Code content — literal string or binding. Required unless `binding` supplies the content.",
           "anyOf": [
             {
               "type": "string"
@@ -4522,8 +4668,7 @@
         }
       },
       "required": [
-        "type",
-        "code"
+        "type"
       ],
       "additionalProperties": true
     },
@@ -4778,10 +4923,36 @@
           "$ref": "#/$defs/Action"
         },
         "options": {
-          "description": "Suggestions. Optional — a combobox with none is a plain text field until `onSearch` supplies them."
+          "description": "Suggestions. Optional — a combobox with none is a plain text field until `onSearch` supplies them.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "description": "Option"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "items": {
-          "description": "Legacy alias of `options`."
+          "description": "Legacy alias of `options`.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "description": "Option"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "allowCustom": {
           "description": "Accept a value not present in `options`. Setting it false makes this a searchable `select`.",
@@ -5222,12 +5393,47 @@
           ]
         },
         "columns": {
-          "description": "Column definitions"
+          "description": "Column definitions",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "description": "Column"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "rows": {
-          "type": "string",
-          "pattern": "^\\{\\{.*\\}\\}$|^[a-zA-Z_][a-zA-Z0-9_.\\[\\]]*$",
-          "description": "Array of row objects"
+          "description": "Array of row objects",
+          "anyOf": [
+            {
+              "oneOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "description": "object",
+                    "additionalProperties": true
+                  }
+                },
+                {
+                  "type": "string",
+                  "pattern": "^\\{\\{.*\\}\\}$",
+                  "description": "Binding expression resolving to an array."
+                }
+              ]
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$|^[a-zA-Z_][a-zA-Z0-9_.\\[\\]]*$",
+              "description": "State path (`\"form.email\"`) or expression (`\"{{form.email}}\"`)."
+            }
+          ]
         },
         "selectable": {
           "description": "Whether rows are selectable",
@@ -5808,8 +6014,7 @@
           "description": "Full decoration object. Alternatively, the constituent fields\n(`color`, `gradient`, `image`, `border`, `borderRadius`,\n`boxShadow`, `shape`, `backdropBlur`) may appear flat at the top\nlevel. Flat keys override matching `decoration.<field>` entries.\n"
         },
         "color": {
-          "type": "string",
-          "pattern": "^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$",
+          "$ref": "#/$defs/Color",
           "description": "Flat shorthand for `decoration.color`."
         },
         "borderRadius": {
@@ -5886,7 +6091,20 @@
           "$ref": "#/$defs/Widget"
         },
         "children": {
-          "description": "Multiple widgets; runtime wraps them in a linear column."
+          "description": "Multiple widgets; runtime wraps them in a linear column.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         }
       },
       "required": [
@@ -6193,7 +6411,20 @@
           "description": "Legacy alias of `builder`."
         },
         "children": {
-          "description": "Multiple widgets; runtime wraps them in a linear column. Mutually exclusive with `builder`/`child`."
+          "description": "Multiple widgets; runtime wraps them in a linear column. Mutually exclusive with `builder`/`child`.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "onDrop": {
           "$ref": "#/$defs/Action"
@@ -6281,10 +6512,36 @@
           "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "items": {
-          "description": "`{ icon, label, route? }` entries. Required when `children` is omitted."
+          "description": "`{ icon, label, route? }` entries. Required when `children` is omitted.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "description": "DrawerItem"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "children": {
-          "description": "Custom drawer body widgets. Mutually exclusive with `items`."
+          "description": "Custom drawer body widgets. Mutually exclusive with `items`.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "header": {
           "$ref": "#/$defs/Widget"
@@ -6361,7 +6618,20 @@
           "$ref": "#/$defs/Widget"
         },
         "children": {
-          "description": "Multiple protected widgets; runtime wraps them in a linear column."
+          "description": "Multiple protected widgets; runtime wraps them in a linear column.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "fallback": {
           "$ref": "#/$defs/Widget"
@@ -6476,19 +6746,67 @@
           "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "items": {
-          "type": "string",
-          "pattern": "^\\{\\{.*\\}\\}$|^[a-zA-Z_][a-zA-Z0-9_.\\[\\]]*$",
-          "description": "Hierarchical `{ name, path, type, children? }` tree. Required when `rootPath`/`files`/`directories` legacy props are omitted."
+          "description": "Hierarchical `{ name, path, type, children? }` tree. Required when `rootPath`/`files`/`directories` legacy props are omitted.",
+          "anyOf": [
+            {
+              "oneOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "description": "object",
+                    "additionalProperties": true
+                  }
+                },
+                {
+                  "type": "string",
+                  "pattern": "^\\{\\{.*\\}\\}$",
+                  "description": "Binding expression resolving to an array."
+                }
+              ]
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$|^[a-zA-Z_][a-zA-Z0-9_.\\[\\]]*$",
+              "description": "State path (`\"form.email\"`) or expression (`\"{{form.email}}\"`)."
+            }
+          ]
         },
         "rootPath": {
           "type": "string",
           "description": "Legacy: root path string; pairs with flat `files` / `directories`."
         },
         "files": {
-          "description": "Legacy: flat file list (alternative to hierarchical `items`)."
+          "description": "Legacy: flat file list (alternative to hierarchical `items`).",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "directories": {
-          "description": "Legacy: flat directory list (alternative to hierarchical `items`)."
+          "description": "Legacy: flat directory list (alternative to hierarchical `items`).",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "showIcons": {
           "description": "Show file / folder icons",
@@ -7048,7 +7366,20 @@
           "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "children": {
-          "description": "Flow children."
+          "description": "Flow children.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "direction": {
           "type": "string",
@@ -7120,7 +7451,20 @@
           "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "children": {
-          "description": "Form field widgets."
+          "description": "Form field widgets.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "showErrorsOn": {
           "type": "string",
@@ -7505,7 +7849,20 @@
           ]
         },
         "segments": {
-          "description": "Color segments with `from`, `to`, `color`"
+          "description": "Color segments with `from`, `to`, `color`",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "description": "Segment"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "size": {
           "description": "Diameter (logical px)",
@@ -7859,18 +8216,15 @@
           ]
         },
         "lineColor": {
-          "type": "string",
-          "pattern": "^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$",
+          "$ref": "#/$defs/Color",
           "description": "Line / bar color."
         },
         "fillColor": {
-          "type": "string",
-          "pattern": "^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$",
+          "$ref": "#/$defs/Color",
           "description": "Area fill color."
         },
         "gridColor": {
-          "type": "string",
-          "pattern": "^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$",
+          "$ref": "#/$defs/Color",
           "description": "Grid color."
         },
         "strokeWidth": {
@@ -7937,7 +8291,20 @@
           "$ref": "#/$defs/Widget"
         },
         "children": {
-          "description": "Static grid cells. Mutually exclusive with `items` + `itemTemplate`."
+          "description": "Static grid cells. Mutually exclusive with `items` + `itemTemplate`.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "columns": {
           "description": "Column count; may use responsive `{default, sm, md, lg}`.",
@@ -8141,7 +8508,20 @@
           "$ref": "#/$defs/Widget"
         },
         "actions": {
-          "description": "Trailing action widgets."
+          "description": "Trailing action widgets.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "exitButton": {
           "description": "Override the host-inserted close button on the root route; see below.",
@@ -8249,10 +8629,36 @@
           ]
         },
         "columnLabels": {
-          "description": "Horizontal axis labels"
+          "description": "Horizontal axis labels",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "rowLabels": {
-          "description": "Vertical axis labels"
+          "description": "Vertical axis labels",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "cellSize": {
           "description": "Cell size (logical px)",
@@ -8426,8 +8832,7 @@
           "description": "Responsive icon-size token. Equivalent to passing the same string\nvia `size`; resolves through `AppIconSizes.of(context)` and tracks\nthe form-factor scale (compact / medium / desktop / embedded).\n"
         },
         "color": {
-          "type": "string",
-          "pattern": "^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$",
+          "$ref": "#/$defs/Color",
           "description": "Icon color. Applied to named / codepoint / SVG forms; for raster\n`URL` form it tints when supported. Ignored when `shader` is set.\n"
         },
         "shader": {
@@ -8767,7 +9172,20 @@
           "description": "Alignment of the displayed child."
         },
         "children": {
-          "description": "Candidate children."
+          "description": "Candidate children.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         }
       },
       "required": [
@@ -9192,7 +9610,20 @@
           "$ref": "#/$defs/Widget"
         },
         "children": {
-          "description": "Multiple deferred widgets; runtime wraps them in a linear column."
+          "description": "Multiple deferred widgets; runtime wraps them in a linear column.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "trigger": {
           "type": "string",
@@ -9340,8 +9771,7 @@
           ]
         },
         "backgroundColor": {
-          "type": "string",
-          "pattern": "^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$",
+          "$ref": "#/$defs/Color",
           "description": "Backdrop color behind the image (typically black or theme.scrim)."
         },
         "onIndexChanged": {
@@ -9637,7 +10067,20 @@
           ]
         },
         "children": {
-          "description": "Child widgets arranged along `direction`."
+          "description": "Child widgets arranged along `direction`.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         }
       },
       "required": [
@@ -9839,7 +10282,20 @@
           "$ref": "#/$defs/Widget"
         },
         "children": {
-          "description": "Static list of widgets. Mutually exclusive with `items` + `itemTemplate`."
+          "description": "Static list of widgets. Mutually exclusive with `items` + `itemTemplate`.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "spacing": {
           "description": "Gap between items.",
@@ -10022,6 +10478,10 @@
           "$ref": "#/$defs/AssetRef",
           "description": "Animation source. Any `AssetRef` form."
         },
+        "source": {
+          "$ref": "#/$defs/AssetRef",
+          "description": "Legacy alias of `src`."
+        },
         "autoPlay": {
           "description": "Play on mount.",
           "anyOf": [
@@ -10054,8 +10514,7 @@
         }
       },
       "required": [
-        "type",
-        "src"
+        "type"
       ],
       "additionalProperties": true
     },
@@ -10179,10 +10638,36 @@
           "description": "Base tile set."
         },
         "markers": {
-          "description": "Point markers"
+          "description": "Point markers",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "description": "Marker"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "overlays": {
-          "description": "Polygon / polyline / circle overlays"
+          "description": "Polygon / polyline / circle overlays",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "description": "Overlay"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "onMarkerTap": {
           "$ref": "#/$defs/Action"
@@ -10607,6 +11092,19 @@
             }
           ]
         },
+        "content": {
+          "description": "Legacy alias of `text`.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$|^[a-zA-Z_][a-zA-Z0-9_.\\[\\]]*$",
+              "description": "State path (`\"form.email\"`) or expression (`\"{{form.email}}\"`)."
+            }
+          ]
+        },
         "selectable": {
           "description": "Allow text selection",
           "anyOf": [
@@ -10713,6 +11211,10 @@
           "type": "string",
           "description": "Default text color"
         },
+        "backgroundColor": {
+          "type": "string",
+          "description": "Surface behind the rendered document"
+        },
         "linkColor": {
           "type": "string",
           "description": "Hyperlink color"
@@ -10726,8 +11228,7 @@
         }
       },
       "required": [
-        "type",
-        "text"
+        "type"
       ],
       "additionalProperties": true
     },
@@ -11208,10 +11709,36 @@
           "$ref": "#/$defs/Action"
         },
         "options": {
-          "description": "`{ value, label, icon? }` entries."
+          "description": "`{ value, label, icon? }` entries.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "description": "Option"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "items": {
-          "description": "Legacy alias of `options`."
+          "description": "Legacy alias of `options`.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "description": "Option"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "placeholder": {
           "type": "string",
@@ -11352,10 +11879,36 @@
           ]
         },
         "items": {
-          "description": "`{ icon, label, route? }` entries."
+          "description": "`{ icon, label, route? }` entries.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "description": "NavItem"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "destinations": {
-          "description": "Legacy alias of `items`."
+          "description": "Legacy alias of `items`.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "description": "NavItem"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "onChange": {
           "$ref": "#/$defs/Action"
@@ -12432,7 +12985,20 @@
           "description": "Scroll axis."
         },
         "children": {
-          "description": "One child per page."
+          "description": "One child per page.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "initialPage": {
           "description": "Index of the page rendered first.",
@@ -12888,7 +13454,20 @@
           "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "permissions": {
-          "description": "Permission identifiers (e.g., `[\"client.clipboard\"]`). Required when `permissionType` is omitted."
+          "description": "Permission identifiers (e.g., `[\"client.clipboard\"]`). Required when `permissionType` is omitted.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "permissionType": {
           "type": "string",
@@ -13255,7 +13834,20 @@
           "description": "Trigger icon. Any `IconRef` form."
         },
         "items": {
-          "description": "`{ value, label, icon?, enabled? }` entries."
+          "description": "`{ value, label, icon?, enabled? }` entries.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "description": "MenuItem"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "onSelect": {
           "$ref": "#/$defs/Action"
@@ -13451,13 +14043,11 @@
           "description": "Redundancy level. Higher survives damage and occlusion at the cost of density — use `H` when a logo overlays the centre."
         },
         "foregroundColor": {
-          "type": "string",
-          "pattern": "^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$",
+          "$ref": "#/$defs/Color",
           "description": "Module color. Contrast against `backgroundColor` must stay high enough to scan; a runtime SHOULD refuse to render below it rather than emit an unreadable code."
         },
         "backgroundColor": {
-          "type": "string",
-          "pattern": "^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$",
+          "$ref": "#/$defs/Color",
           "description": "Quiet-zone and gap color."
         },
         "margin": {
@@ -13629,10 +14219,36 @@
           "$ref": "#/$defs/Action"
         },
         "options": {
-          "description": "`{ value, label }` entries."
+          "description": "`{ value, label }` entries.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "description": "Option"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "items": {
-          "description": "Legacy alias of `options`."
+          "description": "Legacy alias of `options`.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "description": "Option"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "orientation": {
           "type": "string",
@@ -14729,7 +15345,20 @@
           "$ref": "#/$defs/Widget"
         },
         "children": {
-          "description": "Multiple widgets; runtime wraps them in a linear column. Mutually exclusive with `child`."
+          "description": "Multiple widgets; runtime wraps them in a linear column. Mutually exclusive with `child`.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         }
       },
       "required": [
@@ -14952,7 +15581,20 @@
           "$ref": "#/$defs/Widget"
         },
         "children": {
-          "description": "Multiple widgets wrapped in an implicit linear column along `direction`. Mutually exclusive with `child` and `slivers`."
+          "description": "Multiple widgets wrapped in an implicit linear column along `direction`. Mutually exclusive with `child` and `slivers`.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "slivers": {
           "description": "Sliver entries (sliverAppBar / sliverPersistentHeader /\nsliverList / sliverGrid / sliverFixedExtentList). Mutually\nexclusive with `child` and `children`.\n",
@@ -15071,10 +15713,36 @@
           "$ref": "#/$defs/Action"
         },
         "options": {
-          "description": "`{ value, label, icon? }` entries."
+          "description": "`{ value, label, icon? }` entries.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "description": "Option"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "segments": {
-          "description": "Legacy alias of `options`."
+          "description": "Legacy alias of `options`.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "description": "Option"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "variant": {
           "type": "string",
@@ -15188,10 +15856,36 @@
           "$ref": "#/$defs/Action"
         },
         "options": {
-          "description": "`{ value, label, icon? }` entries."
+          "description": "`{ value, label, icon? }` entries.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "description": "Option"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "items": {
-          "description": "Legacy alias of `options`."
+          "description": "Legacy alias of `options`.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "description": "Option"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "placeholder": {
           "type": "string",
@@ -15425,10 +16119,36 @@
           "description": "Dialog title."
         },
         "options": {
-          "description": "`{ value, label, icon? }` entries. Required when `children` is omitted."
+          "description": "`{ value, label, icon? }` entries. Required when `children` is omitted.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "description": "Option"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "children": {
-          "description": "Custom option widgets. Mutually exclusive with `options`."
+          "description": "Custom option widgets. Mutually exclusive with `options`.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "onSelect": {
           "$ref": "#/$defs/Action"
@@ -15642,7 +16362,20 @@
           "$ref": "#/$defs/Widget"
         },
         "children": {
-          "description": "Multiple widgets; runtime wraps them in a linear column along `direction`. Mutually exclusive with `child`."
+          "description": "Multiple widgets; runtime wraps them in a linear column along `direction`. Mutually exclusive with `child`.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         }
       },
       "required": [
@@ -16069,7 +16802,20 @@
           "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "children": {
-          "description": "Panes, in order. Gutters appear between adjacent panes."
+          "description": "Panes, in order. Gutters appear between adjacent panes.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "orientation": {
           "type": "string",
@@ -16459,7 +17205,20 @@
           "description": "Sizing of non-positioned children: `loose`, `expand`, `passthrough`."
         },
         "children": {
-          "description": "Stacked children (rendered in order; later children render on top)."
+          "description": "Stacked children (rendered in order; later children render on top).",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         }
       },
       "required": [
@@ -16494,7 +17253,20 @@
           "$ref": "#/$defs/Widget"
         },
         "children": {
-          "description": "Static cells. Mutually exclusive with `items` + `itemTemplate`."
+          "description": "Static cells. Mutually exclusive with `items` + `itemTemplate`.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "columns": {
           "description": "Column count; may use responsive `{default, sm, md, lg}`.",
@@ -16879,7 +17651,20 @@
           "$ref": "#/$defs/Action"
         },
         "steps": {
-          "description": "Each step: `{ title, subtitle?, state?, content, isActive? }`."
+          "description": "Each step: `{ title, subtitle?, state?, content, isActive? }`.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "description": "Step"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "currentStep": {
           "description": "One-way legacy property. Use §2.6.0 `binding` for two-way behavior.",
@@ -16994,7 +17779,20 @@
           ]
         },
         "tabs": {
-          "description": "`{ label, icon? }` entries."
+          "description": "`{ label, icon? }` entries.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "description": "Tab"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "onChange": {
           "$ref": "#/$defs/Action"
@@ -17061,7 +17859,20 @@
           ]
         },
         "children": {
-          "description": "One child per tab."
+          "description": "One child per tab.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         }
       },
       "required": [
@@ -17088,7 +17899,22 @@
           "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "rows": {
-          "description": "Row definitions"
+          "description": "Row definitions",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "description": "object{ cells: array<Widget> }",
+                "additionalProperties": true
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "border": {
           "description": "Optional cell border"
@@ -17939,7 +18765,20 @@
           "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "items": {
-          "description": "Timeline entries"
+          "description": "Timeline entries",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "description": "TimelineItem"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         },
         "orientation": {
           "type": "string",
@@ -18615,13 +19454,11 @@
           ]
         },
         "selectedColor": {
-          "type": "string",
-          "pattern": "^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$",
+          "$ref": "#/$defs/Color",
           "description": "Background color of the currently selected row."
         },
         "lineColor": {
-          "type": "string",
-          "pattern": "^#[0-9a-fA-F]{6}([0-9a-fA-F]{2})?$",
+          "$ref": "#/$defs/Color",
           "description": "Color of connector lines when `showLines` is true."
         },
         "width": {
@@ -19010,7 +19847,20 @@
           "$ref": "#/$defs/Widget"
         },
         "children": {
-          "description": "Multiple widgets; runtime wraps them in a linear column. Mutually exclusive with `child`."
+          "description": "Multiple widgets; runtime wraps them in a linear column. Mutually exclusive with `child`.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         }
       },
       "required": [
@@ -19441,7 +20291,20 @@
           "description": "Alignment within a run."
         },
         "children": {
-          "description": "Children to wrap."
+          "description": "Children to wrap.",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/Widget"
+              }
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$",
+              "description": "Binding expression resolving to an array."
+            }
+          ]
         }
       },
       "required": [
@@ -19961,6 +20824,8 @@
             "notification",
             "animation",
             "cancel",
+            "submit",
+            "event",
             "channel",
             "permission",
             "channel.start",

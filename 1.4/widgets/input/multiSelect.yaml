@@ -15,7 +15,7 @@ description: |
   runtime.
 properties:
   options:
-    type: "Option[]"
+    type: "array<Option>"
     required: true
     description: "`{ value, label, icon? }` entries."
     aliases:

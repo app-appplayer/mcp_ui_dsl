@@ -10,7 +10,7 @@ description: |
   space from one pane and gives it to the next, so the total never changes.
 properties:
   children:
-    type: "Widget[]"
+    type: "array<Widget>"
     required: true
     description: "Panes, in order. Gutters appear between adjacent panes."
   orientation:

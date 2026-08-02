@@ -5,7 +5,7 @@ description: |
   Lightweight flowing layout that places each child along the main axis with fixed `spacing`, falling back to a new run when space is exhausted. A simpler alternative to `wrap` (§2.4.11) for spacer-style chains.
 properties:
   children:
-    type: "Widget[]"
+    type: "array<Widget>"
     required: true
     description: "Flow children."
   direction:

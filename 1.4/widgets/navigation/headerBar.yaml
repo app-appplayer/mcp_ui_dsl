@@ -13,7 +13,7 @@ properties:
     type: "Widget"
     description: "Leading widget (hamburger, back arrow)."
   actions:
-    type: "Widget[]"
+    type: "array<Widget>"
     description: "Trailing action widgets."
   exitButton:
     type: "ExitButtonConfig | boolean"

@@ -13,7 +13,7 @@ properties:
     default: "\"horizontal\""
     description: Scroll axis.
   children:
-    type: "Widget[]"
+    type: "array<Widget>"
     required: true
     description: One child per page.
   initialPage:

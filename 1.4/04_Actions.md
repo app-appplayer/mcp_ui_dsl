@@ -749,3 +749,50 @@ A standalone `http` action is defined as an optional extension. It is not requir
 | `onError` | Action | null | On failure |
 
 Preferred paths are `tool` (server-owned operations) and `client.httpRequest` (client-owned operations under `network.http` permission).
+
+## 4.22 Submit Action *(form-scoped)*
+
+Triggers validation and submission of the enclosing `form` (§2.6.23). It is the
+only action whose meaning depends on where it sits: it is resolved by the widget
+that carries it, against the nearest `form` ancestor, and never reaches the
+action dispatcher.
+
+```json
+{ "type": "button", "label": "Submit", "onTap": { "type": "submit" } }
+```
+
+The widget validates every field in that form. **If validation fails, nothing
+else happens** — the form's `onSubmit` does not fire and no error action is
+raised; the fields show their own messages according to `showErrorsOn`. On
+success the form saves its fields and then fires its `onSubmit`.
+
+A `submit` with no `form` ancestor is a no-op. Runtimes SHOULD report it —
+a submit button that silently does nothing is indistinguishable from a broken
+document.
+
+## 4.23 Event Action
+
+Emits a named in-document event. Publishes to state rather than to the server,
+so any binding can observe it without a subscription.
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `type` | string | yes | `"event"` |
+| `action` | string | no | `"emit"` (default; the only sub-action defined) |
+| `event` | string | yes | Event name. Empty or missing is an error. |
+| `data` | any | no | Payload. |
+
+```json
+{ "type": "event", "event": "cart.changed", "data": { "count": "{{cart.items.length}}" } }
+```
+
+The runtime writes the payload to `_events.<event>.data` and an ISO-8601 stamp
+to `_events.<event>.timestamp`. Listeners read those paths like any other state:
+
+```json
+{ "type": "text", "content": "Last change: {{_events.cart.changed.timestamp}}" }
+```
+
+`_events` is runtime-owned. Documents SHOULD treat it as read-only outside this
+action — writing it directly bypasses the timestamp and makes an emit
+indistinguishable from a stale value.

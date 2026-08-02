@@ -8,10 +8,10 @@ properties:
     type: "string"
     description: "Dialog title."
   options:
-    type: "Option[]"
+    type: "array<Option>"
     description: "`{ value, label, icon? }` entries. Required when `children` is omitted."
   children:
-    type: "Widget[]"
+    type: "array<Widget>"
     description: "Custom option widgets. Mutually exclusive with `options`."
   onSelect:
     type: "Action"

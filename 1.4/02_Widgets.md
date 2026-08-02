@@ -1156,7 +1156,7 @@ Container that manages validation state for its child inputs.
     { "type": "textInput", "label": "Password",
       "value": "{{form.password}}", "obscureText": true },
     { "type": "button", "label": "Submit",
-      "onTap": { "type": "form", "action": "submit" } }
+      "onTap": { "type": "submit" } }
   ]
 }
 ```

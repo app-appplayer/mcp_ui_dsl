@@ -14,7 +14,7 @@ properties:
     default: "\"loose\""
     description: "Sizing of non-positioned children: `loose`, `expand`, `passthrough`."
   children:
-    type: "Widget[]"
+    type: "array<Widget>"
     required: true
     description: "Stacked children (rendered in order; later children render on top)."
 # examples migrated verbatim from prose JSON fences.

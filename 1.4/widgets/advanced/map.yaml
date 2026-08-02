@@ -24,7 +24,7 @@ properties:
     default: "standard"
     description: "Base tile set."
   markers:
-    type: "Marker[]"
+    type: "array<Marker>"
     default: "[]"
     description: "Point markers"
   markers[].id:
@@ -52,7 +52,7 @@ properties:
     default: null
     description: "Marker color"
   overlays:
-    type: "Overlay[]"
+    type: "array<Overlay>"
     default: "[]"
     description: "Polygon / polyline / circle overlays"
   overlays[].type:
@@ -61,7 +61,7 @@ properties:
     required: true
     description: "Overlay shape."
   overlays[].points:
-    type: "{ latitude, longitude }[]"
+    type: "array<object{ latitude: number, longitude: number }>"
     default: "required for polygon/polyline"
     description: "Vertex list"
   overlays[].fillColor:

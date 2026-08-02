@@ -13,7 +13,7 @@ properties:
     default: "\"topStart\""
     description: Alignment of the displayed child.
   children:
-    type: "Widget[]"
+    type: "array<Widget>"
     required: true
     description: "Candidate children."
 # examples migrated verbatim from prose JSON fences.

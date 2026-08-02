@@ -12,7 +12,7 @@ properties:
     default: 0
     description: "Currently selected index. Defaults to 0 when omitted."
   items:
-    type: "NavItem[]"
+    type: "array<NavItem>"
     required: true
     description: "`{ icon, label, route? }` entries."
   onChange:

@@ -5,7 +5,7 @@ description: |
   Multi-selection checkbox group. Shared rows per §2.6.0; `binding` holds an `array` of selected values (top-level, not per-option).
 properties:
   options:
-    type: "Option[]"
+    type: "array<Option>"
     required: true
     description: "`{ value, label }` entries."
     aliases:

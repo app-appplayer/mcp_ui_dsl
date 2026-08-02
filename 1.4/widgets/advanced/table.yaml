@@ -6,7 +6,7 @@ description: |
   Layout table for arranging widgets in rows and columns. Not data-bound; each cell is a widget.
 properties:
   rows:
-    type: "{ cells: Widget[] }[]"
+    type: "array<object{ cells: array<Widget> }>"
     required: true
     description: "Row definitions"
   border:

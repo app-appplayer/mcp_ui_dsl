@@ -10,11 +10,11 @@ properties:
     required: true
     description: "2D numeric array (rows × columns). Literal array or binding."
   columnLabels:
-    type: "string[]"
+    type: "array<string>"
     default: null
     description: "Horizontal axis labels"
   rowLabels:
-    type: "string[]"
+    type: "array<string>"
     default: null
     description: "Vertical axis labels"
   cellSize:

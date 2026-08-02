@@ -8,6 +8,7 @@ properties:
   text:
     type: "string | binding"
     required: true
+    aliases: [content]
     description: "Markdown source"
   selectable:
     type: "boolean"
@@ -29,6 +30,10 @@ properties:
     type: "string"
     default: null
     description: "Default text color"
+  backgroundColor:
+    type: "string"
+    default: null
+    description: "Surface behind the rendered document"
   linkColor:
     type: "string"
     default: null

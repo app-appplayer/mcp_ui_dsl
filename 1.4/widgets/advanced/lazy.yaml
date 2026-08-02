@@ -16,7 +16,7 @@ properties:
     type: "Widget"
     description: "A single deferred widget. Alternative to `content` for the simple case."
   children:
-    type: "Widget[]"
+    type: "array<Widget>"
     description: "Multiple deferred widgets; runtime wraps them in a linear column."
   trigger:
     type: "string"

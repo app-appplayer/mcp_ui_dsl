@@ -16,7 +16,7 @@ description: |
   without clearing the text. Those are one widget's job.
 properties:
   options:
-    type: "Option[]"
+    type: "array<Option>"
     description: "Suggestions. Optional — a combobox with none is a plain text field until `onSearch` supplies them."
     aliases:
       - items

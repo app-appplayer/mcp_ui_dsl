@@ -6,7 +6,7 @@ description: |
   Chronological timeline of events.
 properties:
   items:
-    type: "TimelineItem[]"
+    type: "array<TimelineItem>"
     required: true
     description: "Timeline entries"
   items[].title:

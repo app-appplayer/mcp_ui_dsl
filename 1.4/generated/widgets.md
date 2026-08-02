@@ -22,7 +22,7 @@ Run `dart run tools/spec_codegen/bin/spec_codegen.dart` to regenerate.
 | `baseline` | utility | Core | — | — |
 | `bottomNavigation` | navigation | Core | — | `bottomNav`, `bottomnavigationbar` |
 | `bottomSheet` | dialog | Core | — | — |
-| `box` | layout | Core | v1.0 | `container` |
+| `box` | layout | Core | v1.0 | `container`, `constrained` |
 | `breadcrumb` | navigation | Core | v1.4 | — |
 | `button` | input | Core | — | — |
 | `calendar` | advanced | Core | v1.0 | — |
@@ -614,7 +614,7 @@ Persistent message banner at the top of a section or page.
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `message` | `string` | yes | — | Banner text. |
 | `severity` | `string` | no | "info" | `info`, `success`, `warning`, `error`. |
-| `actions` | `BannerAction[]` | no | — | Action buttons `{ label, onTap }`. |
+| `actions` | `array<BannerAction>` | no | — | Action buttons `{ label, onTap }`. |
 | `onClose` | `Action` | no | — | Fired when the banner is dismissed (close-button tap or programmatic hide). |
 
 ### Examples
@@ -699,7 +699,7 @@ Bottom navigation bar. Each item's text field is `label`.
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `selectedIndex` | `number | binding` | no | 0 | Currently selected index. Defaults to 0 when omitted. |
-| `items` | `NavItem[]` | yes | — | `{ icon, label, route? }` entries. |
+| `items` | `array<NavItem>` | yes | — | `{ icon, label, route? }` entries. |
 | `onChange` | `Action` | no | — | Fired when selection changes. |
 
 ### Examples
@@ -745,7 +745,7 @@ Modal bottom sheet with swipeable handle.
 
 ## `box`  *(layout · Core · v1.0)*
 
-**Aliases:** `container`
+**Aliases:** `container`, `constrained`
 
 Generic single-child container that applies size, padding, margin, and a
 decoration (background color, border, shadow, gradient, borderRadius). Most
@@ -1017,7 +1017,7 @@ covers, album browsers, magazine front pages).
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `items` | `binding` | no | — | Array source. Required when `children` is omitted. |
 | `itemTemplate` | `Widget` | no | — | Template rendered per bound item. Required with `items`. |
-| `children` | `Widget[]` | no | — | Static slides. Mutually exclusive with `items` + `itemTemplate`. |
+| `children` | `array<Widget>` | no | — | Static slides. Mutually exclusive with `items` + `itemTemplate`. |
 | `scrollDirection` | `string` | no | "horizontal" | Scroll axis. |
 | `viewportFraction` | `number` | no | 1.0 | Each slide's width as a fraction of the carousel width. `1.0` = one item fills the viewport (matches `pageView`); `0.85` leaves both neighbours peeking; `0.6` shows three items.  |
 | `loop` | `boolean` | no | false | When true the list wraps around — last → first → last. |
@@ -1086,7 +1086,7 @@ Data visualization widget with multiple chart types.
 | `chartType` | `string` | yes | — | Chart visualization style. |
 | `data` | `object | array` | yes | — | Canonical `{ labels: string[], datasets: Dataset[] }`, or legacy `[{label, value}]` array form. |
 | `data.datasets[].label` | `string` | no | — | Dataset label shown in legend |
-| `data.datasets[].data` | `number[]` | yes | — | Data points |
+| `data.datasets[].data` | `array<number>` | yes | — | Data points |
 | `data.datasets[].borderColor` | `string` | no | theme | Line/border color |
 | `data.datasets[].backgroundColor` | `string` | no | theme | Fill color |
 | `options` | `object` | no | {} | Rendering options |
@@ -1169,7 +1169,7 @@ Multi-selection checkbox group. Shared rows per §2.6.0; `binding` holds an `arr
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
-| `options` *(aliases: `items`)* | `Option[]` | yes | — | `{ value, label }` entries. |
+| `options` *(aliases: `items`)* | `array<Option>` | yes | — | `{ value, label }` entries. |
 | `orientation` | `string` | no | "vertical" | `vertical` or `horizontal`. |
 
 ### Examples
@@ -1270,7 +1270,7 @@ Syntax-highlighted code editor.
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `copyable` | `boolean` | no | false | Offer a copy-to-clipboard control. Useful with `readOnly`. |
 | `expandAll` | `boolean` | no | false | Expand every collapsible region on load. Chiefly for structured languages such as JSON. |
-| `code` | `string | binding` | yes | — | Code content — literal string or binding. |
+| `code` | `string | binding` | no | — | Code content — literal string or binding. Required unless `binding` supplies the content. |
 | `language` | `string` | no | plaintext | Syntax highlighting language. |
 | `theme` | `string` | no | vsLight | Editor color theme. |
 | `readOnly` | `boolean` | no | false | Disable editing (syntax highlighting still applies) |
@@ -1355,7 +1355,7 @@ without clearing the text. Those are one widget's job.
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
-| `options` *(aliases: `items`)* | `Option[]` | no | — | Suggestions. Optional — a combobox with none is a plain text field until `onSearch` supplies them. |
+| `options` *(aliases: `items`)* | `array<Option>` | no | — | Suggestions. Optional — a combobox with none is a plain text field until `onSearch` supplies them. |
 | `allowCustom` | `boolean` | no | true | Accept a value not present in `options`. Setting it false makes this a searchable `select`. |
 | `onSearch` | `Action` | no | — | Fired as the user types, for server-side suggestion lookup. The action writes `options`; the runtime does not re-filter what it returns. |
 | `minChars` | `number` | no | 1 | Characters typed before suggestions are requested or shown. |
@@ -1523,13 +1523,13 @@ Material-style sortable, selectable data table bound to a row array.
 | `resizableColumns` | `boolean` | no | false | Allow dragging column edges to resize. |
 | `virtualScroll` | `boolean` | no | false | Render only visible rows. Requires a fixed `rowHeight` — a virtualised list cannot measure rows it has not built. |
 | `rowHeight` | `number` | no | — | Fixed row height in logical pixels. Required when `virtualScroll` is true. |
-| `columns` | `Column[]` | yes | — | Column definitions |
+| `columns` | `array<Column>` | yes | — | Column definitions |
 | `columns[].key` | `string` | yes | — | Row field key |
 | `columns[].label` | `string` | yes | — | Header label |
 | `columns[].width` | `number` | no | — | Fixed column width |
 | `columns[].sortable` | `boolean` | no | false | Whether column supports sorting |
 | `columns[].align` | `string` | no | start | Horizontal text alignment. |
-| `rows` | `binding` | yes | — | Array of row objects |
+| `rows` | `array<object> | binding` | yes | — | Array of row objects |
 | `selectable` | `boolean` | no | false | Whether rows are selectable |
 | `sortColumn` | `binding` | no | — | Current sort column key |
 | `sortAscending` | `binding` | no | true | Current sort direction |
@@ -1708,7 +1708,7 @@ fields may appear flat at the top level for ergonomic shorthand.
 | `shape` | `string` | no | "rectangle" | Flat shorthand for `decoration.shape`. |
 | `backdropBlur` | `number` | no | — | Flat shorthand for `decoration.backdropBlur` (Gaussian blur sigma). |
 | `child` | `Widget` | no | — | Decorated widget. Required when `children` is omitted. |
-| `children` | `Widget[]` | no | — | Multiple widgets; runtime wraps them in a linear column. |
+| `children` | `array<Widget>` | no | — | Multiple widgets; runtime wraps them in a linear column. |
 
 ---
 
@@ -1774,7 +1774,7 @@ Drop area that accepts dragged data.
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `canDrop` | `binding` | no | — | Expression controlling acceptance. |
 | `builder` *(aliases: `child`)* | `Widget` | no | — | Widget rendered as the drop surface. Required when `child`/`children` are omitted. |
-| `children` | `Widget[]` | no | — | Multiple widgets; runtime wraps them in a linear column. Mutually exclusive with `builder`/`child`. |
+| `children` | `array<Widget>` | no | — | Multiple widgets; runtime wraps them in a linear column. Mutually exclusive with `builder`/`child`. |
 | `onDrop` | `Action` | no | — | Fired on successful drop; `{{event.data}}` is the payload. |
 | `onDragEnter` | `Action` | no | — | Fired when a draggable enters. |
 | `onDragLeave` | `Action` | no | — | Fired when a draggable leaves. |
@@ -1827,8 +1827,8 @@ Side navigation drawer. Each item's text field is `label`.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
-| `items` | `DrawerItem[]` | no | — | `{ icon, label, route? }` entries. Required when `children` is omitted. |
-| `children` | `Widget[]` | no | — | Custom drawer body widgets. Mutually exclusive with `items`. |
+| `items` | `array<DrawerItem>` | no | — | `{ icon, label, route? }` entries. Required when `children` is omitted. |
+| `children` | `array<Widget>` | no | — | Custom drawer body widgets. Mutually exclusive with `items`. |
 | `header` | `Widget` | no | — | Drawer header widget. |
 | `onSelect` | `Action` | no | — | Fired when an item is selected. |
 | `onClose` | `Action` | no | — | Fired when the drawer is dismissed (modal: scrim tap or escape; permanent: not fired). |
@@ -1880,7 +1880,7 @@ Retry-oriented variant of `errorBoundary`. The `handlers` map may route specific
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `child` | `Widget` | no | — | Protected subtree. Required when `children` is omitted. |
-| `children` | `Widget[]` | no | — | Multiple protected widgets; runtime wraps them in a linear column. |
+| `children` | `array<Widget>` | no | — | Multiple protected widgets; runtime wraps them in a linear column. |
 | `fallback` | `Widget` | no | — | Default UI shown when `child` throws. |
 | `handlers` | `object` | no | — | Map of error-type → fallback Widget. |
 | `onError` | `Action` | no | — | Fired on capture with `{{event.error}}` / `{{event.stack}}`. |
@@ -1922,10 +1922,10 @@ File and directory browser.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
-| `items` | `binding` | no | — | Hierarchical `{ name, path, type, children? }` tree. Required when `rootPath`/`files`/`directories` legacy props are omitted. |
+| `items` | `array<object> | binding` | no | — | Hierarchical `{ name, path, type, children? }` tree. Required when `rootPath`/`files`/`directories` legacy props are omitted. |
 | `rootPath` | `string` | no | — | Legacy: root path string; pairs with flat `files` / `directories`. |
-| `files` | `string[]` | no | — | Legacy: flat file list (alternative to hierarchical `items`). |
-| `directories` | `string[]` | no | — | Legacy: flat directory list (alternative to hierarchical `items`). |
+| `files` | `array<string>` | no | — | Legacy: flat file list (alternative to hierarchical `items`). |
+| `directories` | `array<string>` | no | — | Legacy: flat directory list (alternative to hierarchical `items`). |
 | `showIcons` | `boolean` | no | true | Show file / folder icons |
 | `showHidden` | `boolean` | no | false | Show entries whose name starts with `.` |
 | `expandAll` | `boolean` | no | false | Expand all folders by default |
@@ -2108,7 +2108,7 @@ Lightweight flowing layout that places each child along the main axis with fixed
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
-| `children` | `Widget[]` | yes | — | Flow children. |
+| `children` | `array<Widget>` | yes | — | Flow children. |
 | `direction` | `string` | no | "horizontal" | `horizontal` or `vertical`. |
 | `spacing` | `number` | no | 8 | Gap between children in logical pixels. |
 | `alignment` | `string` | no | "start" | `start`, `center`, `end`. |
@@ -2125,7 +2125,7 @@ Container that manages validation state for its child inputs.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
-| `children` | `Widget[]` | yes | — | Form field widgets. |
+| `children` | `array<Widget>` | yes | — | Form field widgets. |
 | `showErrorsOn` | `string` | no | "submit" | `submit`, `change`, `blur`. |
 | `onSubmit` | `Action` | no | — | Fired on form submission. |
 
@@ -2145,7 +2145,7 @@ Container that manages validation state for its child inputs.
     { "type": "textInput", "label": "Password",
       "value": "{{form.password}}", "obscureText": true },
     { "type": "button", "label": "Submit",
-      "onTap": { "type": "form", "action": "submit" } }
+      "onTap": { "type": "submit" } }
   ]
 }
 ```
@@ -2235,7 +2235,7 @@ Radial gauge for a value within a range.
 | `value` | `number` | yes | — | Current value |
 | `min` | `number` | no | 0 | Range minimum |
 | `max` | `number` | no | 100 | Range maximum |
-| `segments` | `Segment[]` | no | — | Color segments with `from`, `to`, `color` |
+| `segments` | `array<Segment>` | no | — | Color segments with `from`, `to`, `color` |
 | `size` | `number` | no | 200 | Diameter (logical px) |
 | `strokeWidth` | `number` | no | 20 | Arc thickness |
 | `backgroundColor` | `string` | no | #E0E0E0 | Track color |
@@ -2369,7 +2369,7 @@ Scrollable two-dimensional collection.
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `items` | `binding` | no | — | Array source. Required when `children` is omitted. |
 | `itemTemplate` | `Widget` | no | — | Template rendered per bound item. Required with `items`. |
-| `children` | `Widget[]` | no | — | Static grid cells. Mutually exclusive with `items` + `itemTemplate`. |
+| `children` | `array<Widget>` | no | — | Static grid cells. Mutually exclusive with `items` + `itemTemplate`. |
 | `columns` *(aliases: `crossAxisCount`)* | `number | object` | yes | — | Column count; may use responsive `{default, sm, md, lg}`. |
 | `rowGap` | `number` | no | 0 | Gap between rows. |
 | `columnGap` | `number` | no | 0 | Gap between columns. |
@@ -2416,7 +2416,7 @@ Application header / toolbar at the top of a page.
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `title` | `string | Widget` | no | — | Header title. |
 | `leading` | `Widget` | no | — | Leading widget (hamburger, back arrow). |
-| `actions` | `Widget[]` | no | — | Trailing action widgets. |
+| `actions` | `array<Widget>` | no | — | Trailing action widgets. |
 | `exitButton` | `ExitButtonConfig | boolean` | no | — | Override the host-inserted close button on the root route; see below. |
 | `backgroundColor` | `string` | no | — | Header background. |
 | `elevation` | `number` | no | 1 | Shadow elevation. |
@@ -2452,8 +2452,8 @@ Two-dimensional heatmap visualization.
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `data` | `array | binding` | yes | — | 2D numeric array (rows × columns). Literal array or binding. |
-| `columnLabels` | `string[]` | no | — | Horizontal axis labels |
-| `rowLabels` | `string[]` | no | — | Vertical axis labels |
+| `columnLabels` | `array<string>` | no | — | Horizontal axis labels |
+| `rowLabels` | `array<string>` | no | — | Vertical axis labels |
 | `cellSize` | `number` | no | 40 | Cell size (logical px) |
 | `colorRange` | `{ low, high }` | no | { "#E3F2FD", "#1565C0" } | Hex gradient endpoints |
 | `showValues` | `boolean` | no | false | Render numeric value inside each cell |
@@ -2722,7 +2722,7 @@ Displays a single child selected by index. All children retain state.
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `index` | `number | binding` | no | 0 | Index of the child to display. |
 | `alignment` | `Alignment` | no | "topStart" | Alignment of the displayed child. |
-| `children` | `Widget[]` | yes | — | Candidate children. |
+| `children` | `array<Widget>` | yes | — | Candidate children. |
 
 ### Examples
 
@@ -2913,7 +2913,7 @@ Defer rendering of an expensive subtree until it enters the viewport (or until e
 | `placeholder` | `Widget` | no | — | Rendered while `content` is not yet materialized |
 | `content` | `Widget | object` | no | — | Inline widget, or `{ source: "ui://..." }` to fetch a remote page fragment. Required when `children` is omitted. |
 | `child` | `Widget` | no | — | A single deferred widget. Alternative to `content` for the simple case. |
-| `children` | `Widget[]` | no | — | Multiple deferred widgets; runtime wraps them in a linear column. |
+| `children` | `array<Widget>` | no | — | Multiple deferred widgets; runtime wraps them in a linear column. |
 | `trigger` | `string` | no | visible | `visible` renders when the widget becomes visible to the user (typically scrolled into view); `immediate` renders on mount; `manual` renders when a `load()` signal is received. |
 | `onLoad` | `Action` | no | — | Fired after `content` is materialized |
 | `onError` | `Action` | no | — | Fired if `content` fetch fails; `event.error` |
@@ -3033,7 +3033,7 @@ Main-axis sizing: when at least one child is `expanded` / `flexible` / `spacer` 
 | `alignment` *(aliases: `crossAxisAlignment`)* | `string` | no | "start" | Cross-axis alignment: `start`, `center`, `end`, `stretch`. |
 | `distribution` *(aliases: `mainAxisAlignment`)* | `string` | no | "start" | Main-axis distribution: `start`, `center`, `end`, `spaceBetween`, `spaceAround`, `spaceEvenly`. |
 | `spacing` *(aliases: `gap`, `itemSpacing`)* | `number` | no | 0 | Gap between children in logical pixels. |
-| `children` | `Widget[]` | yes | — | Child widgets arranged along `direction`. |
+| `children` | `array<Widget>` | yes | — | Child widgets arranged along `direction`. |
 
 ### Examples
 
@@ -3141,7 +3141,7 @@ Scrollable linear collection rendered from an array binding.
 | `overscan` | `number` | no | 3 | Items rendered beyond the viewport on each side, trading memory for scroll smoothness. |
 | `items` | `binding` | no | — | Array source. Required when `children` is omitted (dynamic list). |
 | `itemTemplate` | `Widget` | no | — | Template rendered per bound item. Required with `items`. Iteration variables `item`, `index`, `isFirst`, `isLast`, `isEven`, `isOdd` are in scope. |
-| `children` | `Widget[]` | no | — | Static list of widgets. Mutually exclusive with `items` + `itemTemplate`. |
+| `children` | `array<Widget>` | no | — | Static list of widgets. Mutually exclusive with `items` + `itemTemplate`. |
 | `spacing` | `number` | no | 0 | Gap between items. |
 | `orientation` | `string` | no | "vertical" | `vertical` or `horizontal`. |
 | `emptyMessage` | `string` | no | — | Displayed when the list is empty. |
@@ -3215,7 +3215,7 @@ Embedded Lottie/JSON animation playback.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
-| `src` | `AssetRef` | yes | — | Animation source. Any `AssetRef` form. |
+| `src` *(aliases: `source`)* | `AssetRef` | yes | — | Animation source. Any `AssetRef` form. |
 | `autoPlay` | `boolean` | no | true | Play on mount. |
 | `loop` | `boolean` | no | true | Loop playback. |
 
@@ -3236,16 +3236,16 @@ Geographic map with markers and overlays.
 | `longitude` | `number` | no | — | Flat shorthand for `center.longitude` — legacy alternative to `center`. |
 | `zoom` | `number` | no | 13 | Zoom level (0–22) |
 | `mapType` | `string` | no | standard | Base tile set. |
-| `markers` | `Marker[]` | no | [] | Point markers |
+| `markers` | `array<Marker>` | no | [] | Point markers |
 | `markers[].id` | `string` | yes | — | Unique marker ID |
 | `markers[].latitude` | `number` | yes | — | Marker latitude |
 | `markers[].longitude` | `number` | yes | — | Marker longitude |
 | `markers[].label` | `string` | no | — | Marker label |
 | `markers[].icon` | `string` | no | — | Icon name |
 | `markers[].color` | `string` | no | — | Marker color |
-| `overlays` | `Overlay[]` | no | [] | Polygon / polyline / circle overlays |
+| `overlays` | `array<Overlay>` | no | [] | Polygon / polyline / circle overlays |
 | `overlays[].type` | `string` | yes | — | Overlay shape. |
-| `overlays[].points` | `{ latitude, longitude }[]` | no | required for polygon/polyline | Vertex list |
+| `overlays[].points` | `array<object{ latitude: number, longitude: number }>` | no | required for polygon/polyline | Vertex list |
 | `overlays[].fillColor` | `string` | no | — | Fill color (polygon/circle) |
 | `overlays[].strokeColor` | `string` | no | — | Stroke color |
 | `overlays[].strokeWidth` | `number` | no | 1 | Stroke width |
@@ -3334,12 +3334,13 @@ Markdown renderer.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
-| `text` | `string | binding` | yes | — | Markdown source |
+| `text` *(aliases: `content`)* | `string | binding` | yes | — | Markdown source |
 | `selectable` | `boolean` | no | false | Allow text selection |
 | `width` | `number` | no | — | Widget width |
 | `height` | `number` | no | — | Widget height |
 | `fontSize` | `number` | no | — | Base font size |
 | `textColor` | `string` | no | — | Default text color |
+| `backgroundColor` | `string` | no | — | Surface behind the rendered document |
 | `linkColor` | `string` | no | — | Hyperlink color |
 | `codeBackgroundColor` | `string` | no | — | Code-block background |
 | `onLinkTap` | `Action` | no | — | Fired on link tap; `event.url` is the target |
@@ -3513,7 +3514,7 @@ runtime.
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
-| `options` *(aliases: `items`)* | `Option[]` | yes | — | `{ value, label, icon? }` entries. |
+| `options` *(aliases: `items`)* | `array<Option>` | yes | — | `{ value, label, icon? }` entries. |
 | `placeholder` | `string` | no | — | Shown when nothing is selected. |
 | `maxSelections` | `number` | no | — | Upper bound on selected values. Reaching it disables unselected rows rather than silently dropping a pick. |
 | `showChips` | `boolean` | no | true | Render selections as removable chips in the closed field. |
@@ -3549,7 +3550,7 @@ Vertical navigation rail for tablet/desktop layouts. Each item's text field is `
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `selectedIndex` | `number | binding` | no | — | Currently selected item. |
-| `items` *(aliases: `destinations`)* | `NavItem[]` | yes | — | `{ icon, label, route? }` entries. |
+| `items` *(aliases: `destinations`)* | `array<NavItem>` | yes | — | `{ icon, label, route? }` entries. |
 | `onChange` | `Action` | no | — | Fired when selection changes. |
 
 ### Examples
@@ -3783,7 +3784,7 @@ always one full page. Each child is rendered as a separate page.
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `direction` | `string` | no | "horizontal" | Scroll axis. |
-| `children` | `Widget[]` | yes | — | One child per page. |
+| `children` | `array<Widget>` | yes | — | One child per page. |
 | `initialPage` | `number` | no | 0 | Index of the page rendered first. |
 | `loop` | `boolean` | no | false | When true the list wraps around — last → first. |
 | `scrollPhysics` | `string` | no | "clamping" | Edge / overscroll behaviour. `bouncing` mirrors iOS rubber-band; `clamping` is the Android-style hard stop; `neverScrollable` disables user dragging (use programmatic page change only).  |
@@ -3906,7 +3907,7 @@ Presents a prompt for one or more client capabilities (e.g., clipboard, filesyst
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
-| `permissions` | `string[]` | no | — | Permission identifiers (e.g., `["client.clipboard"]`). Required when `permissionType` is omitted. |
+| `permissions` | `array<string>` | no | — | Permission identifiers (e.g., `["client.clipboard"]`). Required when `permissionType` is omitted. |
 | `permissionType` | `string` | no | — | Single-permission shorthand for `permissions: [permissionType]`. |
 | `style` | `string` | no | "inline" | `inline`, `dialog`, `banner`. |
 | `title` | `string` | no | — | Prompt title. |
@@ -4004,7 +4005,7 @@ Button that reveals a popup menu of options.
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `icon` | `IconRef` | no | "more_vert" | Trigger icon. Any `IconRef` form. |
-| `items` | `MenuItem[]` | yes | — | `{ value, label, icon?, enabled? }` entries. |
+| `items` | `array<MenuItem>` | yes | — | `{ value, label, icon?, enabled? }` entries. |
 | `onSelect` | `Action` | no | — | Fired when an item is selected. |
 
 ### Examples
@@ -4139,7 +4140,7 @@ Single-selection radio group. Shared rows per §2.6.0.
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
-| `options` *(aliases: `items`)* | `Option[]` | yes | — | `{ value, label }` entries. |
+| `options` *(aliases: `items`)* | `array<Option>` | yes | — | `{ value, label }` entries. |
 | `orientation` | `string` | no | "vertical" | `vertical` or `horizontal`. |
 
 ### Examples
@@ -4494,7 +4495,7 @@ The runtime MUST provide a shared scroll controller to both the scroll bar and i
 | `thickness` | `number` | no | — | Scroll bar thickness. |
 | `radius` | `number` | no | — | Scroll bar corner radius. |
 | `child` | `Widget` | no | — | Scrollable child. Required when `children` is omitted. |
-| `children` | `Widget[]` | no | — | Multiple widgets; runtime wraps them in a linear column. Mutually exclusive with `child`. |
+| `children` | `array<Widget>` | no | — | Multiple widgets; runtime wraps them in a linear column. Mutually exclusive with `child`. |
 
 ---
 
@@ -4524,7 +4525,7 @@ mutually exclusive.
 | `padding` | `EdgeInsets` | no | — | Inner padding around the scrollable content. |
 | `scrollPhysics` | `string` | no | "clamping" | Edge / overscroll behaviour. |
 | `child` | `Widget` | no | — | Single scrolled child. Mutually exclusive with `children` and `slivers`. |
-| `children` | `Widget[]` | no | — | Multiple widgets wrapped in an implicit linear column along `direction`. Mutually exclusive with `child` and `slivers`. |
+| `children` | `array<Widget>` | no | — | Multiple widgets wrapped in an implicit linear column along `direction`. Mutually exclusive with `child` and `slivers`. |
 | `slivers` | `array<Sliver>` | no | — | Sliver entries (sliverAppBar / sliverPersistentHeader / sliverList / sliverGrid / sliverFixedExtentList). Mutually exclusive with `child` and `children`.  |
 
 ### Examples
@@ -4582,7 +4583,7 @@ Segmented selection, styled as tabs or buttons. Shared rows per §2.6.0.
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
-| `options` *(aliases: `segments`)* | `Option[]` | yes | — | `{ value, label, icon? }` entries. |
+| `options` *(aliases: `segments`)* | `array<Option>` | yes | — | `{ value, label, icon? }` entries. |
 | `variant` | `string` | no | "segmented" | `segmented`, `tabs`, `buttons`. |
 
 ### Examples
@@ -4618,7 +4619,7 @@ Single-value dropdown selection. Shared rows per §2.6.0.
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
-| `options` *(aliases: `items`)* | `Option[]` | yes | — | `{ value, label, icon? }` entries. |
+| `options` *(aliases: `items`)* | `array<Option>` | yes | — | `{ value, label, icon? }` entries. |
 | `placeholder` | `string` | no | — | Placeholder shown when nothing is selected. |
 
 ### Examples
@@ -4701,8 +4702,8 @@ Dialog presenting a list of options.
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `title` | `string` | no | — | Dialog title. |
-| `options` | `Option[]` | no | — | `{ value, label, icon? }` entries. Required when `children` is omitted. |
-| `children` | `Widget[]` | no | — | Custom option widgets. Mutually exclusive with `options`. |
+| `options` | `array<Option>` | no | — | `{ value, label, icon? }` entries. Required when `children` is omitted. |
+| `children` | `array<Widget>` | no | — | Custom option widgets. Mutually exclusive with `options`. |
 | `onSelect` | `Action` | no | — | Fired when an option is chosen. |
 | `onClose` | `Action` | no | — | Fired when the dialog is dismissed without an option being selected. |
 
@@ -4721,7 +4722,7 @@ Lightweight scrollable wrapper for a single child.
 | `direction` | `string` | no | "vertical" | Scroll direction. |
 | `padding` | `EdgeInsets` | no | — | Inner padding. |
 | `child` | `Widget` | no | — | Scrolled content. Required when `children` is omitted. |
-| `children` | `Widget[]` | no | — | Multiple widgets; runtime wraps them in a linear column along `direction`. Mutually exclusive with `child`. |
+| `children` | `array<Widget>` | no | — | Multiple widgets; runtime wraps them in a linear column along `direction`. Mutually exclusive with `child`. |
 
 ### Examples
 
@@ -4872,7 +4873,7 @@ space from one pane and gives it to the next, so the total never changes.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
-| `children` | `Widget[]` | yes | — | Panes, in order. Gutters appear between adjacent panes. |
+| `children` | `array<Widget>` | yes | — | Panes, in order. Gutters appear between adjacent panes. |
 | `orientation` | `string` | no | "horizontal" | Direction panes are laid along. |
 | `sizes` | `array<number> | binding` | no | — | Pane sizes as fractions summing to 1. Two-way bindable so a layout can be restored. Omitted distributes evenly. |
 | `minSizes` | `array<number>` | no | — | Per-pane minimum fractions. A drag stops at them rather than collapsing a pane the author did not mark collapsible. |
@@ -4969,7 +4970,7 @@ Overlapping children. Non-positioned children align per `alignment`; positioned 
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `alignment` | `Alignment` | no | "topStart" | Alignment of non-positioned children. |
 | `fit` | `string` | no | "loose" | Sizing of non-positioned children: `loose`, `expand`, `passthrough`. |
-| `children` | `Widget[]` | yes | — | Stacked children (rendered in order; later children render on top). |
+| `children` | `array<Widget>` | yes | — | Stacked children (rendered in order; later children render on top). |
 
 ### Examples
 
@@ -5005,7 +5006,7 @@ aspect ratios. Distinct from `grid` (uniform row alignment) and
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `items` | `binding` | no | — | Array source. Required when `children` is omitted. |
 | `itemTemplate` | `Widget` | no | — | Template rendered per bound item. Required with `items`. |
-| `children` | `Widget[]` | no | — | Static cells. Mutually exclusive with `items` + `itemTemplate`. |
+| `children` | `array<Widget>` | no | — | Static cells. Mutually exclusive with `items` + `itemTemplate`. |
 | `columns` | `number | object` | yes | — | Column count; may use responsive `{default, sm, md, lg}`. |
 | `mainAxisSpacing` | `number` | no | 0 | Gap along the scroll axis (between consecutive items in a column). |
 | `crossAxisSpacing` | `number` | no | 0 | Gap across the scroll axis (between columns). |
@@ -5055,7 +5056,7 @@ Step-by-step wizard. Shared `binding` / `value` / `enabled` / `onChange` per §2
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
-| `steps` | `Step[]` | yes | — | Each step: `{ title, subtitle?, state?, content, isActive? }`. |
+| `steps` | `array<Step>` | yes | — | Each step: `{ title, subtitle?, state?, content, isActive? }`. |
 | `currentStep` | `number | binding` | no | 0 | One-way legacy property. Use §2.6.0 `binding` for two-way behavior. |
 | `stepperType` | `string` | no | "vertical" | `vertical` or `horizontal`. |
 | `onStepTapped` | `Action` | no | — | Fired when a step header is tapped. Receives `{{event.index}}`. |
@@ -5090,7 +5091,7 @@ Horizontal tab selector. Each tab's text field is `label`.
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `selectedIndex` | `number | binding` | no | 0 | Currently selected index. Defaults to 0 when omitted. |
-| `tabs` | `Tab[]` | yes | — | `{ label, icon? }` entries. |
+| `tabs` | `array<Tab>` | yes | — | `{ label, icon? }` entries. |
 | `onChange` | `Action` | no | — | Fired when selection changes. |
 
 ### Examples
@@ -5126,7 +5127,7 @@ Content area that displays widgets corresponding to the currently selected tab.
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `selectedIndex` | `number | binding` | no | — | Displayed index (usually bound to the same state as a `tabBar`). |
-| `children` | `Widget[]` | yes | — | One child per tab. |
+| `children` | `array<Widget>` | yes | — | One child per tab. |
 
 ### Examples
 
@@ -5156,7 +5157,7 @@ Layout table for arranging widgets in rows and columns. Not data-bound; each cel
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
-| `rows` | `{ cells: Widget[] }[]` | yes | — | Row definitions |
+| `rows` | `array<object{ cells: array<Widget> }>` | yes | — | Row definitions |
 | `border` | `{ color, width }` | no | — | Optional cell border |
 | `defaultColumnWidth` | `string | number` | no | flex | `flex`, `intrinsic`, or a fixed number (logical px). |
 | `defaultVerticalAlignment` | `string` | no | middle | Cell vertical alignment. |
@@ -5439,7 +5440,7 @@ Chronological timeline of events.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
-| `items` | `TimelineItem[]` | yes | — | Timeline entries |
+| `items` | `array<TimelineItem>` | yes | — | Timeline entries |
 | `items[].title` | `string` | yes | — | Entry title |
 | `items[].subtitle` | `string` | no | — | Secondary text |
 | `items[].icon` | `string` | no | — | Icon name |
@@ -5699,7 +5700,7 @@ Shows or hides a child with optional state preservation and replacement content.
 | `maintainState` | `boolean` | no | false | Preserve `child` state when hidden. Does not affect `replacement`, which is built fresh each time it is shown. |
 | `replacement` | `Widget` | no | — | Widget shown in place of `child` when `visible` is `false`. When absent, the child is simply hidden in-place (respecting `maintainSize` / `maintainState`). |
 | `child` | `Widget` | no | — | Primary widget. Required when `children` is omitted. |
-| `children` | `Widget[]` | no | — | Multiple widgets; runtime wraps them in a linear column. Mutually exclusive with `child`. |
+| `children` | `array<Widget>` | no | — | Multiple widgets; runtime wraps them in a linear column. Mutually exclusive with `child`. |
 
 ### Examples
 
@@ -5835,5 +5836,5 @@ Flow layout that wraps children to the next line when they exceed available widt
 | `spacing` | `number` | no | 0 | Gap between children on the same run. |
 | `runSpacing` | `number` | no | 0 | Gap between runs. |
 | `alignment` | `string` | no | "start" | Alignment within a run. |
-| `children` | `Widget[]` | yes | — | Children to wrap. |
+| `children` | `array<Widget>` | yes | — | Children to wrap. |
 

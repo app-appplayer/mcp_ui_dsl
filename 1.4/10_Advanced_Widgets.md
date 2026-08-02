@@ -161,7 +161,7 @@ Material-style sortable, selectable data table bound to a row array.
 | `columns[].width` | number | null | Fixed column width |
 | `columns[].sortable` | boolean | `false` | Whether column supports sorting |
 | `columns[].align` | enum | `start` | `start`, `center`, `end` |
-| `rows` | binding | required | Array of row objects |
+| `rows` | `object[]` \| binding | required | Array of row objects — a literal array or a binding to one |
 | `selectable` | boolean | `false` | Whether rows are selectable |
 | `sortColumn` | binding | null | Current sort column key |
 | `sortAscending` | binding | `true` | Current sort direction |
@@ -597,7 +597,7 @@ File and directory browser.
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `items` | binding | required | Hierarchical `{ name, path, type, children? }` tree |
+| `items` | `object[]` \| binding | required | Hierarchical `{ name, path, type, children? }` tree — a literal array or a binding to one |
 | `showIcons` | boolean | `true` | Show file / folder icons |
 | `showHidden` | boolean | `false` | Show entries whose name starts with `.` |
 | `expandAll` | boolean | `false` | Expand all folders by default |
@@ -636,6 +636,7 @@ Markdown renderer.
 | `height` | number | null | Widget height |
 | `fontSize` | number | null | Base font size |
 | `textColor` | string | null | Default text color |
+| `backgroundColor` | string | null | Surface behind the rendered document |
 | `linkColor` | string | null | Hyperlink color |
 | `codeBackgroundColor` | string | null | Code-block background |
 | `onLinkTap` | Action | null | Fired on link tap; `event.url` is the target |

@@ -19,7 +19,7 @@ properties:
     default: null
     description: "Dataset label shown in legend"
   data.datasets[].data:
-    type: "number[]"
+    type: "array<number>"
     required: true
     description: "Data points"
   data.datasets[].borderColor:

@@ -16,8 +16,7 @@ properties:
     description: "Expand every collapsible region on load. Chiefly for structured languages such as JSON."
   code:
     type: "string | binding"
-    required: true
-    description: "Code content — literal string or binding."
+    description: "Code content — literal string or binding. Required unless `binding` supplies the content."
   language:
     type: "string"
     enum: ["plaintext", "javascript", "typescript", "dart", "python", "java", "kotlin", "swift", "go", "rust", "c", "cpp", "csharp", "ruby", "php", "sql", "json", "yaml", "xml", "html", "css", "markdown", "shell"]

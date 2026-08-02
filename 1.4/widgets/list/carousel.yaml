@@ -17,7 +17,7 @@ properties:
     type: Widget
     description: Template rendered per bound item. Required with `items`.
   children:
-    type: "Widget[]"
+    type: "array<Widget>"
     description: Static slides. Mutually exclusive with `items` + `itemTemplate`.
   scrollDirection:
     type: string

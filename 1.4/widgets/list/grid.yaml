@@ -13,7 +13,7 @@ properties:
     type: "Widget"
     description: "Template rendered per bound item. Required with `items`."
   children:
-    type: "Widget[]"
+    type: "array<Widget>"
     description: "Static grid cells. Mutually exclusive with `items` + `itemTemplate`."
   columns:
     type: "number | object"
