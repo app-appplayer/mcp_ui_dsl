@@ -1773,7 +1773,7 @@ Drop area that accepts dragged data.
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `canDrop` | `binding` | no | — | Expression controlling acceptance. |
-| `builder` *(aliases: `child`)* | `Widget` | no | — | Widget rendered as the drop surface. Required when `child`/`children` are omitted. |
+| `builder` *(aliases: `child`)* | `Widget` | yes | — | Widget rendered as the drop surface. Required when `child`/`children` are omitted. |
 | `children` | `array<Widget>` | no | — | Multiple widgets; runtime wraps them in a linear column. Mutually exclusive with `builder`/`child`. |
 | `onDrop` | `Action` | no | — | Fired on successful drop; `{{event.data}}` is the payload. |
 | `onDragEnter` | `Action` | no | — | Fired when a draggable enters. |

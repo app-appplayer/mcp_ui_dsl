@@ -119,8 +119,8 @@
         },
         {
           "type": "string",
-          "pattern": "^(?i:red|blue|green|yellow|orange|purple|black|white|grey|gray)$",
-          "description": "CSS basic color name, case-insensitive."
+          "pattern": "^([Rr][Ee][Dd]|[Bb][Ll][Uu][Ee]|[Gg][Rr][Ee][Ee][Nn]|[Yy][Ee][Ll][Ll][Oo][Ww]|[Oo][Rr][Aa][Nn][Gg][Ee]|[Pp][Uu][Rr][Pp][Ll][Ee]|[Bb][Ll][Aa][Cc][Kk]|[Ww][Hh][Ii][Tt][Ee]|[Gg][Rr][Ee][Yy]|[Gg][Rr][Aa][Yy])$",
+          "description": "CSS basic color name. Spelled as a character class per\nletter because JSON Schema regexes are ECMA-262, which has no\ninline `(?i:)` flag — writing one makes the whole branch\nunconstrained instead of case-insensitive, and it accepted every\nstring."
         },
         {
           "$ref": "#/$defs/Binding"

@@ -326,7 +326,7 @@ Format per widget:
 - events: `onSelect`
 
 ### `dragTarget`
-- properties: `click?: Action`, `tooltip?: string`, `canDrop?: binding`, `builder?: Widget`, `children?: array<Widget>`, `onDrop?: Action`, `onDragEnter?: Action`, `onDragLeave?: Action`
+- properties: `click?: Action`, `tooltip?: string`, `canDrop?: binding`, `builder: Widget`, `children?: array<Widget>`, `onDrop?: Action`, `onDragEnter?: Action`, `onDragLeave?: Action`
 
 ### `draggable`
 - properties: `click?: Action`, `tooltip?: string`, `data: any | binding`, `feedback?: Widget`, `childWhenDragging?: Widget`, `child: Widget`
