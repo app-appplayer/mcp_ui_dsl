@@ -1907,6 +1907,22 @@ Drop area that accepts dragged data.
 
 ## 2.11 Dialog Widgets
 
+**These are surfaces an action raises, not widgets a page lays out.**
+`alertDialog`, `simpleDialog`, `customDialog`, `snackBar` and `bottomSheet` are
+passed to the `dialog` action ([`04_Actions.md`](04_Actions.md) §4.6), which
+puts them above the current route. None of them takes an `open` property, and
+placing one in a page's `content` tree is not how they are shown.
+
+The distinction is worth stating because the alternative reads as reasonable:
+a `Modal` with an `open` flag sitting in the tree is a common authoring model
+elsewhere. It does not fit here — these surfaces are positioned against the
+screen and live on the navigator, so a position in the layout tree would
+suggest a placement that has no effect, and an author would reasonably expect
+the surrounding layout to matter.
+
+`popover` (§2.11.6) is the exception that shows the rule: it *is* placed in
+the tree, because it anchors to a specific widget and needs to know which one.
+
 ### 2.11.1 `alertDialog`
 
 Modal alert with title, content, and action buttons.
