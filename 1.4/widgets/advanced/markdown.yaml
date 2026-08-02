@@ -6,9 +6,9 @@ description: |
   Markdown renderer.
 properties:
   text:
-    type: "string "
-    default: "binding"
-    description: "required | Markdown source"
+    type: "string | binding"
+    required: true
+    description: "Markdown source"
   selectable:
     type: "boolean"
     default: false

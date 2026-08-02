@@ -30,7 +30,7 @@ Format per widget:
 
 ### `dataTable` *(since v1.0)*
 - aliases: `dataGrid`
-- properties: `click?: Action`, `tooltip?: string`, `editable?: boolean`, `filterable?: boolean`, `resizableColumns?: boolean`, `virtualScroll?: boolean`, `rowHeight?: number`, `columns: `Column[]``, `columns[].key: string`, `columns[].label: string`, `columns[].width?: number`, `columns[].sortable?: boolean`, `columns[].align?: string`, `rows: binding`, `selectable?: boolean`, `sortColumn?: binding`, `sortAscending?: binding`, `onSort?: Action`, `onRowTap?: Action`
+- properties: `click?: Action`, `tooltip?: string`, `editable?: boolean`, `filterable?: boolean`, `resizableColumns?: boolean`, `virtualScroll?: boolean`, `rowHeight?: number`, `columns: Column[]`, `columns[].key: string`, `columns[].label: string`, `columns[].width?: number`, `columns[].sortable?: boolean`, `columns[].align?: string`, `rows: binding`, `selectable?: boolean`, `sortColumn?: binding`, `sortAscending?: binding`, `onSort?: Action`, `onRowTap?: Action`
 
 ### `diffViewer` *(since v1.4)*
 - properties: `click?: Action`, `tooltip?: string`, `oldValue: string | binding`, `newValue: string | binding`, `splitView?: boolean`, `language?: string`, `showLineNumbers?: boolean`, `contextLines?: number`, `highlightLines?: array<number>`
@@ -44,29 +44,29 @@ Format per widget:
 
 ### `gauge` *(since v1.0)*
 - aliases: `meter`
-- properties: `click?: Action`, `tooltip?: string`, `value: number`, `min?: number`, `max?: number`, `segments?: `Segment[]``, `size?: number`, `strokeWidth?: number`, `backgroundColor?: string`, `valueColor?: string`, `showLabel?: boolean`, `labelFormat?: string`, `startAngle?: number`, `sweepAngle?: number`
+- properties: `click?: Action`, `tooltip?: string`, `value: number`, `min?: number`, `max?: number`, `segments?: Segment[]`, `size?: number`, `strokeWidth?: number`, `backgroundColor?: string`, `valueColor?: string`, `showLabel?: boolean`, `labelFormat?: string`, `startAngle?: number`, `sweepAngle?: number`
 
 ### `graph` *(since v1.0)*
-- properties: `click?: Action`, `tooltip?: string`, `data?: `Point[]` `, `chartType?: string`, `width?: number`, `height?: number`, `showGrid?: boolean`, `showLabels?: boolean`, `lineColor?: Color`, `fillColor?: Color`, `gridColor?: Color`, `strokeWidth?: number`
+- properties: `click?: Action`, `tooltip?: string`, `data: array<Point> | binding`, `chartType?: string`, `width?: number`, `height?: number`, `showGrid?: boolean`, `showLabels?: boolean`, `lineColor?: Color`, `fillColor?: Color`, `gridColor?: Color`, `strokeWidth?: number`
 
 ### `heatmap` *(since v1.0)*
-- properties: `click?: Action`, `tooltip?: string`, `data: array | binding`, `columnLabels?: string[]`, `rowLabels?: string[]`, `cellSize?: number`, `colorRange?: `{ low, high }``, `showValues?: boolean`, `onCellTap?: Action`
+- properties: `click?: Action`, `tooltip?: string`, `data: array | binding`, `columnLabels?: string[]`, `rowLabels?: string[]`, `cellSize?: number`, `colorRange?: { low, high }`, `showValues?: boolean`, `onCellTap?: Action`
 
 ### `kanban` *(since v1.4)*
 - properties: `click?: Action`, `tooltip?: string`, `columns: array<object> | binding`, `itemTemplate: Widget`, `itemKey?: string`, `draggable?: boolean`, `columnWidth?: Dimension`, `optimistic?: boolean`
 - events: `onCardMove`, `onCardClick`
 
 ### `lazy` *(since v1.0)*
-- properties: `click?: Action`, `tooltip?: string`, `placeholder?: Widget`, `content?: Widget | object`, `children?: Widget[]`, `trigger?: string`, `onLoad?: Action`, `onError?: Action`
+- properties: `click?: Action`, `tooltip?: string`, `placeholder?: Widget`, `content?: Widget | object`, `child?: Widget`, `children?: Widget[]`, `trigger?: string`, `onLoad?: Action`, `onError?: Action`
 
 ### `lightbox` *(since v1.3)*
 - properties: `click?: Action`, `tooltip?: string`, `images: array<AssetRef>`, `initialIndex?: number`, `allowZoom?: boolean`, `maxZoom?: number`, `allowSwipe?: boolean`, `backgroundColor?: Color`, `onIndexChanged?: Action`, `onClose?: Action`
 
 ### `map` *(since v1.0)*
-- properties: `click?: Action`, `tooltip?: string`, `center?: `{ latitude, longitude }``, `latitude?: number`, `longitude?: number`, `zoom?: number`, `mapType?: string`, `markers?: `Marker[]``, `markers[].id: string`, `markers[].latitude: number`, `markers[].longitude: number`, `markers[].label?: string`, `markers[].icon?: string`, `markers[].color?: string`, `overlays?: `Overlay[]``, `overlays[].type: string`, `overlays[].points?: `{ latitude, longitude }[]``, `overlays[].fillColor?: string`, `overlays[].strokeColor?: string`, `overlays[].strokeWidth?: number`, `onMarkerTap?: Action`, `onMapTap?: Action`
+- properties: `click?: Action`, `tooltip?: string`, `center?: { latitude, longitude }`, `latitude?: number`, `longitude?: number`, `zoom?: number`, `mapType?: string`, `markers?: Marker[]`, `markers[].id: string`, `markers[].latitude: number`, `markers[].longitude: number`, `markers[].label?: string`, `markers[].icon?: string`, `markers[].color?: string`, `overlays?: Overlay[]`, `overlays[].type: string`, `overlays[].points?: { latitude, longitude }[]`, `overlays[].fillColor?: string`, `overlays[].strokeColor?: string`, `overlays[].strokeWidth?: number`, `onMarkerTap?: Action`, `onMapTap?: Action`
 
 ### `markdown` *(since v1.0)*
-- properties: `click?: Action`, `tooltip?: string`, `text?: string `, `selectable?: boolean`, `width?: number`, `height?: number`, `fontSize?: number`, `textColor?: string`, `linkColor?: string`, `codeBackgroundColor?: string`, `onLinkTap?: Action`
+- properties: `click?: Action`, `tooltip?: string`, `text: string | binding`, `selectable?: boolean`, `width?: number`, `height?: number`, `fontSize?: number`, `textColor?: string`, `linkColor?: string`, `codeBackgroundColor?: string`, `onLinkTap?: Action`
 
 ### `mediaPlayer` *(since v1.0)*
 - aliases: `video`, `audio`
@@ -93,13 +93,13 @@ Format per widget:
 - events: `onChange`, `onCellSelect`
 
 ### `table` *(since v1.0)*
-- properties: `click?: Action`, `tooltip?: string`, `rows: `{ cells: Widget[] }[]``, `border?: `{ color, width }``, `defaultColumnWidth?: string | number`, `defaultVerticalAlignment?: string`, `columnWidths?: object`
+- properties: `click?: Action`, `tooltip?: string`, `rows: { cells: Widget[] }[]`, `border?: { color, width }`, `defaultColumnWidth?: string | number`, `defaultVerticalAlignment?: string`, `columnWidths?: object`
 
 ### `terminal` *(since v1.0)*
 - properties: `click?: Action`, `tooltip?: string`, `lines?: binding`, `prompt?: string`, `showInput?: boolean`, `maxLines?: number`, `width?: number`, `height?: number`, `fontSize?: number`, `backgroundColor?: string`, `textColor?: string`, `promptColor?: string`, `onCommand?: Action`
 
 ### `timeline` *(since v1.0)*
-- properties: `click?: Action`, `tooltip?: string`, `items: `TimelineItem[]``, `items[].title: string`, `items[].subtitle?: string`, `items[].icon?: string`, `items[].time?: string`, `items[].color?: string`, `orientation?: string`
+- properties: `click?: Action`, `tooltip?: string`, `items: TimelineItem[]`, `items[].title: string`, `items[].subtitle?: string`, `items[].icon?: string`, `items[].time?: string`, `items[].color?: string`, `orientation?: string`
 
 ### `tree` *(since v1.0)*
 - aliases: `treeView`
@@ -355,7 +355,7 @@ Format per widget:
 
 ### `box` *(since v1.0)*
 - aliases: `container`
-- properties: `click?: Action`, `tooltip?: string`, `width?: number`, `height?: number`, `minWidth?: number`, `maxWidth?: number`, `minHeight?: number`, `maxHeight?: number`, `padding?: string`, `margin?: EdgeInsets`, `alignment?: Alignment`, `color?: Color`, `decoration?: BoxDecoration`
+- properties: `click?: Action`, `tooltip?: string`, `width?: Dimension`, `height?: Dimension`, `minWidth?: number`, `maxWidth?: number`, `minHeight?: number`, `maxHeight?: number`, `padding?: string`, `margin?: EdgeInsets`, `alignment?: Alignment`, `color?: Color`, `decoration?: BoxDecoration`
 - children: single (key: `child`)
 
 ### `center`
@@ -533,9 +533,6 @@ Format per widget:
 
 ### `layoutBuilder`
 - properties: `click?: Action`, `tooltip?: string`, `breakpoints?: object`, `layouts?: object`, `default?: Widget`
-
-### `lazy`
-- properties: `click?: Action`, `tooltip?: string`, `child: Widget`
 
 ### `limitedBox`
 - properties: `click?: Action`, `tooltip?: string`, `maxWidth?: number`, `maxHeight?: number`, `child: Widget`

@@ -954,7 +954,7 @@ Inline-defined content variant:
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | `placeholder` | Widget | null | Rendered while `content` is not yet materialized |
-| `content` | Widget \| `{ source }` | required | Inline widget, or `{ source: "ui://..." }` to fetch a remote page fragment |
+| `content` | Widget \| object | required | Inline widget, or `{ source: "ui://..." }` to fetch a remote page fragment |
 | `trigger` | enum | `viewport` | `viewport` (render when scrolled into view), `immediate` (render on mount), `manual` (render when `load()` signal is received) |
 | `onLoad` | Action | null | Fired after `content` is materialized |
 | `onError` | Action | null | Fired if `content` fetch fails; `event.error` |

@@ -6,7 +6,7 @@ description: |
   Geographic map with markers and overlays.
 properties:
   center:
-    type: "`{ latitude, longitude }`"
+    type: "{ latitude, longitude }"
     description: "Map center coordinates. Required when flat `latitude` / `longitude` are omitted."
   latitude:
     type: "number"
@@ -24,7 +24,7 @@ properties:
     default: "standard"
     description: "Base tile set."
   markers:
-    type: "`Marker[]`"
+    type: "Marker[]"
     default: "[]"
     description: "Point markers"
   markers[].id:
@@ -52,7 +52,7 @@ properties:
     default: null
     description: "Marker color"
   overlays:
-    type: "`Overlay[]`"
+    type: "Overlay[]"
     default: "[]"
     description: "Polygon / polyline / circle overlays"
   overlays[].type:
@@ -61,7 +61,7 @@ properties:
     required: true
     description: "Overlay shape."
   overlays[].points:
-    type: "`{ latitude, longitude }[]`"
+    type: "{ latitude, longitude }[]"
     default: "required for polygon/polyline"
     description: "Vertex list"
   overlays[].fillColor:

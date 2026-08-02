@@ -10,11 +10,11 @@ description: |
 
 properties:
   width:
-    type: number
-    description: Fixed width in logical pixels. When omitted, the box shrinks to its child's width.
+    type: Dimension
+    description: Fixed width — a number of logical pixels, or a `{value, unit}` object. When omitted, the box shrinks to its child's width.
   height:
-    type: number
-    description: Fixed height in logical pixels. When omitted, the box shrinks to its child's height.
+    type: Dimension
+    description: Fixed height — a number of logical pixels, or a `{value, unit}` object. When omitted, the box shrinks to its child's height.
   minWidth:
     type: number
     description: Minimum width constraint. Honored independently of `width`; a child wider than `minWidth` is allowed.

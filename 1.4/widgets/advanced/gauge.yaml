@@ -19,7 +19,7 @@ properties:
     default: 100
     description: "Range maximum"
   segments:
-    type: "`Segment[]`"
+    type: "Segment[]"
     default: null
     description: "Color segments with `from`, `to`, `color`"
   size:

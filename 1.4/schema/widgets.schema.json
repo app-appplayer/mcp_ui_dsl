@@ -2531,62 +2531,12 @@
           "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "width": {
-          "description": "Fixed width in logical pixels. When omitted, the box shrinks to its child's width.",
-          "anyOf": [
-            {
-              "type": "number",
-              "description": "Fixed width in logical pixels. When omitted, the box shrinks to its child's width."
-            },
-            {
-              "type": "string",
-              "pattern": "^\\{\\{.*\\}\\}$",
-              "description": "Binding expression."
-            },
-            {
-              "type": "object",
-              "properties": {
-                "value": {
-                  "type": "number"
-                },
-                "unit": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "value"
-              ],
-              "description": "Dimension object: `{value, unit}`."
-            }
-          ]
+          "$ref": "#/$defs/Dimension",
+          "description": "Fixed width — a number of logical pixels, or a `{value, unit}` object. When omitted, the box shrinks to its child's width."
         },
         "height": {
-          "description": "Fixed height in logical pixels. When omitted, the box shrinks to its child's height.",
-          "anyOf": [
-            {
-              "type": "number",
-              "description": "Fixed height in logical pixels. When omitted, the box shrinks to its child's height."
-            },
-            {
-              "type": "string",
-              "pattern": "^\\{\\{.*\\}\\}$",
-              "description": "Binding expression."
-            },
-            {
-              "type": "object",
-              "properties": {
-                "value": {
-                  "type": "number"
-                },
-                "unit": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "value"
-              ],
-              "description": "Dimension object: `{value, unit}`."
-            }
-          ]
+          "$ref": "#/$defs/Dimension",
+          "description": "Fixed height — a number of logical pixels, or a `{value, unit}` object. When omitted, the box shrinks to its child's height."
         },
         "minWidth": {
           "description": "Minimum width constraint. Honored independently of `width`; a child wider than `minWidth` is allowed.",
@@ -7783,7 +7733,29 @@
           "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "data": {
-          "description": "required | Array of `{ x, y }` points (or `{ label, value }`)."
+          "description": "Array of `{ x, y }` points (or `{ label, value }`).",
+          "anyOf": [
+            {
+              "oneOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "description": "Point"
+                  }
+                },
+                {
+                  "type": "string",
+                  "pattern": "^\\{\\{.*\\}\\}$",
+                  "description": "Binding expression resolving to an array."
+                }
+              ]
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$|^[a-zA-Z_][a-zA-Z0-9_.\\[\\]]*$",
+              "description": "State path (`\"form.email\"`) or expression (`\"{{form.email}}\"`)."
+            }
+          ]
         },
         "chartType": {
           "type": "string",
@@ -7933,7 +7905,8 @@
         }
       },
       "required": [
-        "type"
+        "type",
+        "data"
       ],
       "additionalProperties": true
     },
@@ -9184,7 +9157,7 @@
     },
     "lazy": {
       "type": "object",
-      "description": "Defers construction of a child until it is first rendered.",
+      "description": "Defer rendering of an expensive subtree until it enters the viewport (or until explicitly loaded). `lazy` belongs to the Utility group in [`02_Widgets.md`](02_Widgets.md) and is listed here because its schema pairs conceptually with the heavy Advanced widgets above.",
       "properties": {
         "type": {
           "type": "string",
@@ -9199,15 +9172,43 @@
           "type": "string",
           "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
+        "placeholder": {
+          "$ref": "#/$defs/Widget"
+        },
+        "content": {
+          "description": "Inline widget, or `{ source: \"ui://...\" }` to fetch a remote page fragment. Required when `children` is omitted.",
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Widget"
+            },
+            {
+              "type": "object",
+              "description": "object",
+              "additionalProperties": true
+            }
+          ]
+        },
         "child": {
           "$ref": "#/$defs/Widget"
         },
         "children": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/Widget"
-          },
-          "description": "Multiple widgets; runtime wraps them into an implicit column. Alternative to `child` — mutually exclusive."
+          "description": "Multiple deferred widgets; runtime wraps them in a linear column."
+        },
+        "trigger": {
+          "type": "string",
+          "enum": [
+            "visible",
+            "immediate",
+            "manual"
+          ],
+          "default": "visible",
+          "description": "`visible` renders when the widget becomes visible to the user (typically scrolled into view); `immediate` renders on mount; `manual` renders when a `load()` signal is received."
+        },
+        "onLoad": {
+          "$ref": "#/$defs/Action"
+        },
+        "onError": {
+          "$ref": "#/$defs/Action"
         }
       },
       "required": [
@@ -10594,9 +10595,17 @@
           "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "text": {
-          "type": "string",
-          "default": "binding",
-          "description": "required | Markdown source"
+          "description": "Markdown source",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "string",
+              "pattern": "^\\{\\{.*\\}\\}$|^[a-zA-Z_][a-zA-Z0-9_.\\[\\]]*$",
+              "description": "State path (`\"form.email\"`) or expression (`\"{{form.email}}\"`)."
+            }
+          ]
         },
         "selectable": {
           "description": "Allow text selection",
@@ -10717,7 +10726,8 @@
         }
       },
       "required": [
-        "type"
+        "type",
+        "text"
       ],
       "additionalProperties": true
     },
@@ -19678,9 +19688,6 @@
         },
         {
           "$ref": "#/$defs/layoutBuilder"
-        },
-        {
-          "$ref": "#/$defs/lazy"
         },
         {
           "$ref": "#/$defs/lazy"

@@ -6,11 +6,11 @@ description: |
   Layout table for arranging widgets in rows and columns. Not data-bound; each cell is a widget.
 properties:
   rows:
-    type: "`{ cells: Widget[] }[]`"
+    type: "{ cells: Widget[] }[]"
     required: true
     description: "Row definitions"
   border:
-    type: "`{ color, width }`"
+    type: "{ color, width }"
     default: null
     description: "Optional cell border"
   defaultColumnWidth:

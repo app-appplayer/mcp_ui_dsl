@@ -22,7 +22,7 @@ properties:
     default: 40
     description: "Cell size (logical px)"
   colorRange:
-    type: "`{ low, high }`"
+    type: "{ low, high }"
     default: "{ \"#E3F2FD\", \"#1565C0\" }"
     description: "Hex gradient endpoints"
   showValues:

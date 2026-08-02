@@ -1931,7 +1931,7 @@ Modal alert with title, content, and action buttons.
 |----------|------|----------|---------|-------------|
 | `title` | string | no | — | Dialog title. |
 | `content` | string \| Widget | no | — | Dialog body. |
-| `actions` | DialogAction[] | no | — | `{ label, variant?, primary?, onTap }` entries. |
+| `actions` | object[] | no | — | `{ label, variant?, primary?, onTap }` entries. `DialogAction` is not a declared type — the shape is stated here and in the registry. |
 | `dismissible` | boolean | no | `true` | Whether tapping outside dismisses. |
 
 ```json

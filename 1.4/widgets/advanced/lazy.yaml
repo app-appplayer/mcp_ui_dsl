@@ -12,6 +12,9 @@ properties:
   content:
     type: "Widget | object"
     description: "Inline widget, or `{ source: \"ui://...\" }` to fetch a remote page fragment. Required when `children` is omitted."
+  child:
+    type: "Widget"
+    description: "A single deferred widget. Alternative to `content` for the simple case."
   children:
     type: "Widget[]"
     description: "Multiple deferred widgets; runtime wraps them in a linear column."

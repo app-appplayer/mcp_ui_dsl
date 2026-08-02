@@ -85,7 +85,6 @@ Run `dart run tools/spec_codegen/bin/spec_codegen.dart` to regenerate.
 | `kenBurnsImage` | display | Core | v1.3 | — |
 | `layoutBuilder` | utility | Core | — | — |
 | `lazy` | advanced | Core | v1.0 | — |
-| `lazy` | utility | Core | — | — |
 | `lightbox` | advanced | Core | v1.3 | — |
 | `limitedBox` | utility | Core | — | — |
 | `linear` | layout | Core | — | `row`, `column` |
@@ -758,8 +757,8 @@ commonly used as a styled wrapper around any child widget.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
-| `width` | `number` | no | — | Fixed width in logical pixels. When omitted, the box shrinks to its child's width. |
-| `height` | `number` | no | — | Fixed height in logical pixels. When omitted, the box shrinks to its child's height. |
+| `width` | `Dimension` | no | — | Fixed width — a number of logical pixels, or a `{value, unit}` object. When omitted, the box shrinks to its child's width. |
+| `height` | `Dimension` | no | — | Fixed height — a number of logical pixels, or a `{value, unit}` object. When omitted, the box shrinks to its child's height. |
 | `minWidth` | `number` | no | — | Minimum width constraint. Honored independently of `width`; a child wider than `minWidth` is allowed. |
 | `maxWidth` | `number` | no | — | Maximum width constraint. Caps the child's width regardless of intrinsic size. |
 | `minHeight` | `number` | no | — | Minimum height constraint. |
@@ -1524,7 +1523,7 @@ Material-style sortable, selectable data table bound to a row array.
 | `resizableColumns` | `boolean` | no | false | Allow dragging column edges to resize. |
 | `virtualScroll` | `boolean` | no | false | Render only visible rows. Requires a fixed `rowHeight` — a virtualised list cannot measure rows it has not built. |
 | `rowHeight` | `number` | no | — | Fixed row height in logical pixels. Required when `virtualScroll` is true. |
-| `columns` | ``Column[]`` | yes | — | Column definitions |
+| `columns` | `Column[]` | yes | — | Column definitions |
 | `columns[].key` | `string` | yes | — | Row field key |
 | `columns[].label` | `string` | yes | — | Header label |
 | `columns[].width` | `number` | no | — | Fixed column width |
@@ -2236,7 +2235,7 @@ Radial gauge for a value within a range.
 | `value` | `number` | yes | — | Current value |
 | `min` | `number` | no | 0 | Range minimum |
 | `max` | `number` | no | 100 | Range maximum |
-| `segments` | ``Segment[]`` | no | — | Color segments with `from`, `to`, `color` |
+| `segments` | `Segment[]` | no | — | Color segments with `from`, `to`, `color` |
 | `size` | `number` | no | 200 | Diameter (logical px) |
 | `strokeWidth` | `number` | no | 20 | Arc thickness |
 | `backgroundColor` | `string` | no | #E0E0E0 | Track color |
@@ -2323,7 +2322,7 @@ Time-series / numeric data graph (line, bar, area, scatter) drawn on a single se
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
-| `data` | ``Point[]` ` | no | binding | required | Array of `{ x, y }` points (or `{ label, value }`). |
+| `data` | `array<Point> | binding` | yes | — | Array of `{ x, y }` points (or `{ label, value }`). |
 | `chartType` | `string` | no | line | Chart style. Legacy alias `type` is retained for backward compatibility but avoid it — it collides with the widget-type discriminator. |
 | `width` | `number` | no | 300 | Render width in logical px. |
 | `height` | `number` | no | 200 | Render height. |
@@ -2456,7 +2455,7 @@ Two-dimensional heatmap visualization.
 | `columnLabels` | `string[]` | no | — | Horizontal axis labels |
 | `rowLabels` | `string[]` | no | — | Vertical axis labels |
 | `cellSize` | `number` | no | 40 | Cell size (logical px) |
-| `colorRange` | ``{ low, high }`` | no | { "#E3F2FD", "#1565C0" } | Hex gradient endpoints |
+| `colorRange` | `{ low, high }` | no | { "#E3F2FD", "#1565C0" } | Hex gradient endpoints |
 | `showValues` | `boolean` | no | false | Render numeric value inside each cell |
 | `onCellTap` | `Action` | no | — | Fired on cell tap; `event.row`, `event.column`, `event.value` |
 
@@ -2913,6 +2912,7 @@ Defer rendering of an expensive subtree until it enters the viewport (or until e
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `placeholder` | `Widget` | no | — | Rendered while `content` is not yet materialized |
 | `content` | `Widget | object` | no | — | Inline widget, or `{ source: "ui://..." }` to fetch a remote page fragment. Required when `children` is omitted. |
+| `child` | `Widget` | no | — | A single deferred widget. Alternative to `content` for the simple case. |
 | `children` | `Widget[]` | no | — | Multiple deferred widgets; runtime wraps them in a linear column. |
 | `trigger` | `string` | no | visible | `visible` renders when the widget becomes visible to the user (typically scrolled into view); `immediate` renders on mount; `manual` renders when a `load()` signal is received. |
 | `onLoad` | `Action` | no | — | Fired after `content` is materialized |
@@ -2953,20 +2953,6 @@ Defer rendering of an expensive subtree until it enters the viewport (or until e
   }
 }
 ```
-
----
-
-## `lazy`  *(utility · Core)*
-
-Defers construction of a child until it is first rendered.
-
-### Properties
-
-| Property | Type | Required | Default | Description |
-|---|---|---|---|---|
-| `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
-| `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
-| `child` | `Widget` | yes | — | Deferred child. |
 
 ---
 
@@ -3245,21 +3231,21 @@ Geographic map with markers and overlays.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
-| `center` | ``{ latitude, longitude }`` | no | — | Map center coordinates. Required when flat `latitude` / `longitude` are omitted. |
+| `center` | `{ latitude, longitude }` | no | — | Map center coordinates. Required when flat `latitude` / `longitude` are omitted. |
 | `latitude` | `number` | no | — | Flat shorthand for `center.latitude` — legacy alternative to `center`. |
 | `longitude` | `number` | no | — | Flat shorthand for `center.longitude` — legacy alternative to `center`. |
 | `zoom` | `number` | no | 13 | Zoom level (0–22) |
 | `mapType` | `string` | no | standard | Base tile set. |
-| `markers` | ``Marker[]`` | no | [] | Point markers |
+| `markers` | `Marker[]` | no | [] | Point markers |
 | `markers[].id` | `string` | yes | — | Unique marker ID |
 | `markers[].latitude` | `number` | yes | — | Marker latitude |
 | `markers[].longitude` | `number` | yes | — | Marker longitude |
 | `markers[].label` | `string` | no | — | Marker label |
 | `markers[].icon` | `string` | no | — | Icon name |
 | `markers[].color` | `string` | no | — | Marker color |
-| `overlays` | ``Overlay[]`` | no | [] | Polygon / polyline / circle overlays |
+| `overlays` | `Overlay[]` | no | [] | Polygon / polyline / circle overlays |
 | `overlays[].type` | `string` | yes | — | Overlay shape. |
-| `overlays[].points` | ``{ latitude, longitude }[]`` | no | required for polygon/polyline | Vertex list |
+| `overlays[].points` | `{ latitude, longitude }[]` | no | required for polygon/polyline | Vertex list |
 | `overlays[].fillColor` | `string` | no | — | Fill color (polygon/circle) |
 | `overlays[].strokeColor` | `string` | no | — | Stroke color |
 | `overlays[].strokeWidth` | `number` | no | 1 | Stroke width |
@@ -3348,7 +3334,7 @@ Markdown renderer.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
-| `text` | `string ` | no | binding | required | Markdown source |
+| `text` | `string | binding` | yes | — | Markdown source |
 | `selectable` | `boolean` | no | false | Allow text selection |
 | `width` | `number` | no | — | Widget width |
 | `height` | `number` | no | — | Widget height |
@@ -5170,8 +5156,8 @@ Layout table for arranging widgets in rows and columns. Not data-bound; each cel
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
-| `rows` | ``{ cells: Widget[] }[]`` | yes | — | Row definitions |
-| `border` | ``{ color, width }`` | no | — | Optional cell border |
+| `rows` | `{ cells: Widget[] }[]` | yes | — | Row definitions |
+| `border` | `{ color, width }` | no | — | Optional cell border |
 | `defaultColumnWidth` | `string | number` | no | flex | `flex`, `intrinsic`, or a fixed number (logical px). |
 | `defaultVerticalAlignment` | `string` | no | middle | Cell vertical alignment. |
 | `columnWidths` | `object` | no | — | Map `columnIndex` → width override |
@@ -5453,7 +5439,7 @@ Chronological timeline of events.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
-| `items` | ``TimelineItem[]`` | yes | — | Timeline entries |
+| `items` | `TimelineItem[]` | yes | — | Timeline entries |
 | `items[].title` | `string` | yes | — | Entry title |
 | `items[].subtitle` | `string` | no | — | Secondary text |
 | `items[].icon` | `string` | no | — | Icon name |
