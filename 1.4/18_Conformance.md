@@ -41,7 +41,7 @@ Required for every conformant implementation.
 
 Runtimes MUST parse and render every widget in [`17_Naming.md`](17_Naming.md) §17.2.1 that is tagged *Core Profile*. This comprises:
 
-- **Layout:** `box`, `linear`, `stack`, `center`, `align`, `padding`, `expanded`, `flexible`, `spacer`, `sizedBox`, `wrap`, `positioned`, `safeArea`, `visibility`, `conditional`, `margin`, `aspectRatio`, `constrained`, `fractionallySized`, `intrinsicHeight`, `intrinsicWidth`
+- **Layout:** `box`, `linear`, `stack`, `center`, `align`, `padding`, `expanded`, `flexible`, `spacer`, `sizedBox`, `wrap`, `positioned`, `safeArea`, `visibility`, `conditional`, `margin`, `aspectRatio`, `constrained`, `fractionallySized`, `intrinsicHeight`, `intrinsicWidth`, `accordion` *(since v1.4)*
 - **Display:** `text`, `richText`, `image`, `icon`, `card`, `divider`, `verticalDivider`, `badge`, `chip`, `avatar`, `tooltip`, `placeholder`, `progressBar`, `banner`
 - **Input:** `button`, `iconButton`, `textInput`, `toggle`, `select`, `checkbox`, `checkboxGroup`, `radio`, `radioGroup`, `slider`, `rangeSlider`, `numberField`, `form`, `rating`, `fileInput` *(since v1.4)*, `multiSelect` *(since v1.4)*, `combobox` *(since v1.4)*, `otpInput` *(since v1.4)*, `dateTimePicker` *(since v1.4)*
 - **Date/time input:** `dateField`, `timeField`, `datePicker`, `timePicker`, `dateRangePicker`, `colorPicker`, `segmentedControl`, `stepper`, `numberStepper`
@@ -279,7 +279,9 @@ Required for runtimes that expose advanced visualization or editor widgets.
 
 Runtimes claiming the Advanced Profile MUST parse and render every widget in [`10_Advanced_Widgets.md`](10_Advanced_Widgets.md) §10.1, subject to the version gating in §18.5.2:
 
-`chart`, `table`, `dataTable`, `map`, `mediaPlayer`, `calendar`, `timeline`, `gauge`, `heatmap`, `tree`, `graph`, `networkGraph`, `codeEditor`, `terminal`, `fileExplorer`, `markdown`, `webView`, `signature`.
+`chart`, `table`, `dataTable`, `map`, `mediaPlayer`, `calendar`, `timeline`, `gauge`, `heatmap`, `tree`, `graph`, `networkGraph`, `codeEditor`, `terminal`, `fileExplorer`, `markdown`, `webView`, `signature`, `canvas`, `lightbox`, `qrCode`, `barcode`, `pdfViewer`, `diffViewer`, `richTextEditor`, `splitter`, `resizable`, `kanban`, `gantt`, `spreadsheet`.
+
+The list is the §10.1 catalog. It had drifted — `canvas` and `lightbox` were in the catalog and gated in §18.5.2 but absent here, so a reader checking only this section saw a shorter obligation than the one §18.5.1 states.
 
 ### 18.5.2 Version-Gated Widgets
 

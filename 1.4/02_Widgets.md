@@ -354,7 +354,7 @@ Renders different branches based on an expression. Two forms are supported: then
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| `condition` | binding | yes | — | Boolean-producing expression. |
+| `condition` | boolean \| binding | yes | — | Boolean-producing expression. |
 | `then` | Widget | yes | — | Rendered when `condition` is truthy. |
 | `else` | Widget | no | — | Rendered when `condition` is falsy. |
 
@@ -1352,8 +1352,8 @@ Single row in a list with optional leading/trailing widgets. Replaces Material `
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| `title` | string | no | — | Primary text. |
-| `subtitle` | string | no | — | Secondary text. |
+| `title` | string \| Widget | no | — | Primary text, or a widget when it needs more than a string. |
+| `subtitle` | string \| Widget | no | — | Secondary text, or a widget. |
 | `leading` | Widget | no | — | Leading widget (icon, avatar). |
 | `trailing` | Widget | no | — | Trailing widget. |
 | `onTap` | Action | no | — | Tap handler. |
@@ -2344,7 +2344,7 @@ Responsive widget that inspects the current layout context and picks a child bas
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| `condition` | binding | no | — | Boolean expression; selects `then` when truthy. |
+| `condition` | object \| binding | no | — | Form-factor condition object, or a binding to one; selects `then` when it matches. |
 | `then` | Widget | no | — | Rendered when `condition` is truthy. |
 | `else` | Widget | no | — | Rendered when `condition` is falsy. Legacy alias: `orElse`. |
 | `breakpoints` | object | no | — | Map of breakpoint name → Widget (e.g., `{ "sm": ..., "md": ... }`). |

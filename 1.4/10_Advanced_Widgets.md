@@ -71,7 +71,7 @@ Data visualization widget with multiple chart types.
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | `chartType` | enum | required | `line`, `bar`, `pie`, `donut`, `scatter`, `area`, `radar`, `polar`, `bubble` |
-| `data` | object | required | `{ labels: string[], datasets: Dataset[] }` |
+| `data` | object \| array | required | `{ labels: string[], datasets: Dataset[] }`, or a bare series array |
 | `data.datasets[].label` | string | null | Dataset label shown in legend |
 | `data.datasets[].data` | number[] | required | Data points |
 | `data.datasets[].borderColor` | string | theme | Line/border color |
@@ -118,7 +118,7 @@ Layout table for arranging widgets in rows and columns. Not data-bound; each cel
 |----------|------|---------|-------------|
 | `rows` | `{ cells: Widget[] }[]` | required | Row definitions |
 | `border` | `{ color, width }` | null | Optional cell border |
-| `defaultColumnWidth` | enum | `flex` | `flex`, `intrinsic`, or a number (fixed px) |
+| `defaultColumnWidth` | string \| number | `flex` | `flex`, `intrinsic`, or a number (fixed px) |
 | `defaultVerticalAlignment` | enum | `middle` | `top`, `middle`, `bottom`, `baseline` |
 | `columnWidths` | object | null | Map `columnIndex` → width override |
 
@@ -305,7 +305,7 @@ Calendar view for date selection and event display.
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `selectedDate` | binding (ISO 8601) | null | Currently selected date |
+| `selectedDate` | string \| binding (ISO 8601) | null | Currently selected date |
 | `events` | binding | null | Array of `{ date, title, color? }` |
 | `firstDate` | string (ISO 8601) | null | Earliest selectable date |
 | `lastDate` | string (ISO 8601) | null | Latest selectable date |
@@ -398,7 +398,7 @@ Two-dimensional heatmap visualization.
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `data` | binding | required | 2D numeric array (rows × columns) |
+| `data` | array \| binding | required | 2D numeric array (rows × columns) |
 | `columnLabels` | string[] | null | Horizontal axis labels |
 | `rowLabels` | string[] | null | Vertical axis labels |
 | `cellSize` | number | 40 | Cell size (logical px) |
@@ -430,7 +430,7 @@ Hierarchical tree view with expandable nodes.
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `data` | binding | required | Hierarchical data; each node MAY carry a `children` array |
+| `data` | array \| binding | required | Hierarchical data; each node MAY carry a `children` array |
 | `childrenKey` | string | `children` | Field name of the children array |
 | `itemTemplate` | Widget | required | Template rendered per node; `{{item}}` is node data |
 | `expandable` | boolean | `true` | Allow expand/collapse |
@@ -514,7 +514,7 @@ Syntax-highlighted code editor.
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `code` | binding | required | Code content |
+| `code` | string \| binding | required | Code content |
 | `language` | enum | `plaintext` | `plaintext`, `javascript`, `typescript`, `dart`, `python`, `java`, `kotlin`, `swift`, `go`, `rust`, `c`, `cpp`, `csharp`, `ruby`, `php`, `sql`, `json`, `yaml`, `xml`, `html`, `css`, `markdown`, `shell` |
 | `theme` | enum | `vsLight` | `vsLight`, `vsDark`, `monokai`, `solarizedLight`, `solarizedDark`, `github`, `dracula` |
 | `readOnly` | boolean | `false` | Disable editing (syntax highlighting still applies) |
