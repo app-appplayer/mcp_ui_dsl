@@ -63,6 +63,11 @@ In `system` mode the runtime MUST track host brightness and switch schemes witho
 
 ### 5.3.1 Color roles (28 + 6 semantic)
 
+Every role below derives from `seed` when the bundle does not declare it —
+**except the six semantic roles**, which have no Material 3 counterpart to
+derive from and resolve to the widget's own default until the theme declares
+them.
+
 #### Primary family
 
 | Role | Description |
@@ -105,16 +110,27 @@ In `system` mode the runtime MUST track host brightness and switch schemes witho
 |---|---|
 | `surface` | Default surface (cards, sheets, dialogs) |
 | `onSurface` | Foreground on surface |
-| `surfaceVariant` | Lower-emphasis surface |
-| `onSurfaceVariant` | Foreground on surfaceVariant |
+| `onSurfaceVariant` | Foreground on the lower-emphasis surface |
 | `surfaceTint` | Tint applied at elevation (M3 elevation tinting) |
+| `surfaceBright` | Brightest surface in the family |
+| `surfaceDim` | Dimmest surface in the family |
+| `surfaceContainerLowest` | Container surface, lowest emphasis |
+| `surfaceContainerLow` | Container surface, low emphasis |
+| `surfaceContainer` | Container surface, default emphasis |
+| `surfaceContainerHigh` | Container surface, high emphasis |
+| `surfaceContainerHighest` | Container surface, highest emphasis |
+| `surfaceVariant` | **Legacy** — Material 3 retired this role. Resolves as `surfaceContainerHighest`. |
 
-#### Background family
+#### Background family *(legacy)*
+
+Material 3 folded the background family into the surface family. Both names
+resolve to their surface counterpart so documents written against earlier
+drafts keep working; new documents SHOULD use `surface` / `onSurface`.
 
 | Role | Description |
 |---|---|
-| `background` | Page background |
-| `onBackground` | Foreground on background |
+| `background` | **Legacy** — resolves as `surface` |
+| `onBackground` | **Legacy** — resolves as `onSurface` |
 
 #### Outline family
 
@@ -128,7 +144,8 @@ In `system` mode the runtime MUST track host brightness and switch schemes witho
 | Role | Description |
 |---|---|
 | `inverseSurface` | Inverse of surface (snackbars, etc.) |
-| `inverseOnSurface` | Foreground on inverseSurface |
+| `onInverseSurface` | Foreground on `inverseSurface` |
+| `inverseOnSurface` | **Legacy** spelling of `onInverseSurface` |
 | `inversePrimary` | Inverse of primary |
 
 #### Misc

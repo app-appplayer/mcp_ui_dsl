@@ -208,6 +208,13 @@ Applies outer margin around a single child.
 
 Flex child that expands to fill available space inside a `linear` parent.
 
+**The parent must be bounded along its own direction.** A `linear` inside a
+scrolling ancestor shrink-wraps — it has no "available space" to divide — and
+`expanded` there is an error, not a no-op: the runtime reports *"RenderFlex
+children have non-zero flex but incoming height constraints are unbounded"* and
+the subtree does not draw. Give the region a size (`sizedBox`, `box.height`)
+before dividing it. §2.15 lists the widgets this comes up with.
+
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
 | `flex` | number | no | `1` | Flex weight. |
@@ -2427,3 +2434,32 @@ Renders a compact dashboard tile — the widget equivalent of the `ApplicationDe
 - **Template widgets** (`use`, `template`) — see [`09_Templates.md`](09_Templates.md).
 - **`accessibleWrapper`** — see [`13_Accessibility.md`](13_Accessibility.md).
 - **Advanced widgets** (`chart`, `table`, `dataTable`, `map`, `mediaPlayer`, `calendar`, `timeline`, `gauge`, `heatmap`, `tree`, `graph`, `networkGraph`, `codeEditor`, `terminal`, `fileExplorer`, `markdown`, `webView`, `signature`, `canvas`) — see [`10_Advanced_Widgets.md`](10_Advanced_Widgets.md). Core-only runtimes MAY skip these.
+
+## 2.15 Widgets that require a bounded parent
+
+Some widgets measure themselves against the space the parent gives them rather
+than against their own content. Placed under an ancestor that shrink-wraps —
+a scrolling page, a `linear` sized by its children — they have nothing to
+measure against, and the failure is a **layout exception that stops the subtree
+from drawing**, not a smaller widget.
+
+Nothing in a property table reveals this, which is why it is collected here.
+
+| Widget | Needs | Typical symptom when unbounded |
+|---|---|---|
+| `tabBarView` | Height | *Horizontal viewport was given unbounded height* |
+| `pageView` | Height (or width, when horizontal) | Same shape |
+| `list` / `grid` | Height, unless `shrinkWrap` is set | Viewport exception, or an unbounded-height assert |
+| `scrollView` nested in the same axis | Height | Inner viewport gets no constraint |
+| `expanded` / `flexible` | A bounded `linear` parent (§2.4.8) | *RenderFlex children have non-zero flex but incoming height constraints are unbounded* |
+| `splitter` | Size along `orientation` | Panes collapse or assert |
+
+The fix is always the same: **the author decides the size.** Wrap the region in
+a `sizedBox` (or set `box.height`), or set `shrinkWrap` where the widget offers
+it. A runtime cannot invent the number — a generated value would be a layout
+that looks deliberate and is not.
+
+`expanded` is the one that surprises: it is the tool for dividing space, so
+reaching for it inside a shrink-wrapping parent is the natural move, and it
+fails *because* the parent has no space to divide. Bound the parent first, then
+divide.

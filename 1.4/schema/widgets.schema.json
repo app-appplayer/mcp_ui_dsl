@@ -106,6 +106,10 @@
             "outlineVariant",
             "inverseSurface",
             "onInverseSurface",
+            "inverseOnSurface",
+            "background",
+            "onBackground",
+            "surfaceVariant",
             "inversePrimary",
             "scrim",
             "shadow",
@@ -126,7 +130,7 @@
           "$ref": "#/$defs/Binding"
         }
       ],
-      "description": "A color value. Three spellings, all accepted wherever a color is\nexpected:\n\n- **Hex** — `#RGB`, `#RRGGBB`, or `#AARRGGBB`. The 8-digit form puts\n  alpha **first**, matching the runtime's parse order.\n- **Theme scheme slot** — a bare Material 3 role name from §5.3\n  (`primary`, `onSurfaceVariant`, `error`, …), plus the four semantic\n  pairs this spec adds (`success`, `warning`, `info` and their `on*`).\n  Resolved against the active theme, so it follows light / dark mode.\n  This is the preferred form: it is the only one that adapts.\n- **CSS basic name** — the ten colors a document can name without a\n  theme (`red`, `blue`, `green`, `yellow`, `orange`, `purple`,\n  `black`, `white`, `grey`/`gray`). Matched case-insensitively.\n\nBindings are accepted in all three positions.\n\nA bare word that is neither a scheme slot nor a basic name is **not**\na color: the runtime resolves it to null and the widget falls back to\nits default. Validators reject it rather than let it render as a\nsilent default."
+      "description": "A color value. Three spellings, all accepted wherever a color is\nexpected:\n\n- **Hex** — `#RGB`, `#RRGGBB`, or `#AARRGGBB`. The 8-digit form puts\n  alpha **first**, matching the runtime's parse order.\n- **Theme scheme slot** — a bare Material 3 role name from §5.3.1\n  (`primary`, `onSurfaceVariant`, `error`, …), the three semantic pairs\n  this spec adds (`success`, `warning`, `info` and their `on*`), and the\n  four legacy spellings §5.3.1 keeps (`background`, `onBackground`,\n  `surfaceVariant`, `inverseOnSurface`).\n  Resolved against the active theme, so it follows light / dark mode.\n  This is the preferred form: it is the only one that adapts.\n- **CSS basic name** — the ten colors a document can name without a\n  theme (`red`, `blue`, `green`, `yellow`, `orange`, `purple`,\n  `black`, `white`, `grey`/`gray`). Matched case-insensitively.\n\nBindings are accepted in all three positions.\n\nA bare word that is neither a scheme slot nor a basic name is **not**\na color: the runtime resolves it to null and the widget falls back to\nits default. Validators reject it rather than let it render as a\nsilent default."
     },
     "BorderRadius": {
       "oneOf": [

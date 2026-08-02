@@ -5,9 +5,11 @@ description: |
 
   - **Hex** — `#RGB`, `#RRGGBB`, or `#AARRGGBB`. The 8-digit form puts
     alpha **first**, matching the runtime's parse order.
-  - **Theme scheme slot** — a bare Material 3 role name from §5.3
-    (`primary`, `onSurfaceVariant`, `error`, …), plus the four semantic
-    pairs this spec adds (`success`, `warning`, `info` and their `on*`).
+  - **Theme scheme slot** — a bare Material 3 role name from §5.3.1
+    (`primary`, `onSurfaceVariant`, `error`, …), the three semantic pairs
+    this spec adds (`success`, `warning`, `info` and their `on*`), and the
+    four legacy spellings §5.3.1 keeps (`background`, `onBackground`,
+    `surfaceVariant`, `inverseOnSurface`).
     Resolved against the active theme, so it follows light / dark mode.
     This is the preferred form: it is the only one that adapts.
   - **CSS basic name** — the ten colors a document can name without a
@@ -65,6 +67,10 @@ definition:
           "outlineVariant",
           "inverseSurface",
           "onInverseSurface",
+          "inverseOnSurface",
+          "background",
+          "onBackground",
+          "surfaceVariant",
           "inversePrimary",
           "scrim",
           "shadow",
