@@ -48,7 +48,7 @@ Rationale: matches React's convention (the dominant component-based UI grammar).
 
 ### 17.1.6 Action Types — Single word or dotted namespace
 
-- Core: `state`, `navigation`, `tool`, `resource`, `dialog`, `batch`, `conditional`, `notification`, `parallel`, `sequence`, `cancel`, `animation`
+- Core: `state`, `navigation`, `tool`, `resource`, `dialog`, `batch`, `conditional`, `notification`, `parallel`, `sequence`, `cancel`, `animation`, `submit`, `event`
 - Namespaced (dotted): `client.selectFile`, `client.readFile`, `channel.start`, `channel.stop`, `permission.revoke`
 
 The dot separator indicates a family of related operations on one subsystem.
@@ -137,11 +137,11 @@ Full catalog in [`04_Actions.md`](04_Actions.md).
 
 #### Core Profile
 
-`state`, `navigation`, `tool`, `resource`, `dialog`, `batch`, `conditional`, `notification`, `parallel`, `sequence`, `cancel`, `animation`
+`state`, `navigation`, `tool`, `resource`, `dialog`, `batch`, `conditional`, `notification`, `parallel`, `sequence`, `cancel`, `animation`, `submit`, `event`
 
 #### Client Profile
 
-`client.selectFile`, `client.readFile`, `client.writeFile`, `client.saveFile`, `client.listFiles`, `client.httpRequest`, `client.getSystemInfo`, `client.clipboard`, `client.exec`, `client.notification`, `client.storage.get`, `client.storage.set`, `client.storage.remove`, `permission.revoke`, `channel.start`, `channel.stop`, `channel.restart`, `channel.toggle`, `channel.send`, `identity.promote`, `identity.release`
+`channel`, `permission`, `client.selectFile`, `client.readFile`, `client.writeFile`, `client.saveFile`, `client.listFiles`, `client.httpRequest`, `client.getSystemInfo`, `client.clipboard`, `client.exec`, `client.notification`, `client.storage.get`, `client.storage.set`, `client.storage.remove`, `permission.revoke`, `channel.start`, `channel.stop`, `channel.restart`, `channel.toggle`, `channel.send`, `identity.promote`, `identity.release`
 
 ### 17.2.3 Navigation Sub-Actions
 
@@ -297,6 +297,8 @@ The legacy spellings are listed in the property's `enum` as well, because the `e
 | `onPanEnd` | `panEnd` |
 
 ### 17.3.4 Action Shape Aliases
+
+`channel` and `permission` are the canonical grouped forms — the subsystem is the type and the operation goes in the `action` field. The dotted spellings below are the v1.1 legacy shapes, accepted on input and never emitted.
 
 | Canonical | Legacy aliases |
 |-----------|----------------|
