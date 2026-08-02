@@ -1,0 +1,34 @@
+type: popupMenuButton
+category: navigation
+profile: Core
+aliases: [dropdownMenu]
+description: |
+  Button that reveals a popup menu of options.
+properties:
+  icon:
+    type: IconRef
+    default: "\"more_vert\""
+    description: "Trigger icon. Any `IconRef` form."
+  items:
+    type: "MenuItem[]"
+    required: true
+    description: "`{ value, label, icon?, enabled? }` entries."
+  onSelect:
+    type: "Action"
+    description: "Fired when an item is selected."
+# examples migrated verbatim from prose JSON fences.
+examples:
+  - name: prose_example_0
+    dsl: |
+      {
+        "type": "popupMenuButton",
+        "icon": "more_vert",
+        "items": [
+          { "value": "edit",   "label": "Edit" },
+          { "value": "delete", "label": "Delete" }
+        ],
+        "onSelect": {
+          "type": "state", "action": "set",
+          "binding": "selectedAction", "value": "{{event.value}}"
+        }
+      }

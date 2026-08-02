@@ -1,0 +1,43 @@
+type: image
+category: display
+profile: Core
+description: |
+  Displays an image from any asset source the runtime resolves — a
+  network URL, the active bundle, inline bytes, a host resource, or a
+  resource served by an origin. See `AssetRef`; a runtime declares which
+  of those it resolves (`06_Runtime_Contract.md` §6.12) and routes the
+  rest to `fallback` / `fallbackUrl` / `fallbackBehavior`.
+properties:
+  src:
+    type: AssetRef
+    required: true
+    description: "Image source. Any `AssetRef` form."
+    aliases:
+      - source
+      - backgroundImage
+  width:
+    type: "number"
+    description: "Width in logical pixels."
+  height:
+    type: "number"
+    description: "Height in logical pixels."
+  fit:
+    type: "string"
+    enum: [cover, contain, fill, none, scaleDown, fitHeight, fitWidth]
+    default: "\"contain\""
+    description: "`cover`, `contain`, `fill`, `none`, `scaleDown`, `fitHeight`, `fitWidth`."
+  alignment:
+    type: Alignment
+    default: "\"center\""
+    description: "Alignment within bounds."
+# examples migrated verbatim from prose JSON fences.
+examples:
+  - name: prose_example_0
+    dsl: |
+      {
+        "type": "image",
+        "src": "https://example.com/image.png",
+        "width": 200,
+        "height": 150,
+        "fit": "cover"
+      }
