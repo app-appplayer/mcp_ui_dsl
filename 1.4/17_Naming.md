@@ -127,6 +127,10 @@ Full widget catalog in [`02_Widgets.md`](02_Widgets.md). Names below are normati
 
 `placeholder`, `banner`, `accessibleWrapper`, `lazy`, `decoration`, `fittedBox`, `clipOval`, `clipRRect`
 
+#### Widgets requiring the Client Profile
+
+`voiceInput` *(since v1.4)* — microphone capture, gated by the permission system (§8.4). Listed here rather than beside the `client.*` actions because it is a widget: a runtime renders it, and only the capture behind it needs the grant.
+
 ### 17.2.2 Action Types
 
 Full catalog in [`04_Actions.md`](04_Actions.md).
@@ -134,10 +138,6 @@ Full catalog in [`04_Actions.md`](04_Actions.md).
 #### Core Profile
 
 `state`, `navigation`, `tool`, `resource`, `dialog`, `batch`, `conditional`, `notification`, `parallel`, `sequence`, `cancel`, `animation`
-
-#### Client Profile widgets
-
-`voiceInput` *(since v1.4)* — microphone capture; behind the permission system (§8.4)
 
 #### Client Profile
 
