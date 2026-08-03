@@ -286,3 +286,44 @@ So the contract is **honesty, not completeness**:
 ### 6.12.6 Size is a host policy, not a document one
 
 A host MAY decline to inline or cache an asset above a size it chooses. That decision is a resolution failure like any other and takes the path in §6.12.4; it MUST NOT be reported as a malformed reference, and the threshold MUST NOT appear in the document. An author writes what the asset *is*, not how large the host will tolerate it being.
+
+### 6.12.7 Who resolves `bundle://`, and when
+
+§6.12.3 says *which* bundle a `bundle://` reference names. This says who reads
+it, because the answer has been left to each host and the two ways of doing it
+are not interchangeable.
+
+A `bundle://` reference is resolved **against the bundle the client already
+holds** — the ambient origin's bundle (§6.12.3). It is never a request to the
+server that sent the document: a server naming `bundle://logo.png` is naming
+the running app's own asset, not one of its own files. A server's own files
+reach the client by the serving conventions in
+[`mcp_serving`](../../../mcp_serving/spec/1.0/README.md) §4, which need no
+scheme in this DSL.
+
+Two placements are conformant:
+
+1. **Resolved before the runtime sees the document.** The host walks the
+   definition (and every page it later loads) and replaces each `bundle://`
+   string with something the runtime already resolves — usually a `data:` URI
+   or a local path. The runtime never meets the scheme.
+2. **Resolved inside the runtime.** The host gives the runtime read access to
+   the active bundle, and the runtime resolves the scheme like any other
+   (§6.12.5, asynchronously).
+
+Placement is a host choice. What is **not** a choice:
+
+- **A host MUST apply the same placement to every document it loads,
+  regardless of how the document arrived.** A host that resolves `bundle://`
+  for a locally installed bundle and not for a document read from a connected
+  server makes the same reference render in one path and vanish in the other,
+  and the author has no way to tell which path their document will take.
+- Placement 1 satisfies §6.12.3 by construction, because the resolver belongs
+  to the document's own bundle. Placement 2 does not: a runtime resolving the
+  scheme itself MUST know which bundle is ambient for the subtree being built,
+  or an embedded subtree's `bundle://logo.png` will find the embedder's logo —
+  the substitution §6.12.4 forbids.
+- A host with no bundle loaded has nothing to resolve against, and
+  `bundle://` there is an unresolvable asset (§6.12.4) — not an error in the
+  document, which may be perfectly valid in a host that does hold the bundle.
+
