@@ -193,6 +193,7 @@ Full resolution order in [`03_Data_Binding.md`](03_Data_Binding.md).
 | `i18n.` | Internationalization keys (see [`12_Internationalization.md`](12_Internationalization.md)) |
 | `entry.` | Entry context — how this definition was reached (v1.4 — Client Profile) |
 | `identity.` | Current principal (v1.4 — Client Profile) |
+| `slot.` | Dashboard slot state — the bound device's, read-write (v1.4, §3.5.5) |
 
 ### 17.2.6 Callback Property Names
 
