@@ -387,6 +387,18 @@ understood as giving up the identity:
   the host never sees a reference it could decline, so a document that
   embeds bytes bypasses the one place that limit is meant to live.
 
+**Send an asset at the size it is drawn at.** Everything above is about the
+second delivery; the first one is paid whatever happens, and its cost is set
+by the transport, not by any cache. The same picture at its source resolution
+and at the size the screen actually uses differed by 1,268 ms against 57 ms on
+a local pipe — and a pipe is the fastest transport there is. On a serial link
+the same difference is tens of seconds, which is the difference between a
+screen appearing and a device that cannot present one.
+
+No layer below the author can do this. A runtime that receives bytes cannot
+know what they were meant to be, and a host applying §6.12.6 sees a reference
+it may decline, not a picture it may resize.
+
 This is guidance, not a constraint on the wire format. A runtime MUST NOT
 reject a document for carrying an inline asset, and MUST NOT impose a size
 limit on state (§6.12.6 governs *assets*, and the host cannot tell which
