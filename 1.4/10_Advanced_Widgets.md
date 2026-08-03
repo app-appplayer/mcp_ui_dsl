@@ -955,8 +955,8 @@ Inline-defined content variant:
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | `placeholder` | Widget | null | Rendered while `content` is not yet materialized |
-| `content` | Widget \| object | no | — | Inline widget, or `{ source: "ui://..." }` to fetch a remote page fragment. Required when `children` / `child` are omitted. |
-| `trigger` | enum | `viewport` | `viewport` (render when scrolled into view), `immediate` (render on mount), `manual` (render when `load()` signal is received) |
+| `content` | Widget \| object | — | Inline widget, or `{ source: "ui://..." }` naming a fragment to fetch — resolved the same way `view` resolves a `DefinitionSource` (§2.13.1). Required when `children` / `child` are omitted. |
+| `trigger` | enum | `visible` | `visible` (render when the widget becomes visible to the user), `immediate` (render on mount), `manual` (render when a `load()` signal is received) |
 | `onLoad` | Action | null | Fired after `content` is materialized |
 | `onError` | Action | null | Fired if `content` fetch fails; `event.error` |
 
