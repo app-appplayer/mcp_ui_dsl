@@ -2464,11 +2464,17 @@ Nothing in a property table reveals this, which is why it is collected here.
 | `scrollView` nested in the same axis | Height | Inner viewport gets no constraint |
 | `expanded` / `flexible` | A bounded `linear` parent (§2.4.8) | *RenderFlex children have non-zero flex but incoming height constraints are unbounded* |
 | `splitter` | Size along `orientation` | Panes collapse or assert |
+| `kanban` | Height | *BoxConstraints forces an infinite height* |
 
 The fix is always the same: **the author decides the size.** Wrap the region in
 a `sizedBox` (or set `box.height`), or set `shrinkWrap` where the widget offers
 it. A runtime cannot invent the number — a generated value would be a layout
 that looks deliberate and is not.
+
+A widget joins this table the moment it starts scrolling its own content: a
+board that scrolls each column, a pane that scrolls its rows, has by
+construction no height of its own to report. `kanban` gained per-column
+scrolling and with it this constraint, which is why the row exists.
 
 `expanded` is the one that surprises: it is the tool for dividing space, so
 reaching for it inside a shrink-wrapping parent is the natural move, and it

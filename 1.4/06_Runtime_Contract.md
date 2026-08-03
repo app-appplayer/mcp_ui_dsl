@@ -327,3 +327,31 @@ Placement is a host choice. What is **not** a choice:
   `bundle://` there is an unresolvable asset (§6.12.4) — not an error in the
   document, which may be perfectly valid in a host that does hold the bundle.
 
+
+### 6.12.8 An asset travels as a reference, not as state
+
+A tool result, and therefore state, is a value the runtime copies, merges and
+re-parses on every delivery. An asset is not that: it is bytes with an
+identity, and every layer that knows the identity can skip the bytes.
+
+Authors SHOULD carry assets as references (`bundle://`, `resource://`, a URL)
+and let the host resolve them. Embedding the bytes — a `data:` URI, base64 in
+a tool result — is legal and sometimes the only option, but it MUST be
+understood as giving up the identity:
+
+- The reference is what a cache is keyed on. Bytes carried in state are
+  re-sent in full every time the tool is called again, re-parsed with the
+  rest of the payload, and re-merged into state; a reference costs the same
+  few dozen characters however many times it arrives.
+- Only decoding can be recovered after the fact. A runtime MAY cache the
+  decode of a `data:` URI keyed on the URI string, and one that does removes
+  the repeated decode — it cannot remove the transfer or the parse, because
+  those already happened before the runtime saw the value.
+- Size, per §6.12.6, is a host policy. An inlined asset is not subject to it:
+  the host never sees a reference it could decline, so a document that
+  embeds bytes bypasses the one place that limit is meant to live.
+
+This is guidance, not a constraint on the wire format. A runtime MUST NOT
+reject a document for carrying an inline asset, and MUST NOT impose a size
+limit on state (§6.12.6 governs *assets*, and the host cannot tell which
+string in a payload was meant to be one).

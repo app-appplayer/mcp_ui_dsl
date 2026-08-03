@@ -251,6 +251,10 @@ onInit → onMount → onReady → (onPause ↔ onResume)* → onUnmount → onD
 
 `onReady` always fires after `onMount`. Paused instances may cycle `onPause`/`onResume` any number of times before unmount. Runtimes MUST guarantee `onUnmount` runs even when removal is caused by conditional rendering. See [`06_Runtime_Contract.md`](06_Runtime_Contract.md) §6.8 for the normative contract.
 
+**"A given definition instance" is the whole of it.** Navigating away from a page destroys that page's instance; navigating back builds a new one, and a new instance starts at `onInit` again. Returning to a page is therefore *not* a resume — an author who fetches in a page's `onInit` is writing "fetch every time this page is opened", which is a reasonable thing to want and an expensive surprise when it was not.
+
+`onPause`/`onResume` cover the other case: an instance that is kept alive while it loses focus. Which navigations keep an instance alive is a host decision — a stack that pushes over a page keeps the one underneath, a switch that replaces it does not — so a document MUST NOT assume either. Work that should happen once per *document* belongs in the application's `onInit`/`onReady`, which run once for the application instance no matter how many times its pages are opened.
+
 ### 1.5.3 Placement: Definition-Level vs Instance-Level
 
 Lifecycle hooks appear in two distinct positions, and the placement is not interchangeable:
