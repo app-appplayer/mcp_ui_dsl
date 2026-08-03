@@ -15,6 +15,9 @@ description: |
   move a highlight without moving the caret, and Escape must close the list
   without clearing the text. Those are one widget's job.
 properties:
+  label:
+    type: "string"
+    description: "Field label shown beside or above the control."
   options:
     type: "array<Option>"
     description: "Suggestions. Optional — a combobox with none is a plain text field until `onSearch` supplies them."

@@ -912,6 +912,7 @@ Multi-selection checkbox group. Shared rows per §2.6.0; `binding` holds an `arr
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
+| `label` | string | no | — | Field label shown beside or above the control. |
 | `options` | Option[] | yes | — | `{ value, label }` entries. |
 | `orientation` | string | no | `"vertical"` | `vertical` or `horizontal`. |
 
@@ -943,6 +944,7 @@ Single-selection radio group. Shared rows per §2.6.0.
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
+| `label` | string | no | — | Field label shown beside or above the control. |
 | `options` | Option[] | yes | — | `{ value, label }` entries. |
 | `orientation` | string | no | `"vertical"` | `vertical` or `horizontal`. |
 
@@ -963,6 +965,7 @@ Continuous single-value selection. Shared rows per §2.6.0; `value` is `number`.
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
+| `label` | string | no | — | Field label shown beside or above the control. |
 | `min` | number | no | `0` | Minimum value. |
 | `max` | number | no | `1` | Maximum value. |
 | `divisions` | number | no | — | Number of discrete steps. |
@@ -1030,6 +1033,7 @@ Standalone date picker surface. Shared rows per §2.6.0; `value` is an ISO date 
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
+| `label` | string | no | — | Field label shown beside or above the control. |
 | `firstDate` | string | no | — | Earliest allowed date. |
 | `lastDate` | string | no | — | Latest allowed date. |
 
@@ -1039,6 +1043,7 @@ Standalone time picker surface. Shared rows per §2.6.0; `value` is a time strin
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
+| `label` | string | no | — | Field label shown beside or above the control. |
 | `use24HourFormat` | boolean | no | `false` | 24-hour clock. |
 
 ### 2.6.17 `dateRangePicker`
@@ -1072,6 +1077,7 @@ Color selection. Shared rows per §2.6.0; `value` is a hex color string.
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
+| `label` | string | no | — | Field label shown beside or above the control. |
 | `showAlpha` | boolean | no | `false` | Enable alpha channel. |
 | `showLabel` | boolean | no | `true` | Show hex label. |
 | `pickerType` | string | no | `"wheel"` | `wheel`, `palette`, `both`. |
@@ -1083,6 +1089,7 @@ Segmented selection, styled as tabs or buttons. Shared rows per §2.6.0.
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
+| `label` | string | no | — | Field label shown beside or above the control. |
 | `options` | Option[] | yes | — | `{ value, label, icon? }` entries. |
 | `variant` | string | no | `"segmented"` | `segmented`, `tabs`, `buttons`. |
 
@@ -1127,6 +1134,7 @@ Incremental numeric input with plus/minus buttons. Shared rows per §2.6.0; `val
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
+| `label` | string | no | — | Field label shown beside or above the control. |
 | `min` | number | no | — | Minimum value. |
 | `max` | number | no | — | Maximum value. |
 | `step` | number | no | `1` | Increment size. |
@@ -1203,6 +1211,7 @@ Kept apart from `select` rather than folded into a `multiple` flag: the bound va
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
+| `label` | string | no | — | Field label shown beside or above the control. |
 | `options` | Option[] | yes | — | `{ value, label, icon? }` entries. |
 | `placeholder` | string | no | — | Shown when nothing is selected. |
 | `maxSelections` | number | no | — | Upper bound. Reaching it disables unselected rows rather than dropping a pick. |
@@ -1222,6 +1231,7 @@ The defining property is that a value outside `options` is legal — that is wha
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
+| `label` | string | no | — | Field label shown beside or above the control. |
 | `options` | Option[] | no | — | Suggestions. Optional — with none it is a plain field until `onSearch` supplies them. |
 | `allowCustom` | boolean | no | `true` | Accept a value not in `options`. False makes this a searchable `select`. |
 | `onSearch` | Action | no | — | Fired as the user types. Writes `options`; the runtime does not re-filter the result. |
@@ -1260,6 +1270,7 @@ Not `datePicker` + `timePicker` side by side: those bind two values the author m
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
+| `label` | string | no | — | Field label shown beside or above the control. |
 | `min` / `max` | string | no | — | Bounds (ISO-8601). |
 | `dateFormat` / `timeFormat` | string | no | — | Display patterns. The bound value stays ISO-8601. |
 | `minuteInterval` | number | no | `1` | Minute granularity. |

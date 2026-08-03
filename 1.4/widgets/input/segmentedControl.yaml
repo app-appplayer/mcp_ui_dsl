@@ -4,6 +4,9 @@ profile: Core
 description: |
   Segmented selection, styled as tabs or buttons. Shared rows per §2.6.0.
 properties:
+  label:
+    type: "string"
+    description: "Field label shown beside or above the control."
   options:
     type: "array<Option>"
     required: true

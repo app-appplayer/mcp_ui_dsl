@@ -1169,6 +1169,7 @@ Multi-selection checkbox group. Shared rows per §2.6.0; `binding` holds an `arr
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
+| `label` | `string` | no | — | Field label shown beside or above the control. |
 | `options` *(aliases: `items`)* | `array<Option>` | yes | — | `{ value, label }` entries. |
 | `orientation` | `string` | no | "vertical" | `vertical` or `horizontal`. |
 
@@ -1324,6 +1325,7 @@ Color selection. Shared rows per §2.6.0; `value` is a hex color string.
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
+| `label` | `string` | no | — | Field label shown beside or above the control. |
 | `showAlpha` | `boolean` | no | false | Enable alpha channel. |
 | `showLabel` | `boolean` | no | true | Show hex label. |
 | `pickerType` | `string` | no | "wheel" | `wheel`, `palette`, `both`. |
@@ -1355,6 +1357,7 @@ without clearing the text. Those are one widget's job.
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
+| `label` | `string` | no | — | Field label shown beside or above the control. |
 | `options` *(aliases: `items`)* | `array<Option>` | no | — | Suggestions. Optional — a combobox with none is a plain text field until `onSearch` supplies them. |
 | `allowCustom` | `boolean` | no | true | Accept a value not present in `options`. Setting it false makes this a searchable `select`. |
 | `onSearch` | `Action` | no | — | Fired as the user types, for server-side suggestion lookup. The action writes `options`; the runtime does not re-filter what it returns. |
@@ -1606,6 +1609,7 @@ Standalone date picker surface. Shared rows per §2.6.0; `value` is an ISO date 
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
+| `label` | `string` | no | — | Field label shown beside or above the control. |
 | `firstDate` | `string` | no | — | Earliest allowed date. |
 | `lastDate` | `string` | no | — | Latest allowed date. |
 
@@ -1668,6 +1672,7 @@ lost. One widget, one instant, one binding.
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
+| `label` | `string` | no | — | Field label shown beside or above the control. |
 | `min` | `string` | no | — | Earliest selectable instant (ISO-8601). |
 | `max` | `string` | no | — | Latest selectable instant (ISO-8601). |
 | `dateFormat` | `string` | no | — | Display pattern for the date portion. Display only — the bound value stays ISO-8601. |
@@ -3514,6 +3519,7 @@ runtime.
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
+| `label` | `string` | no | — | Field label shown beside or above the control. |
 | `options` *(aliases: `items`)* | `array<Option>` | yes | — | `{ value, label, icon? }` entries. |
 | `placeholder` | `string` | no | — | Shown when nothing is selected. |
 | `maxSelections` | `number` | no | — | Upper bound on selected values. Reaching it disables unselected rows rather than silently dropping a pick. |
@@ -3643,6 +3649,7 @@ Incremental numeric input with plus/minus buttons. Shared rows per §2.6.0; `val
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
+| `label` | `string` | no | — | Field label shown beside or above the control. |
 | `min` | `number` | no | — | Minimum value. |
 | `max` | `number` | no | — | Maximum value. |
 | `step` | `number` | no | 1 | Increment size. |
@@ -4140,6 +4147,7 @@ Single-selection radio group. Shared rows per §2.6.0.
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
+| `label` | `string` | no | — | Field label shown beside or above the control. |
 | `options` *(aliases: `items`)* | `array<Option>` | yes | — | `{ value, label }` entries. |
 | `orientation` | `string` | no | "vertical" | `vertical` or `horizontal`. |
 
@@ -4583,6 +4591,7 @@ Segmented selection, styled as tabs or buttons. Shared rows per §2.6.0.
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
+| `label` | `string` | no | — | Field label shown beside or above the control. |
 | `options` *(aliases: `segments`)* | `array<Option>` | yes | — | `{ value, label, icon? }` entries. |
 | `variant` | `string` | no | "segmented" | `segmented`, `tabs`, `buttons`. |
 
@@ -4783,6 +4792,7 @@ Continuous single-value selection. Shared rows per §2.6.0; `value` is `number`.
 | `value` *(aliases: `values`)* | `number` | no | — | Current numeric value (overrides shared contract to register `values` legacy alias). |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
+| `label` | `string` | no | — | Field label shown beside or above the control. |
 | `min` | `number` | no | 0 | Minimum value. |
 | `max` | `number` | no | 1 | Maximum value. |
 | `divisions` | `number` | no | — | Number of discrete steps. |
@@ -5426,6 +5436,7 @@ Standalone time picker surface. Shared rows per §2.6.0; `value` is a time strin
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
+| `label` | `string` | no | — | Field label shown beside or above the control. |
 | `use24HourFormat` | `boolean` | no | false | 24-hour clock. |
 
 ---

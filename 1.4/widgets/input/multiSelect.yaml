@@ -14,6 +14,9 @@ description: |
   type of what lands in state is the kind of thing an author discovers at
   runtime.
 properties:
+  label:
+    type: "string"
+    description: "Field label shown beside or above the control."
   options:
     type: "array<Option>"
     required: true

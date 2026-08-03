@@ -4,6 +4,9 @@ profile: Core
 description: |
   Incremental numeric input with plus/minus buttons. Shared rows per §2.6.0; `value` is `number`.
 properties:
+  label:
+    type: "string"
+    description: "Field label shown beside or above the control."
   min:
     type: "number"
     description: "Minimum value."

@@ -231,26 +231,26 @@ Format per widget:
 - properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `label?: string`
 
 ### `checkboxGroup`
-- properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `options: array<Option>`, `orientation?: string`
+- properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `label?: string`, `options: array<Option>`, `orientation?: string`
 
 ### `colorPicker`
-- properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `showAlpha?: boolean`, `showLabel?: boolean`, `pickerType?: string`, `enableHistory?: boolean`
+- properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `label?: string`, `showAlpha?: boolean`, `showLabel?: boolean`, `pickerType?: string`, `enableHistory?: boolean`
 
 ### `combobox` *(since v1.4)*
 - aliases: `autocomplete`
-- properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `options?: array<Option>`, `allowCustom?: boolean`, `onSearch?: Action`, `minChars?: number`, `debounceMs?: number`, `placeholder?: string`
+- properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `label?: string`, `options?: array<Option>`, `allowCustom?: boolean`, `onSearch?: Action`, `minChars?: number`, `debounceMs?: number`, `placeholder?: string`
 
 ### `dateField`
 - properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `label?: string`, `format?: string`, `firstDate?: string`, `lastDate?: string`, `mode?: string`, `locale?: string`
 
 ### `datePicker`
-- properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `firstDate?: string`, `lastDate?: string`
+- properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `label?: string`, `firstDate?: string`, `lastDate?: string`
 
 ### `dateRangePicker`
 - properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `startDate?: string`, `endDate?: string`, `label?: string`, `firstDate?: string`, `lastDate?: string`, `format?: string`, `locale?: string`
 
 ### `dateTimePicker` *(since v1.4)*
-- properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `min?: string`, `max?: string`, `dateFormat?: string`, `timeFormat?: string`, `minuteInterval?: number`, `timeZone?: string`
+- properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `label?: string`, `min?: string`, `max?: string`, `dateFormat?: string`, `timeFormat?: string`, `minuteInterval?: number`, `timeZone?: string`
 
 ### `fileInput` *(since v1.4)*
 - properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `dragDrop?: boolean`, `maxFiles?: number`, `preview?: boolean`, `crop?: boolean`, `aspectRatio?: number`, `accept?: array<string>`, `multiple?: boolean`, `maxBytes?: number`, `label?: string`, `onError?: Action`
@@ -262,14 +262,14 @@ Format per widget:
 - properties: `click?: Action`, `tooltip?: string`, `icon: IconRef`, `size?: number`, `color?: string`, `enabled?: boolean`, `onTap?: Action`
 
 ### `multiSelect` *(since v1.4)*
-- properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `options: array<Option>`, `placeholder?: string`, `maxSelections?: number`, `showChips?: boolean`, `selectAll?: boolean`, `searchable?: boolean`
+- properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `label?: string`, `options: array<Option>`, `placeholder?: string`, `maxSelections?: number`, `showChips?: boolean`, `selectAll?: boolean`, `searchable?: boolean`
 
 ### `numberField`
 - aliases: `numberInput`
 - properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `showStepper?: boolean`, `label?: string`, `min?: number`, `max?: number`, `step?: number`, `decimalPlaces?: number`, `prefix?: string`, `suffix?: string`, `thousandSeparator?: string`
 
 ### `numberStepper`
-- properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `min?: number`, `max?: number`, `step?: number`
+- properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `label?: string`, `min?: number`, `max?: number`, `step?: number`
 
 ### `otpInput` *(since v1.4)*
 - properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `length?: number`, `inputType?: string`, `autoSubmit?: Action`, `masked?: boolean`, `autofill?: boolean`
@@ -278,7 +278,7 @@ Format per widget:
 - properties: `click?: Action`, `tooltip?: string`, `value: any`, `groupValue: any | binding`, `label?: string`, `onChange?: Action`
 
 ### `radioGroup`
-- properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `options: array<Option>`, `orientation?: string`
+- properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `label?: string`, `options: array<Option>`, `orientation?: string`
 
 ### `rangeSlider`
 - properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `min?: number`, `max?: number`, `divisions?: number`
@@ -287,14 +287,14 @@ Format per widget:
 - properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `max?: number`, `icon?: IconRef`, `color?: string`
 
 ### `segmentedControl`
-- properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `options: array<Option>`, `variant?: string`
+- properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `label?: string`, `options: array<Option>`, `variant?: string`
 
 ### `select`
 - aliases: `dropdown`
 - properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `options: array<Option>`, `placeholder?: string`
 
 ### `slider`
-- properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: number`, `enabled?: boolean`, `onChange?: Action`, `min?: number`, `max?: number`, `divisions?: number`
+- properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: number`, `enabled?: boolean`, `onChange?: Action`, `label?: string`, `min?: number`, `max?: number`, `divisions?: number`
 
 ### `stepper`
 - aliases: `steps`
@@ -309,7 +309,7 @@ Format per widget:
 - properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `label?: string`, `format?: string`, `use24HourFormat?: boolean`, `mode?: string`
 
 ### `timePicker`
-- properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `use24HourFormat?: boolean`
+- properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `label?: string`, `use24HourFormat?: boolean`
 
 ### `toggle`
 - aliases: `switch`

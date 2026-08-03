@@ -4,6 +4,9 @@ profile: Core
 description: |
   Standalone date picker surface. Shared rows per §2.6.0; `value` is an ISO date string.
 properties:
+  label:
+    type: "string"
+    description: "Field label shown beside or above the control."
   firstDate:
     type: "string"
     description: "Earliest allowed date."

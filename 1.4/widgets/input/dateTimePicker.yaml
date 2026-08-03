@@ -10,6 +10,9 @@ description: |
   author must then recombine, and the recombination is where time zones get
   lost. One widget, one instant, one binding.
 properties:
+  label:
+    type: "string"
+    description: "Field label shown beside or above the control."
   min:
     type: string
     description: "Earliest selectable instant (ISO-8601)."

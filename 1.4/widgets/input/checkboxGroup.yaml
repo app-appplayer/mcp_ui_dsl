@@ -4,6 +4,9 @@ profile: Core
 description: |
   Multi-selection checkbox group. Shared rows per §2.6.0; `binding` holds an `array` of selected values (top-level, not per-option).
 properties:
+  label:
+    type: "string"
+    description: "Field label shown beside or above the control."
   options:
     type: "array<Option>"
     required: true

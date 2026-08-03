@@ -4207,6 +4207,10 @@
         "onChange": {
           "$ref": "#/$defs/Action"
         },
+        "label": {
+          "type": "string",
+          "description": "Field label shown beside or above the control."
+        },
         "options": {
           "description": "`{ value, label }` entries.",
           "oneOf": [
@@ -4770,6 +4774,10 @@
         "onChange": {
           "$ref": "#/$defs/Action"
         },
+        "label": {
+          "type": "string",
+          "description": "Field label shown beside or above the control."
+        },
         "showAlpha": {
           "description": "Enable alpha channel.",
           "anyOf": [
@@ -4925,6 +4933,10 @@
         },
         "onChange": {
           "$ref": "#/$defs/Action"
+        },
+        "label": {
+          "type": "string",
+          "description": "Field label shown beside or above the control."
         },
         "options": {
           "description": "Suggestions. Optional — a combobox with none is a plain text field until `onSearch` supplies them.",
@@ -5711,6 +5723,10 @@
         "onChange": {
           "$ref": "#/$defs/Action"
         },
+        "label": {
+          "type": "string",
+          "description": "Field label shown beside or above the control."
+        },
         "firstDate": {
           "type": "string",
           "description": "Earliest allowed date."
@@ -5947,6 +5963,10 @@
         },
         "onChange": {
           "$ref": "#/$defs/Action"
+        },
+        "label": {
+          "type": "string",
+          "description": "Field label shown beside or above the control."
         },
         "min": {
           "type": "string",
@@ -11725,6 +11745,10 @@
         "onChange": {
           "$ref": "#/$defs/Action"
         },
+        "label": {
+          "type": "string",
+          "description": "Field label shown beside or above the control."
+        },
         "options": {
           "description": "`{ value, label, icon? }` entries.",
           "oneOf": [
@@ -12302,6 +12326,10 @@
         },
         "onChange": {
           "$ref": "#/$defs/Action"
+        },
+        "label": {
+          "type": "string",
+          "description": "Field label shown beside or above the control."
         },
         "min": {
           "description": "Minimum value.",
@@ -14235,6 +14263,10 @@
         "onChange": {
           "$ref": "#/$defs/Action"
         },
+        "label": {
+          "type": "string",
+          "description": "Field label shown beside or above the control."
+        },
         "options": {
           "description": "`{ value, label }` entries.",
           "oneOf": [
@@ -15729,6 +15761,10 @@
         "onChange": {
           "$ref": "#/$defs/Action"
         },
+        "label": {
+          "type": "string",
+          "description": "Field label shown beside or above the control."
+        },
         "options": {
           "description": "`{ value, label, icon? }` entries.",
           "oneOf": [
@@ -16587,6 +16623,10 @@
         },
         "onChange": {
           "$ref": "#/$defs/Action"
+        },
+        "label": {
+          "type": "string",
+          "description": "Field label shown beside or above the control."
         },
         "min": {
           "description": "Minimum value.",
@@ -18742,6 +18782,10 @@
         },
         "onChange": {
           "$ref": "#/$defs/Action"
+        },
+        "label": {
+          "type": "string",
+          "description": "Field label shown beside or above the control."
         },
         "use24HourFormat": {
           "description": "24-hour clock.",
