@@ -13,6 +13,7 @@ properties:
   then:
     type: "Widget"
     description: "Rendered when `condition` is truthy (then/else form)."
+    aliases: [child, widget]
   else:
     type: "Widget"
     description: "Rendered when `condition` is falsy (then/else form)."

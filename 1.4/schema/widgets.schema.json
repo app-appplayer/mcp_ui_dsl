@@ -5088,6 +5088,14 @@
         "then": {
           "$ref": "#/$defs/Widget"
         },
+        "child": {
+          "$ref": "#/$defs/Widget",
+          "description": "Legacy alias of `then`."
+        },
+        "widget": {
+          "$ref": "#/$defs/Widget",
+          "description": "Legacy alias of `then`."
+        },
         "else": {
           "$ref": "#/$defs/Widget"
         },
@@ -7329,7 +7337,8 @@
           ]
         },
         "click": {
-          "$ref": "#/$defs/Action"
+          "$ref": "#/$defs/Action",
+          "description": "Legacy alias of `onTap`."
         },
         "tooltip": {
           "type": "string",
@@ -7345,6 +7354,10 @@
         },
         "onTap": {
           "$ref": "#/$defs/Action"
+        },
+        "onPressed": {
+          "$ref": "#/$defs/Action",
+          "description": "Legacy alias of `onTap`."
         }
       },
       "required": [

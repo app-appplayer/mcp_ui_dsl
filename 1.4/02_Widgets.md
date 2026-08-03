@@ -168,7 +168,7 @@ Aligns a single child at a specified alignment.
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| `alignment` | string | yes | — | `topStart`, `topCenter`, `topEnd`, `centerStart`, `center`, `centerEnd`, `bottomStart`, `bottomCenter`, `bottomEnd`. |
+| `alignment` | string | no | — | `topStart`, `topCenter`, `topEnd`, `centerStart`, `center`, `centerEnd`, `bottomStart`, `bottomCenter`, `bottomEnd`. Defaults to `center`. |
 | `child` | Widget | yes | — | Aligned widget. |
 
 ```json
@@ -303,7 +303,7 @@ Sizes the child to a specific aspect ratio.
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| `aspectRatio` | number | yes | — | Width-to-height ratio (e.g., `1.5` for 3:2). |
+| `aspectRatio` | number | no | — | Width-to-height ratio (e.g., `1.5` for 3:2). Defaults to `1.0`. |
 | `child` | Widget | yes | — | Child widget. |
 
 ### 2.4.16 `fractionallySized`
@@ -338,11 +338,11 @@ Shows or hides a child with optional state preservation and replacement content.
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| `visible` | boolean \| binding | yes | — | Whether the child is visible. |
+| `visible` | boolean \| binding | no | `true` | Whether the child is visible. |
 | `maintainSize` | boolean | no | `false` | Keep space allocated when hidden. |
 | `maintainState` | boolean | no | `false` | Preserve `child` state when hidden. Does not affect `replacement`, which is built fresh each time it is shown. |
 | `replacement` | Widget | no | — | Widget shown in place of `child` when `visible` is `false`. When absent, the child is simply hidden in-place (respecting `maintainSize` / `maintainState`). |
-| `child` | Widget | yes | — | Primary widget. |
+| `child` | Widget | no | — | Primary widget. Required unless `children` is given. |
 
 ```json
 {
@@ -361,8 +361,8 @@ Renders different branches based on an expression. Two forms are supported: then
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| `condition` | boolean \| binding | yes | — | Boolean-producing expression. |
-| `then` | Widget | yes | — | Rendered when `condition` is truthy. |
+| `condition` | boolean \| binding | no | — | Boolean-producing expression. Required in the `condition` / `then` shape. |
+| `then` | Widget | no | — | Rendered when `condition` is truthy. Required in the `condition` / `then` shape; `child` / `widget` are accepted spellings. |
 | `else` | Widget | no | — | Rendered when `condition` is falsy. |
 
 ```json
@@ -382,8 +382,8 @@ Renders different branches based on an expression. Two forms are supported: then
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| `switch` | binding | yes | — | Expression whose value is compared against each case. |
-| `cases` | array | yes | — | List of `{ value, child }` entries. |
+| `switch` | binding | no | — | Expression whose value is compared against each case. Required in the `switch` / `cases` shape. |
+| `cases` | array | no | — | List of `{ value, child }` entries. Required in the `switch` / `cases` shape. |
 | `default` | Widget | no | — | Rendered when no case matches. |
 
 ```json
@@ -720,7 +720,7 @@ Wraps a child with a decoration box (color, gradient, border, shadow, image, blu
 | `boxShadow` | array\<`BoxShadow`\> | no | — | Flat shorthand for `decoration.boxShadow`. |
 | `shape` | string | no | `"rectangle"` | `rectangle` or `circle`. |
 | `backdropBlur` | number | no | — | Gaussian backdrop-filter sigma. |
-| `child` | Widget | yes | — | Decorated widget. |
+| `child` | Widget | no | — | Decorated widget. Omitted, the decoration renders alone. |
 
 ### 2.5.16 `kenBurnsImage` *(since v1.3)*
 
@@ -1047,8 +1047,8 @@ Date range selection. Exception to §2.6.0: instead of a single `binding`, the r
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| `startDate` | string | yes | — | State path bound two-way to the range's start (ISO date). |
-| `endDate` | string | yes | — | State path bound two-way to the range's end (ISO date). |
+| `startDate` | string | no | — | State path bound two-way to the range's start (ISO date). Required unless `startBinding` is given. |
+| `endDate` | string | no | — | State path bound two-way to the range's end (ISO date). Required unless `endBinding` is given. |
 | `firstDate` | string | no | — | Earliest allowed date (constraint, one-way). |
 | `lastDate` | string | no | — | Latest allowed date (constraint, one-way). |
 | `format` | string | no | `"yyyy-MM-dd"` | Display format. |
@@ -1299,8 +1299,8 @@ Scrollable linear collection rendered from an array binding.
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| `items` | binding | yes | — | Array source. |
-| `itemTemplate` | Widget | yes | — | Template rendered per item. Iteration variables `item`, `index`, `isFirst`, `isLast`, `isEven`, `isOdd` are in scope. |
+| `items` | binding | no | — | Array source. Required unless static `children` are given. |
+| `itemTemplate` | Widget | no | — | Template rendered per item. Iteration variables `item`, `index`, `isFirst`, `isLast`, `isEven`, `isOdd` are in scope. Required unless static `children` are given. |
 | `spacing` | number | no | `0` | Gap between items. |
 | `orientation` | string | no | `"vertical"` | `vertical` or `horizontal`. |
 | `emptyMessage` | string | no | — | Displayed when the list is empty. |
@@ -1325,8 +1325,8 @@ Scrollable two-dimensional collection.
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| `items` | binding | yes | — | Array source. |
-| `itemTemplate` | Widget | yes | — | Template rendered per item. |
+| `items` | binding | no | — | Array source. Required unless static `children` are given. |
+| `itemTemplate` | Widget | no | — | Template rendered per item. Required unless static `children` are given. |
 | `columns` | number \| object | yes | — | Column count; may use responsive `{default, sm, md, lg}`. |
 | `rowGap` | number | no | `0` | Gap between rows. |
 | `columnGap` | number | no | `0` | Gap between columns. |
@@ -1493,7 +1493,7 @@ Bottom navigation bar. Each item's text field is `label`.
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| `selectedIndex` | number \| binding | yes | — | Currently selected index. |
+| `selectedIndex` | number \| binding | no | `0` | Currently selected index. |
 | `items` | NavItem[] | yes | — | `{ icon, label, route? }` entries. |
 | `onChange` | Action | no | — | Fired when selection changes. |
 
@@ -1519,7 +1519,7 @@ Horizontal tab selector. Each tab's text field is `label`.
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| `selectedIndex` | number \| binding | yes | — | Currently selected index. |
+| `selectedIndex` | number \| binding | no | `0` | Currently selected index. |
 | `tabs` | Tab[] | yes | — | `{ label, icon? }` entries. |
 | `onChange` | Action | no | — | Fired when selection changes. |
 
@@ -1566,7 +1566,7 @@ Side navigation drawer. Each item's text field is `label`.
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| `items` | DrawerItem[] | yes | — | `{ icon, label, route? }` entries. |
+| `items` | DrawerItem[] | no | — | `{ icon, label, route? }` entries. Omitted, the drawer opens empty. |
 | `header` | Widget | no | — | Drawer header widget. |
 | `onSelect` | Action | no | — | Fired when an item is selected. |
 
@@ -1617,7 +1617,7 @@ Floating action button (FAB).
 |----------|------|----------|---------|-------------|
 | `icon` | `IconRef` | no | — | Icon shown. |
 | `label` | string | no | — | Extended FAB label. |
-| `onTap` | Action | yes | — | Tap handler. |
+| `onTap` | Action | no | — | Tap handler. A FAB without one renders inert; `click` / `onPressed` are accepted spellings. |
 
 ```json
 {
@@ -1768,7 +1768,7 @@ Lightweight scrollable wrapper for a single child.
 |----------|------|----------|---------|-------------|
 | `direction` | string | no | `"vertical"` | Scroll direction. |
 | `padding` | EdgeInsets | no | — | Inner padding. |
-| `child` | Widget | yes | — | Scrolled content. |
+| `child` | Widget | no | — | Scrolled content. Omitted, nothing is wrapped. |
 
 ```json
 {
@@ -1795,7 +1795,7 @@ Wraps a scrollable child with a visible scroll bar.
 | `trackVisibility` | boolean | no | — | Whether the scroll track is always visible. |
 | `thickness` | number | no | — | Scroll bar thickness. |
 | `radius` | number | no | — | Scroll bar corner radius. |
-| `child` | Widget | yes | — | Scrollable child. |
+| `child` | Widget | no | — | Scrollable child. Omitted, nothing is wrapped. |
 
 ### 2.9.4 `pageView`
 
@@ -1969,7 +1969,7 @@ Dialog presenting a list of options.
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
 | `title` | string | no | — | Dialog title. |
-| `options` | Option[] | yes | — | `{ value, label, icon? }` entries. |
+| `options` | Option[] | no | — | `{ value, label, icon? }` entries. Omitted, the dialog shows its title alone. |
 | `onSelect` | Action | no | — | Fired when an option is chosen. |
 
 ### 2.11.3 `customDialog`
@@ -2382,7 +2382,7 @@ Retry-oriented variant of `errorBoundary`. The `handlers` map may route specific
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| `child` | Widget | yes | — | Protected subtree. |
+| `child` | Widget | no | — | Protected subtree. Omitted, nothing is wrapped. |
 | `fallback` | Widget | no | — | Default UI shown when `child` throws. |
 | `handlers` | object | no | — | Map of error-type → fallback Widget. |
 | `onError` | Action | no | — | Fired on capture with `{{event.error}}` / `{{event.stack}}`. |
@@ -2408,7 +2408,7 @@ Presents a prompt for one or more client capabilities (e.g., clipboard, filesyst
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| `permissions` | string[] | yes | — | Permission identifiers (e.g., `["client.clipboard"]`). |
+| `permissions` | string[] | no | — | Permission identifiers (e.g., `["client.clipboard"]`). Omitted, nothing is requested. |
 | `style` | string | no | `"inline"` | `inline`, `dialog`, `banner`. |
 | `title` | string | no | — | Prompt title. |
 | `description` | string | no | — | Prompt body. |
@@ -2423,7 +2423,7 @@ Renders a compact dashboard tile — the widget equivalent of the `ApplicationDe
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| `content` | Widget | yes | — | Dashboard tile content tree. |
+| `content` | Widget | no | — | Dashboard tile content tree. Omitted, the dashboard renders empty. |
 | `refreshInterval` | number | no | — | Auto-refresh period in milliseconds. Omit for static tiles. |
 | `onTap` | Action | no | — | Fired when the tile is tapped (commonly wired to `openApp` — see [`04_Actions.md`](04_Actions.md) §4.3). |
 

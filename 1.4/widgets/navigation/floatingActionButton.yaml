@@ -13,6 +13,7 @@ properties:
   onTap:
     type: "Action"
     description: "Tap handler. Omitted FABs render as inert."
+    aliases: [click, onPressed]
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

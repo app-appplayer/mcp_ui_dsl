@@ -218,7 +218,7 @@ Geographic map with markers and overlays.
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `center` | `{ latitude, longitude }` | required | Map center coordinates |
+| `center` | `{ latitude, longitude }` | no | — | Map center coordinates. Required unless flat `latitude` / `longitude` are given. |
 | `zoom` | number | 13 | Zoom level (0–22) |
 | `mapType` | enum | `standard` | `standard`, `satellite`, `terrain`, `hybrid` |
 | `markers` | `Marker[]` | `[]` | Point markers |
@@ -432,7 +432,7 @@ Hierarchical tree view with expandable nodes.
 |----------|------|---------|-------------|
 | `data` | array \| binding | required | Hierarchical data; each node MAY carry a `children` array |
 | `childrenKey` | string | `children` | Field name of the children array |
-| `itemTemplate` | Widget | required | Template rendered per node; `{{item}}` is node data |
+| `itemTemplate` | Widget | no | — | Template rendered per node; `{{item}}` is node data. Omitted, each node draws its label. |
 | `expandable` | boolean | `true` | Allow expand/collapse |
 | `initiallyExpanded` | boolean | `false` | Expand all nodes on mount |
 | `onNodeTap` | Action | null | Fired on node tap |
@@ -514,7 +514,7 @@ Syntax-highlighted code editor.
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `code` | string \| binding | required | Code content |
+| `code` | string \| binding | no | — | Code content. Required unless `binding` supplies it. |
 | `language` | enum | `plaintext` | `plaintext`, `javascript`, `typescript`, `dart`, `python`, `java`, `kotlin`, `swift`, `go`, `rust`, `c`, `cpp`, `csharp`, `ruby`, `php`, `sql`, `json`, `yaml`, `xml`, `html`, `css`, `markdown`, `shell` |
 | `theme` | enum | `vsLight` | `vsLight`, `vsDark`, `monokai`, `solarizedLight`, `solarizedDark`, `github`, `dracula` |
 | `readOnly` | boolean | `false` | Disable editing (syntax highlighting still applies) |
@@ -597,7 +597,7 @@ File and directory browser.
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `items` | `object[]` \| binding | required | Hierarchical `{ name, path, type, children? }` tree — a literal array or a binding to one |
+| `items` | `object[]` \| binding | no | — | Hierarchical `{ name, path, type, children? }` tree — a literal array or a binding to one. Omitted, the explorer renders empty. |
 | `showIcons` | boolean | `true` | Show file / folder icons |
 | `showHidden` | boolean | `false` | Show entries whose name starts with `.` |
 | `expandAll` | boolean | `false` | Expand all folders by default |
@@ -715,7 +715,7 @@ Signature capture pad.
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `binding` | binding | required | Target binding for signature data (base64 PNG or SVG path) |
+| `binding` | binding | no | Target binding for signature data (base64 PNG or SVG path) Omitted, the pad still draws; the stroke goes nowhere. |
 | `penColor` | string | `#000000` | Stroke color |
 | `penWidth` | number | 2.0 | Stroke width |
 | `width` | number | null | Widget width |
@@ -955,7 +955,7 @@ Inline-defined content variant:
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | `placeholder` | Widget | null | Rendered while `content` is not yet materialized |
-| `content` | Widget \| object | required | Inline widget, or `{ source: "ui://..." }` to fetch a remote page fragment |
+| `content` | Widget \| object | no | — | Inline widget, or `{ source: "ui://..." }` to fetch a remote page fragment. Required when `children` / `child` are omitted. |
 | `trigger` | enum | `viewport` | `viewport` (render when scrolled into view), `immediate` (render on mount), `manual` (render when `load()` signal is received) |
 | `onLoad` | Action | null | Fired after `content` is materialized |
 | `onError` | Action | null | Fired if `content` fetch fails; `event.error` |

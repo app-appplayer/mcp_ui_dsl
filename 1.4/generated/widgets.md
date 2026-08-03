@@ -1388,7 +1388,7 @@ Renders different branches based on an expression. Two forms are supported: then
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `condition` | `boolean | binding` | no | — | Boolean literal or boolean-producing expression (then/else form). |
-| `then` | `Widget` | no | — | Rendered when `condition` is truthy (then/else form). |
+| `then` *(aliases: `child`, `widget`)* | `Widget` | no | — | Rendered when `condition` is truthy (then/else form). |
 | `else` | `Widget` | no | — | Rendered when `condition` is falsy (then/else form). |
 | `switch` | `binding` | no | — | Expression whose value is compared against each case (switch form). |
 | `cases` | `array` | no | — | List of `{ value, child }` entries (switch form). |
@@ -2081,7 +2081,7 @@ Floating action button (FAB).
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `icon` | `IconRef` | no | — | Icon shown. Any `IconRef` form. |
 | `label` | `string` | no | — | Extended FAB label. |
-| `onTap` | `Action` | no | — | Tap handler. Omitted FABs render as inert. |
+| `onTap` *(aliases: `click`, `onPressed`)* | `Action` | no | — | Tap handler. Omitted FABs render as inert. |
 
 ### Examples
 
@@ -2911,7 +2911,7 @@ Defer rendering of an expensive subtree until it enters the viewport (or until e
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `placeholder` | `Widget` | no | — | Rendered while `content` is not yet materialized |
-| `content` | `Widget | object` | no | — | Inline widget, or `{ source: "ui://..." }` to fetch a remote page fragment. Required when `children` is omitted. |
+| `content` *(aliases: `child`)* | `Widget | object` | no | — | Inline widget, or `{ source: "ui://..." }` to fetch a remote page fragment. Required when `children` is omitted. |
 | `child` | `Widget` | no | — | A single deferred widget. Alternative to `content` for the simple case. |
 | `children` | `array<Widget>` | no | — | Multiple deferred widgets; runtime wraps them in a linear column. |
 | `trigger` | `string` | no | visible | `visible` renders when the widget becomes visible to the user (typically scrolled into view); `immediate` renders on mount; `manual` renders when a `load()` signal is received. |

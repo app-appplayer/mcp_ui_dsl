@@ -12,6 +12,7 @@ properties:
   content:
     type: "Widget | object"
     description: "Inline widget, or `{ source: \"ui://...\" }` to fetch a remote page fragment. Required when `children` is omitted."
+    aliases: [child]
   child:
     type: "Widget"
     description: "A single deferred widget. Alternative to `content` for the simple case."
