@@ -253,7 +253,7 @@ onInit → onMount → onReady → (onPause ↔ onResume)* → onUnmount → onD
 
 **"A given definition instance" is the whole of it.** Navigating away from a page destroys that page's instance; navigating back builds a new one, and a new instance starts at `onInit` again. Returning to a page is therefore *not* a resume — an author who fetches in a page's `onInit` is writing "fetch every time this page is opened", which is a reasonable thing to want and an expensive surprise when it was not.
 
-`onPause`/`onResume` cover the other case: an instance that is kept alive while it loses focus. Which navigations keep an instance alive is a host decision — a stack that pushes over a page keeps the one underneath, a switch that replaces it does not — so a document MUST NOT assume either. Work that should happen once per *document* belongs in the application's `onInit`/`onReady`, which run once for the application instance no matter how many times its pages are opened.
+`onPause`/`onResume` cover the other case: an instance that is kept alive while it loses focus. Two navigations do keep it — a stack that pushes over a page keeps the one underneath, and a shell that switches between pages (tab bar, rail, bottom bar) keeps every page already visited. A navigation that *replaces* a page does not, so a document MUST NOT assume either. Work that should happen once per *document* belongs in the application's `onInit`/`onReady`, which run once for the application instance no matter how many times its pages are opened.
 
 ### 1.5.3 Placement: Definition-Level vs Instance-Level
 

@@ -162,9 +162,16 @@ that this instance comes back. Firing it on the way out makes teardown work
 placed in `onPause` appear to run, while the state it saved is discarded with
 the instance and rebuilt from scratch on the next visit.
 
-Which navigations keep an instance alive is a host decision (§1.5.2), so a
-document MUST NOT assume that leaving a page will pause it rather than destroy
-it. Work that must happen exactly once per document belongs on the
+A shell that switches between pages — a tab bar, a rail, a bottom bar — keeps
+them. Selecting another item is the second row of that table, not the first:
+the page being left is still mounted and fires `onPause`, and coming back to
+it fires `onResume` on the same instance. A page is built on its first visit,
+so an application with six tabs does not run five `onInit`s before anyone has
+looked at them.
+
+Which navigations keep an instance alive is otherwise a host decision
+(§1.5.2), so a document MUST NOT assume that leaving a page will pause it
+rather than destroy it. Work that must happen exactly once per document belongs on the
 application, whose instance outlives every page.
 
 Hooks within the same stage execute in definition order. A failing hook logs its error; subsequent hooks MUST still run. `onInit` hooks complete before `onReady` begins. `onDestroy` completes before the runtime releases page-scoped resources (subscriptions, channels, local state).
