@@ -169,6 +169,14 @@ it fires `onResume` on the same instance. A page is built on its first visit,
 so an application with six tabs does not run five `onInit`s before anyone has
 looked at them.
 
+**A paused page pauses what is inside it.** Instance-level `lifecycle` blocks
+(§6.8.2) and embedded `view` definitions stay mounted with the page, so they
+receive `onPause` and `onResume` with it. Without that, a widget that started
+a timer or a subscription on mount keeps running behind a page nobody is
+looking at, and never hears the resume its own document declares — the hooks
+would be reachable only by destroying the page, which is the thing that is no
+longer happening.
+
 Which navigations keep an instance alive is otherwise a host decision
 (§1.5.2), so a document MUST NOT assume that leaving a page will pause it
 rather than destroy it. Work that must happen exactly once per document belongs on the
