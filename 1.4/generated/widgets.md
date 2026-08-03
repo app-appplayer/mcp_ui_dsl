@@ -2375,7 +2375,7 @@ Scrollable two-dimensional collection.
 | `items` | `binding` | no | — | Array source. Required when `children` is omitted. |
 | `itemTemplate` | `Widget` | no | — | Template rendered per bound item. Required with `items`. |
 | `children` | `array<Widget>` | no | — | Static grid cells. Mutually exclusive with `items` + `itemTemplate`. |
-| `columns` *(aliases: `crossAxisCount`)* | `number | object` | yes | — | Column count; may use responsive `{default, sm, md, lg}`. |
+| `columns` *(aliases: `crossAxisCount`)* | `number | object` | yes | — | Column count. The object form is a responsive override keyed by form factor (§14.1.1) — `{compact, medium, expanded, large, extraLarge, default}`. |
 | `rowGap` | `number` | no | 0 | Gap between rows. |
 | `columnGap` | `number` | no | 0 | Gap between columns. |
 | `itemAspectRatio` | `number` | no | — | Fixed aspect ratio for each item. |
@@ -3879,8 +3879,8 @@ picked file (`fileInput` writes a `data:` URI), or a server resource.
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `src` | `AssetRef` | yes | — | Document source. Any `AssetRef` form. |
-| `page` | `number | binding` | no | — | Two-way bound current page, 1-based. |
-| `zoom` | `number | binding` | no | — | Two-way bound zoom factor. `1.0` is fit-width. |
+| `page` | `number | binding` | no | — | Current page, 1-based. One-way — the embedded viewer reports no page change back. |
+| `zoom` | `number | binding` | no | — | Zoom factor; `1.0` is fit-width. One-way — the embedded viewer reports no zoom change back. |
 | `showToolbar` | `boolean` | no | true | Render the built-in toolbar. False leaves navigation entirely to bindings. |
 | `showPageNav` | `boolean` | no | true | Page stepper within the toolbar. |
 | `showZoom` | `boolean` | no | true | Zoom controls within the toolbar. |
@@ -5017,7 +5017,7 @@ aspect ratios. Distinct from `grid` (uniform row alignment) and
 | `items` | `binding` | no | — | Array source. Required when `children` is omitted. |
 | `itemTemplate` | `Widget` | no | — | Template rendered per bound item. Required with `items`. |
 | `children` | `array<Widget>` | no | — | Static cells. Mutually exclusive with `items` + `itemTemplate`. |
-| `columns` | `number | object` | yes | — | Column count; may use responsive `{default, sm, md, lg}`. |
+| `columns` | `number | object` | yes | — | Column count. The object form is a responsive override keyed by form factor (§14.1.1) — `{compact, medium, expanded, large, extraLarge, default}`. |
 | `mainAxisSpacing` | `number` | no | 0 | Gap along the scroll axis (between consecutive items in a column). |
 | `crossAxisSpacing` | `number` | no | 0 | Gap across the scroll axis (between columns). |
 | `padding` | `EdgeInsets` | no | — | Inner padding around the grid. |

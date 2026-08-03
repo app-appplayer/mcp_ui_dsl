@@ -8344,7 +8344,7 @@
           ]
         },
         "columns": {
-          "description": "Column count; may use responsive `{default, sm, md, lg}`.",
+          "description": "Column count. The object form is a responsive override keyed by form factor (§14.1.1) — `{compact, medium, expanded, large, extraLarge, default}`.",
           "anyOf": [
             {
               "anyOf": [
@@ -13337,7 +13337,7 @@
           "description": "Document source. Any `AssetRef` form."
         },
         "page": {
-          "description": "Two-way bound current page, 1-based.",
+          "description": "Current page, 1-based. One-way — the embedded viewer reports no page change back.",
           "anyOf": [
             {
               "anyOf": [
@@ -13374,7 +13374,7 @@
           ]
         },
         "zoom": {
-          "description": "Two-way bound zoom factor. `1.0` is fit-width.",
+          "description": "Zoom factor; `1.0` is fit-width. One-way — the embedded viewer reports no zoom change back.",
           "anyOf": [
             {
               "anyOf": [
@@ -17326,7 +17326,7 @@
           ]
         },
         "columns": {
-          "description": "Column count; may use responsive `{default, sm, md, lg}`.",
+          "description": "Column count. The object form is a responsive override keyed by form factor (§14.1.1) — `{compact, medium, expanded, large, extraLarge, default}`.",
           "anyOf": [
             {
               "anyOf": [

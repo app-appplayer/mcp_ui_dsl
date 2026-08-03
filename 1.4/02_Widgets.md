@@ -1338,7 +1338,7 @@ Scrollable two-dimensional collection.
 |----------|------|----------|---------|-------------|
 | `items` | binding | no | — | Array source. Required unless static `children` are given. |
 | `itemTemplate` | Widget | no | — | Template rendered per item. Required unless static `children` are given. |
-| `columns` | number \| object | yes | — | Column count; may use responsive `{default, sm, md, lg}`. |
+| `columns` | number \| object | yes | — | Column count. The object form is a responsive override keyed by form factor (§14.1.1) — `{compact, medium, expanded, large, extraLarge, default}`. |
 | `rowGap` | number | no | `0` | Gap between rows. |
 | `columnGap` | number | no | `0` | Gap between columns. |
 | `itemAspectRatio` | number | no | — | Fixed aspect ratio for each item. |
@@ -1400,7 +1400,7 @@ Pinterest-style masonry layout — items keep their intrinsic height and pack by
 | `items` | binding | no | — | Array source. Required when `children` is omitted. |
 | `itemTemplate` | Widget | no | — | Template rendered per bound item. Required with `items`. |
 | `children` | Widget[] | no | — | Static cells. Mutually exclusive with `items` + `itemTemplate`. |
-| `columns` | number \| object | yes | — | Column count; may use responsive `{default, sm, md, lg}`. |
+| `columns` | number \| object | yes | — | Column count. The object form is a responsive override keyed by form factor (§14.1.1) — `{compact, medium, expanded, large, extraLarge, default}`. |
 | `mainAxisSpacing` | number | no | `0` | Gap along the scroll axis. |
 | `crossAxisSpacing` | number | no | `0` | Gap across the scroll axis. |
 | `padding` | EdgeInsets | no | — | Inner padding around the grid. |

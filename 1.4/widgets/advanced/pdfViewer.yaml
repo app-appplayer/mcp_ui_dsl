@@ -19,10 +19,10 @@ properties:
     description: "Document source. Any `AssetRef` form."
   page:
     type: "number | binding"
-    description: "Two-way bound current page, 1-based."
+    description: "Current page, 1-based. One-way — the embedded viewer reports no page change back."
   zoom:
     type: "number | binding"
-    description: "Two-way bound zoom factor. `1.0` is fit-width."
+    description: "Zoom factor; `1.0` is fit-width. One-way — the embedded viewer reports no zoom change back."
   showToolbar:
     type: boolean
     default: true
