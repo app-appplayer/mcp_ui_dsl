@@ -18,4 +18,28 @@ properties:
   onChange:
     type: "Action"
     description: "Fired when selected."
+  binding:
+    type: "string"
+    description: "State path bound two-way to the widget value (§2.6.0). Runtime reads/writes this path without requiring an explicit onChange."
+  change:
+    type: Action
+    description: "Legacy alias of `onChange`."
+  fillColor:
+    type: Color
+    description: "Area fill color."
+  activeColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `activeColor`; the registry had not declared it."
+  bindTo:
+    type: "string"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `bindTo`; the registry had not declared it."
+  focusColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `focusColor`; the registry had not declared it."
+  hoverColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `hoverColor`; the registry had not declared it."
+  splashRadius:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `splashRadius`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.

@@ -15,6 +15,30 @@ properties:
   placeholder:
     type: "string"
     description: "Placeholder shown when nothing is selected."
+  change:
+    type: Action
+    description: "Legacy alias of `onChange`."
+  elevation:
+    type: Dimension
+    description: "elevation"
+  hint:
+    type: "string"
+    description: "Legacy alias of `placeholder`."
+  label:
+    type: "string"
+    description: "Field label shown beside or above the control."
+  disabledHint:
+    type: "string"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `disabledHint`; the registry had not declared it."
+  iconSize:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `iconSize`; the registry had not declared it."
+  isExpanded:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `isExpanded`; the registry had not declared it."
+  itemHeight:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `itemHeight`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

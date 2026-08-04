@@ -34,6 +34,18 @@ properties:
   maxLength:
     type: number
     description: "Character ceiling, counted on the text content rather than the markup."
+  binding:
+    type: "string"
+    description: "State path bound two-way to the widget value (§2.6.0). Runtime reads/writes this path without requiring an explicit onChange."
+  onChange:
+    type: Action
+    description: "onChange"
+  enabled:
+    type: "boolean | binding"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `enabled`; the registry had not declared it."
+  value:
+    type: "string | binding"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `value`; the registry had not declared it."
 examples:
   - name: basic
     dsl: |

@@ -14,4 +14,7 @@ properties:
     type: "Widget"
     required: true
     description: "Clipped child."
+  clipBehavior:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.

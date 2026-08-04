@@ -13,4 +13,22 @@ properties:
   lastDate:
     type: "string"
     description: "Latest allowed date."
+  change:
+    type: Action
+    description: "Legacy alias of `onChange`."
+  dateFormat:
+    type: "string"
+    description: "Display pattern for the date portion. Display only — the bound value stays ISO-8601."
+  icon:
+    type: IconRef
+    description: "Icon shown. Any `IconRef` form."
+  variant:
+    type: "string"
+    description: "`elevated`, `filled`, `outlined`, `text`, `icon`."
+  bindTo:
+    type: "string"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `bindTo`; the registry had not declared it."
+  initialDate:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `initialDate`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.

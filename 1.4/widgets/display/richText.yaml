@@ -48,6 +48,9 @@ properties:
     type: boolean
     default: "true"
     description: When false, the paragraph never wraps and overflow rules apply at the right edge.
+  textScaleFactor:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `textScaleFactor`; the registry had not declared it."
 examples:
   - name: text_run_with_emphasis
     description: Simple multi-style text run.

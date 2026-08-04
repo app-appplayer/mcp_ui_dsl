@@ -34,21 +34,27 @@ properties:
     default: null
     description: "Font size (logical px)"
   backgroundColor:
-    type: "string"
+    type: Color
     default: null
     description: "Terminal background"
   textColor:
-    type: "string"
+    type: Color
     default: null
     description: "Default text color"
   promptColor:
-    type: "string"
+    type: Color
     default: null
     description: "Prompt color"
   onCommand:
     type: "Action"
     default: null
     description: "Fired on Enter; `event.value` is the submitted command"
+  theme:
+    type: "string"
+    description: "Editor color theme."
+  command:
+    type: "string"
+    description: "Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

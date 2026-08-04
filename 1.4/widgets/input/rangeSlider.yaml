@@ -15,4 +15,28 @@ properties:
   divisions:
     type: "number"
     description: "Number of discrete steps."
+  change:
+    type: Action
+    description: "Legacy alias of `onChange`."
+  activeColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `activeColor`; the registry had not declared it."
+  bindTo:
+    type: "string"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `bindTo`; the registry had not declared it."
+  inactiveColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `inactiveColor`; the registry had not declared it."
+  labels:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `labels`; the registry had not declared it."
+  onChangeEnd:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `onChangeEnd`; the registry had not declared it."
+  onChangeStart:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `onChangeStart`; the registry had not declared it."
+  values:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `values`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.

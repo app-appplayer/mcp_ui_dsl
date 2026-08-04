@@ -30,6 +30,45 @@ properties:
     type: "Action"
     default: null
     description: "Fired on date selection; `event.value` is ISO date"
+  backgroundColor:
+    type: Color
+    description: "Legacy alias of `color`."
+  change:
+    type: Action
+    description: "Legacy alias of `onChange`."
+  selectedColor:
+    type: Color
+    description: "Foreground color (icon + label) for the selected item."
+  eventColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `eventColor`; the registry had not declared it."
+  firstDayOfWeek:
+    type: "number | binding"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `firstDayOfWeek`; the registry had not declared it."
+  height:
+    type: Dimension
+    description: "Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass."
+  onDateSelect:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `onDateSelect`; the registry had not declared it."
+  onMonthChange:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `onMonthChange`; the registry had not declared it."
+  primaryColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `primaryColor`; the registry had not declared it."
+  showHeader:
+    type: "boolean | binding"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `showHeader`; the registry had not declared it."
+  showWeekNumbers:
+    type: "boolean | binding"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `showWeekNumbers`; the registry had not declared it."
+  todayColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `todayColor`; the registry had not declared it."
+  width:
+    type: Dimension
+    description: "Measured from real documents (2026-08-04): number, `{value, unit}`, a dimension string or a binding."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

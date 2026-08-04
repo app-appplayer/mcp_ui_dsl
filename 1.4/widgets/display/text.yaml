@@ -60,6 +60,30 @@ properties:
     type: "string"
     default: "\"start\""
     description: "`start`, `center`, `end`, `justify`."
+  textDirection:
+    type: "string"
+    description: "Resolution direction for `start`/`end` alignment."
+  aria-label:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `aria-label`; the registry had not declared it."
+  ariaLabel:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `ariaLabel`; the registry had not declared it."
+  semanticsLabel:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `semanticsLabel`; the registry had not declared it."
+  softWrap:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `softWrap`; the registry had not declared it."
+  textScaleFactor:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `textScaleFactor`; the registry had not declared it."
+  textTransform:
+    type: "string | binding"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `textTransform`; the registry had not declared it."
+  value:
+    type: "string | number | boolean | object | array"
+    description: "Measured from real documents (2026-08-04): any literal or binding — the §2.6.0 input contract shape."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

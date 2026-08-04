@@ -9,7 +9,7 @@ properties:
     type: "binding"
     description: "Target binding for signature data (base64 PNG or SVG path). Required when capturing is needed; may be omitted for pure display."
   penColor:
-    type: "string"
+    type: Color
     default: "#000000"
     description: "Stroke color"
     aliases:
@@ -29,11 +29,11 @@ properties:
     default: null
     description: "Widget height"
   backgroundColor:
-    type: "string"
+    type: Color
     default: null
     description: "Pad background"
   borderColor:
-    type: "string"
+    type: Color
     default: null
     description: "Pad border"
   showClearButton:
@@ -52,6 +52,12 @@ properties:
     type: "Action"
     default: null
     description: "Fired when the signature is cleared"
+  borderWidth:
+    type: "number"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `borderWidth`; the registry had not declared it."
+  onSignatureStart:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `onSignatureStart`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

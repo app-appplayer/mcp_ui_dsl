@@ -8,11 +8,29 @@ properties:
     type: "string"
     description: "Text content of the badge."
   color:
-    type: "string"
+    type: Color
     description: "Badge background color."
   child:
     type: "Widget"
     description: "Optional child the badge is attached to."
+  alignment:
+    type: Alignment
+    description: "alignment"
+  backgroundColor:
+    type: Color
+    description: "Legacy alias of `color`."
+  textColor:
+    type: Color
+    description: "Default text color"
+  isLabelVisible:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `isLabelVisible`; the registry had not declared it."
+  offset:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `offset`; the registry had not declared it."
+  smallSize:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `smallSize`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

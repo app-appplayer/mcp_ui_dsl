@@ -18,6 +18,63 @@ properties:
   onChange:
     type: "Action"
     description: "Fired when selection changes."
+  backgroundColor:
+    type: Color
+    description: "Legacy alias of `color`."
+  change:
+    type: Action
+    description: "Legacy alias of `onChange`."
+  elevation:
+    type: Dimension
+    description: "elevation"
+  onTap:
+    type: Action
+    description: "onTap"
+  bindTo:
+    type: "string"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `bindTo`; the registry had not declared it."
+  currentIndex:
+    type: "number"
+    description: "Measured from real documents (2026-08-04): a zero-based tab index, or a binding to one — not a length."
+  enableFeedback:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `enableFeedback`; the registry had not declared it."
+  fixedColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `fixedColor`; the registry had not declared it."
+  iconSize:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `iconSize`; the registry had not declared it."
+  selectedFontSize:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `selectedFontSize`; the registry had not declared it."
+  selectedIconTheme:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `selectedIconTheme`; the registry had not declared it."
+  selectedItemColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `selectedItemColor`; the registry had not declared it."
+  selectedLabelStyle:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `selectedLabelStyle`; the registry had not declared it."
+  showSelectedLabels:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `showSelectedLabels`; the registry had not declared it."
+  showUnselectedLabels:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `showUnselectedLabels`; the registry had not declared it."
+  unselectedFontSize:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `unselectedFontSize`; the registry had not declared it."
+  unselectedIconTheme:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `unselectedIconTheme`; the registry had not declared it."
+  unselectedItemColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `unselectedItemColor`; the registry had not declared it."
+  unselectedLabelStyle:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `unselectedLabelStyle`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

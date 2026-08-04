@@ -2,7 +2,9 @@
 
 **Status:** Normative.
 
-> **SSOT:** The machine-readable widget registry at [`widgets/<category>/<type>.yaml`](widgets/) is authoritative. The prose rows in this file are regenerated from it. If YAML and prose disagree, YAML wins. Generated reference artifacts: [`generated/widgets.md`](generated/widgets.md), [`schema/widgets.schema.json`](schema/widgets.schema.json).
+> **SSOT:** The machine-readable widget registry at [`widgets/<category>/<type>.yaml`](widgets/) is authoritative. If YAML and prose disagree, YAML wins.
+>
+> The tables in this file are **curated, not generated** — they carry the canonical properties with the explanation an author needs, and they do not list every declared property. The complete per-widget list, including properties promoted from a runtime that had been reading them undeclared, is [`generated/widgets.md`](generated/widgets.md); the machine form is [`schema/widgets.schema.json`](schema/widgets.schema.json). A property absent from a prose table but present in the registry is still declared and still validated.
 
 This section defines every widget in the Core Profile. The full canonical name list is also summarized in [`17_Naming.md`](17_Naming.md) §17.2.1; all aliases are registered in §17.3. Required widget sets are anchored in [`18_Conformance.md`](18_Conformance.md) §18.2.1. Advanced widgets are defined in [`10_Advanced_Widgets.md`](10_Advanced_Widgets.md).
 
@@ -1001,7 +1003,7 @@ Specialized input for numeric values. Shared rows per §2.6.0; `value` is `numbe
 | `decimalPlaces` | number | no | `0` | Decimal precision. |
 | `prefix` | string | no | — | Leading display text (e.g., `"$"`). |
 | `suffix` | string | no | — | Trailing display text. |
-| `thousandSeparator` | string | no | — | Thousands separator for display. |
+| `thousandSeparator` | string \| boolean | no | — | Thousands separator for display; `false` disables grouping. |
 
 ### 2.6.13 `dateField`
 
@@ -1310,7 +1312,7 @@ Scrollable linear collection rendered from an array binding.
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| `items` | binding | no | — | Array source. Required unless static `children` are given. |
+| `items` | array \| binding | no | — | Array source — inline, or a binding to one. Required unless static `children` are given. |
 | `itemTemplate` | Widget | no | — | Template rendered per item. Iteration variables `item`, `index`, `isFirst`, `isLast`, `isEven`, `isOdd` are in scope. Required unless static `children` are given. |
 | `spacing` | number | no | `0` | Gap between items. |
 | `orientation` | string | no | `"vertical"` | `vertical` or `horizontal`. |
@@ -1336,7 +1338,7 @@ Scrollable two-dimensional collection.
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| `items` | binding | no | — | Array source. Required unless static `children` are given. |
+| `items` | array \| binding | no | — | Array source — inline, or a binding to one. Required unless static `children` are given. |
 | `itemTemplate` | Widget | no | — | Template rendered per item. Required unless static `children` are given. |
 | `columns` | number \| object | yes | — | Column count. The object form is a responsive override keyed by form factor (§14.1.1) — `{compact, medium, expanded, large, extraLarge, default}`. |
 | `rowGap` | number | no | `0` | Gap between rows. |
@@ -1397,7 +1399,7 @@ Pinterest-style masonry layout — items keep their intrinsic height and pack by
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| `items` | binding | no | — | Array source. Required when `children` is omitted. |
+| `items` | array \| binding | no | — | Array source — inline, or a binding to one. Required when `children` is omitted. |
 | `itemTemplate` | Widget | no | — | Template rendered per bound item. Required with `items`. |
 | `children` | Widget[] | no | — | Static cells. Mutually exclusive with `items` + `itemTemplate`. |
 | `columns` | number \| object | yes | — | Column count. The object form is a responsive override keyed by form factor (§14.1.1) — `{compact, medium, expanded, large, extraLarge, default}`. |
@@ -1428,13 +1430,13 @@ Horizontally scrolling browser with optional partial-viewport framing (cover-flo
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| `items` | binding | no | — | Array source. Required when `children` is omitted. |
+| `items` | array \| binding | no | — | Array source — inline, or a binding to one. Required when `children` is omitted. |
 | `itemTemplate` | Widget | no | — | Per-item template. |
 | `children` | Widget[] | no | — | Static slides. |
 | `scrollDirection` | string | no | `"horizontal"` | `horizontal` or `vertical`. |
 | `viewportFraction` | number | no | `1.0` | Slide width as a fraction of carousel width. `0.85` leaves both neighbours peeking. |
 | `loop` | boolean | no | `false` | Wrap around — last → first → last. |
-| `autoPlay` | number | no | — | Advance every `autoPlay` ms. Pair with `loop: true`. |
+| `autoPlay` | number \| boolean \| binding | no | — | Advance every `autoPlay` ms. `true` uses the default interval; a binding drives it from state. Pair with `loop: true`. |
 | `initialIndex` | number | no | `0` | Slide rendered first. |
 | `transition` | string | no | `"slide"` | `slide`, `fade`, `coverflow`, `depth`. `coverflow`/`depth` need a perspective compositor (fall back to `slide`). |
 | `indicatorPosition` | string | no | `"bottom"` | `bottom`, `top`, `none`. |

@@ -25,4 +25,7 @@ properties:
   locale:
     type: "string"
     description: "Locale identifier."
+  errorText:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `errorText`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.

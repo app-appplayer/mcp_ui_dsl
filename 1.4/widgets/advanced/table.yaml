@@ -26,6 +26,12 @@ properties:
     type: "object"
     default: null
     description: "Map `columnIndex` → width override"
+  textDirection:
+    type: "string"
+    description: "Resolution direction for `start`/`end` alignment."
+  textBaseline:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `textBaseline`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

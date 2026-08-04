@@ -16,6 +16,54 @@ properties:
   onSelect:
     type: "Action"
     description: "Fired when an item is selected."
+  change:
+    type: Action
+    description: "Legacy alias of `onChange`."
+  color:
+    type: Color
+    description: "color"
+  elevation:
+    type: Dimension
+    description: "elevation"
+  onChange:
+    type: Action
+    description: "onChange"
+  enabled:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `enabled`; the registry had not declared it."
+  iconSize:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `iconSize`; the registry had not declared it."
+  offset:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `offset`; the registry had not declared it."
+  onCanceled:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `onCanceled`; the registry had not declared it."
+  onOpened:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `onOpened`; the registry had not declared it."
+  onSelected:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `onSelected`; the registry had not declared it."
+  padding:
+    type: EdgeInsets
+    description: "Promoted from the runtime (2026-08-04): the factory reads `padding`; the registry had not declared it."
+  select:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `select`; the registry had not declared it."
+  shadowColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it."
+  shape:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it."
+  splashRadius:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `splashRadius`; the registry had not declared it."
+  surfaceTintColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `surfaceTintColor`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

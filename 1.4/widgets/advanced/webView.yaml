@@ -45,6 +45,9 @@ properties:
     type: "Action"
     default: null
     description: "Fired on load error; `event.error`"
+  backgroundColor:
+    type: Color
+    description: "Legacy alias of `color`."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

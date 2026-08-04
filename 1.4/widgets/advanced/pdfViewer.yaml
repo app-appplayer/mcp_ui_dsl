@@ -40,6 +40,9 @@ properties:
     enum: [width, height, page]
     default: "\"width\""
     description: "Initial fit."
+  height:
+    type: "number | binding"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `height`; the registry had not declared it."
 events:
   onLoad:
     description: Fired once the document is parsed. Carries the page count.

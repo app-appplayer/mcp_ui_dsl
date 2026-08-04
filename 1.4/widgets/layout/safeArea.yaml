@@ -8,6 +8,24 @@ properties:
     type: "Widget"
     required: true
     description: "Child widget."
+  bottom:
+    type: "boolean"
+    description: "Distance from the parent stack's bottom edge."
+  left:
+    type: "boolean"
+    description: "Distance from the parent stack's left edge."
+  right:
+    type: "boolean"
+    description: "Distance from the parent stack's right edge."
+  top:
+    type: "boolean"
+    description: "Distance from the parent stack's top edge."
+  maintainBottomViewPadding:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `maintainBottomViewPadding`; the registry had not declared it."
+  minimum:
+    type: Dimension
+    description: "Promoted from the runtime (2026-08-04): the factory reads `minimum`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

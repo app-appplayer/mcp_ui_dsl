@@ -25,8 +25,13 @@ definition:
       },
       "fontSize": { "$ref": "#/$defs/Dimension" },
       "fontWeight": {
-        "oneOf": [
+        "anyOf": [
           { "type": "number" },
+          {
+            "type": "string",
+            "pattern": "^[1-9]00$",
+            "description": "CSS numeric spelling (`\"700\"`). Documents written against CSS habits use it, and the runtime reads it the same as the number."
+          },
           {
             "enum": [
               "thin", "extraLight", "light", "normal",

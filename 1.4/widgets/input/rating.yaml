@@ -13,6 +13,24 @@ properties:
     default: "\"star\""
     description: "Icon for each unit. Any `IconRef` form."
   color:
-    type: "string"
+    type: Color
     description: "Icon color."
+  change:
+    type: Action
+    description: "Legacy alias of `onChange`."
+  allowHalf:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `allowHalf`; the registry had not declared it."
+  emptyColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `emptyColor`; the registry had not declared it."
+  maxRating:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `maxRating`; the registry had not declared it."
+  readOnly:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `readOnly`; the registry had not declared it."
+  size:
+    type: Dimension
+    description: "Measured from real documents (2026-08-04): number, string form or a binding. Promoted from the runtime; type narrowed from the values documents actually pass."
 # examples migrated verbatim from prose JSON fences.

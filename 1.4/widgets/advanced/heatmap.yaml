@@ -24,7 +24,13 @@ properties:
   colorRange:
     type: "{ low, high }"
     default: "{ \"#E3F2FD\", \"#1565C0\" }"
-    description: "Hex gradient endpoints"
+    description: "Gradient endpoints — the color a cell takes at the lowest value and at the highest."
+  colorRange.low:
+    type: Color
+    description: "Color at the low end of the range."
+  colorRange.high:
+    type: Color
+    description: "Color at the high end of the range."
   showValues:
     type: "boolean"
     default: false
@@ -33,6 +39,24 @@ properties:
     type: "Action"
     default: null
     description: "Fired on cell tap; `event.row`, `event.column`, `event.value`"
+  cellGap:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `cellGap`; the registry had not declared it."
+  colorScheme:
+    type: "string"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `colorScheme`; the registry had not declared it."
+  columns:
+    type: "number"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `columns`; the registry had not declared it."
+  maxValue:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `maxValue`; the registry had not declared it."
+  minValue:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `minValue`; the registry had not declared it."
+  showLabels:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `showLabels`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

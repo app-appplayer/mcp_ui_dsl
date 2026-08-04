@@ -12,6 +12,48 @@ properties:
     type: "Widget"
     required: true
     description: "Wrapped widget."
+  decoration:
+    type: BoxDecoration
+    description: "Animated decoration (color/gradient/border/shadow/image)."
+  textAlign:
+    type: "string"
+    description: "Alignment for the composed paragraph."
+  enableFeedback:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `enableFeedback`; the registry had not declared it."
+  excludeFromSemantics:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `excludeFromSemantics`; the registry had not declared it."
+  height:
+    type: Dimension
+    description: "Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass."
+  margin:
+    type: EdgeInsets
+    description: "Promoted from the runtime (2026-08-04): the factory reads `margin`; the registry had not declared it."
+  padding:
+    type: EdgeInsets
+    description: "Promoted from the runtime (2026-08-04): the factory reads `padding`; the registry had not declared it."
+  preferBelow:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `preferBelow`; the registry had not declared it."
+  richMessage:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `richMessage`; the registry had not declared it."
+  showDuration:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `showDuration`; the registry had not declared it."
+  textStyle:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `textStyle`; the registry had not declared it."
+  triggerMode:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `triggerMode`; the registry had not declared it."
+  verticalOffset:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `verticalOffset`; the registry had not declared it."
+  waitDuration:
+    type: "number"
+    description: "Measured from real documents (2026-08-04): milliseconds before the tooltip appears."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

@@ -40,6 +40,57 @@ properties:
   onLongPress:
     type: "Action"
     description: "Long-press handler."
+  backgroundColor:
+    type: Color
+    description: "Legacy alias of `color`."
+  borderColor:
+    type: Color
+    description: "Pad border"
+  foregroundColor:
+    type: Color
+    description: "Bar color."
+  loading:
+    type: "boolean"
+    description: "loading"
+  onSubmit:
+    type: Action
+    description: "onSubmit"
+  submit:
+    type: Action
+    description: "Legacy alias of `onSubmit`."
+  aria-label:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `aria-label`; the registry had not declared it."
+  ariaLabel:
+    type: "string | binding"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `ariaLabel`; the registry had not declared it."
+  borderWidth:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `borderWidth`; the registry had not declared it."
+  disabled:
+    type: "boolean | binding"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `disabled`; the registry had not declared it."
+  double-click:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `double-click`; the registry had not declared it."
+  doubleClick:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `doubleClick`; the registry had not declared it."
+  fullWidth:
+    type: "boolean"
+    description: "Measured from real documents (2026-08-04): boolean. Promoted from the runtime; type narrowed from the values documents actually pass."
+  iconPosition:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `iconPosition`; the registry had not declared it."
+  long-press:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `long-press`; the registry had not declared it."
+  longPress:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `longPress`; the registry had not declared it."
+  size:
+    type: Dimension
+    description: "Measured from real documents (2026-08-04): number, string form or a binding. Promoted from the runtime; type narrowed from the values documents actually pass."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

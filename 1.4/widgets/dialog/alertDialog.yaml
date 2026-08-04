@@ -35,6 +35,39 @@ properties:
           BEFORE executing `onTap`, so handlers that trigger state changes or
           navigation do not race with the dialog dismissal.
 
+  alignment:
+    type: Alignment
+    description: "alignment"
+  backgroundColor:
+    type: Color
+    description: "Legacy alias of `color`."
+  elevation:
+    type: Dimension
+    description: "elevation"
+  clipBehavior:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it."
+  contentWidget:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `contentWidget`; the registry had not declared it."
+  insetPadding:
+    type: EdgeInsets
+    description: "Promoted from the runtime (2026-08-04): the factory reads `insetPadding`; the registry had not declared it."
+  scrollable:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `scrollable`; the registry had not declared it."
+  shadowColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it."
+  shape:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it."
+  surfaceTintColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `surfaceTintColor`; the registry had not declared it."
+  titleWidget:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `titleWidget`; the registry had not declared it."
 children:
   kind: none
 

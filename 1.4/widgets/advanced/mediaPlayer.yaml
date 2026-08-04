@@ -75,6 +75,24 @@ properties:
     type: "Action"
     default: null
     description: "Fired on playback error; `event.error`"
+  backgroundColor:
+    type: Color
+    description: "Legacy alias of `color`."
+  duration:
+    type: Dimension
+    description: "Animation duration in milliseconds."
+  title:
+    type: "string"
+    description: "Dialog title shown at the top."
+  accentColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `accentColor`; the registry had not declared it."
+  controlsColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `controlsColor`; the registry had not declared it."
+  onSeek:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `onSeek`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

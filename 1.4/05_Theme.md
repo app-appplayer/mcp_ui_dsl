@@ -195,13 +195,25 @@ Override via `theme.color.stateLayer.<state>`.
 
 ### 5.3.4 Color format
 
-| Format | Pattern | Example |
-|---|---|---|
-| 6-digit hex | `#RRGGBB` | `#2196F3` |
-| 8-digit hex | `#AARRGGBB` | `#80000000` |
-| Functional rgba | `rgb(r, g, b)` / `rgba(r, g, b, a)` | `rgba(33, 150, 243, 0.5)` |
+| Format | Pattern | Example | Rating |
+|---|---|---|---|
+| Scheme slot | a role name from §5.3.1 | `primary`, `onSurfaceVariant` | MUST — **preferred** |
+| 3-digit hex | `#RGB` | `#fff` | MUST |
+| 6-digit hex | `#RRGGBB` | `#2196F3` | MUST |
+| 8-digit hex | `#AARRGGBB` (alpha first) | `#80000000` | MUST |
+| CSS basic name | one of ten, case-insensitive | `red`, `grey` | MUST |
+| Functional rgba | `rgb(r, g, b)` / `rgba(r, g, b, a)` | `rgba(33, 150, 243, 0.5)` | SHOULD |
 
-Hex MUST. Functional SHOULD. Named CSS-keyword colors are not canonical.
+The ten basic names are `red`, `blue`, `green`, `yellow`, `orange`,
+`purple`, `black`, `white`, `grey`/`gray`. **No other CSS keyword is a
+color here** — `tomato` and its neighbours are not accepted, because a
+name a runtime cannot resolve paints nothing and says nothing. A scheme
+slot is preferred over every literal form: it is the only spelling that
+follows light / dark mode.
+
+This table and `configs/_primitive/Color.yaml` are one set. A validator
+reads the primitive; this section states what it means and why the
+ratings differ.
 
 ### 5.3.5 Light / Dark schemes
 

@@ -7,7 +7,7 @@ description: |
   Scrollable two-dimensional collection.
 properties:
   items:
-    type: "binding"
+    type: "array | binding"
     description: "Array source. Required when `children` is omitted."
   itemTemplate:
     type: "Widget"
@@ -32,6 +32,42 @@ properties:
   itemAspectRatio:
     type: "number"
     description: "Fixed aspect ratio for each item."
+  reverse:
+    type: "boolean"
+    description: "When true, run the transition in reverse direction (for back navigation)."
+  scrollDirection:
+    type: "string"
+    description: "Scroll axis."
+  template:
+    type: ["object", "string"]
+    description: "Template name to instantiate."
+  childAspectRatio:
+    type: Dimension
+    description: "Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass."
+  crossAxisSpacing:
+    type: Dimension
+    description: "Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass."
+  mainAxisExtent:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `mainAxisExtent`; the registry had not declared it."
+  mainAxisSpacing:
+    type: Dimension
+    description: "Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass."
+  maxCrossAxisExtent:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `maxCrossAxisExtent`; the registry had not declared it."
+  padding:
+    type: EdgeInsets
+    description: "Promoted from the runtime (2026-08-04): the factory reads `padding`; the registry had not declared it."
+  physics:
+    type: "string"
+    description: "Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass."
+  shrinkWrap:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `shrinkWrap`; the registry had not declared it."
+  spacing:
+    type: Dimension
+    description: "Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

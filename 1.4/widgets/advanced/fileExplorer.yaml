@@ -38,7 +38,7 @@ properties:
     default: null
     description: "Widget height"
   selectedColor:
-    type: "string"
+    type: Color
     default: null
     description: "Background color for selected entry"
   onSelect:
@@ -49,6 +49,18 @@ properties:
     type: "Action"
     default: null
     description: "Fired on activation (double-tap / Enter); `event.value` is the path"
+  backgroundColor:
+    type: Color
+    description: "Legacy alias of `color`."
+  iconColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `iconColor`; the registry had not declared it."
+  open:
+    type: "string"
+    description: "Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass."
+  select:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `select`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

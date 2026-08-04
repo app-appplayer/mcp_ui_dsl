@@ -11,7 +11,7 @@ description: |
   covers, album browsers, magazine front pages).
 properties:
   items:
-    type: binding
+    type: "array | binding"
     description: Array source. Required when `children` is omitted.
   itemTemplate:
     type: Widget
@@ -36,7 +36,7 @@ properties:
     default: "false"
     description: When true the list wraps around — last → first → last.
   autoPlay:
-    type: number
+    type: "boolean | number | binding"
     description: |
       When set, advances one item every `autoPlay` ms. Authors
       typically pair with `loop: true`.

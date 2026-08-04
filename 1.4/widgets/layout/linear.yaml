@@ -46,6 +46,12 @@ properties:
     type: "array<Widget>"
     required: true
     description: "Child widgets arranged along `direction`."
+  padding:
+    type: EdgeInsets
+    description: "Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass."
+  wrap:
+    type: "boolean | binding"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `wrap`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

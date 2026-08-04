@@ -12,7 +12,7 @@ properties:
     type: "number"
     description: "Icon size; uses theme default if omitted."
   color:
-    type: "string"
+    type: Color
     description: "Icon color."
   enabled:
     type: "boolean"
@@ -21,6 +21,33 @@ properties:
   onTap:
     type: "Action"
     description: "Tap handler."
+  alignment:
+    type: Alignment
+    description: "alignment"
+  disabledColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `disabledColor`; the registry had not declared it."
+  enableFeedback:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `enableFeedback`; the registry had not declared it."
+  fontFamily:
+    type: "string"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `fontFamily`; the registry had not declared it."
+  highlightColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `highlightColor`; the registry had not declared it."
+  iconSize:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `iconSize`; the registry had not declared it."
+  padding:
+    type: EdgeInsets
+    description: "Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass."
+  splashColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `splashColor`; the registry had not declared it."
+  splashRadius:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `splashRadius`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

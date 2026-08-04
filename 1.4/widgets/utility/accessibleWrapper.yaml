@@ -11,4 +11,28 @@ properties:
   accessibility:
     type: "object"
     description: "`{ label, hint, role, live }` — mirrors §13."
+  announceNavigation:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `announceNavigation`; the registry had not declared it."
+  announceOnChange:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `announceOnChange`; the registry had not declared it."
+  autoFocus:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `autoFocus`; the registry had not declared it."
+  focusGroup:
+    type: "string"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `focusGroup`; the registry had not declared it."
+  focusOrder:
+    type: "number"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `focusOrder`; the registry had not declared it."
+  liveRegion:
+    type: "string"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `liveRegion`; the registry had not declared it."
+  navigationMessage:
+    type: "string"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `navigationMessage`; the registry had not declared it."
+  watchPath:
+    type: "string"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `watchPath`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.

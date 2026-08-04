@@ -16,4 +16,37 @@ properties:
   onClose:
     type: Action
     description: "Fired when the dialog is dismissed (outside-tap when `dismissible: true`, escape key)."
+  alignment:
+    type: Alignment
+    description: "alignment"
+  backgroundColor:
+    type: Color
+    description: "Legacy alias of `color`."
+  content:
+    type: "string"
+    description: "content"
+  elevation:
+    type: Dimension
+    description: "elevation"
+  title:
+    type: "string"
+    description: "Dialog title shown at the top."
+  actions:
+    type: "array"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `actions`; the registry had not declared it."
+  clipBehavior:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it."
+  insetPadding:
+    type: EdgeInsets
+    description: "Promoted from the runtime (2026-08-04): the factory reads `insetPadding`; the registry had not declared it."
+  shadowColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it."
+  shape:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it."
+  surfaceTintColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `surfaceTintColor`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.

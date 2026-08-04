@@ -41,6 +41,24 @@ properties:
   onPageChanged:
     type: Action
     description: Fires after the active page settles. `event.page` carries the new index.
+  onChange:
+    type: Action
+    description: "onChange"
+  reverse:
+    type: "boolean"
+    description: "When true, run the transition in reverse direction (for back navigation)."
+  scrollDirection:
+    type: "string"
+    description: "Scroll axis."
+  clipBehavior:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it."
+  padEnds:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `padEnds`; the registry had not declared it."
+  pageSnapping:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `pageSnapping`; the registry had not declared it."
 examples:
   - name: book_pages
     dsl: |

@@ -8,4 +8,10 @@ properties:
     type: "Widget"
     required: true
     description: "Child widget."
+  stepHeight:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `stepHeight`; the registry had not declared it."
+  stepWidth:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `stepWidth`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.

@@ -19,7 +19,7 @@ properties:
     type: "ExitButtonConfig | boolean"
     description: "Override the host-inserted close button on the root route; see below."
   backgroundColor:
-    type: "string"
+    type: Color
     description: "Header background."
   elevation:
     type: "number"
@@ -29,6 +29,36 @@ properties:
     type: "boolean"
     default: false
     description: "Whether to center the title."
+  bottom:
+    type: Dimension
+    description: "Distance from the parent stack's bottom edge."
+  foregroundColor:
+    type: Color
+    description: "Bar color."
+  automaticallyImplyLeading:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `automaticallyImplyLeading`; the registry had not declared it."
+  bottomHeight:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `bottomHeight`; the registry had not declared it."
+  bottomOpacity:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `bottomOpacity`; the registry had not declared it."
+  flexibleSpace:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `flexibleSpace`; the registry had not declared it."
+  shadowColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it."
+  shape:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it."
+  toolbarHeight:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `toolbarHeight`; the registry had not declared it."
+  toolbarOpacity:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `toolbarOpacity`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

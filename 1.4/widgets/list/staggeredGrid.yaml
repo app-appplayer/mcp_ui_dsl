@@ -10,7 +10,7 @@ description: |
   `carousel` (single-axis scrolling).
 properties:
   items:
-    type: binding
+    type: "array | binding"
     description: Array source. Required when `children` is omitted.
   itemTemplate:
     type: Widget

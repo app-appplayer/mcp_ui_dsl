@@ -11,4 +11,22 @@ properties:
     type: "boolean"
     default: false
     description: "24-hour clock."
+  change:
+    type: Action
+    description: "Legacy alias of `onChange`."
+  icon:
+    type: IconRef
+    description: "Icon shown. Any `IconRef` form."
+  timeFormat:
+    type: "string"
+    description: "Display pattern for the time portion. Display only."
+  variant:
+    type: "string"
+    description: "`elevated`, `filled`, `outlined`, `text`, `icon`."
+  bindTo:
+    type: "string"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `bindTo`; the registry had not declared it."
+  initialTime:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `initialTime`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.

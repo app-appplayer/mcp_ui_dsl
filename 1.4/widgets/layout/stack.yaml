@@ -17,6 +17,12 @@ properties:
     type: "array<Widget>"
     required: true
     description: "Stacked children (rendered in order; later children render on top)."
+  textDirection:
+    type: "string"
+    description: "Resolution direction for `start`/`end` alignment."
+  clipBehavior:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

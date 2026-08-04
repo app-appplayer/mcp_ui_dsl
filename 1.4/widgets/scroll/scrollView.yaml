@@ -40,6 +40,18 @@ properties:
       Sliver entries (sliverAppBar / sliverPersistentHeader /
       sliverList / sliverGrid / sliverFixedExtentList). Mutually
       exclusive with `child` and `children`.
+  reverse:
+    type: "boolean"
+    description: "When true, run the transition in reverse direction (for back navigation)."
+  scrollDirection:
+    type: "string"
+    description: "Scroll axis."
+  physics:
+    type: "string"
+    description: "Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass."
+  primary:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `primary`; the registry had not declared it."
 examples:
   - name: linear_mode
     dsl: |

@@ -30,6 +30,45 @@ properties:
     type: "boolean"
     default: true
     description: "Whether the item is interactive."
+  onLongPress:
+    type: Action
+    description: "onLongPress"
+  textColor:
+    type: Color
+    description: "Default text color"
+  contentPadding:
+    type: EdgeInsets
+    description: "Promoted from the runtime (2026-08-04): the factory reads `contentPadding`; the registry had not declared it."
+  dense:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `dense`; the registry had not declared it."
+  focusColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `focusColor`; the registry had not declared it."
+  hoverColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `hoverColor`; the registry had not declared it."
+  iconColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `iconColor`; the registry had not declared it."
+  isThreeLine:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `isThreeLine`; the registry had not declared it."
+  long-press:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `long-press`; the registry had not declared it."
+  longPress:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `longPress`; the registry had not declared it."
+  selectedTileColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `selectedTileColor`; the registry had not declared it."
+  shape:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it."
+  tileColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `tileColor`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

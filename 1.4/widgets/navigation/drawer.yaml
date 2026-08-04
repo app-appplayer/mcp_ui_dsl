@@ -19,6 +19,27 @@ properties:
   onClose:
     type: "Action"
     description: "Fired when the drawer is dismissed (modal: scrim tap or escape; permanent: not fired)."
+  backgroundColor:
+    type: Color
+    description: "Legacy alias of `color`."
+  elevation:
+    type: Dimension
+    description: "elevation"
+  semanticLabel:
+    type: "string | binding"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `semanticLabel`; the registry had not declared it."
+  shadowColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it."
+  shape:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it."
+  surfaceTintColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `surfaceTintColor`; the registry had not declared it."
+  width:
+    type: Dimension
+    description: "Measured from real documents (2026-08-04): number, `{value, unit}`, a dimension string or a binding."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

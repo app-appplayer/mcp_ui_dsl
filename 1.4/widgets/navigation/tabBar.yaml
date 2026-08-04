@@ -15,6 +15,60 @@ properties:
   onChange:
     type: "Action"
     description: "Fired when selection changes."
+  change:
+    type: Action
+    description: "Legacy alias of `onChange`."
+  indicatorColor:
+    type: Color
+    description: "Selection indicator pill color (rail / drawer / tabs)."
+  labelStyle:
+    type: TextStyle
+    description: "Default text style for item labels (selected and unselected). Per-item override via NavItem.style.labelStyle."
+  onTap:
+    type: Action
+    description: "onTap"
+  enableFeedback:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `enableFeedback`; the registry had not declared it."
+  indicator:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `indicator`; the registry had not declared it."
+  indicatorPadding:
+    type: EdgeInsets
+    description: "Promoted from the runtime (2026-08-04): the factory reads `indicatorPadding`; the registry had not declared it."
+  indicatorSize:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `indicatorSize`; the registry had not declared it."
+  indicatorWeight:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `indicatorWeight`; the registry had not declared it."
+  isScrollable:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `isScrollable`; the registry had not declared it."
+  labelColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `labelColor`; the registry had not declared it."
+  labelPadding:
+    type: EdgeInsets
+    description: "Promoted from the runtime (2026-08-04): the factory reads `labelPadding`; the registry had not declared it."
+  mouseCursor:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `mouseCursor`; the registry had not declared it."
+  overlayColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `overlayColor`; the registry had not declared it."
+  padding:
+    type: EdgeInsets
+    description: "Promoted from the runtime (2026-08-04): the factory reads `padding`; the registry had not declared it."
+  physics:
+    type: "string"
+    description: "Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass."
+  unselectedLabelColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `unselectedLabelColor`; the registry had not declared it."
+  unselectedLabelStyle:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `unselectedLabelStyle`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

@@ -17,6 +17,9 @@ properties:
     type: "string"
     default: "\"vertical\""
     description: "`vertical` or `horizontal`."
+  direction:
+    type: "string"
+    description: "`horizontal` or `vertical`."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

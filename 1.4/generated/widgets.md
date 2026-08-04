@@ -1,4 +1,4 @@
-<!-- GENERATED: do not edit. Source: specs/mcp_ui_dsl/spec/1.3/widgets/*.yaml. -->
+<!-- GENERATED: do not edit. Source: specs/mcp_ui_dsl/spec/1.4/widgets/*.yaml. -->
 # Widget Registry — Generated Reference
 
 Run `dart run tools/spec_codegen/bin/spec_codegen.dart` to regenerate.
@@ -178,6 +178,14 @@ Wraps a child with accessibility annotations (ARIA-style). See [`13_Accessibilit
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `child` | `Widget` | yes | — | Wrapped subtree. |
 | `accessibility` | `object` | no | — | `{ label, hint, role, live }` — mirrors §13. |
+| `announceNavigation` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `announceNavigation`; the registry had not declared it. |
+| `announceOnChange` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `announceOnChange`; the registry had not declared it. |
+| `autoFocus` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `autoFocus`; the registry had not declared it. |
+| `focusGroup` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `focusGroup`; the registry had not declared it. |
+| `focusOrder` | `number` | no | — | Promoted from the runtime (2026-08-04): the factory reads `focusOrder`; the registry had not declared it. |
+| `liveRegion` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `liveRegion`; the registry had not declared it. |
+| `navigationMessage` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `navigationMessage`; the registry had not declared it. |
+| `watchPath` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `watchPath`; the registry had not declared it. |
 
 ---
 
@@ -254,6 +262,17 @@ runtime renders it as a `Dialog` surface scoped to the current navigator
 | `dismissible` | `boolean` | no | true | Whether tapping outside the dialog closes it. |
 | `onClose` | `Action` | no | — | Fired when the dialog is dismissed without one of `actions[].onTap` being selected (e.g., outside-tap when `dismissible: true`, escape key). |
 | `actions` | `array<object{ label: string, variant: string, primary: boolean, onTap: Action }>` | no | — | Action buttons rendered in the dialog footer. Each entry:   - `label` (required): button text.   - `variant`: one of `text` / `elevated` / `outlined` / `filled`; default `text`.   - `primary`: highlights the button as the default action.   - `onTap`: the action fired on press. The runtime pops the dialog     BEFORE executing `onTap`, so handlers that trigger state changes or     navigation do not race with the dialog dismissal.  |
+| `alignment` | `Alignment` | no | — | alignment |
+| `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
+| `elevation` | `Dimension` | no | — | elevation |
+| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
+| `contentWidget` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `contentWidget`; the registry had not declared it. |
+| `insetPadding` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `insetPadding`; the registry had not declared it. |
+| `scrollable` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `scrollable`; the registry had not declared it. |
+| `shadowColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it. |
+| `shape` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it. |
+| `surfaceTintColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `surfaceTintColor`; the registry had not declared it. |
+| `titleWidget` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `titleWidget`; the registry had not declared it. |
 
 ### Examples
 
@@ -318,6 +337,8 @@ Aligns a single child at a specified alignment.
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `alignment` | `Alignment` | no | "center" | Alignment of the child within this widget's bounds. Defaults to `center` when omitted. |
 | `child` | `Widget` | yes | — | Aligned widget. |
+| `heightFactor` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `heightFactor`; the registry had not declared it. |
+| `widthFactor` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
 
 ### Examples
 
@@ -385,6 +406,11 @@ builds the runtime tweens between the old and new values over
 | `decoration` | `BoxDecoration` | no | — | Animated decoration (color/gradient/border/shadow/image). |
 | `onEnd` | `Action` | no | — | Fires when the animation completes. |
 | `child` | `Widget` | no | — | Animated child widget. |
+| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
+| `constraints` | `object` | no | — | Measured from real documents (2026-08-04): object. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `foregroundDecoration` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `foregroundDecoration`; the registry had not declared it. |
+| `transform` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `transform`; the registry had not declared it. |
+| `transformAlignment` | `Alignment` | no | — | Promoted from the runtime (2026-08-04): the factory reads `transformAlignment`; the registry had not declared it. |
 
 ### Examples
 
@@ -559,7 +585,11 @@ Circular widget for user images or initials.
 | `src` | `AssetRef` | no | — | Image source. Any `AssetRef` form; if absent or unresolvable, falls back to `label`. |
 | `label` *(aliases: `text`)* | `string` | no | — | Text label (typically initials). |
 | `size` | `number` | no | 40 | Diameter in logical pixels. |
-| `color` *(aliases: `backgroundColor`)* | `string` | no | — | Background color when showing label. |
+| `color` *(aliases: `backgroundColor`)* | `Color` | no | — | Background color when showing label. |
+| `backgroundImage` | `BackgroundImage` | no | — | backgroundImage |
+| `foregroundColor` | `Color` | no | — | Bar color. |
+| `icon` | `IconRef` | no | — | Icon shown. Any `IconRef` form. |
+| `radius` | `number` | no | — | radius |
 
 ### Examples
 
@@ -588,8 +618,14 @@ Small status indicator typically anchored to another widget.
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `label` | `string` | no | — | Text content of the badge. |
-| `color` | `string` | no | — | Badge background color. |
+| `color` | `Color` | no | — | Badge background color. |
 | `child` | `Widget` | no | — | Optional child the badge is attached to. |
+| `alignment` | `Alignment` | no | — | alignment |
+| `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
+| `textColor` | `Color` | no | — | Default text color |
+| `isLabelVisible` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `isLabelVisible`; the registry had not declared it. |
+| `offset` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `offset`; the registry had not declared it. |
+| `smallSize` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `smallSize`; the registry had not declared it. |
 
 ### Examples
 
@@ -701,6 +737,25 @@ Bottom navigation bar. Each item's text field is `label`.
 | `selectedIndex` | `number | binding` | no | 0 | Currently selected index. Defaults to 0 when omitted. |
 | `items` | `array<NavItem>` | yes | — | `{ icon, label, route? }` entries. |
 | `onChange` | `Action` | no | — | Fired when selection changes. |
+| `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
+| `change` | `Action` | no | — | Legacy alias of `onChange`. |
+| `elevation` | `Dimension` | no | — | elevation |
+| `onTap` | `Action` | no | — | onTap |
+| `bindTo` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `bindTo`; the registry had not declared it. |
+| `currentIndex` | `number` | no | — | Measured from real documents (2026-08-04): a zero-based tab index, or a binding to one — not a length. |
+| `enableFeedback` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `enableFeedback`; the registry had not declared it. |
+| `fixedColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `fixedColor`; the registry had not declared it. |
+| `iconSize` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `iconSize`; the registry had not declared it. |
+| `selectedFontSize` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `selectedFontSize`; the registry had not declared it. |
+| `selectedIconTheme` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `selectedIconTheme`; the registry had not declared it. |
+| `selectedItemColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `selectedItemColor`; the registry had not declared it. |
+| `selectedLabelStyle` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `selectedLabelStyle`; the registry had not declared it. |
+| `showSelectedLabels` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `showSelectedLabels`; the registry had not declared it. |
+| `showUnselectedLabels` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `showUnselectedLabels`; the registry had not declared it. |
+| `unselectedFontSize` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `unselectedFontSize`; the registry had not declared it. |
+| `unselectedIconTheme` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `unselectedIconTheme`; the registry had not declared it. |
+| `unselectedItemColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `unselectedItemColor`; the registry had not declared it. |
+| `unselectedLabelStyle` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `unselectedLabelStyle`; the registry had not declared it. |
 
 ### Examples
 
@@ -737,9 +792,17 @@ Modal bottom sheet with swipeable handle.
 | `child` | `Widget` | yes | — | Sheet content. |
 | `isDismissible` | `boolean` | no | true | Allow dismiss by tapping scrim. |
 | `enableDrag` | `boolean` | no | true | Allow drag to dismiss. |
-| `backgroundColor` | `string` | no | — | Sheet background. |
+| `backgroundColor` | `Color` | no | — | Sheet background. |
 | `shape` | `object` | no | — | `{ type: "rounded", radius: { top: 16 } }`. |
 | `onClose` | `Action` | no | — | Fired when the sheet is dismissed (scrim tap when `isDismissible` is true, drag-down when `enableDrag` is true). |
+| `elevation` | `Dimension` | no | — | elevation |
+| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
+| `constraints` | `object` | no | — | Measured from real documents (2026-08-04): object. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `dragHandleColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `dragHandleColor`; the registry had not declared it. |
+| `dragHandleSize` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `dragHandleSize`; the registry had not declared it. |
+| `onClosing` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onClosing`; the registry had not declared it. |
+| `shadowColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it. |
+| `showDragHandle` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `showDragHandle`; the registry had not declared it. |
 
 ---
 
@@ -768,6 +831,7 @@ commonly used as a styled wrapper around any child widget.
 | `alignment` | `Alignment` | no | — | Alignment of the child inside the box when the box is larger than the child. See the `Alignment` primitive for the canonical 9-token directional set and the `{x, y}` numeric form.  |
 | `color` *(aliases: `backgroundColor`)* | `Color` | no | — | Solid background color. Shorthand for `decoration.color`; mutually exclusive with `decoration`. |
 | `decoration` | `BoxDecoration` | no | — | Visual decoration. Mutually exclusive with the top-level `color` shorthand — when both are present `decoration` wins. See the `BoxDecoration` $def for the full property set: `color`, `gradient`, `image`, `border`, `borderRadius`, `boxShadow`, `shape`, `backdropBlur`.  |
+| `constraints` | `object` | no | — | Measured from real documents (2026-08-04): object. Promoted from the runtime; type narrowed from the values documents actually pass. |
 
 ### Children
 
@@ -871,6 +935,23 @@ Interactive button. The canonical label field is `label`.
 | `onTap` | `Action` | no | — | Tap handler. |
 | `onDoubleTap` | `Action` | no | — | Double-tap handler. |
 | `onLongPress` | `Action` | no | — | Long-press handler. |
+| `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
+| `borderColor` | `Color` | no | — | Pad border |
+| `foregroundColor` | `Color` | no | — | Bar color. |
+| `loading` | `boolean` | no | — | loading |
+| `onSubmit` | `Action` | no | — | onSubmit |
+| `submit` | `Action` | no | — | Legacy alias of `onSubmit`. |
+| `aria-label` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `aria-label`; the registry had not declared it. |
+| `ariaLabel` | `string | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `ariaLabel`; the registry had not declared it. |
+| `borderWidth` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `borderWidth`; the registry had not declared it. |
+| `disabled` | `boolean | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `disabled`; the registry had not declared it. |
+| `double-click` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `double-click`; the registry had not declared it. |
+| `doubleClick` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `doubleClick`; the registry had not declared it. |
+| `fullWidth` | `boolean` | no | — | Measured from real documents (2026-08-04): boolean. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `iconPosition` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `iconPosition`; the registry had not declared it. |
+| `long-press` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `long-press`; the registry had not declared it. |
+| `longPress` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `longPress`; the registry had not declared it. |
+| `size` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, string form or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
 
 ### Examples
 
@@ -903,6 +984,19 @@ Calendar view for date selection and event display.
 | `lastDate` | `string` | no | — | Latest selectable date (ISO 8601). |
 | `view` | `string` | no | month | Calendar display granularity. |
 | `onChange` | `Action` | no | — | Fired on date selection; `event.value` is ISO date |
+| `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
+| `change` | `Action` | no | — | Legacy alias of `onChange`. |
+| `selectedColor` | `Color` | no | — | Foreground color (icon + label) for the selected item. |
+| `eventColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `eventColor`; the registry had not declared it. |
+| `firstDayOfWeek` | `number | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `firstDayOfWeek`; the registry had not declared it. |
+| `height` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `onDateSelect` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onDateSelect`; the registry had not declared it. |
+| `onMonthChange` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onMonthChange`; the registry had not declared it. |
+| `primaryColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `primaryColor`; the registry had not declared it. |
+| `showHeader` | `boolean | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `showHeader`; the registry had not declared it. |
+| `showWeekNumbers` | `boolean | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `showWeekNumbers`; the registry had not declared it. |
+| `todayColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `todayColor`; the registry had not declared it. |
+| `width` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}`, a dimension string or a binding. |
 
 ### Examples
 
@@ -928,6 +1022,9 @@ Calendar view for date selection and event display.
 ## `canvas`  *(advanced · Core · v1.3)*
 
 General-purpose vector drawing via an ordered command array. All numeric and color properties support binding expressions, enabling data-driven graphics (progress rings, custom indicators, composable chart primitives).
+backgroundColor:
+  type: Color
+  description: "Legacy alias of `color`."
 
 ### Properties
 
@@ -935,6 +1032,10 @@ General-purpose vector drawing via an ordered command array. All numeric and col
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `backgroundColor` | `string` | no | — | Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `commands` | `array` | no | — | Measured from real documents (2026-08-04): array. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `height` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `width` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}`, a dimension string or a binding. |
 
 ### Examples
 
@@ -983,6 +1084,10 @@ Elevated single-child container.
 | `shape` | `string` | no | — | Shape of the card surface. M3 shape token shorthand (`extraSmall` / `small` / `medium` / `large` / `extraLarge` / `full` / `none`) resolves through `theme.shape.<token>`. Object form `{ type: "rounded", radius: 12 }` is also accepted.  |
 | `color` *(aliases: `backgroundColor`)* | `Color` | no | — | Card surface color. |
 | `child` | `Widget` | yes | — | Card content. |
+| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
+| `semanticContainer` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `semanticContainer`; the registry had not declared it. |
+| `shadowColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it. |
+| `surfaceTintColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `surfaceTintColor`; the registry had not declared it. |
 
 ### Examples
 
@@ -1015,13 +1120,13 @@ covers, album browsers, magazine front pages).
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
-| `items` | `binding` | no | — | Array source. Required when `children` is omitted. |
+| `items` | `array | binding` | no | — | Array source. Required when `children` is omitted. |
 | `itemTemplate` | `Widget` | no | — | Template rendered per bound item. Required with `items`. |
 | `children` | `array<Widget>` | no | — | Static slides. Mutually exclusive with `items` + `itemTemplate`. |
 | `scrollDirection` | `string` | no | "horizontal" | Scroll axis. |
 | `viewportFraction` | `number` | no | 1.0 | Each slide's width as a fraction of the carousel width. `1.0` = one item fills the viewport (matches `pageView`); `0.85` leaves both neighbours peeking; `0.6` shows three items.  |
 | `loop` | `boolean` | no | false | When true the list wraps around — last → first → last. |
-| `autoPlay` | `number` | no | — | When set, advances one item every `autoPlay` ms. Authors typically pair with `loop: true`.  |
+| `autoPlay` | `boolean | number | binding` | no | — | When set, advances one item every `autoPlay` ms. Authors typically pair with `loop: true`.  |
 | `initialIndex` | `number` | no | 0 | Index of the slide rendered first. |
 | `transition` | `string` | no | "slide" | Per-slide transition. `slide` is the default linear scroll; `fade` cross-fades between slides at the same position; `coverflow` rotates and depth-shifts neighbours; `depth` scales/translates Z-axis. `coverflow`/`depth` need a perspective-aware compositor — runtimes without it fall back to `slide`.  |
 | `indicatorPosition` | `string` | no | "bottom" | Page indicator dot bar. |
@@ -1062,6 +1167,8 @@ Centers a single child within available space.
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `child` | `Widget` | yes | — | Centered widget. |
+| `heightFactor` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `heightFactor`; the registry had not declared it. |
+| `widthFactor` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
 
 ### Examples
 
@@ -1095,6 +1202,15 @@ Data visualization widget with multiple chart types.
 | `options.legend.position` | `string` | no | top | Legend placement. |
 | `width` | `number` | no | — | Fixed width (logical pixels) |
 | `height` | `number` | no | — | Fixed height (logical pixels) |
+| `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
+| `gridColor` | `Color` | no | — | Grid color. |
+| `title` | `string` | no | — | Dialog title shown at the top. |
+| `colors` | `array` | no | — | Measured from real documents (2026-08-04): array. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `labelColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `labelColor`; the registry had not declared it. |
+| `primaryColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `primaryColor`; the registry had not declared it. |
+| `showGrid` | `boolean | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `showGrid`; the registry had not declared it. |
+| `showLabels` | `boolean | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `showLabels`; the registry had not declared it. |
+| `showLegend` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `showLegend`; the registry had not declared it. |
 
 ### Examples
 
@@ -1140,6 +1256,9 @@ Boolean checkbox. Shared rows per §2.6.0; `value` is `boolean`.
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
 | `label` | `string` | no | — | Optional label. |
+| `change` | `Action` | no | — | Legacy alias of `onChange`. |
+| `bindTo` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `bindTo`; the registry had not declared it. |
+| `tristate` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `tristate`; the registry had not declared it. |
 
 ### Examples
 
@@ -1172,6 +1291,8 @@ Multi-selection checkbox group. Shared rows per §2.6.0; `binding` holds an `arr
 | `label` | `string` | no | — | Field label shown beside or above the control. |
 | `options` *(aliases: `items`)* | `array<Option>` | yes | — | `{ value, label }` entries. |
 | `orientation` | `string` | no | "vertical" | `vertical` or `horizontal`. |
+| `change` | `Action` | no | — | Legacy alias of `onChange`. |
+| `direction` | `string` | no | — | `horizontal` or `vertical`. |
 
 ### Examples
 
@@ -1208,6 +1329,17 @@ Compact element representing an attribute, action, or filter.
 | `variant` | `string` | no | "filled" | `filled` or `outlined`. |
 | `onDelete` | `Action` | no | — | Action when delete icon is tapped. |
 | `onTap` | `Action` | no | — | Action when chip is tapped. |
+| `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
+| `elevation` | `Dimension` | no | — | elevation |
+| `labelStyle` | `TextStyle` | no | — | Default text style for item labels (selected and unselected). Per-item override via NavItem.style.labelStyle. |
+| `onPressed` | `Action` | no | — | Legacy alias of `onTap`. |
+| `delete` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `delete`; the registry had not declared it. |
+| `deleteIcon` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `deleteIcon`; the registry had not declared it. |
+| `onDeleted` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onDeleted`; the registry had not declared it. |
+| `padding` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `padding`; the registry had not declared it. |
+| `shadowColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it. |
+| `shape` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it. |
+| `side` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `side`; the registry had not declared it. |
 
 ### Examples
 
@@ -1239,6 +1371,7 @@ Clips a child to an oval.
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `child` | `Widget` | yes | — | Clipped child. |
+| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
 
 ---
 
@@ -1254,6 +1387,7 @@ Clips a child to a rounded rectangle.
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `borderRadius` | `BorderRadius` | no | 0 | Corner radius — uniform number or directional `{topStart, topEnd, bottomStart, bottomEnd, all}` per the `BorderRadius` primitive.  |
 | `child` | `Widget` | yes | — | Clipped child. |
+| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
 
 ---
 
@@ -1281,9 +1415,12 @@ Syntax-highlighted code editor.
 | `tabSize` | `number` | no | 2 | Tab width in spaces |
 | `width` | `number` | no | — | Widget width |
 | `height` | `number` | no | — | Widget height |
-| `backgroundColor` | `string` | no | — | Override theme background |
-| `textColor` | `string` | no | — | Override theme default text color |
+| `backgroundColor` | `Color` | no | — | Override theme background |
+| `textColor` | `Color` | no | — | Override theme default text color |
 | `onChange` | `Action` | no | — | Fired on code change; `event.value` is current code |
+| `binding` | `string` | no | — | State path bound two-way to the widget value (§2.6.0). Runtime reads/writes this path without requiring an explicit onChange. |
+| `change` | `Action` | no | — | Legacy alias of `onChange`. |
+| `lineNumberColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `lineNumberColor`; the registry had not declared it. |
 
 ### Examples
 
@@ -1490,6 +1627,17 @@ Dialog with arbitrary widget content.
 | `child` | `Widget` | yes | — | Dialog body. |
 | `dismissible` | `boolean` | no | true | Whether tapping outside dismisses. |
 | `onClose` | `Action` | no | — | Fired when the dialog is dismissed (outside-tap when `dismissible: true`, escape key). |
+| `alignment` | `Alignment` | no | — | alignment |
+| `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
+| `content` | `string` | no | — | content |
+| `elevation` | `Dimension` | no | — | elevation |
+| `title` | `string` | no | — | Dialog title shown at the top. |
+| `actions` | `array` | no | — | Promoted from the runtime (2026-08-04): the factory reads `actions`; the registry had not declared it. |
+| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
+| `insetPadding` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `insetPadding`; the registry had not declared it. |
+| `shadowColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it. |
+| `shape` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it. |
+| `surfaceTintColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `surfaceTintColor`; the registry had not declared it. |
 
 ---
 
@@ -1538,6 +1686,7 @@ Material-style sortable, selectable data table bound to a row array.
 | `sortAscending` | `binding` | no | true | Current sort direction |
 | `onSort` | `Action` | no | — | Fired on header tap of a sortable column |
 | `onRowTap` | `Action` | no | — | Fired on row tap; `event.row` is the row object |
+| `rowClick` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `rowClick`; the registry had not declared it. |
 
 ### Examples
 
@@ -1592,6 +1741,7 @@ Date input with calendar/text entry modes. Shared rows per §2.6.0; `value` is a
 | `lastDate` | `string` | no | — | Latest allowed date (ISO). |
 | `mode` | `string` | no | "calendar" | `calendar`, `input`, `both`. |
 | `locale` | `string` | no | — | Locale identifier. |
+| `errorText` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `errorText`; the registry had not declared it. |
 
 ---
 
@@ -1612,6 +1762,12 @@ Standalone date picker surface. Shared rows per §2.6.0; `value` is an ISO date 
 | `label` | `string` | no | — | Field label shown beside or above the control. |
 | `firstDate` | `string` | no | — | Earliest allowed date. |
 | `lastDate` | `string` | no | — | Latest allowed date. |
+| `change` | `Action` | no | — | Legacy alias of `onChange`. |
+| `dateFormat` | `string` | no | — | Display pattern for the date portion. Display only — the bound value stays ISO-8601. |
+| `icon` | `IconRef` | no | — | Icon shown. Any `IconRef` form. |
+| `variant` | `string` | no | — | `elevated`, `filled`, `outlined`, `text`, `icon`. |
+| `bindTo` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `bindTo`; the registry had not declared it. |
+| `initialDate` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `initialDate`; the registry had not declared it. |
 
 ---
 
@@ -1636,6 +1792,10 @@ Date range selection. Exception to §2.6.0: instead of a single `binding`, the r
 | `lastDate` | `string` | no | — | Latest allowed date (constraint, one-way). |
 | `format` | `string` | no | "yyyy-MM-dd" | Display format. |
 | `locale` | `string` | no | — | Locale identifier. |
+| `change` | `Action` | no | — | Legacy alias of `onChange`. |
+| `endBinding` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `endBinding`; the registry had not declared it. |
+| `errorText` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `errorText`; the registry had not declared it. |
+| `startBinding` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `startBinding`; the registry had not declared it. |
 
 ### Examples
 
@@ -1714,6 +1874,7 @@ fields may appear flat at the top level for ergonomic shorthand.
 | `backdropBlur` | `number` | no | — | Flat shorthand for `decoration.backdropBlur` (Gaussian blur sigma). |
 | `child` | `Widget` | no | — | Decorated widget. Required when `children` is omitted. |
 | `children` | `array<Widget>` | no | — | Multiple widgets; runtime wraps them in a linear column. |
+| `position` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `position`; the registry had not declared it. |
 
 ---
 
@@ -1761,9 +1922,11 @@ Horizontal separator.
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `thickness` | `number` | no | 1 | Line thickness. |
-| `color` | `string` | no | — | Line color. |
+| `color` | `Color` | no | — | Line color. |
 | `indent` | `number` | no | — | Leading indent. |
 | `endIndent` | `number` | no | — | Trailing indent. |
+| `height` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `vertical` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `vertical`; the registry had not declared it. |
 
 ---
 
@@ -1837,6 +2000,13 @@ Side navigation drawer. Each item's text field is `label`.
 | `header` | `Widget` | no | — | Drawer header widget. |
 | `onSelect` | `Action` | no | — | Fired when an item is selected. |
 | `onClose` | `Action` | no | — | Fired when the drawer is dismissed (modal: scrim tap or escape; permanent: not fired). |
+| `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
+| `elevation` | `Dimension` | no | — | elevation |
+| `semanticLabel` | `string | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `semanticLabel`; the registry had not declared it. |
+| `shadowColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it. |
+| `shape` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it. |
+| `surfaceTintColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `surfaceTintColor`; the registry had not declared it. |
+| `width` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}`, a dimension string or a binding. |
 
 ### Examples
 
@@ -1936,9 +2106,13 @@ File and directory browser.
 | `expandAll` | `boolean` | no | false | Expand all folders by default |
 | `width` | `number` | no | — | Widget width |
 | `height` | `number` | no | — | Widget height |
-| `selectedColor` | `string` | no | — | Background color for selected entry |
+| `selectedColor` | `Color` | no | — | Background color for selected entry |
 | `onSelect` | `Action` | no | — | Fired on selection; `event.value` is the selected path |
 | `onOpen` | `Action` | no | — | Fired on activation (double-tap / Enter); `event.value` is the path |
+| `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
+| `iconColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `iconColor`; the registry had not declared it. |
+| `open` | `string` | no | — | Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `select` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `select`; the registry had not declared it. |
 
 ### Examples
 
@@ -2055,6 +2229,7 @@ Scales and aligns its child to fit available space.
 | `fit` | `string` | no | "contain" | `cover`, `contain`, `fill`, `scaleDown`, `none`. |
 | `alignment` | `Alignment` | no | "center" | Alignment within the fitted bounds. |
 | `child` | `Widget` | yes | — | Child widget. |
+| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
 
 ---
 
@@ -2087,6 +2262,26 @@ Floating action button (FAB).
 | `icon` | `IconRef` | no | — | Icon shown. Any `IconRef` form. |
 | `label` | `string` | no | — | Extended FAB label. |
 | `onTap` *(aliases: `click`, `onPressed`)* | `Action` | no | — | Tap handler. Omitted FABs render as inert. |
+| `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
+| `elevation` | `Dimension` | no | — | elevation |
+| `foregroundColor` | `Color` | no | — | Bar color. |
+| `onLongPress` | `Action` | no | — | onLongPress |
+| `autofocus` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `autofocus`; the registry had not declared it. |
+| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
+| `disabledElevation` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `disabledElevation`; the registry had not declared it. |
+| `focusColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `focusColor`; the registry had not declared it. |
+| `focusElevation` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `focusElevation`; the registry had not declared it. |
+| `heroTag` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `heroTag`; the registry had not declared it. |
+| `highlightElevation` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `highlightElevation`; the registry had not declared it. |
+| `hoverColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `hoverColor`; the registry had not declared it. |
+| `hoverElevation` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `hoverElevation`; the registry had not declared it. |
+| `isExtended` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `isExtended`; the registry had not declared it. |
+| `long-press` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `long-press`; the registry had not declared it. |
+| `longPress` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `longPress`; the registry had not declared it. |
+| `materialTapTargetSize` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `materialTapTargetSize`; the registry had not declared it. |
+| `mini` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `mini`; the registry had not declared it. |
+| `shape` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it. |
+| `splashColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `splashColor`; the registry had not declared it. |
 
 ### Examples
 
@@ -2170,6 +2365,7 @@ Sizes the child as a fraction of the parent.
 | `widthFactor` | `number` | no | — | Width fraction in `0.0..1.0`. |
 | `heightFactor` | `number` | no | — | Height fraction in `0.0..1.0`. |
 | `child` | `Widget` | yes | — | Child widget. |
+| `alignment` | `Alignment` | no | — | alignment |
 
 ---
 
@@ -2243,8 +2439,8 @@ Radial gauge for a value within a range.
 | `segments` | `array<Segment>` | no | — | Color segments with `from`, `to`, `color` |
 | `size` | `number` | no | 200 | Diameter (logical px) |
 | `strokeWidth` | `number` | no | 20 | Arc thickness |
-| `backgroundColor` | `string` | no | #E0E0E0 | Track color |
-| `valueColor` | `string` | no | theme primary | Value arc color (when no segments) |
+| `backgroundColor` | `Color` | no | #E0E0E0 | Track color |
+| `valueColor` | `Color` | no | theme primary | Value arc color (when no segments) |
 | `showLabel` | `boolean` | no | true | Show numeric label |
 | `labelFormat` | `string` | no | {value} | Label format pattern |
 | `startAngle` | `number` | no | 135 | Start angle in degrees |
@@ -2293,6 +2489,12 @@ Detects touch and pointer gestures on its child.
 | `onPanStart` | `Action` | no | — | Pan start. |
 | `onPanUpdate` | `Action` | no | — | Pan update. |
 | `onPanEnd` | `Action` | no | — | Pan end. |
+| `double-click` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `double-click`; the registry had not declared it. |
+| `long-press` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `long-press`; the registry had not declared it. |
+| `longPress` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `longPress`; the registry had not declared it. |
+| `onScaleUpdate` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onScaleUpdate`; the registry had not declared it. |
+| `panEnd` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `panEnd`; the registry had not declared it. |
+| `panStart` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `panStart`; the registry had not declared it. |
 
 ### Examples
 
@@ -2337,6 +2539,7 @@ Time-series / numeric data graph (line, bar, area, scatter) drawn on a single se
 | `fillColor` | `Color` | no | — | Area fill color. |
 | `gridColor` | `Color` | no | light grey | Grid color. |
 | `strokeWidth` | `number` | no | 2 | Line stroke thickness. |
+| `labelColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `labelColor`; the registry had not declared it. |
 
 ### Examples
 
@@ -2372,13 +2575,25 @@ Scrollable two-dimensional collection.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
-| `items` | `binding` | no | — | Array source. Required when `children` is omitted. |
+| `items` | `array | binding` | no | — | Array source. Required when `children` is omitted. |
 | `itemTemplate` | `Widget` | no | — | Template rendered per bound item. Required with `items`. |
 | `children` | `array<Widget>` | no | — | Static grid cells. Mutually exclusive with `items` + `itemTemplate`. |
 | `columns` *(aliases: `crossAxisCount`)* | `number | object` | yes | — | Column count. The object form is a responsive override keyed by form factor (§14.1.1) — `{compact, medium, expanded, large, extraLarge, default}`. |
 | `rowGap` | `number` | no | 0 | Gap between rows. |
 | `columnGap` | `number` | no | 0 | Gap between columns. |
 | `itemAspectRatio` | `number` | no | — | Fixed aspect ratio for each item. |
+| `reverse` | `boolean` | no | — | When true, run the transition in reverse direction (for back navigation). |
+| `scrollDirection` | `string` | no | — | Scroll axis. |
+| `template` | `object` | no | — | Template name to instantiate. |
+| `childAspectRatio` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `crossAxisSpacing` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `mainAxisExtent` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `mainAxisExtent`; the registry had not declared it. |
+| `mainAxisSpacing` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `maxCrossAxisExtent` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `maxCrossAxisExtent`; the registry had not declared it. |
+| `padding` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `padding`; the registry had not declared it. |
+| `physics` | `string` | no | — | Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `shrinkWrap` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shrinkWrap`; the registry had not declared it. |
+| `spacing` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
 
 ### Examples
 
@@ -2423,9 +2638,19 @@ Application header / toolbar at the top of a page.
 | `leading` | `Widget` | no | — | Leading widget (hamburger, back arrow). |
 | `actions` | `array<Widget>` | no | — | Trailing action widgets. |
 | `exitButton` | `ExitButtonConfig | boolean` | no | — | Override the host-inserted close button on the root route; see below. |
-| `backgroundColor` | `string` | no | — | Header background. |
+| `backgroundColor` | `Color` | no | — | Header background. |
 | `elevation` | `number` | no | 1 | Shadow elevation. |
 | `centerTitle` | `boolean` | no | false | Whether to center the title. |
+| `bottom` | `Dimension` | no | — | Distance from the parent stack's bottom edge. |
+| `foregroundColor` | `Color` | no | — | Bar color. |
+| `automaticallyImplyLeading` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `automaticallyImplyLeading`; the registry had not declared it. |
+| `bottomHeight` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `bottomHeight`; the registry had not declared it. |
+| `bottomOpacity` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `bottomOpacity`; the registry had not declared it. |
+| `flexibleSpace` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `flexibleSpace`; the registry had not declared it. |
+| `shadowColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it. |
+| `shape` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it. |
+| `toolbarHeight` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `toolbarHeight`; the registry had not declared it. |
+| `toolbarOpacity` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `toolbarOpacity`; the registry had not declared it. |
 
 ### Examples
 
@@ -2460,9 +2685,17 @@ Two-dimensional heatmap visualization.
 | `columnLabels` | `array<string>` | no | — | Horizontal axis labels |
 | `rowLabels` | `array<string>` | no | — | Vertical axis labels |
 | `cellSize` | `number` | no | 40 | Cell size (logical px) |
-| `colorRange` | `{ low, high }` | no | { "#E3F2FD", "#1565C0" } | Hex gradient endpoints |
+| `colorRange` | `{ low, high }` | no | { "#E3F2FD", "#1565C0" } | Gradient endpoints — the color a cell takes at the lowest value and at the highest. |
+| `colorRange.low` | `Color` | no | — | Color at the low end of the range. |
+| `colorRange.high` | `Color` | no | — | Color at the high end of the range. |
 | `showValues` | `boolean` | no | false | Render numeric value inside each cell |
 | `onCellTap` | `Action` | no | — | Fired on cell tap; `event.row`, `event.column`, `event.value` |
+| `cellGap` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `cellGap`; the registry had not declared it. |
+| `colorScheme` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `colorScheme`; the registry had not declared it. |
+| `columns` | `number` | no | — | Promoted from the runtime (2026-08-04): the factory reads `columns`; the registry had not declared it. |
+| `maxValue` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `maxValue`; the registry had not declared it. |
+| `minValue` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `minValue`; the registry had not declared it. |
+| `showLabels` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `showLabels`; the registry had not declared it. |
 
 ### Examples
 
@@ -2612,9 +2845,18 @@ Icon-only button for compact actions.
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `icon` | `IconRef` | yes | — | Icon shown. Any `IconRef` form. |
 | `size` | `number` | no | — | Icon size; uses theme default if omitted. |
-| `color` | `string` | no | — | Icon color. |
+| `color` | `Color` | no | — | Icon color. |
 | `enabled` | `boolean` | no | true | Whether the button is interactive. |
 | `onTap` | `Action` | no | — | Tap handler. |
+| `alignment` | `Alignment` | no | — | alignment |
+| `disabledColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `disabledColor`; the registry had not declared it. |
+| `enableFeedback` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `enableFeedback`; the registry had not declared it. |
+| `fontFamily` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `fontFamily`; the registry had not declared it. |
+| `highlightColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `highlightColor`; the registry had not declared it. |
+| `iconSize` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `iconSize`; the registry had not declared it. |
+| `padding` | `EdgeInsets` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `splashColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `splashColor`; the registry had not declared it. |
+| `splashRadius` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `splashRadius`; the registry had not declared it. |
 
 ### Examples
 
@@ -2650,6 +2892,12 @@ rest to `fallback` / `fallbackUrl` / `fallbackBehavior`.
 | `height` | `number` | no | — | Height in logical pixels. |
 | `fit` | `string` | no | "contain" | `cover`, `contain`, `fill`, `none`, `scaleDown`, `fitHeight`, `fitWidth`. |
 | `alignment` | `Alignment` | no | "center" | Alignment within bounds. |
+| `fallback` | `Widget` | no | — | fallback |
+| `loading` | `Widget` | no | — | loading |
+| `placeholder` | `string` | no | — | Placeholder text. |
+| `errorWidget` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `errorWidget`; the registry had not declared it. |
+| `fallbackBehavior` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `fallbackBehavior`; the registry had not declared it. |
+| `fallbackUrl` | `string | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `fallbackUrl`; the registry had not declared it. |
 
 ### Examples
 
@@ -2728,6 +2976,9 @@ Displays a single child selected by index. All children retain state.
 | `index` | `number | binding` | no | 0 | Index of the child to display. |
 | `alignment` | `Alignment` | no | "topStart" | Alignment of the displayed child. |
 | `children` | `array<Widget>` | yes | — | Candidate children. |
+| `textDirection` | `string` | no | — | Resolution direction for `start`/`end` alignment. |
+| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
+| `sizing` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `sizing`; the registry had not declared it. |
 
 ### Examples
 
@@ -2761,6 +3012,27 @@ Material-style touch feedback with ripple effect.
 | `borderRadius` | `number` | no | — | Ripple clip radius. |
 | `onTap` | `Action` | no | — | Tap handler. |
 | `onLongPress` | `Action` | no | — | Long-press handler. |
+| `onDoubleTap` | `Action` | no | — | onDoubleTap |
+| `autofocus` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `autofocus`; the registry had not declared it. |
+| `canRequestFocus` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `canRequestFocus`; the registry had not declared it. |
+| `customBorder` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `customBorder`; the registry had not declared it. |
+| `double-click` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `double-click`; the registry had not declared it. |
+| `enableFeedback` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `enableFeedback`; the registry had not declared it. |
+| `excludeFromSemantics` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `excludeFromSemantics`; the registry had not declared it. |
+| `focusColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `focusColor`; the registry had not declared it. |
+| `highlightColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `highlightColor`; the registry had not declared it. |
+| `hover` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `hover`; the registry had not declared it. |
+| `hoverColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `hoverColor`; the registry had not declared it. |
+| `long-press` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `long-press`; the registry had not declared it. |
+| `longPress` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `longPress`; the registry had not declared it. |
+| `onHighlightChanged` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onHighlightChanged`; the registry had not declared it. |
+| `onHover` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onHover`; the registry had not declared it. |
+| `onTapCancel` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onTapCancel`; the registry had not declared it. |
+| `onTapDown` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onTapDown`; the registry had not declared it. |
+| `onTapUp` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onTapUp`; the registry had not declared it. |
+| `overlayColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `overlayColor`; the registry had not declared it. |
+| `splashColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `splashColor`; the registry had not declared it. |
+| `splashRadius` | `number | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `splashRadius`; the registry had not declared it. |
 
 ---
 
@@ -2789,6 +3061,8 @@ Constrains a child to the intrinsic width required by its content.
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `child` | `Widget` | yes | — | Child widget. |
+| `stepHeight` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `stepHeight`; the registry had not declared it. |
+| `stepWidth` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `stepWidth`; the registry had not declared it. |
 
 ---
 
@@ -2922,6 +3196,7 @@ Defer rendering of an expensive subtree until it enters the viewport (or until e
 | `trigger` | `string` | no | visible | `visible` renders when the widget becomes visible to the user (typically scrolled into view); `immediate` renders on mount; `manual` renders when a `load()` signal is received. |
 | `onLoad` | `Action` | no | — | Fired after `content` is materialized |
 | `onError` | `Action` | no | — | Fired if `content` fetch fails; `event.error` |
+| `delay` | `number | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `delay`; the registry had not declared it. |
 
 ### Examples
 
@@ -3039,6 +3314,8 @@ Main-axis sizing: when at least one child is `expanded` / `flexible` / `spacer` 
 | `distribution` *(aliases: `mainAxisAlignment`)* | `string` | no | "start" | Main-axis distribution: `start`, `center`, `end`, `spaceBetween`, `spaceAround`, `spaceEvenly`. |
 | `spacing` *(aliases: `gap`, `itemSpacing`)* | `number` | no | 0 | Gap between children in logical pixels. |
 | `children` | `array<Widget>` | yes | — | Child widgets arranged along `direction`. |
+| `padding` | `EdgeInsets` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `wrap` | `boolean | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `wrap`; the registry had not declared it. |
 
 ### Examples
 
@@ -3144,13 +3421,23 @@ Scrollable linear collection rendered from an array binding.
 | `virtual` | `boolean` | no | false | Render only visible items. Requires `itemHeight` — a virtualised list cannot measure items it has not built. |
 | `itemHeight` | `number` | no | — | Fixed item height in logical pixels. Required when `virtual` is true. |
 | `overscan` | `number` | no | 3 | Items rendered beyond the viewport on each side, trading memory for scroll smoothness. |
-| `items` | `binding` | no | — | Array source. Required when `children` is omitted (dynamic list). |
+| `items` | `array | binding` | no | — | Array source. Required when `children` is omitted (dynamic list). |
 | `itemTemplate` | `Widget` | no | — | Template rendered per bound item. Required with `items`. Iteration variables `item`, `index`, `isFirst`, `isLast`, `isEven`, `isOdd` are in scope. |
 | `children` | `array<Widget>` | no | — | Static list of widgets. Mutually exclusive with `items` + `itemTemplate`. |
 | `spacing` | `number` | no | 0 | Gap between items. |
 | `orientation` | `string` | no | "vertical" | `vertical` or `horizontal`. |
 | `emptyMessage` | `string` | no | — | Displayed when the list is empty. |
 | `itemExtent` | `number` | no | — | Fixed item size for performance. |
+| `reverse` | `boolean` | no | — | When true, run the transition in reverse direction (for back navigation). |
+| `scrollDirection` | `string` | no | — | Scroll axis. |
+| `template` | `object` | no | — | Template name to instantiate. |
+| `itemBuilder` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `itemBuilder`; the registry had not declared it. |
+| `itemCount` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `itemCount`; the registry had not declared it. |
+| `itemSpacing` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `padding` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `padding`; the registry had not declared it. |
+| `physics` | `string` | no | — | Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `scrollCacheExtent` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `scrollCacheExtent`; the registry had not declared it. |
+| `shrinkWrap` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shrinkWrap`; the registry had not declared it. |
 
 ### Examples
 
@@ -3190,6 +3477,19 @@ Single row in a list with optional leading/trailing widgets. Replaces Material `
 | `onTap` | `Action` | no | — | Tap handler. |
 | `selected` | `boolean` | no | false | Selected state. |
 | `enabled` | `boolean` | no | true | Whether the item is interactive. |
+| `onLongPress` | `Action` | no | — | onLongPress |
+| `textColor` | `Color` | no | — | Default text color |
+| `contentPadding` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `contentPadding`; the registry had not declared it. |
+| `dense` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `dense`; the registry had not declared it. |
+| `focusColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `focusColor`; the registry had not declared it. |
+| `hoverColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `hoverColor`; the registry had not declared it. |
+| `iconColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `iconColor`; the registry had not declared it. |
+| `isThreeLine` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `isThreeLine`; the registry had not declared it. |
+| `long-press` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `long-press`; the registry had not declared it. |
+| `longPress` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `longPress`; the registry had not declared it. |
+| `selectedTileColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `selectedTileColor`; the registry had not declared it. |
+| `shape` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it. |
+| `tileColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `tileColor`; the registry had not declared it. |
 
 ### Examples
 
@@ -3223,6 +3523,12 @@ Embedded Lottie/JSON animation playback.
 | `src` *(aliases: `source`)* | `AssetRef` | yes | — | Animation source. Any `AssetRef` form. |
 | `autoPlay` | `boolean` | no | true | Play on mount. |
 | `loop` | `boolean` | no | true | Loop playback. |
+| `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
+| `fit` | `string | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `fit`; the registry had not declared it. |
+| `height` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `onComplete` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onComplete`; the registry had not declared it. |
+| `speed` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `speed`; the registry had not declared it. |
+| `width` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}`, a dimension string or a binding. |
 
 ---
 
@@ -3256,6 +3562,14 @@ Geographic map with markers and overlays.
 | `overlays[].strokeWidth` | `number` | no | 1 | Stroke width |
 | `onMarkerTap` | `Action` | no | — | Fired on marker tap; `event.id` is the marker ID |
 | `onMapTap` | `Action` | no | — | Fired on map tap; `event.latitude` / `event.longitude` |
+| `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
+| `gridColor` | `Color` | no | — | Grid color. |
+| `height` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `interactive` | `boolean | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `interactive`; the registry had not declared it. |
+| `markerColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `markerColor`; the registry had not declared it. |
+| `showCoordinates` | `boolean | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `showCoordinates`; the registry had not declared it. |
+| `showGrid` | `boolean | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `showGrid`; the registry had not declared it. |
+| `width` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}`, a dimension string or a binding. |
 
 ### Examples
 
@@ -3344,10 +3658,10 @@ Markdown renderer.
 | `width` | `number` | no | — | Widget width |
 | `height` | `number` | no | — | Widget height |
 | `fontSize` | `number` | no | — | Base font size |
-| `textColor` | `string` | no | — | Default text color |
-| `backgroundColor` | `string` | no | — | Surface behind the rendered document |
-| `linkColor` | `string` | no | — | Hyperlink color |
-| `codeBackgroundColor` | `string` | no | — | Code-block background |
+| `textColor` | `Color` | no | — | Default text color |
+| `backgroundColor` | `Color` | no | — | Surface behind the rendered document |
+| `linkColor` | `Color` | no | — | Hyperlink color |
+| `codeBackgroundColor` | `Color` | no | — | Code-block background |
 | `onLinkTap` | `Action` | no | — | Fired on link tap; `event.url` is the target |
 
 ### Examples
@@ -3401,6 +3715,12 @@ Audio / video player widget.
 | `onEnded` | `Action` | no | — | Fired when media ends |
 | `onTimeUpdate` | `Action` | no | — | Fired on time update; `event.currentTime` in seconds |
 | `onError` | `Action` | no | — | Fired on playback error; `event.error` |
+| `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
+| `duration` | `Dimension` | no | — | Animation duration in milliseconds. |
+| `title` | `string` | no | — | Dialog title shown at the top. |
+| `accentColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `accentColor`; the registry had not declared it. |
+| `controlsColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `controlsColor`; the registry had not declared it. |
+| `onSeek` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onSeek`; the registry had not declared it. |
 
 ### Examples
 
@@ -3445,6 +3765,7 @@ Responsive widget that inspects the current layout context and picks a child bas
 | `else` | `Widget` | no | — | Rendered when `condition` is falsy. Legacy alias: `orElse`. |
 | `breakpoints` | `object` | no | — | Map of breakpoint name → Widget (e.g., `{ "sm": ..., "md": ... }`). |
 | `defaultChild` | `Widget` | no | — | Rendered when no breakpoint matches. |
+| `orElse` | `object` | no | — | Measured from real documents (2026-08-04): object. Promoted from the runtime; type narrowed from the values documents actually pass. |
 
 ---
 
@@ -3558,6 +3879,23 @@ Vertical navigation rail for tablet/desktop layouts. Each item's text field is `
 | `selectedIndex` | `number | binding` | no | — | Currently selected item. |
 | `items` *(aliases: `destinations`)* | `array<NavItem>` | yes | — | `{ icon, label, route? }` entries. |
 | `onChange` | `Action` | no | — | Fired when selection changes. |
+| `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
+| `change` | `Action` | no | — | Legacy alias of `onChange`. |
+| `elevation` | `Dimension` | no | — | elevation |
+| `leading` | `Widget` | no | — | leading |
+| `onSelect` | `Action` | no | — | onSelect |
+| `trailing` | `Widget` | no | — | trailing |
+| `extended` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `extended`; the registry had not declared it. |
+| `groupAlignment` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `groupAlignment`; the registry had not declared it. |
+| `labelType` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `labelType`; the registry had not declared it. |
+| `minExtendedWidth` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `minExtendedWidth`; the registry had not declared it. |
+| `minWidth` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `onDestinationSelected` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onDestinationSelected`; the registry had not declared it. |
+| `select` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `select`; the registry had not declared it. |
+| `selectedIconTheme` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `selectedIconTheme`; the registry had not declared it. |
+| `selectedLabelTextStyle` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `selectedLabelTextStyle`; the registry had not declared it. |
+| `unselectedIconTheme` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `unselectedIconTheme`; the registry had not declared it. |
+| `unselectedLabelTextStyle` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `unselectedLabelTextStyle`; the registry had not declared it. |
 
 ### Examples
 
@@ -3583,6 +3921,12 @@ Vertical navigation rail for tablet/desktop layouts. Each item's text field is `
 ## `networkGraph`  *(advanced · Core · v1.0)*
 
 Network topology graph. Same node/edge model as `graph`, with topology-oriented defaults (hierarchical layout, directed edges).
+backgroundColor:
+  type: Color
+  description: "Legacy alias of `color`."
+onNodeTap:
+  type: Action
+  description: "onNodeTap"
 
 ### Properties
 
@@ -3590,6 +3934,18 @@ Network topology graph. Same node/edge model as `graph`, with topology-oriented 
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `backgroundColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `backgroundColor`; the registry had not declared it. |
+| `edgeColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `edgeColor`; the registry had not declared it. |
+| `edges` | `array | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `edges`; the registry had not declared it. |
+| `height` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `interactive` | `boolean | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `interactive`; the registry had not declared it. |
+| `labelColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `labelColor`; the registry had not declared it. |
+| `layout` | `string | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `layout`; the registry had not declared it. |
+| `nodeColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `nodeColor`; the registry had not declared it. |
+| `nodes` | `array | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `nodes`; the registry had not declared it. |
+| `onEdgeTap` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onEdgeTap`; the registry had not declared it. |
+| `onNodeTap` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onNodeTap`; the registry had not declared it. |
+| `width` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}`, a dimension string or a binding. |
 
 ### Examples
 
@@ -3631,7 +3987,13 @@ Specialized input for numeric values. Shared rows per §2.6.0; `value` is `numbe
 | `decimalPlaces` | `number` | no | 0 | Decimal precision. |
 | `prefix` | `string` | no | — | Leading display text (e.g., `"$"`). |
 | `suffix` | `string` | no | — | Trailing display text. |
-| `thousandSeparator` | `string` | no | — | Thousands separator for display. |
+| `thousandSeparator` | `boolean` | no | — | Thousands separator for display. |
+| `change` | `Action` | no | — | Legacy alias of `onChange`. |
+| `format` | `string` | no | — | Display format. |
+| `helperText` | `string` | no | — | Helper text shown below the field. |
+| `hint` | `string` | no | — | Legacy alias of `placeholder`. |
+| `decimals` | `number` | no | — | Promoted from the runtime (2026-08-04): the factory reads `decimals`; the registry had not declared it. |
+| `error` | `boolean | binding` | no | — | Measured from real documents (2026-08-04): boolean. Promoted from the runtime; type narrowed from the values documents actually pass. |
 
 ---
 
@@ -3653,6 +4015,9 @@ Incremental numeric input with plus/minus buttons. Shared rows per §2.6.0; `val
 | `min` | `number` | no | — | Minimum value. |
 | `max` | `number` | no | — | Maximum value. |
 | `step` | `number` | no | 1 | Increment size. |
+| `change` | `Action` | no | — | Legacy alias of `onChange`. |
+| `color` | `Color` | no | — | color |
+| `size` | `string | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `size`; the registry had not declared it. |
 
 ---
 
@@ -3797,6 +4162,12 @@ always one full page. Each child is rendered as a separate page.
 | `scrollPhysics` | `string` | no | "clamping" | Edge / overscroll behaviour. `bouncing` mirrors iOS rubber-band; `clamping` is the Android-style hard stop; `neverScrollable` disables user dragging (use programmatic page change only).  |
 | `allowImplicitScrolling` | `boolean` | no | false | Pre-render the adjacent pages off-screen so subsequent swipes are instant (assistive-technology friendly). Costs memory.  |
 | `onPageChanged` | `Action` | no | — | Fires after the active page settles. `event.page` carries the new index. |
+| `onChange` | `Action` | no | — | onChange |
+| `reverse` | `boolean` | no | — | When true, run the transition in reverse direction (for back navigation). |
+| `scrollDirection` | `string` | no | — | Scroll axis. |
+| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
+| `padEnds` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `padEnds`; the registry had not declared it. |
+| `pageSnapping` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `pageSnapping`; the registry had not declared it. |
 
 ### Examples
 
@@ -3843,6 +4214,7 @@ by every author. Stating it once also fixes what a screen reader hears —
 | `showSizeChanger` | `boolean` | no | false | Offer a page-size selector. |
 | `pageSizeOptions` | `array<number>` | no | — | Choices for the size selector. Ignored when `showSizeChanger` is false. |
 | `showTotal` | `boolean` | no | false | Render a total-count summary. |
+| `current` | `number | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `current`; the registry had not declared it. |
 
 ### Events
 
@@ -3885,6 +4257,7 @@ picked file (`fileInput` writes a `data:` URI), or a server resource.
 | `showPageNav` | `boolean` | no | true | Page stepper within the toolbar. |
 | `showZoom` | `boolean` | no | true | Zoom controls within the toolbar. |
 | `fit` | `string` | no | "width" | Initial fit. |
+| `height` | `number | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `height`; the registry had not declared it. |
 
 ### Events
 
@@ -3940,7 +4313,7 @@ Empty placeholder widget with optional dimensions and color.
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `fallbackWidth` | `number` | no | — | Width when unconstrained. |
 | `fallbackHeight` | `number` | no | — | Height when unconstrained. |
-| `color` | `string` | no | — | Fill color. |
+| `color` | `Color` | no | — | Fill color. |
 | `strokeWidth` | `number` | no | — | Line stroke width. |
 | `child` | `Widget` | no | — | Optional child. |
 
@@ -4014,6 +4387,22 @@ Button that reveals a popup menu of options.
 | `icon` | `IconRef` | no | "more_vert" | Trigger icon. Any `IconRef` form. |
 | `items` | `array<MenuItem>` | yes | — | `{ value, label, icon?, enabled? }` entries. |
 | `onSelect` | `Action` | no | — | Fired when an item is selected. |
+| `change` | `Action` | no | — | Legacy alias of `onChange`. |
+| `color` | `Color` | no | — | color |
+| `elevation` | `Dimension` | no | — | elevation |
+| `onChange` | `Action` | no | — | onChange |
+| `enabled` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `enabled`; the registry had not declared it. |
+| `iconSize` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `iconSize`; the registry had not declared it. |
+| `offset` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `offset`; the registry had not declared it. |
+| `onCanceled` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onCanceled`; the registry had not declared it. |
+| `onOpened` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onOpened`; the registry had not declared it. |
+| `onSelected` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onSelected`; the registry had not declared it. |
+| `padding` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `padding`; the registry had not declared it. |
+| `select` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `select`; the registry had not declared it. |
+| `shadowColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it. |
+| `shape` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it. |
+| `splashRadius` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `splashRadius`; the registry had not declared it. |
+| `surfaceTintColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `surfaceTintColor`; the registry had not declared it. |
 
 ### Examples
 
@@ -4047,6 +4436,12 @@ Positions a child within a `stack` using offsets.
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `child` | `Widget` | yes | — | Positioned widget. |
+| `bottom` | `Dimension` | no | — | Distance from the parent stack's bottom edge. |
+| `left` | `Dimension` | no | — | Distance from the parent stack's left edge. |
+| `right` | `Dimension` | no | — | Distance from the parent stack's right edge. |
+| `top` | `Dimension` | no | — | Distance from the parent stack's top edge. |
+| `height` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `width` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}`, a dimension string or a binding. |
 
 ---
 
@@ -4064,8 +4459,10 @@ Progress indicator (linear or circular).
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `value` | `number | binding` | no | — | Progress in `0.0..1.0`; omit for indeterminate. |
 | `indicatorType` | `string` | no | "linear" | `linear` or `circular`. |
-| `color` | `string` | no | theme primary | Foreground color. |
-| `backgroundColor` | `string` | no | — | Track color. |
+| `color` | `Color` | no | theme primary | Foreground color. |
+| `backgroundColor` | `Color` | no | — | Track color. |
+| `size` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, string form or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `strokeWidth` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `strokeWidth`; the registry had not declared it. |
 
 ### Examples
 
@@ -4130,6 +4527,14 @@ Single radio button. The group's selected value is bound via `groupValue` (or th
 | `groupValue` | `any | binding` | yes | — | Currently selected value in the group. |
 | `label` | `string` | no | — | Optional label. |
 | `onChange` | `Action` | no | — | Fired when selected. |
+| `binding` | `string` | no | — | State path bound two-way to the widget value (§2.6.0). Runtime reads/writes this path without requiring an explicit onChange. |
+| `change` | `Action` | no | — | Legacy alias of `onChange`. |
+| `fillColor` | `Color` | no | — | Area fill color. |
+| `activeColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `activeColor`; the registry had not declared it. |
+| `bindTo` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `bindTo`; the registry had not declared it. |
+| `focusColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `focusColor`; the registry had not declared it. |
+| `hoverColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `hoverColor`; the registry had not declared it. |
+| `splashRadius` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `splashRadius`; the registry had not declared it. |
 
 ---
 
@@ -4150,6 +4555,7 @@ Single-selection radio group. Shared rows per §2.6.0.
 | `label` | `string` | no | — | Field label shown beside or above the control. |
 | `options` *(aliases: `items`)* | `array<Option>` | yes | — | `{ value, label }` entries. |
 | `orientation` | `string` | no | "vertical" | `vertical` or `horizontal`. |
+| `direction` | `string` | no | — | `horizontal` or `vertical`. |
 
 ### Examples
 
@@ -4185,6 +4591,14 @@ Range selection with two thumbs. Shared rows per §2.6.0; `value` is an object `
 | `min` | `number` | no | 0 | Minimum value. |
 | `max` | `number` | no | 1 | Maximum value. |
 | `divisions` | `number` | no | — | Number of discrete steps. |
+| `change` | `Action` | no | — | Legacy alias of `onChange`. |
+| `activeColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `activeColor`; the registry had not declared it. |
+| `bindTo` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `bindTo`; the registry had not declared it. |
+| `inactiveColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `inactiveColor`; the registry had not declared it. |
+| `labels` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `labels`; the registry had not declared it. |
+| `onChangeEnd` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onChangeEnd`; the registry had not declared it. |
+| `onChangeStart` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onChangeStart`; the registry had not declared it. |
+| `values` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `values`; the registry had not declared it. |
 
 ---
 
@@ -4204,7 +4618,13 @@ Discrete rating control (e.g., star rating). Shared rows per §2.6.0; `value` is
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
 | `max` | `number` | no | 5 | Maximum rating value. |
 | `icon` | `IconRef` | no | "star" | Icon for each unit. Any `IconRef` form. |
-| `color` | `string` | no | — | Icon color. |
+| `color` | `Color` | no | — | Icon color. |
+| `change` | `Action` | no | — | Legacy alias of `onChange`. |
+| `allowHalf` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `allowHalf`; the registry had not declared it. |
+| `emptyColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `emptyColor`; the registry had not declared it. |
+| `maxRating` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `maxRating`; the registry had not declared it. |
+| `readOnly` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `readOnly`; the registry had not declared it. |
+| `size` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, string form or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
 
 ---
 
@@ -4276,6 +4696,7 @@ span styles layer on top of.
 | `maxLines` | `number` | no | — | Maximum rendered lines. Mutually exclusive with `dropCap`. |
 | `overflow` | `string` | no | "clip" | Overflow behaviour when content exceeds `maxLines`. |
 | `softWrap` | `boolean` | no | true | When false, the paragraph never wraps and overflow rules apply at the right edge. |
+| `textScaleFactor` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `textScaleFactor`; the registry had not declared it. |
 
 ### Examples
 
@@ -4357,6 +4778,10 @@ editor is not a licence to inject.
 | `placeholder` | `string` | no | — | Shown while empty. |
 | `minHeight` | `number` | no | — | Minimum editor height in logical pixels. |
 | `maxLength` | `number` | no | — | Character ceiling, counted on the text content rather than the markup. |
+| `binding` | `string` | no | — | State path bound two-way to the widget value (§2.6.0). Runtime reads/writes this path without requiring an explicit onChange. |
+| `onChange` | `Action` | no | — | onChange |
+| `enabled` | `boolean | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `enabled`; the registry had not declared it. |
+| `value` | `string | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `value`; the registry had not declared it. |
 
 ### Examples
 
@@ -4430,6 +4855,12 @@ Insets children so they avoid system UI overlaps (notch, status bar, home indica
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `child` | `Widget` | yes | — | Child widget. |
+| `bottom` | `boolean` | no | — | Distance from the parent stack's bottom edge. |
+| `left` | `boolean` | no | — | Distance from the parent stack's left edge. |
+| `right` | `boolean` | no | — | Distance from the parent stack's right edge. |
+| `top` | `boolean` | no | — | Distance from the parent stack's top edge. |
+| `maintainBottomViewPadding` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `maintainBottomViewPadding`; the registry had not declared it. |
+| `minimum` | `Dimension` | no | — | Promoted from the runtime (2026-08-04): the factory reads `minimum`; the registry had not declared it. |
 
 ### Examples
 
@@ -4535,6 +4966,10 @@ mutually exclusive.
 | `child` | `Widget` | no | — | Single scrolled child. Mutually exclusive with `children` and `slivers`. |
 | `children` | `array<Widget>` | no | — | Multiple widgets wrapped in an implicit linear column along `direction`. Mutually exclusive with `child` and `slivers`. |
 | `slivers` | `array<Sliver>` | no | — | Sliver entries (sliverAppBar / sliverPersistentHeader / sliverList / sliverGrid / sliverFixedExtentList). Mutually exclusive with `child` and `children`.  |
+| `reverse` | `boolean` | no | — | When true, run the transition in reverse direction (for back navigation). |
+| `scrollDirection` | `string` | no | — | Scroll axis. |
+| `physics` | `string` | no | — | Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `primary` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `primary`; the registry had not declared it. |
 
 ### Examples
 
@@ -4630,6 +5065,14 @@ Single-value dropdown selection. Shared rows per §2.6.0.
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
 | `options` *(aliases: `items`)* | `array<Option>` | yes | — | `{ value, label, icon? }` entries. |
 | `placeholder` | `string` | no | — | Placeholder shown when nothing is selected. |
+| `change` | `Action` | no | — | Legacy alias of `onChange`. |
+| `elevation` | `Dimension` | no | — | elevation |
+| `hint` | `string` | no | — | Legacy alias of `placeholder`. |
+| `label` | `string` | no | — | Field label shown beside or above the control. |
+| `disabledHint` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `disabledHint`; the registry had not declared it. |
+| `iconSize` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `iconSize`; the registry had not declared it. |
+| `isExpanded` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `isExpanded`; the registry had not declared it. |
+| `itemHeight` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `itemHeight`; the registry had not declared it. |
 
 ### Examples
 
@@ -4660,16 +5103,18 @@ Signature capture pad.
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `binding` | `binding` | no | — | Target binding for signature data (base64 PNG or SVG path). Required when capturing is needed; may be omitted for pure display. |
-| `penColor` *(aliases: `color`)* | `string` | no | #000000 | Stroke color |
+| `penColor` *(aliases: `color`)* | `Color` | no | #000000 | Stroke color |
 | `penWidth` *(aliases: `strokeWidth`)* | `number` | no | 2.0 | Stroke width |
 | `width` | `number` | no | — | Widget width |
 | `height` | `number` | no | — | Widget height |
-| `backgroundColor` | `string` | no | — | Pad background |
-| `borderColor` | `string` | no | — | Pad border |
+| `backgroundColor` | `Color` | no | — | Pad background |
+| `borderColor` | `Color` | no | — | Pad border |
 | `showClearButton` | `boolean` | no | true | Show a clear-signature button |
 | `showGuide` | `boolean` | no | false | Show a signing guide line |
 | `onSignatureEnd` | `Action` | no | — | Fired when a stroke completes |
 | `onClear` | `Action` | no | — | Fired when the signature is cleared |
+| `borderWidth` | `number` | no | — | Promoted from the runtime (2026-08-04): the factory reads `borderWidth`; the registry had not declared it. |
+| `onSignatureStart` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onSignatureStart`; the registry had not declared it. |
 
 ### Examples
 
@@ -4715,6 +5160,12 @@ Dialog presenting a list of options.
 | `children` | `array<Widget>` | no | — | Custom option widgets. Mutually exclusive with `options`. |
 | `onSelect` | `Action` | no | — | Fired when an option is chosen. |
 | `onClose` | `Action` | no | — | Fired when the dialog is dismissed without an option being selected. |
+| `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
+| `elevation` | `Dimension` | no | — | elevation |
+| `contentPadding` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `contentPadding`; the registry had not declared it. |
+| `select` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `select`; the registry had not declared it. |
+| `shape` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it. |
+| `titlePadding` | `Dimension` | no | — | Promoted from the runtime (2026-08-04): the factory reads `titlePadding`; the registry had not declared it. |
 
 ---
 
@@ -4732,6 +5183,11 @@ Lightweight scrollable wrapper for a single child.
 | `padding` | `EdgeInsets` | no | — | Inner padding. |
 | `child` | `Widget` | no | — | Scrolled content. Required when `children` is omitted. |
 | `children` | `array<Widget>` | no | — | Multiple widgets; runtime wraps them in a linear column along `direction`. Mutually exclusive with `child`. |
+| `reverse` | `boolean` | no | — | When true, run the transition in reverse direction (for back navigation). |
+| `scrollDirection` | `string` | no | — | Scroll axis. |
+| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
+| `physics` | `string` | no | — | Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `primary` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `primary`; the registry had not declared it. |
 
 ### Examples
 
@@ -4796,6 +5252,16 @@ Continuous single-value selection. Shared rows per §2.6.0; `value` is `number`.
 | `min` | `number` | no | 0 | Minimum value. |
 | `max` | `number` | no | 1 | Maximum value. |
 | `divisions` | `number` | no | — | Number of discrete steps. |
+| `change` | `Action` | no | — | Legacy alias of `onChange`. |
+| `activeColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `activeColor`; the registry had not declared it. |
+| `change-end` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `change-end`; the registry had not declared it. |
+| `change-start` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `change-start`; the registry had not declared it. |
+| `changeEnd` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `changeEnd`; the registry had not declared it. |
+| `changeStart` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `changeStart`; the registry had not declared it. |
+| `inactiveColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `inactiveColor`; the registry had not declared it. |
+| `onChangeEnd` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onChangeEnd`; the registry had not declared it. |
+| `onChangeStart` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onChangeStart`; the registry had not declared it. |
+| `thumbColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `thumbColor`; the registry had not declared it. |
 
 ### Examples
 
@@ -4827,6 +5293,18 @@ Transient notification at the bottom of the screen.
 | `duration` | `number` | no | 4000 | Display duration in milliseconds. |
 | `action` | `SnackBarAction` | no | — | `{ label, onTap }` optional action. |
 | `onClose` | `Action` | no | — | Fired when the snackbar is dismissed (timeout, swipe-away, or `action.onTap` complete). |
+| `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
+| `elevation` | `Dimension` | no | — | elevation |
+| `textColor` | `Color` | no | — | Default text color |
+| `behavior` | `string` | no | — | Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `closeIconColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `closeIconColor`; the registry had not declared it. |
+| `dismissDirection` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `dismissDirection`; the registry had not declared it. |
+| `margin` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `margin`; the registry had not declared it. |
+| `onVisible` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onVisible`; the registry had not declared it. |
+| `padding` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `padding`; the registry had not declared it. |
+| `shape` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it. |
+| `showCloseIcon` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `showCloseIcon`; the registry had not declared it. |
+| `width` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}`, a dimension string or a binding. |
 
 ### Examples
 
@@ -4981,6 +5459,8 @@ Overlapping children. Non-positioned children align per `alignment`; positioned 
 | `alignment` | `Alignment` | no | "topStart" | Alignment of non-positioned children. |
 | `fit` | `string` | no | "loose" | Sizing of non-positioned children: `loose`, `expand`, `passthrough`. |
 | `children` | `array<Widget>` | yes | — | Stacked children (rendered in order; later children render on top). |
+| `textDirection` | `string` | no | — | Resolution direction for `start`/`end` alignment. |
+| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
 
 ### Examples
 
@@ -5014,7 +5494,7 @@ aspect ratios. Distinct from `grid` (uniform row alignment) and
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
-| `items` | `binding` | no | — | Array source. Required when `children` is omitted. |
+| `items` | `array | binding` | no | — | Array source. Required when `children` is omitted. |
 | `itemTemplate` | `Widget` | no | — | Template rendered per bound item. Required with `items`. |
 | `children` | `array<Widget>` | no | — | Static cells. Mutually exclusive with `items` + `itemTemplate`. |
 | `columns` | `number | object` | yes | — | Column count. The object form is a responsive override keyed by form factor (§14.1.1) — `{compact, medium, expanded, large, extraLarge, default}`. |
@@ -5072,6 +5552,8 @@ Step-by-step wizard. Shared `binding` / `value` / `enabled` / `onChange` per §2
 | `onStepTapped` | `Action` | no | — | Fired when a step header is tapped. Receives `{{event.index}}`. |
 | `onStepContinue` | `Action` | no | — | Fired when the continue button is pressed. |
 | `onStepCancel` | `Action` | no | — | Fired when the cancel button is pressed. |
+| `margin` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `margin`; the registry had not declared it. |
+| `physics` | `string` | no | — | Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
 
 ### Examples
 
@@ -5103,6 +5585,24 @@ Horizontal tab selector. Each tab's text field is `label`.
 | `selectedIndex` | `number | binding` | no | 0 | Currently selected index. Defaults to 0 when omitted. |
 | `tabs` | `array<Tab>` | yes | — | `{ label, icon? }` entries. |
 | `onChange` | `Action` | no | — | Fired when selection changes. |
+| `change` | `Action` | no | — | Legacy alias of `onChange`. |
+| `indicatorColor` | `Color` | no | — | Selection indicator pill color (rail / drawer / tabs). |
+| `labelStyle` | `TextStyle` | no | — | Default text style for item labels (selected and unselected). Per-item override via NavItem.style.labelStyle. |
+| `onTap` | `Action` | no | — | onTap |
+| `enableFeedback` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `enableFeedback`; the registry had not declared it. |
+| `indicator` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `indicator`; the registry had not declared it. |
+| `indicatorPadding` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `indicatorPadding`; the registry had not declared it. |
+| `indicatorSize` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `indicatorSize`; the registry had not declared it. |
+| `indicatorWeight` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `indicatorWeight`; the registry had not declared it. |
+| `isScrollable` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `isScrollable`; the registry had not declared it. |
+| `labelColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `labelColor`; the registry had not declared it. |
+| `labelPadding` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `labelPadding`; the registry had not declared it. |
+| `mouseCursor` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `mouseCursor`; the registry had not declared it. |
+| `overlayColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `overlayColor`; the registry had not declared it. |
+| `padding` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `padding`; the registry had not declared it. |
+| `physics` | `string` | no | — | Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `unselectedLabelColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `unselectedLabelColor`; the registry had not declared it. |
+| `unselectedLabelStyle` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `unselectedLabelStyle`; the registry had not declared it. |
 
 ### Examples
 
@@ -5138,6 +5638,8 @@ Content area that displays widgets corresponding to the currently selected tab.
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `selectedIndex` | `number | binding` | no | — | Displayed index (usually bound to the same state as a `tabBar`). |
 | `children` | `array<Widget>` | yes | — | One child per tab. |
+| `dragStartBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `dragStartBehavior`; the registry had not declared it. |
+| `physics` | `string` | no | — | Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
 
 ### Examples
 
@@ -5172,6 +5674,8 @@ Layout table for arranging widgets in rows and columns. Not data-bound; each cel
 | `defaultColumnWidth` | `string | number` | no | flex | `flex`, `intrinsic`, or a fixed number (logical px). |
 | `defaultVerticalAlignment` | `string` | no | middle | Cell vertical alignment. |
 | `columnWidths` | `object` | no | — | Map `columnIndex` → width override |
+| `textDirection` | `string` | no | — | Resolution direction for `start`/`end` alignment. |
+| `textBaseline` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `textBaseline`; the registry had not declared it. |
 
 ### Examples
 
@@ -5221,10 +5725,12 @@ ANSI-capable terminal emulator.
 | `width` | `number` | no | — | Widget width |
 | `height` | `number` | no | — | Widget height |
 | `fontSize` | `number` | no | — | Font size (logical px) |
-| `backgroundColor` | `string` | no | — | Terminal background |
-| `textColor` | `string` | no | — | Default text color |
-| `promptColor` | `string` | no | — | Prompt color |
+| `backgroundColor` | `Color` | no | — | Terminal background |
+| `textColor` | `Color` | no | — | Default text color |
+| `promptColor` | `Color` | no | — | Prompt color |
 | `onCommand` | `Action` | no | — | Fired on Enter; `event.value` is the submitted command |
+| `theme` | `string` | no | — | Editor color theme. |
+| `command` | `string` | no | — | Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
 
 ### Examples
 
@@ -5272,6 +5778,14 @@ Renders a string. The canonical content field is `text`.
 | `maxLines` | `number` | no | — | Maximum rendered lines. |
 | `overflow` | `string` | no | "clip" | `clip`, `ellipsis`, `fade`, `visible`. |
 | `textAlign` | `string` | no | "start" | `start`, `center`, `end`, `justify`. |
+| `textDirection` | `string` | no | — | Resolution direction for `start`/`end` alignment. |
+| `aria-label` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `aria-label`; the registry had not declared it. |
+| `ariaLabel` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `ariaLabel`; the registry had not declared it. |
+| `semanticsLabel` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `semanticsLabel`; the registry had not declared it. |
+| `softWrap` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `softWrap`; the registry had not declared it. |
+| `textScaleFactor` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `textScaleFactor`; the registry had not declared it. |
+| `textTransform` | `string | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `textTransform`; the registry had not declared it. |
+| `value` | `string | number | boolean | object | array` | no | — | Measured from real documents (2026-08-04): any literal or binding — the §2.6.0 input contract shape. |
 
 ### Examples
 
@@ -5320,6 +5834,12 @@ override the shorthand.
 | `showToggle` | `boolean` | no | false | Offer a reveal control alongside an obscured field. Ignored unless `obscureText` is true. |
 | `defaultCountry` | `string` | no | — | ISO 3166-1 alpha-2 country seeding the dialling code. Ignored unless `inputType` is `phone`. |
 | `validation` | `ValidationConfig` | no | — | Input constraints; see `../../07_Security.md` §7.2.1. |
+| `debounce` | `number` | no | — | Promoted from the runtime (2026-08-04): the factory reads `debounce`; the registry had not declared it. |
+| `error` | `string | boolean | binding` | no | — | Error state: a message to show, or `true` to mark the field with `errorText`. |
+| `errorText` | `string | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `errorText`; the registry had not declared it. |
+| `focus` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `focus`; the registry had not declared it. |
+| `keyboardType` | `string` | no | — | Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `textInputAction` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `textInputAction`; the registry had not declared it. |
 
 ### Events
 
@@ -5419,6 +5939,7 @@ Time input. Shared rows per §2.6.0; `value` is a time string (e.g., `"14:30"`).
 | `format` | `string` | no | "HH:mm" | Display format. |
 | `use24HourFormat` | `boolean` | no | true | 24-hour clock. |
 | `mode` | `string` | no | "spinner" | `spinner`, `input`, `dial`. |
+| `errorText` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `errorText`; the registry had not declared it. |
 
 ---
 
@@ -5438,6 +5959,12 @@ Standalone time picker surface. Shared rows per §2.6.0; `value` is a time strin
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
 | `label` | `string` | no | — | Field label shown beside or above the control. |
 | `use24HourFormat` | `boolean` | no | false | 24-hour clock. |
+| `change` | `Action` | no | — | Legacy alias of `onChange`. |
+| `icon` | `IconRef` | no | — | Icon shown. Any `IconRef` form. |
+| `timeFormat` | `string` | no | — | Display pattern for the time portion. Display only. |
+| `variant` | `string` | no | — | `elevated`, `filled`, `outlined`, `text`, `icon`. |
+| `bindTo` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `bindTo`; the registry had not declared it. |
+| `initialTime` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `initialTime`; the registry had not declared it. |
 
 ---
 
@@ -5458,6 +5985,11 @@ Chronological timeline of events.
 | `items[].time` | `string` | no | — | Event time (ISO 8601). |
 | `items[].color` | `string` | no | theme | Marker color |
 | `orientation` | `string` | no | vertical | Layout axis. |
+| `itemTemplate` | `Widget` | no | — | itemTemplate |
+| `lineColor` | `Color` | no | — | Line / bar color. |
+| `lineWidth` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `lineWidth`; the registry had not declared it. |
+| `nodeSize` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `nodeSize`; the registry had not declared it. |
+| `spacing` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
 
 ### Examples
 
@@ -5496,6 +6028,8 @@ Binary on/off control. Shared `binding` / `value` / `enabled` / `onChange` per �
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
+| `change` | `Action` | no | — | Legacy alias of `onChange`. |
+| `label` | `string` | no | — | Field label shown beside or above the control. |
 
 ### Examples
 
@@ -5522,6 +6056,20 @@ Wrapper that reveals a tooltip on hover or long-press.
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `message` | `string` | yes | — | Tooltip text. |
 | `child` | `Widget` | yes | — | Wrapped widget. |
+| `decoration` | `BoxDecoration` | no | — | Animated decoration (color/gradient/border/shadow/image). |
+| `textAlign` | `string` | no | — | Alignment for the composed paragraph. |
+| `enableFeedback` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `enableFeedback`; the registry had not declared it. |
+| `excludeFromSemantics` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `excludeFromSemantics`; the registry had not declared it. |
+| `height` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
+| `margin` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `margin`; the registry had not declared it. |
+| `padding` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `padding`; the registry had not declared it. |
+| `preferBelow` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `preferBelow`; the registry had not declared it. |
+| `richMessage` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `richMessage`; the registry had not declared it. |
+| `showDuration` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `showDuration`; the registry had not declared it. |
+| `textStyle` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `textStyle`; the registry had not declared it. |
+| `triggerMode` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `triggerMode`; the registry had not declared it. |
+| `verticalOffset` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `verticalOffset`; the registry had not declared it. |
+| `waitDuration` | `number` | no | — | Measured from real documents (2026-08-04): milliseconds before the tooltip appears. |
 
 ### Examples
 
@@ -5608,6 +6156,8 @@ Hierarchical tree view with expandable nodes.
 | `onSelect` | `Action` | no | — | Fired when a node is selected (requires `selectable: true`). Event payload is the node object. |
 | `onExpand` | `Action` | no | — | Fired on node expand; `event.id` |
 | `onCollapse` | `Action` | no | — | Fired on node collapse; `event.id` |
+| `expandAll` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `expandAll`; the registry had not declared it. |
+| `select` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `select`; the registry had not declared it. |
 
 ### Examples
 
@@ -5661,7 +6211,7 @@ Vertical separator, typically used in horizontal layouts.
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `width` | `number` | no | — | Total width including spacing. |
 | `thickness` | `number` | no | 1 | Line thickness. |
-| `color` | `string` | no | — | Line color. |
+| `color` | `Color` | no | — | Line color. |
 | `indent` | `number` | no | — | Top indent. |
 | `endIndent` | `number` | no | — | Bottom indent. |
 
@@ -5712,6 +6262,8 @@ Shows or hides a child with optional state preservation and replacement content.
 | `replacement` | `Widget` | no | — | Widget shown in place of `child` when `visible` is `false`. When absent, the child is simply hidden in-place (respecting `maintainSize` / `maintainState`). |
 | `child` | `Widget` | no | — | Primary widget. Required when `children` is omitted. |
 | `children` | `array<Widget>` | no | — | Multiple widgets; runtime wraps them in a linear column. Mutually exclusive with `child`. |
+| `maintainAnimation` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `maintainAnimation`; the registry had not declared it. |
+| `maintainInteractivity` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `maintainInteractivity`; the registry had not declared it. |
 
 ### Examples
 
@@ -5802,6 +6354,7 @@ Embedded web view.
 | `onPageStarted` | `Action` | no | — | Fired when loading starts |
 | `onPageFinished` | `Action` | no | — | Fired when loading finishes |
 | `onError` | `Action` | no | — | Fired on load error; `event.error` |
+| `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
 
 ### Examples
 
@@ -5848,4 +6401,9 @@ Flow layout that wraps children to the next line when they exceed available widt
 | `runSpacing` | `number` | no | 0 | Gap between runs. |
 | `alignment` | `string` | no | "start" | Alignment within a run. |
 | `children` | `array<Widget>` | yes | — | Children to wrap. |
+| `crossAxisAlignment` | `string` | no | — | Legacy alias of `alignment`. |
+| `textDirection` | `string` | no | — | Resolution direction for `start`/`end` alignment. |
+| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
+| `runAlignment` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `runAlignment`; the registry had not declared it. |
+| `verticalDirection` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `verticalDirection`; the registry had not declared it. |
 

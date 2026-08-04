@@ -17,4 +17,67 @@ properties:
   onLongPress:
     type: "Action"
     description: "Long-press handler."
+  onDoubleTap:
+    type: Action
+    description: "onDoubleTap"
+  autofocus:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `autofocus`; the registry had not declared it."
+  canRequestFocus:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `canRequestFocus`; the registry had not declared it."
+  customBorder:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `customBorder`; the registry had not declared it."
+  double-click:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `double-click`; the registry had not declared it."
+  enableFeedback:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `enableFeedback`; the registry had not declared it."
+  excludeFromSemantics:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `excludeFromSemantics`; the registry had not declared it."
+  focusColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `focusColor`; the registry had not declared it."
+  highlightColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `highlightColor`; the registry had not declared it."
+  hover:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `hover`; the registry had not declared it."
+  hoverColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `hoverColor`; the registry had not declared it."
+  long-press:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `long-press`; the registry had not declared it."
+  longPress:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `longPress`; the registry had not declared it."
+  onHighlightChanged:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `onHighlightChanged`; the registry had not declared it."
+  onHover:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `onHover`; the registry had not declared it."
+  onTapCancel:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `onTapCancel`; the registry had not declared it."
+  onTapDown:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `onTapDown`; the registry had not declared it."
+  onTapUp:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `onTapUp`; the registry had not declared it."
+  overlayColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `overlayColor`; the registry had not declared it."
+  splashColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `splashColor`; the registry had not declared it."
+  splashRadius:
+    type: "number | binding"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `splashRadius`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.

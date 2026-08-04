@@ -19,4 +19,22 @@ properties:
   onClose:
     type: "Action"
     description: "Fired when the dialog is dismissed without an option being selected."
+  backgroundColor:
+    type: Color
+    description: "Legacy alias of `color`."
+  elevation:
+    type: Dimension
+    description: "elevation"
+  contentPadding:
+    type: EdgeInsets
+    description: "Promoted from the runtime (2026-08-04): the factory reads `contentPadding`; the registry had not declared it."
+  select:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `select`; the registry had not declared it."
+  shape:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it."
+  titlePadding:
+    type: Dimension
+    description: "Promoted from the runtime (2026-08-04): the factory reads `titlePadding`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.

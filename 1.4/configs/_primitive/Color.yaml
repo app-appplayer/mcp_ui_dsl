@@ -15,6 +15,10 @@ description: |
   - **CSS basic name** — the ten colors a document can name without a
     theme (`red`, `blue`, `green`, `yellow`, `orange`, `purple`,
     `black`, `white`, `grey`/`gray`). Matched case-insensitively.
+  - **Functional** — `rgb(r, g, b)` / `rgba(r, g, b, a)`. §5.3.4 rates
+    this SHOULD where hex is MUST; it is accepted so that a theme
+    written in that notation validates, but it adapts to neither mode
+    nor palette.
 
   Bindings are accepted in all three positions.
 
@@ -86,6 +90,11 @@ definition:
         "type": "string",
         "pattern": "^([Rr][Ee][Dd]|[Bb][Ll][Uu][Ee]|[Gg][Rr][Ee][Ee][Nn]|[Yy][Ee][Ll][Ll][Oo][Ww]|[Oo][Rr][Aa][Nn][Gg][Ee]|[Pp][Uu][Rr][Pp][Ll][Ee]|[Bb][Ll][Aa][Cc][Kk]|[Ww][Hh][Ii][Tt][Ee]|[Gg][Rr][Ee][Yy]|[Gg][Rr][Aa][Yy])$",
         "description": "CSS basic color name. Spelled as a character class per\nletter because JSON Schema regexes are ECMA-262, which has no\ninline `(?i:)` flag — writing one makes the whole branch\nunconstrained instead of case-insensitive, and it accepted every\nstring."
+      },
+      {
+        "type": "string",
+        "pattern": "^[Rr][Gg][Bb][Aa]? *\\( *[0-9]{1,3} *, *[0-9]{1,3} *, *[0-9]{1,3} *(, *([01]|[01]?[.][0-9]+) *)?\\) *$",
+        "description": "Functional notation — `rgb(r, g, b)` or `rgba(r, g, b, a)`,\nchannels 0-255 and alpha 0-1. §5.3.4 rates it SHOULD, below hex:\nit carries no alpha in the three-channel form and does not adapt\nto light / dark mode the way a scheme slot does."
       },
       {
         "$ref": "#/$defs/Binding"

@@ -37,6 +37,9 @@ properties:
     type: "boolean"
     default: false
     description: "Render a total-count summary."
+  current:
+    type: "number | binding"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `current`; the registry had not declared it."
 events:
   onChange:
     description: Fired when the page or page size changes.

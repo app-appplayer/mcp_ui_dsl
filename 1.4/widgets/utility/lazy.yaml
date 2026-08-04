@@ -32,6 +32,9 @@ properties:
     type: "Action"
     default: null
     description: "Fired if `content` fetch fails; `event.error`"
+  delay:
+    type: "number | binding"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `delay`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

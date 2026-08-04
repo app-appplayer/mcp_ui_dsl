@@ -74,6 +74,9 @@ properties:
     type: "Action"
     default: null
     description: "Fired on row tap; `event.row` is the row object"
+  rowClick:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `rowClick`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

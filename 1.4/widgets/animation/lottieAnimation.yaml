@@ -17,4 +17,22 @@ properties:
     type: "boolean"
     default: true
     description: "Loop playback."
+  backgroundColor:
+    type: Color
+    description: "Legacy alias of `color`."
+  fit:
+    type: "string | binding"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `fit`; the registry had not declared it."
+  height:
+    type: Dimension
+    description: "Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass."
+  onComplete:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `onComplete`; the registry had not declared it."
+  speed:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `speed`; the registry had not declared it."
+  width:
+    type: Dimension
+    description: "Measured from real documents (2026-08-04): number, `{value, unit}`, a dimension string or a binding."
 # examples migrated verbatim from prose JSON fences.

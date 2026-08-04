@@ -16,6 +16,57 @@ properties:
   onChange:
     type: "Action"
     description: "Fired when selection changes."
+  backgroundColor:
+    type: Color
+    description: "Legacy alias of `color`."
+  change:
+    type: Action
+    description: "Legacy alias of `onChange`."
+  elevation:
+    type: Dimension
+    description: "elevation"
+  leading:
+    type: Widget
+    description: "leading"
+  onSelect:
+    type: Action
+    description: "onSelect"
+  trailing:
+    type: Widget
+    description: "trailing"
+  extended:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `extended`; the registry had not declared it."
+  groupAlignment:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `groupAlignment`; the registry had not declared it."
+  labelType:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `labelType`; the registry had not declared it."
+  minExtendedWidth:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `minExtendedWidth`; the registry had not declared it."
+  minWidth:
+    type: Dimension
+    description: "Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass."
+  onDestinationSelected:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `onDestinationSelected`; the registry had not declared it."
+  select:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `select`; the registry had not declared it."
+  selectedIconTheme:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `selectedIconTheme`; the registry had not declared it."
+  selectedLabelTextStyle:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `selectedLabelTextStyle`; the registry had not declared it."
+  unselectedIconTheme:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `unselectedIconTheme`; the registry had not declared it."
+  unselectedLabelTextStyle:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `unselectedLabelTextStyle`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

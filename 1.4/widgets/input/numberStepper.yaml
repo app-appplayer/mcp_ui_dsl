@@ -17,4 +17,13 @@ properties:
     type: "number"
     default: 1
     description: "Increment size."
+  change:
+    type: Action
+    description: "Legacy alias of `onChange`."
+  color:
+    type: Color
+    description: "color"
+  size:
+    type: "string | binding"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `size`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.

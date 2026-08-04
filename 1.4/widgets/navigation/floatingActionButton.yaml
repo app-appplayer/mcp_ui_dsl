@@ -14,6 +14,66 @@ properties:
     type: "Action"
     description: "Tap handler. Omitted FABs render as inert."
     aliases: [click, onPressed]
+  backgroundColor:
+    type: Color
+    description: "Legacy alias of `color`."
+  elevation:
+    type: Dimension
+    description: "elevation"
+  foregroundColor:
+    type: Color
+    description: "Bar color."
+  onLongPress:
+    type: Action
+    description: "onLongPress"
+  autofocus:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `autofocus`; the registry had not declared it."
+  clipBehavior:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it."
+  disabledElevation:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `disabledElevation`; the registry had not declared it."
+  focusColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `focusColor`; the registry had not declared it."
+  focusElevation:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `focusElevation`; the registry had not declared it."
+  heroTag:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `heroTag`; the registry had not declared it."
+  highlightElevation:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `highlightElevation`; the registry had not declared it."
+  hoverColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `hoverColor`; the registry had not declared it."
+  hoverElevation:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `hoverElevation`; the registry had not declared it."
+  isExtended:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `isExtended`; the registry had not declared it."
+  long-press:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `long-press`; the registry had not declared it."
+  longPress:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `longPress`; the registry had not declared it."
+  materialTapTargetSize:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `materialTapTargetSize`; the registry had not declared it."
+  mini:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `mini`; the registry had not declared it."
+  shape:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it."
+  splashColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `splashColor`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

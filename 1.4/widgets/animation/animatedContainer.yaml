@@ -39,6 +39,21 @@ properties:
   child:
     type: Widget
     description: Animated child widget.
+  clipBehavior:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it."
+  constraints:
+    type: "object"
+    description: "Measured from real documents (2026-08-04): object. Promoted from the runtime; type narrowed from the values documents actually pass."
+  foregroundDecoration:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `foregroundDecoration`; the registry had not declared it."
+  transform:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `transform`; the registry had not declared it."
+  transformAlignment:
+    type: Alignment
+    description: "Promoted from the runtime (2026-08-04): the factory reads `transformAlignment`; the registry had not declared it."
 examples:
   - name: expand_collapse
     dsl: |

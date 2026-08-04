@@ -34,6 +34,21 @@ properties:
     enum: ["vertical", "horizontal"]
     default: "vertical"
     description: "Layout axis."
+  itemTemplate:
+    type: Widget
+    description: "itemTemplate"
+  lineColor:
+    type: Color
+    description: "Line / bar color."
+  lineWidth:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `lineWidth`; the registry had not declared it."
+  nodeSize:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `nodeSize`; the registry had not declared it."
+  spacing:
+    type: Dimension
+    description: "Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

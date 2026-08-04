@@ -8,4 +8,22 @@ properties:
     type: "Widget"
     required: true
     description: "Positioned widget."
+  bottom:
+    type: Dimension
+    description: "Distance from the parent stack's bottom edge."
+  left:
+    type: Dimension
+    description: "Distance from the parent stack's left edge."
+  right:
+    type: Dimension
+    description: "Distance from the parent stack's right edge."
+  top:
+    type: Dimension
+    description: "Distance from the parent stack's top edge."
+  height:
+    type: Dimension
+    description: "Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass."
+  width:
+    type: Dimension
+    description: "Measured from real documents (2026-08-04): number, `{value, unit}`, a dimension string or a binding."
 # examples migrated verbatim from prose JSON fences.

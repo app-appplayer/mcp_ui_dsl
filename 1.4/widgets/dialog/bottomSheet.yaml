@@ -17,7 +17,7 @@ properties:
     default: true
     description: "Allow drag to dismiss."
   backgroundColor:
-    type: "string"
+    type: Color
     description: "Sheet background."
   shape:
     type: "object"
@@ -25,4 +25,28 @@ properties:
   onClose:
     type: "Action"
     description: "Fired when the sheet is dismissed (scrim tap when `isDismissible` is true, drag-down when `enableDrag` is true)."
+  elevation:
+    type: Dimension
+    description: "elevation"
+  clipBehavior:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it."
+  constraints:
+    type: "object"
+    description: "Measured from real documents (2026-08-04): object. Promoted from the runtime; type narrowed from the values documents actually pass."
+  dragHandleColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `dragHandleColor`; the registry had not declared it."
+  dragHandleSize:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `dragHandleSize`; the registry had not declared it."
+  onClosing:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `onClosing`; the registry had not declared it."
+  shadowColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it."
+  showDragHandle:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `showDragHandle`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.

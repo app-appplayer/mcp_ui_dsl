@@ -24,4 +24,19 @@ properties:
     type: "array<Widget>"
     required: true
     description: "Children to wrap."
+  crossAxisAlignment:
+    type: "string"
+    description: "Legacy alias of `alignment`."
+  textDirection:
+    type: "string"
+    description: "Resolution direction for `start`/`end` alignment."
+  clipBehavior:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it."
+  runAlignment:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `runAlignment`; the registry had not declared it."
+  verticalDirection:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `verticalDirection`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.

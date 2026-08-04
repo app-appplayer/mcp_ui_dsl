@@ -19,7 +19,7 @@ properties:
     default: 3
     description: "Items rendered beyond the viewport on each side, trading memory for scroll smoothness."
   items:
-    type: "binding"
+    type: "array | binding"
     description: "Array source. Required when `children` is omitted (dynamic list)."
   itemTemplate:
     type: "Widget"
@@ -41,6 +41,36 @@ properties:
   itemExtent:
     type: "number"
     description: "Fixed item size for performance."
+  reverse:
+    type: "boolean"
+    description: "When true, run the transition in reverse direction (for back navigation)."
+  scrollDirection:
+    type: "string"
+    description: "Scroll axis."
+  template:
+    type: ["object", "string"]
+    description: "Template name to instantiate."
+  itemBuilder:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `itemBuilder`; the registry had not declared it."
+  itemCount:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `itemCount`; the registry had not declared it."
+  itemSpacing:
+    type: Dimension
+    description: "Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass."
+  padding:
+    type: EdgeInsets
+    description: "Promoted from the runtime (2026-08-04): the factory reads `padding`; the registry had not declared it."
+  physics:
+    type: "string"
+    description: "Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass."
+  scrollCacheExtent:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `scrollCacheExtent`; the registry had not declared it."
+  shrinkWrap:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `shrinkWrap`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

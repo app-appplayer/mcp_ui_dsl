@@ -55,6 +55,33 @@ properties:
     type: "number"
     default: null
     description: "Fixed height (logical pixels)"
+  backgroundColor:
+    type: Color
+    description: "Legacy alias of `color`."
+  gridColor:
+    type: Color
+    description: "Grid color."
+  title:
+    type: "string"
+    description: "Dialog title shown at the top."
+  colors:
+    type: "array"
+    description: "Measured from real documents (2026-08-04): array. Promoted from the runtime; type narrowed from the values documents actually pass."
+  labelColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `labelColor`; the registry had not declared it."
+  primaryColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `primaryColor`; the registry had not declared it."
+  showGrid:
+    type: "boolean | binding"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `showGrid`; the registry had not declared it."
+  showLabels:
+    type: "boolean | binding"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `showLabels`; the registry had not declared it."
+  showLegend:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `showLegend`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

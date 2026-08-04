@@ -33,6 +33,18 @@ properties:
   onChange:
     type: "Action"
     description: "Fired when the range changes. Receives `{{event.value}}` as `{ start, end }`."
+  change:
+    type: Action
+    description: "Legacy alias of `onChange`."
+  endBinding:
+    type: "string"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `endBinding`; the registry had not declared it."
+  errorText:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `errorText`; the registry had not declared it."
+  startBinding:
+    type: "string"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `startBinding`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

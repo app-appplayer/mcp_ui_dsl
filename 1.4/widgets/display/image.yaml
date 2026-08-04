@@ -30,6 +30,24 @@ properties:
     type: Alignment
     default: "\"center\""
     description: "Alignment within bounds."
+  fallback:
+    type: Widget
+    description: "fallback"
+  loading:
+    type: Widget
+    description: "loading"
+  placeholder:
+    type: "string"
+    description: "Placeholder text."
+  errorWidget:
+    type: "string"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `errorWidget`; the registry had not declared it."
+  fallbackBehavior:
+    type: "string"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `fallbackBehavior`; the registry had not declared it."
+  fallbackUrl:
+    type: "string | binding"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `fallbackUrl`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

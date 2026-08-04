@@ -19,6 +19,42 @@ properties:
   onClose:
     type: Action
     description: "Fired when the snackbar is dismissed (timeout, swipe-away, or `action.onTap` complete)."
+  backgroundColor:
+    type: Color
+    description: "Legacy alias of `color`."
+  elevation:
+    type: Dimension
+    description: "elevation"
+  textColor:
+    type: Color
+    description: "Default text color"
+  behavior:
+    type: "string"
+    description: "Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass."
+  closeIconColor:
+    type: Color
+    description: "Promoted from the runtime (2026-08-04): the factory reads `closeIconColor`; the registry had not declared it."
+  dismissDirection:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `dismissDirection`; the registry had not declared it."
+  margin:
+    type: EdgeInsets
+    description: "Promoted from the runtime (2026-08-04): the factory reads `margin`; the registry had not declared it."
+  onVisible:
+    type: Action
+    description: "Promoted from the runtime (2026-08-04): the factory reads `onVisible`; the registry had not declared it."
+  padding:
+    type: EdgeInsets
+    description: "Promoted from the runtime (2026-08-04): the factory reads `padding`; the registry had not declared it."
+  shape:
+    type: any
+    description: "Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it."
+  showCloseIcon:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `showCloseIcon`; the registry had not declared it."
+  width:
+    type: Dimension
+    description: "Measured from real documents (2026-08-04): number, `{value, unit}`, a dimension string or a binding."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

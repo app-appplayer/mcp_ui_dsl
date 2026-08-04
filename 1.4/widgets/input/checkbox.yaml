@@ -7,6 +7,15 @@ properties:
   label:
     type: "string"
     description: "Optional label."
+  change:
+    type: Action
+    description: "Legacy alias of `onChange`."
+  bindTo:
+    type: "string"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `bindTo`; the registry had not declared it."
+  tristate:
+    type: "boolean"
+    description: "Promoted from the runtime (2026-08-04): the factory reads `tristate`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0
