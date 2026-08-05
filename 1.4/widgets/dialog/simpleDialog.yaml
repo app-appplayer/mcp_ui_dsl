@@ -4,6 +4,15 @@ profile: Core
 description: |
   Dialog presenting a list of options.
 properties:
+  contentPadding:
+    type: EdgeInsets
+    description: "Space around the options."
+  titlePadding:
+    type: EdgeInsets
+    description: "Space around the title."
+  shape:
+    type: "object"
+    description: "Outline of the surface, as a shape descriptor."
   title:
     type: "string"
     description: "Dialog title."
@@ -24,17 +33,5 @@ properties:
     description: "Legacy alias of `color`."
   elevation:
     type: Dimension
-    description: "elevation"
-  contentPadding:
-    type: EdgeInsets
-    description: "Promoted from the runtime (2026-08-04): the factory reads `contentPadding`; the registry had not declared it."
-  select:
-    type: Action
-    description: "Promoted from the runtime (2026-08-04): the factory reads `select`; the registry had not declared it."
-  shape:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it."
-  titlePadding:
-    type: Dimension
-    description: "Promoted from the runtime (2026-08-04): the factory reads `titlePadding`; the registry had not declared it."
+    description: "Shadow depth of the dialog surface."
 # examples migrated verbatim from prose JSON fences.

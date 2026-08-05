@@ -5,6 +5,24 @@ aliases: [tag]
 description: |
   Compact element representing an attribute, action, or filter.
 properties:
+  deleteIcon:
+    type: IconRef
+    description: "Icon for the delete control."
+  onDeleted:
+    type: Action
+    description: "Fired when the delete control is used."
+  side:
+    type: "object"
+    description: "Outline drawn around the chip, as `{ color, width }`."
+  padding:
+    type: EdgeInsets
+    description: "Space inside the surface, around its content."
+  shadowColor:
+    type: Color
+    description: "Colour of the drop shadow cast by the surface."
+  shape:
+    type: "object"
+    description: "Outline of the surface, as a shape descriptor."
   label:
     type: "string"
     required: true
@@ -31,34 +49,13 @@ properties:
     description: "Legacy alias of `color`."
   elevation:
     type: Dimension
-    description: "elevation"
+    description: "Shadow depth of the chip."
   labelStyle:
     type: TextStyle
     description: "Default text style for item labels (selected and unselected). Per-item override via NavItem.style.labelStyle."
   onPressed:
     type: Action
     description: "Legacy alias of `onTap`."
-  delete:
-    type: Action
-    description: "Promoted from the runtime (2026-08-04): the factory reads `delete`; the registry had not declared it."
-  deleteIcon:
-    type: "string"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `deleteIcon`; the registry had not declared it."
-  onDeleted:
-    type: Action
-    description: "Promoted from the runtime (2026-08-04): the factory reads `onDeleted`; the registry had not declared it."
-  padding:
-    type: EdgeInsets
-    description: "Promoted from the runtime (2026-08-04): the factory reads `padding`; the registry had not declared it."
-  shadowColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it."
-  shape:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it."
-  side:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `side`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

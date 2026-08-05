@@ -6,6 +6,9 @@ since: v1.0
 description: |
   Syntax-highlighted code editor.
 properties:
+  lineNumberColor:
+    type: Color
+    description: "Colour of the line-number gutter."
   copyable:
     type: boolean
     default: false
@@ -73,9 +76,6 @@ properties:
   change:
     type: Action
     description: "Legacy alias of `onChange`."
-  lineNumberColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `lineNumberColor`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

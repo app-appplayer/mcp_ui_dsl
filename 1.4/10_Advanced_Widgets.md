@@ -969,11 +969,11 @@ Renders a QR code for `value`. Cannot be composed — the module grid is compute
 |----------|------|---------|-------------|
 | `value` | string \| binding | required | Encoded payload — a URL, a `ui://` route, or an entry token |
 | `size` | number | `200` | Edge length in logical pixels; the grid is square |
-| `errorCorrection` | enum | `M` | `L`, `M`, `Q`, `H`. Higher survives damage at the cost of density — use `H` when a logo overlays the centre |
+| `errorCorrection` | enum | `medium` | `low` (7%), `medium` (15%), `quartile` (25%), `high` (30%). Higher survives damage at the cost of density — use `high` when a logo overlays the centre. The QR standard's own `L`/`M`/`Q`/`H` are legacy spellings a runtime MAY accept (§17.3); they are not declared values. |
 | `foregroundColor` | Color | — | Module color. Contrast must stay scannable; a runtime SHOULD refuse to render below it rather than emit an unreadable code |
 | `backgroundColor` | Color | — | Quiet-zone and gap color |
 | `margin` | boolean | `true` | Include the quiet zone. Omitting it breaks scanning against busy backgrounds |
-| `logo` | AssetRef | — | Image centred over the code. Requires higher `errorCorrection` to stay scannable |
+| `logo` | AssetRef | — | Image centred over the code. Requires a higher `errorCorrection` (`quartile` or `high`) to stay scannable |
 
 ## 10.24 `barcode` *(since v1.4)*
 

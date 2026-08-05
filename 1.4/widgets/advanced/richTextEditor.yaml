@@ -39,13 +39,7 @@ properties:
     description: "State path bound two-way to the widget value (§2.6.0). Runtime reads/writes this path without requiring an explicit onChange."
   onChange:
     type: Action
-    description: "onChange"
-  enabled:
-    type: "boolean | binding"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `enabled`; the registry had not declared it."
-  value:
-    type: "string | binding"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `value`; the registry had not declared it."
+    description: "Fired as the document changes. `{{event.value}}` carries the current rich-text value."
 examples:
   - name: basic
     dsl: |

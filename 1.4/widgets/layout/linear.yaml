@@ -9,6 +9,12 @@ description: |
 
   Main-axis sizing: when at least one child is `expanded` / `flexible` / `spacer` (or carries a `flex` value), `linear` expands to fill the available main-axis space so those children can distribute the remainder; otherwise it shrink-wraps its children. Authors can override this with the explicit `mainAxisSize` property.
 properties:
+  wrap:
+    type: "boolean"
+    description: "Let children flow onto another line instead of overflowing."
+  padding:
+    type: EdgeInsets
+    description: "Space inside the surface, around its content."
   mainAxisSize:
     type: "string"
     enum: ["min", "max"]
@@ -30,9 +36,13 @@ properties:
       - crossAxisAlignment
   distribution:
     type: "string"
-    enum: [start, center, end, spaceBetween, spaceAround, spaceEvenly, space-between, space-around, space-evenly]
+    enum: [start, center, end, spaceBetween, spaceAround, spaceEvenly]
     default: "\"start\""
-    description: "Main-axis distribution: `start`, `center`, `end`, `spaceBetween`, `spaceAround`, `spaceEvenly`."
+    description: |
+      Main-axis distribution. §17.1.3 spells multi-word enum values in
+      camelCase, so `spaceBetween` / `spaceAround` / `spaceEvenly` are the
+      declared values. The pre-1.3 kebab spellings are not part of the
+      canonical surface; a runtime MAY keep accepting them (§17.3).
     aliases:
       - mainAxisAlignment
   spacing:
@@ -46,12 +56,6 @@ properties:
     type: "array<Widget>"
     required: true
     description: "Child widgets arranged along `direction`."
-  padding:
-    type: EdgeInsets
-    description: "Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass."
-  wrap:
-    type: "boolean | binding"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `wrap`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

@@ -4,6 +4,21 @@ profile: Core
 description: |
   Continuous single-value selection. Shared rows per §2.6.0; `value` is `number`.
 properties:
+  onChangeEnd:
+    type: Action
+    description: "Fired when the thumb is released."
+  onChangeStart:
+    type: Action
+    description: "Fired when the thumb starts moving."
+  thumbColor:
+    type: Color
+    description: "Colour of the thumb."
+  activeColor:
+    type: Color
+    description: "Colour of the selected / active portion."
+  inactiveColor:
+    type: Color
+    description: "Colour of the unselected / inactive portion."
   label:
     type: "string"
     description: "Field label shown beside or above the control."
@@ -26,33 +41,6 @@ properties:
   change:
     type: Action
     description: "Legacy alias of `onChange`."
-  activeColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `activeColor`; the registry had not declared it."
-  change-end:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `change-end`; the registry had not declared it."
-  change-start:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `change-start`; the registry had not declared it."
-  changeEnd:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `changeEnd`; the registry had not declared it."
-  changeStart:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `changeStart`; the registry had not declared it."
-  inactiveColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `inactiveColor`; the registry had not declared it."
-  onChangeEnd:
-    type: Action
-    description: "Promoted from the runtime (2026-08-04): the factory reads `onChangeEnd`; the registry had not declared it."
-  onChangeStart:
-    type: Action
-    description: "Promoted from the runtime (2026-08-04): the factory reads `onChangeStart`; the registry had not declared it."
-  thumbColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `thumbColor`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

@@ -5,6 +5,9 @@ since: v1.0
 description: |
   Defer rendering of an expensive subtree until it enters the viewport (or until explicitly loaded).
 properties:
+  delay:
+    type: "number"
+    description: "Milliseconds to wait before building, when `trigger` is `delay`."
   placeholder:
     type: "Widget"
     default: null
@@ -32,9 +35,6 @@ properties:
     type: "Action"
     default: null
     description: "Fired if `content` fetch fails; `event.error`"
-  delay:
-    type: "number | binding"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `delay`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

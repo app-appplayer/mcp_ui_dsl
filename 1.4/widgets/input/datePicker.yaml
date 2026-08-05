@@ -4,6 +4,9 @@ profile: Core
 description: |
   Standalone date picker surface. Shared rows per §2.6.0; `value` is an ISO date string.
 properties:
+  initialDate:
+    type: "string"
+    description: "Date the picker opens on when the bound value is empty (ISO 8601)."
   label:
     type: "string"
     description: "Field label shown beside or above the control."
@@ -24,11 +27,6 @@ properties:
     description: "Icon shown. Any `IconRef` form."
   variant:
     type: "string"
+    enum: [elevated, filled, outlined, text, icon]
     description: "`elevated`, `filled`, `outlined`, `text`, `icon`."
-  bindTo:
-    type: "string"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `bindTo`; the registry had not declared it."
-  initialDate:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `initialDate`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.

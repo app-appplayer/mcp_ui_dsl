@@ -4,6 +4,9 @@ profile: Core
 description: |
   Scales and aligns its child to fit available space.
 properties:
+  clipBehavior:
+    type: "string"
+    description: "How content crossing the bounds is clipped."
   fit:
     type: "string"
     enum: [cover, contain, fill, scaleDown, none]
@@ -17,7 +20,4 @@ properties:
     type: "Widget"
     required: true
     description: "Child widget."
-  clipBehavior:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.

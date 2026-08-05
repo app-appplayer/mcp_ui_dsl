@@ -52,9 +52,6 @@ properties:
   theme:
     type: "string"
     description: "Editor color theme."
-  command:
-    type: "string"
-    description: "Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

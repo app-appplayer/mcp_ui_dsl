@@ -1256,7 +1256,7 @@ The composed version is reliably broken: a row of `textInput`s loses paste distr
 |----------|------|----------|---------|-------------|
 | `length` | number | no | `6` | Number of cells. |
 | `inputType` | string | no | `"numeric"` | `numeric`, `alphanumeric`. Selects the keyboard. |
-| `autoSubmit` | Action | no | — | Fired once the last cell is filled. |
+| `onComplete` | Action | no | — | Fired once every cell is filled. The older `autoSubmit` spelling is a legacy alias (§17.3): a runtime MAY accept it, the registry does not declare it. |
 | `masked` | boolean | no | `false` | Obscure entered characters. |
 | `autofill` | boolean | no | `true` | Declare one-time-code autofill. A runtime without it renders normally. |
 

@@ -5,6 +5,12 @@ aliases: [steps]
 description: |
   Step-by-step wizard. Shared `binding` / `value` / `enabled` / `onChange` per §2.6.0 — the bound value is the **active step index** (integer). `binding` and `currentStep` are aliases: when `binding` is set, it takes effect; otherwise `currentStep` is read as a one-way property.
 properties:
+  margin:
+    type: EdgeInsets
+    description: "Space outside the surface."
+  physics:
+    type: "string"
+    description: "Scroll response: `bouncing`, `clamping`, `never`, `always`."
   steps:
     type: "array<Step>"
     required: true
@@ -26,12 +32,6 @@ properties:
   onStepCancel:
     type: "Action"
     description: "Fired when the cancel button is pressed."
-  margin:
-    type: EdgeInsets
-    description: "Promoted from the runtime (2026-08-04): the factory reads `margin`; the registry had not declared it."
-  physics:
-    type: "string"
-    description: "Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

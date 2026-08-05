@@ -5,6 +5,9 @@ since: v1.0
 description: |
   File and directory browser.
 properties:
+  iconColor:
+    type: Color
+    description: "Colour applied to the icon."
   items:
     type: "array<object> | binding"
     description: "Hierarchical `{ name, path, type, children? }` tree. Required when `rootPath`/`files`/`directories` legacy props are omitted."
@@ -52,15 +55,6 @@ properties:
   backgroundColor:
     type: Color
     description: "Legacy alias of `color`."
-  iconColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `iconColor`; the registry had not declared it."
-  open:
-    type: "string"
-    description: "Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass."
-  select:
-    type: Action
-    description: "Promoted from the runtime (2026-08-04): the factory reads `select`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

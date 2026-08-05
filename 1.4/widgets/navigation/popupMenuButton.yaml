@@ -5,6 +5,33 @@ aliases: [dropdownMenu]
 description: |
   Button that reveals a popup menu of options.
 properties:
+  onCanceled:
+    type: Action
+    description: "Fired when the menu closes with nothing chosen."
+  onOpened:
+    type: Action
+    description: "Fired when the menu opens."
+  iconSize:
+    type: Dimension
+    description: "Rendered size of the icon."
+  offset:
+    type: "object"
+    description: "Displacement from the anchor, as `{ dx, dy }`."
+  padding:
+    type: EdgeInsets
+    description: "Space inside the surface, around its content."
+  shadowColor:
+    type: Color
+    description: "Colour of the drop shadow cast by the surface."
+  shape:
+    type: "object"
+    description: "Outline of the surface, as a shape descriptor."
+  splashRadius:
+    type: Dimension
+    description: "Radius the ripple expands to."
+  surfaceTintColor:
+    type: Color
+    description: "Elevation tint applied over the surface colour (M3)."
   icon:
     type: IconRef
     default: "\"more_vert\""
@@ -21,49 +48,13 @@ properties:
     description: "Legacy alias of `onChange`."
   color:
     type: Color
-    description: "color"
+    description: "Background of the open menu surface."
   elevation:
     type: Dimension
-    description: "elevation"
+    description: "Shadow depth of the open menu."
   onChange:
     type: Action
-    description: "onChange"
-  enabled:
-    type: "boolean"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `enabled`; the registry had not declared it."
-  iconSize:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `iconSize`; the registry had not declared it."
-  offset:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `offset`; the registry had not declared it."
-  onCanceled:
-    type: Action
-    description: "Promoted from the runtime (2026-08-04): the factory reads `onCanceled`; the registry had not declared it."
-  onOpened:
-    type: Action
-    description: "Promoted from the runtime (2026-08-04): the factory reads `onOpened`; the registry had not declared it."
-  onSelected:
-    type: Action
-    description: "Promoted from the runtime (2026-08-04): the factory reads `onSelected`; the registry had not declared it."
-  padding:
-    type: EdgeInsets
-    description: "Promoted from the runtime (2026-08-04): the factory reads `padding`; the registry had not declared it."
-  select:
-    type: Action
-    description: "Promoted from the runtime (2026-08-04): the factory reads `select`; the registry had not declared it."
-  shadowColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it."
-  shape:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it."
-  splashRadius:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `splashRadius`; the registry had not declared it."
-  surfaceTintColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `surfaceTintColor`; the registry had not declared it."
+    description: "Fired when an item is chosen. `{{event.value}}` carries its value."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

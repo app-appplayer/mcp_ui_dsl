@@ -13,6 +13,9 @@ description: |
   `src` is an `AssetRef`, so the same document works from a bundle, a URL, a
   picked file (`fileInput` writes a `data:` URI), or a server resource.
 properties:
+  height:
+    type: Dimension
+    description: "Fixed height."
   src:
     type: AssetRef
     required: true
@@ -40,9 +43,6 @@ properties:
     enum: [width, height, page]
     default: "\"width\""
     description: "Initial fit."
-  height:
-    type: "number | binding"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `height`; the registry had not declared it."
 events:
   onLoad:
     description: Fired once the document is parsed. Carries the page count.

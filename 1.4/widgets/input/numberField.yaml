@@ -5,6 +5,9 @@ aliases: [numberInput]
 description: |
   Specialized input for numeric values. Shared rows per §2.6.0; `value` is `number`.
 properties:
+  error:
+    type: "string"
+    description: "Error message shown under the field."
   showStepper:
     type: boolean
     default: true
@@ -47,10 +50,4 @@ properties:
   hint:
     type: "string"
     description: "Legacy alias of `placeholder`."
-  decimals:
-    type: "number"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `decimals`; the registry had not declared it."
-  error:
-    type: "boolean | binding"
-    description: "Measured from real documents (2026-08-04): boolean. Promoted from the runtime; type narrowed from the values documents actually pass."
 # examples migrated verbatim from prose JSON fences.

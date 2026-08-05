@@ -5,6 +5,9 @@ since: v1.0
 description: |
   Time-series / numeric data graph (line, bar, area, scatter) drawn on a single set of axes. For node/edge topology visualization use `networkGraph` (§10.13).
 properties:
+  labelColor:
+    type: Color
+    description: "Colour applied to the label text."
   data:
     type: "array<Point> | binding"
     required: true
@@ -45,9 +48,6 @@ properties:
     type: "number"
     default: 2
     description: "Line stroke thickness."
-  labelColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `labelColor`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

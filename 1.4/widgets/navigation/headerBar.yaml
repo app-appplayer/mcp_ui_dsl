@@ -6,6 +6,30 @@ aliases:
 description: |
   Application header / toolbar at the top of a page.
 properties:
+  automaticallyImplyLeading:
+    type: "boolean"
+    description: "Insert a back / drawer control when the route provides one."
+  bottomHeight:
+    type: Dimension
+    description: "Height reserved for the bottom area (tabs, search, …)."
+  bottomOpacity:
+    type: "number"
+    description: "Opacity of the bottom area, `0.0`–`1.0`."
+  flexibleSpace:
+    type: Widget
+    description: "Widget stretched behind the bar contents, used for collapsing headers."
+  toolbarHeight:
+    type: Dimension
+    description: "Height of the bar itself, excluding any bottom area."
+  toolbarOpacity:
+    type: "number"
+    description: "Opacity of the toolbar contents, `0.0`–`1.0`."
+  shadowColor:
+    type: Color
+    description: "Colour of the drop shadow cast by the surface."
+  shape:
+    type: "object"
+    description: "Outline of the surface, as a shape descriptor."
   title:
     type: "string | Widget"
     description: "Header title."
@@ -35,30 +59,6 @@ properties:
   foregroundColor:
     type: Color
     description: "Bar color."
-  automaticallyImplyLeading:
-    type: "boolean"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `automaticallyImplyLeading`; the registry had not declared it."
-  bottomHeight:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `bottomHeight`; the registry had not declared it."
-  bottomOpacity:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `bottomOpacity`; the registry had not declared it."
-  flexibleSpace:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `flexibleSpace`; the registry had not declared it."
-  shadowColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it."
-  shape:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it."
-  toolbarHeight:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `toolbarHeight`; the registry had not declared it."
-  toolbarOpacity:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `toolbarOpacity`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

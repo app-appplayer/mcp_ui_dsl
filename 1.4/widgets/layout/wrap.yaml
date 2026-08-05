@@ -4,6 +4,15 @@ profile: Core
 description: |
   Flow layout that wraps children to the next line when they exceed available width/height.
 properties:
+  runAlignment:
+    type: "string"
+    description: "How the runs (lines) are aligned along the cross axis."
+  verticalDirection:
+    type: "string"
+    description: "Order children are laid out vertically: `down` or `up`."
+  clipBehavior:
+    type: "string"
+    description: "How content crossing the bounds is clipped."
   direction:
     type: "string"
     default: "\"horizontal\""
@@ -30,13 +39,4 @@ properties:
   textDirection:
     type: "string"
     description: "Resolution direction for `start`/`end` alignment."
-  clipBehavior:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it."
-  runAlignment:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `runAlignment`; the registry had not declared it."
-  verticalDirection:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `verticalDirection`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.

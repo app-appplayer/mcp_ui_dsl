@@ -11,6 +11,18 @@ description: |
   override the shorthand.
 
 properties:
+  debounce:
+    type: "number"
+    description: "Milliseconds to wait after typing stops before `onChange` fires."
+  textInputAction:
+    type: "string"
+    description: "Keyboard action key: `done`, `next`, `search`, `send`, `go`, `newline`."
+  errorText:
+    type: "string"
+    description: "Error message shown under the field. Overrides validation output."
+  style:
+    type: TextStyle
+    description: "Text style applied to the label."
   # Shared per §2.6.0 — repeated here so the schema can discriminate directly.
   binding:
     type: string
@@ -70,25 +82,9 @@ properties:
   validation:
     type: ValidationConfig
     description: Input constraints; see `../../07_Security.md` §7.2.1.
-  debounce:
-    type: "number"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `debounce`; the registry had not declared it."
   error:
     type: "string | boolean | binding"
     description: "Error state: a message to show, or `true` to mark the field with `errorText`."
-  errorText:
-    type: "string | binding"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `errorText`; the registry had not declared it."
-  focus:
-    type: Action
-    description: "Promoted from the runtime (2026-08-04): the factory reads `focus`; the registry had not declared it."
-  keyboardType:
-    type: "string"
-    description: "Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass."
-  textInputAction:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `textInputAction`; the registry had not declared it."
-
 events:
   onChange:
     description: Fired when the value changes.

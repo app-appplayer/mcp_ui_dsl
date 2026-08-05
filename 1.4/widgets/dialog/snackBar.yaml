@@ -5,6 +5,27 @@ aliases: [toast]
 description: |
   Transient notification at the bottom of the screen.
 properties:
+  behavior:
+    type: "string"
+    description: "Placement: `fixed` (attached to the bottom) or `floating`."
+  closeIconColor:
+    type: Color
+    description: "Colour of the dismiss control."
+  dismissDirection:
+    type: "string"
+    description: "Swipe direction that dismisses it: `up`, `down`, `startToEnd`, `endToStart`, `horizontal`."
+  showCloseIcon:
+    type: "boolean"
+    description: "Show the dismiss control."
+  margin:
+    type: EdgeInsets
+    description: "Space outside the surface."
+  padding:
+    type: EdgeInsets
+    description: "Space inside the surface, around its content."
+  shape:
+    type: "object"
+    description: "Outline of the surface, as a shape descriptor."
   content:
     type: "string"
     required: true
@@ -24,34 +45,10 @@ properties:
     description: "Legacy alias of `color`."
   elevation:
     type: Dimension
-    description: "elevation"
+    description: "Shadow depth of the bar."
   textColor:
     type: Color
     description: "Default text color"
-  behavior:
-    type: "string"
-    description: "Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass."
-  closeIconColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `closeIconColor`; the registry had not declared it."
-  dismissDirection:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `dismissDirection`; the registry had not declared it."
-  margin:
-    type: EdgeInsets
-    description: "Promoted from the runtime (2026-08-04): the factory reads `margin`; the registry had not declared it."
-  onVisible:
-    type: Action
-    description: "Promoted from the runtime (2026-08-04): the factory reads `onVisible`; the registry had not declared it."
-  padding:
-    type: EdgeInsets
-    description: "Promoted from the runtime (2026-08-04): the factory reads `padding`; the registry had not declared it."
-  shape:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it."
-  showCloseIcon:
-    type: "boolean"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `showCloseIcon`; the registry had not declared it."
   width:
     type: Dimension
     description: "Measured from real documents (2026-08-04): number, `{value, unit}`, a dimension string or a binding."

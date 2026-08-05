@@ -10,6 +10,12 @@ aliases:
 description: |
   Progress indicator (linear or circular).
 properties:
+  size:
+    type: Dimension
+    description: "Rendered size."
+  strokeWidth:
+    type: Dimension
+    description: "Thickness of the drawn stroke."
   value:
     type: "number | binding"
     description: "Progress in `0.0..1.0`; omit for indeterminate."
@@ -24,12 +30,6 @@ properties:
   backgroundColor:
     type: Color
     description: "Track color."
-  size:
-    type: Dimension
-    description: "Measured from real documents (2026-08-04): number, string form or a binding. Promoted from the runtime; type narrowed from the values documents actually pass."
-  strokeWidth:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `strokeWidth`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

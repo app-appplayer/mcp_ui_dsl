@@ -4,6 +4,18 @@ profile: Core
 description: |
   Side navigation drawer. Each item's text field is `label`.
 properties:
+  semanticLabel:
+    type: "string"
+    description: "Label announced by a screen reader in place of the content."
+  shadowColor:
+    type: Color
+    description: "Colour of the drop shadow cast by the surface."
+  shape:
+    type: "object"
+    description: "Outline of the surface, as a shape descriptor."
+  surfaceTintColor:
+    type: Color
+    description: "Elevation tint applied over the surface colour (M3)."
   items:
     type: "array<DrawerItem>"
     description: "`{ icon, label, route? }` entries. Required when `children` is omitted."
@@ -24,19 +36,7 @@ properties:
     description: "Legacy alias of `color`."
   elevation:
     type: Dimension
-    description: "elevation"
-  semanticLabel:
-    type: "string | binding"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `semanticLabel`; the registry had not declared it."
-  shadowColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it."
-  shape:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it."
-  surfaceTintColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `surfaceTintColor`; the registry had not declared it."
+    description: "Shadow depth of the drawer surface."
   width:
     type: Dimension
     description: "Measured from real documents (2026-08-04): number, `{value, unit}`, a dimension string or a binding."

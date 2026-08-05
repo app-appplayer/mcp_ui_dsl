@@ -1,5 +1,182 @@
 # MCP UI DSL — Changelog
 
+## [1.4.1]
+
+### Promoted — 330 properties across 80 widgets that the runtime honoured and the registry did not name
+
+A property the implementation reads but the spec does not declare is not usable:
+an author cannot know it exists, an editor cannot offer it, and a validator is
+right to reject it. Where such a name was a **spelling of something already
+declared**, it stays out (§17.3.2 governs those, and 1.3's decision to keep
+legacy in code rather than in the canonical surface stands). Where it was a
+**capability with no other way to say it**, it is declared here.
+
+The rule applied to each name, in order: ① is it a variant spelling of a
+declared property (kebab / camel / `on`-prefix / read as a fallback beside
+another key)? → not promoted. ② does it conform to §17.1 (camelCase keys,
+`on` + PascalCase callbacks)? ③ does the widget already declare something that
+means the same thing? → not promoted. ④ does the factory actually apply it?
+
+**Not promoted, as duplicates** — `alertDialog.titleWidget` / `contentWidget`
+(`title` / `content` already accept a widget), `calendar.onDateSelect`
+(`onChange`), `dateRangePicker.startBinding` / `endBinding` and
+`numberField.decimals` (the implementation's own comments call these aliases),
+plus 15 alias spellings (`bindTo` → `binding`, `change-start` → `onChangeStart`,
+`aria-label` → `ariaLabel`, `inkWell.hover` → `onHover`, `button.disabled` →
+`enabled`, `conditional.orElse` → `else`).
+
+### Also declared
+
+- **`checkbox.tristate`** — the third, indeterminate state. A parent row
+  summarising partly-selected children has no other way to say so; `false`
+  would claim none are selected.
+- **`text.textAlign` / `richText.textAlign` gain `left` and `right`** — these
+  are **not** spellings of `start` / `end`. Those follow the text direction and
+  these do not, so a column pinned to one side whatever the locale had no
+  declared form. Values, not aliases.
+- **Five enums moved from prose into the schema** — `text.overflow`,
+  `text.textAlign`, `timeField.mode`, `datePicker.variant`,
+  `timePicker.variant`. Their allowed values were listed in the description
+  text, so an invented value validated and was dropped at render.
+
+### Naming-rule violations fixed in the document, kept in the runtime
+
+A name that breaks §17.1 is corrected here and retained in the implementation
+as a legacy alias — the canonical surface carries the canonical spelling only.
+§17.3.1a said the opposite through 1.4.0 (legacy values were declared in the
+`enum` too); that paragraph is rewritten, because keeping both spellings equal
+in the registry made the rule unenforceable.
+
+- **`linear.distribution`** — `enum` is `spaceBetween` / `spaceAround` /
+  `spaceEvenly`. The kebab spellings are runtime-only (§17.3.1a).
+- **`qrCode.errorCorrection`** — `low` / `medium` / `quartile` / `high`. The QR
+  standard's `L`/`M`/`Q`/`H` are runtime-only.
+- **`otpInput.autoSubmit` → `onComplete`** — §17.1.4 spells callbacks
+  `on` + PascalCase. Registered in §17.3.2; the runtime reads both.
+
+### `EdgeInsets` is a named primitive
+
+It was expanded inline at every use, so it existed in no `$defs` and under no
+name — a consumer resolving types by name (an authoring surface, a validator
+built from the primitive files) could not check a `padding` or `margin` slot at
+all. Defined in `configs/_primitive/` alongside the other 15, and its binding
+branch is declared: a document computing its insets was rejected while the same
+`{{…}}` expression was legal in every neighbouring slot.
+
+### Named types are defined where they are used
+
+`type: Option` and fourteen other names were used in the registry with no
+definition anywhere, so the generated schema carried an item with a description
+and no constraint — an authoring surface resolving types by name could not
+check the slot at all, and the emptiness looked like a pass. All fifteen are
+defined in `configs/widget/` now (`Option`, `NavItem`, `Column`, `Point`,
+`TimelineItem`, `Marker`, `Overlay`, `Segment`, `Step`, `DrawerItem`,
+`MenuItem`, `ExitButtonConfig`, `Tab`, `SnackBarAction`, `BannerAction`), each
+declaring the keys the runtime reads and leaving further keys accepted — an
+item shape that refused an unknown key would break every document carrying one
+for its own bookkeeping.
+
+- **`Option.value` is required.** Without it the runtime falls back to an
+  empty string, so two entries carry the same value and selecting one selects
+  both — it renders, reports nothing, and behaves wrongly. Measured before
+  declaring: 278 object-form options in the document corpus, none missing
+  `value`. The same test was applied to the other item shapes and they failed
+  it — `Column.key` is absent in 8 documents, `Step.title` in all 48 (they
+  carry `titleText`), and `Tab` takes `label` *or* `text` — so none of those
+  gained a required key.
+
+Definitions live in two directories: `configs/_primitive/` for the scalar-ish
+primitives and `configs/widget/` for composite shapes. A consumer resolving a
+type by name reads both, `_primitive/` winning on a name collision.
+
+### Descriptions
+
+38 properties carried their own name as their description (`elevation` →
+"elevation"). All 38 now say what the property does.
+
+### The promoted set
+
+- `inkWell` — `autofocus`, `canRequestFocus`, `customBorder`, `enableFeedback`, `excludeFromSemantics`, `focusColor`, `highlightColor`, `hoverColor`, `onHighlightChanged`, `onHover`, `onTapCancel`, `onTapDown`, `onTapUp`, `overlayColor`, `splashColor`, `splashRadius`
+- `floatingActionButton` — `autofocus`, `clipBehavior`, `disabledElevation`, `focusColor`, `focusElevation`, `heroTag`, `highlightElevation`, `hoverColor`, `hoverElevation`, `isExtended`, `materialTapTargetSize`, `mini`, `shape`, `splashColor`
+- `tabBar` — `enableFeedback`, `indicator`, `indicatorPadding`, `indicatorSize`, `indicatorWeight`, `isScrollable`, `labelColor`, `labelPadding`, `mouseCursor`, `overlayColor`, `padding`, `physics`, `unselectedLabelColor`, `unselectedLabelStyle`
+- `bottomNavigation` — `enableFeedback`, `fixedColor`, `iconSize`, `selectedFontSize`, `selectedIconTheme`, `selectedItemColor`, `selectedLabelStyle`, `showSelectedLabels`, `showUnselectedLabels`, `unselectedFontSize`, `unselectedIconTheme`, `unselectedItemColor`, `unselectedLabelStyle`
+- `tooltip` — `enableFeedback`, `excludeFromSemantics`, `height`, `margin`, `padding`, `preferBelow`, `richMessage`, `showDuration`, `textStyle`, `triggerMode`, `verticalOffset`
+- `listItem` — `contentPadding`, `dense`, `focusColor`, `hoverColor`, `iconColor`, `isThreeLine`, `selectedTileColor`, `shape`, `tileColor`
+- `navigationRail` — `extended`, `groupAlignment`, `labelType`, `minExtendedWidth`, `minWidth`, `selectedIconTheme`, `selectedLabelTextStyle`, `unselectedIconTheme`, `unselectedLabelTextStyle`
+- `networkGraph` — `edgeColor`, `edges`, `height`, `interactive`, `labelColor`, `layout`, `nodeColor`, `nodes`, `onEdgeTap`
+- `popupMenuButton` — `iconSize`, `offset`, `onCanceled`, `onOpened`, `padding`, `shadowColor`, `shape`, `splashRadius`, `surfaceTintColor`
+- `accessibleWrapper` — `announceNavigation`, `announceOnChange`, `autoFocus`, `focusGroup`, `focusOrder`, `liveRegion`, `navigationMessage`, `watchPath`
+- `calendar` — `eventColor`, `firstDayOfWeek`, `height`, `onMonthChange`, `primaryColor`, `showHeader`, `showWeekNumbers`, `todayColor`
+- `headerBar` — `automaticallyImplyLeading`, `bottomHeight`, `bottomOpacity`, `flexibleSpace`, `shadowColor`, `shape`, `toolbarHeight`, `toolbarOpacity`
+- `iconButton` — `disabledColor`, `enableFeedback`, `fontFamily`, `highlightColor`, `iconSize`, `padding`, `splashColor`, `splashRadius`
+- `bottomSheet` — `clipBehavior`, `constraints`, `dragHandleColor`, `dragHandleSize`, `onClosing`, `shadowColor`, `showDragHandle`
+- `draggable` — `affinity`, `axis`, `dragAnchorStrategy`, `onDragCompleted`, `onDragEnd`, `onDragStarted`, `onDraggableCanceled`
+- `snackBar` — `behavior`, `closeIconColor`, `dismissDirection`, `margin`, `padding`, `shape`, `showCloseIcon`
+- `alertDialog` — `clipBehavior`, `insetPadding`, `scrollable`, `shadowColor`, `shape`, `surfaceTintColor`
+- `chart` — `colors`, `labelColor`, `primaryColor`, `showGrid`, `showLabels`, `showLegend`
+- `chip` — `deleteIcon`, `onDeleted`, `padding`, `shadowColor`, `shape`, `side`
+- `customDialog` — `actions`, `clipBehavior`, `insetPadding`, `shadowColor`, `shape`, `surfaceTintColor`
+- `grid` — `mainAxisExtent`, `maxCrossAxisExtent`, `padding`, `physics`, `shrinkWrap`, `spacing`
+- `heatmap` — `cellGap`, `colorScheme`, `columns`, `maxValue`, `minValue`, `showLabels`
+- `list` — `itemBuilder`, `itemCount`, `padding`, `physics`, `scrollCacheExtent`, `shrinkWrap`
+- `animatedContainer` — `clipBehavior`, `constraints`, `foregroundDecoration`, `transform`, `transformAlignment`
+- `button` — `ariaLabel`, `borderWidth`, `fullWidth`, `iconPosition`, `size`
+- `map` — `height`, `interactive`, `markerColor`, `showCoordinates`, `showGrid`
+- `rangeSlider` — `activeColor`, `inactiveColor`, `labels`, `onChangeEnd`, `onChangeStart`
+- `select` — `disabledHint`, `iconSize`, `isExpanded`, `itemHeight`, `style`
+- `slider` — `activeColor`, `inactiveColor`, `onChangeEnd`, `onChangeStart`, `thumbColor`
+- `text` — `ariaLabel`, `semanticsLabel`, `softWrap`, `textScaleFactor`, `textTransform`
+- `card` — `clipBehavior`, `semanticContainer`, `shadowColor`, `surfaceTintColor`
+- `drawer` — `semanticLabel`, `shadowColor`, `shape`, `surfaceTintColor`
+- `lottieAnimation` — `fit`, `height`, `onComplete`, `speed`
+- `radio` — `activeColor`, `focusColor`, `hoverColor`, `splashRadius`
+- `rating` — `allowHalf`, `emptyColor`, `readOnly`, `size`
+- `textInput` — `debounce`, `errorText`, `style`, `textInputAction`
+- `badge` — `isLabelVisible`, `offset`, `smallSize`
+- `image` — `errorWidget`, `fallbackBehavior`, `fallbackUrl`
+- `mediaPlayer` — `accentColor`, `controlsColor`, `onSeek`
+- `pageView` — `clipBehavior`, `padEnds`, `pageSnapping`
+- `simpleDialog` — `contentPadding`, `shape`, `titlePadding`
+- `singleChildScrollView` — `clipBehavior`, `physics`, `primary`
+- `timeline` — `lineWidth`, `nodeSize`, `spacing`
+- `wrap` — `clipBehavior`, `runAlignment`, `verticalDirection`
+- `align` — `heightFactor`, `widthFactor`
+- `center` — `heightFactor`, `widthFactor`
+- `divider` — `height`, `vertical`
+- `indexedStack` — `clipBehavior`, `sizing`
+- `intrinsicWidth` — `stepHeight`, `stepWidth`
+- `linear` — `padding`, `wrap`
+- `progressBar` — `size`, `strokeWidth`
+- `safeArea` — `maintainBottomViewPadding`, `minimum`
+- `signature` — `borderWidth`, `onSignatureStart`
+- `stepper` — `margin`, `physics`
+- `tabBarView` — `dragStartBehavior`, `physics`
+- `visibility` — `maintainAnimation`, `maintainInteractivity`
+- `box` — `constraints`
+- `clipOval` — `clipBehavior`
+- `clipRRect` — `clipBehavior`
+- `codeEditor` — `lineNumberColor`
+- `dateField` — `errorText`
+- `datePicker` — `initialDate`
+- `dateRangePicker` — `errorText`
+- `decoration` — `position`
+- `fileExplorer` — `iconColor`
+- `fittedBox` — `clipBehavior`
+- `gestureDetector` — `onScaleUpdate`
+- `graph` — `labelColor`
+- `lazy` — `delay`
+- `numberField` — `error`
+- `numberStepper` — `size`
+- `pagination` — `current`
+- `pdfViewer` — `height`
+- `positioned` — `height`
+- `richText` — `textScaleFactor`
+- `scrollView` — `primary`
+- `stack` — `clipBehavior`
+- `table` — `textBaseline`
+- `timeField` — `errorText`
+- `timePicker` — `initialTime`
+
 ## [1.4.0]
 
 ### New — 23 widgets, 20 aliases, 21 properties, 13 enums

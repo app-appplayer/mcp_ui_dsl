@@ -5,6 +5,12 @@ since: v1.0
 description: |
   Signature capture pad.
 properties:
+  onSignatureStart:
+    type: Action
+    description: "Fired when the first stroke begins."
+  borderWidth:
+    type: Dimension
+    description: "Thickness of the outline."
   binding:
     type: "binding"
     description: "Target binding for signature data (base64 PNG or SVG path). Required when capturing is needed; may be omitted for pure display."
@@ -52,12 +58,6 @@ properties:
     type: "Action"
     default: null
     description: "Fired when the signature is cleared"
-  borderWidth:
-    type: "number"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `borderWidth`; the registry had not declared it."
-  onSignatureStart:
-    type: Action
-    description: "Promoted from the runtime (2026-08-04): the factory reads `onSignatureStart`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

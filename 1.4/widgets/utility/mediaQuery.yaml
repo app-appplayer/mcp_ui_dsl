@@ -19,7 +19,4 @@ properties:
   defaultChild:
     type: "Widget"
     description: "Rendered when no breakpoint matches."
-  orElse:
-    type: "object"
-    description: "Measured from real documents (2026-08-04): object. Promoted from the runtime; type narrowed from the values documents actually pass."
 # examples migrated verbatim from prose JSON fences.

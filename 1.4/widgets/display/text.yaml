@@ -5,6 +5,21 @@ aliases: [label]
 description: |
   Renders a string. The canonical content field is `text`.
 properties:
+  textTransform:
+    type: "string"
+    description: "Case transform applied before rendering: `uppercase`, `lowercase`, `capitalize`, `none`."
+  ariaLabel:
+    type: "string"
+    description: "Label announced by a screen reader in place of the content."
+  semanticsLabel:
+    type: "string"
+    description: "Label announced by a screen reader in place of the content."
+  softWrap:
+    type: "boolean"
+    description: "Whether the text breaks at soft line boundaries."
+  textScaleFactor:
+    type: "number"
+    description: "Multiplier applied to the text size."
   text:
     type: "string"
     required: true
@@ -54,33 +69,17 @@ properties:
     description: "Maximum rendered lines."
   overflow:
     type: "string"
+    enum: [clip, ellipsis, fade, visible]
     default: "\"clip\""
     description: "`clip`, `ellipsis`, `fade`, `visible`."
   textAlign:
     type: "string"
+    enum: [start, center, end, justify, left, right]
     default: "\"start\""
-    description: "`start`, `center`, `end`, `justify`."
+    description: "`start`, `center`, `end`, `justify` follow the text\ndirection (`start` is right-hand in an RTL locale). `left` and `right`\nare absolute and do not — they are the way to pin a column of numbers\nto one side whatever the locale, so they are values, not aliases."
   textDirection:
     type: "string"
     description: "Resolution direction for `start`/`end` alignment."
-  aria-label:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `aria-label`; the registry had not declared it."
-  ariaLabel:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `ariaLabel`; the registry had not declared it."
-  semanticsLabel:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `semanticsLabel`; the registry had not declared it."
-  softWrap:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `softWrap`; the registry had not declared it."
-  textScaleFactor:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `textScaleFactor`; the registry had not declared it."
-  textTransform:
-    type: "string | binding"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `textTransform`; the registry had not declared it."
   value:
     type: "string | number | boolean | object | array"
     description: "Measured from real documents (2026-08-04): any literal or binding — the §2.6.0 input contract shape."

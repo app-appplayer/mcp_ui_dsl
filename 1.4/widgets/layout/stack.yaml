@@ -4,6 +4,9 @@ profile: Core
 description: |
   Overlapping children. Non-positioned children align per `alignment`; positioned children use explicit offsets (see `positioned`).
 properties:
+  clipBehavior:
+    type: "string"
+    description: "How content crossing the bounds is clipped."
   alignment:
     type: Alignment
     default: "\"topStart\""
@@ -20,9 +23,6 @@ properties:
   textDirection:
     type: "string"
     description: "Resolution direction for `start`/`end` alignment."
-  clipBehavior:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

@@ -7,6 +7,15 @@ description: |
   `carousel` (partial-viewport, peeking neighbours) — pageView is
   always one full page. Each child is rendered as a separate page.
 properties:
+  padEnds:
+    type: "boolean"
+    description: "Pad the first and last page so they can centre."
+  pageSnapping:
+    type: "boolean"
+    description: "Snap to page boundaries when the drag ends."
+  clipBehavior:
+    type: "string"
+    description: "How content crossing the bounds is clipped."
   direction:
     type: string
     enum: [horizontal, vertical]
@@ -43,22 +52,13 @@ properties:
     description: Fires after the active page settles. `event.page` carries the new index.
   onChange:
     type: Action
-    description: "onChange"
+    description: "Fired when the visible page changes. `{{event.value}}` carries its index."
   reverse:
     type: "boolean"
     description: "When true, run the transition in reverse direction (for back navigation)."
   scrollDirection:
     type: "string"
     description: "Scroll axis."
-  clipBehavior:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it."
-  padEnds:
-    type: "boolean"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `padEnds`; the registry had not declared it."
-  pageSnapping:
-    type: "boolean"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `pageSnapping`; the registry had not declared it."
 examples:
   - name: book_pages
     dsl: |

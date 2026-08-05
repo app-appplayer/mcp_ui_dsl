@@ -4,6 +4,39 @@ profile: Core
 description: |
   Wrapper that reveals a tooltip on hover or long-press.
 properties:
+  preferBelow:
+    type: "boolean"
+    description: "Prefer to place the tooltip under the anchor."
+  richMessage:
+    type: array<object>
+    description: "Message as styled spans, when plain text is not enough."
+  showDuration:
+    type: "number"
+    description: "How long the tooltip stays up, in milliseconds."
+  textStyle:
+    type: TextStyle
+    description: "Text style of the tooltip message."
+  triggerMode:
+    type: "string"
+    description: "What raises it: `tap`, `longPress`, `manual`."
+  verticalOffset:
+    type: Dimension
+    description: "Distance between the anchor and the tooltip."
+  enableFeedback:
+    type: "boolean"
+    description: "Play the platform tap sound / haptic on activation."
+  excludeFromSemantics:
+    type: "boolean"
+    description: "Keep the surface out of the accessibility tree."
+  height:
+    type: Dimension
+    description: "Fixed height."
+  margin:
+    type: EdgeInsets
+    description: "Space outside the surface."
+  padding:
+    type: EdgeInsets
+    description: "Space inside the surface, around its content."
   message:
     type: "string"
     required: true
@@ -18,39 +51,6 @@ properties:
   textAlign:
     type: "string"
     description: "Alignment for the composed paragraph."
-  enableFeedback:
-    type: "boolean"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `enableFeedback`; the registry had not declared it."
-  excludeFromSemantics:
-    type: "boolean"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `excludeFromSemantics`; the registry had not declared it."
-  height:
-    type: Dimension
-    description: "Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass."
-  margin:
-    type: EdgeInsets
-    description: "Promoted from the runtime (2026-08-04): the factory reads `margin`; the registry had not declared it."
-  padding:
-    type: EdgeInsets
-    description: "Promoted from the runtime (2026-08-04): the factory reads `padding`; the registry had not declared it."
-  preferBelow:
-    type: "boolean"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `preferBelow`; the registry had not declared it."
-  richMessage:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `richMessage`; the registry had not declared it."
-  showDuration:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `showDuration`; the registry had not declared it."
-  textStyle:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `textStyle`; the registry had not declared it."
-  triggerMode:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `triggerMode`; the registry had not declared it."
-  verticalOffset:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `verticalOffset`; the registry had not declared it."
   waitDuration:
     type: "number"
     description: "Measured from real documents (2026-08-04): milliseconds before the tooltip appears."

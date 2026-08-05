@@ -4,6 +4,17 @@ profile: Core
 description: |
   Small status indicator typically anchored to another widget.
 properties:
+  isLabelVisible:
+    type: "boolean"
+    description: "Whether the badge label is drawn at all."
+  smallSize:
+    type: "boolean"
+    description: |
+      Render the compact form — a smaller dot and label. The dimensions are
+      the M3 badge sizes, so this is a form switch, not a measurement.
+  offset:
+    type: "object"
+    description: "Displacement from the anchor, as `{ dx, dy }`."
   label:
     type: "string"
     description: "Text content of the badge."
@@ -15,22 +26,13 @@ properties:
     description: "Optional child the badge is attached to."
   alignment:
     type: Alignment
-    description: "alignment"
+    description: "Where the badge sits against the child it decorates."
   backgroundColor:
     type: Color
     description: "Legacy alias of `color`."
   textColor:
     type: Color
     description: "Default text color"
-  isLabelVisible:
-    type: "boolean"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `isLabelVisible`; the registry had not declared it."
-  offset:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `offset`; the registry had not declared it."
-  smallSize:
-    type: "boolean"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `smallSize`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

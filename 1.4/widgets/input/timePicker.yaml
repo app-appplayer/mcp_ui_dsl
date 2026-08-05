@@ -4,6 +4,9 @@ profile: Core
 description: |
   Standalone time picker surface. Shared rows per §2.6.0; `value` is a time string.
 properties:
+  initialTime:
+    type: "string"
+    description: "Time the picker opens on when the bound value is empty (`HH:mm`)."
   label:
     type: "string"
     description: "Field label shown beside or above the control."
@@ -22,11 +25,6 @@ properties:
     description: "Display pattern for the time portion. Display only."
   variant:
     type: "string"
+    enum: [elevated, filled, outlined, text, icon]
     description: "`elevated`, `filled`, `outlined`, `text`, `icon`."
-  bindTo:
-    type: "string"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `bindTo`; the registry had not declared it."
-  initialTime:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `initialTime`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.

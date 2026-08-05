@@ -6,6 +6,15 @@ since: v1.0
 description: |
   Audio / video player widget.
 properties:
+  accentColor:
+    type: Color
+    description: "Colour of the progress bar and active controls."
+  controlsColor:
+    type: Color
+    description: "Colour of the transport controls."
+  onSeek:
+    type: Action
+    description: "Fired when the position is changed by the user."
   source:
     type: AssetRef
     required: true
@@ -84,15 +93,6 @@ properties:
   title:
     type: "string"
     description: "Dialog title shown at the top."
-  accentColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `accentColor`; the registry had not declared it."
-  controlsColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `controlsColor`; the registry had not declared it."
-  onSeek:
-    type: Action
-    description: "Promoted from the runtime (2026-08-04): the factory reads `onSeek`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

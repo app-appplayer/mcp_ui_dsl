@@ -11,6 +11,24 @@ description: |
   (not the root navigator), so tapping an action pops only the dialog.
 
 properties:
+  insetPadding:
+    type: EdgeInsets
+    description: "Space between the dialog and the screen edges."
+  scrollable:
+    type: "boolean"
+    description: "Let the body scroll when it does not fit."
+  clipBehavior:
+    type: "string"
+    description: "How content crossing the bounds is clipped."
+  shadowColor:
+    type: Color
+    description: "Colour of the drop shadow cast by the surface."
+  shape:
+    type: "object"
+    description: "Outline of the surface, as a shape descriptor."
+  surfaceTintColor:
+    type: Color
+    description: "Elevation tint applied over the surface colour (M3)."
   title:
     type: string
     description: Dialog title shown at the top.
@@ -37,37 +55,13 @@ properties:
 
   alignment:
     type: Alignment
-    description: "alignment"
+    description: "Where the dialog sits in the screen."
   backgroundColor:
     type: Color
     description: "Legacy alias of `color`."
   elevation:
     type: Dimension
-    description: "elevation"
-  clipBehavior:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it."
-  contentWidget:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `contentWidget`; the registry had not declared it."
-  insetPadding:
-    type: EdgeInsets
-    description: "Promoted from the runtime (2026-08-04): the factory reads `insetPadding`; the registry had not declared it."
-  scrollable:
-    type: "boolean"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `scrollable`; the registry had not declared it."
-  shadowColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it."
-  shape:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it."
-  surfaceTintColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `surfaceTintColor`; the registry had not declared it."
-  titleWidget:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `titleWidget`; the registry had not declared it."
+    description: "Shadow depth of the dialog surface."
 children:
   kind: none
 

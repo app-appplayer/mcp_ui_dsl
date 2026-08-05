@@ -4,14 +4,14 @@ profile: Core
 description: |
   Constrains a child to the intrinsic width required by its content.
 properties:
+  stepHeight:
+    type: Dimension
+    description: "Round the intrinsic height up to a multiple of this."
+  stepWidth:
+    type: Dimension
+    description: "Round the intrinsic width up to a multiple of this."
   child:
     type: "Widget"
     required: true
     description: "Child widget."
-  stepHeight:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `stepHeight`; the registry had not declared it."
-  stepWidth:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `stepWidth`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.

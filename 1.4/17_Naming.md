@@ -249,13 +249,26 @@ Enumerated property **values** may also carry legacy spellings. Like widget and 
 | Property | Canonical | Legacy values |
 |----------|-----------|---------------|
 | `linear.distribution` | `spaceBetween`, `spaceAround`, `spaceEvenly` | `space-between`, `space-around`, `space-evenly` |
+| `qrCode.errorCorrection` | `low`, `medium`, `quartile`, `high` | `L`, `M`, `Q`, `H` |
 
-The legacy spellings are listed in the property's `enum` as well, because the `enum` is the contract a validator reads: an accepted value that the schema rejects is a contract that disagrees with the runtime. They surfaced when v1.4 moved these value sets out of prose and into `enum` — the runtime had accepted both spellings since v1.0 and no document said so.
+**Legacy values are not listed in the property's `enum`.** The canonical
+surface carries the canonical spelling and nothing else, exactly as it does for
+widget and property aliases (§17.3.1, §17.3.2): a name that breaks §17.1 is
+fixed in the document and kept in the implementation, not preserved in the
+registry. An editor therefore offers only the canonical value, and a document
+still carrying the old one keeps rendering because the runtime accepts it.
+
+*(1.4.1 changed this. Through 1.4.0 the legacy spellings were declared in the
+`enum` as well, on the reasoning that the `enum` is what a validator reads.
+That reasoning kept the two spellings equal forever and made the naming rule
+unenforceable — `space-between` sat in the registry two lines under a prose
+table naming `spaceBetween` as canonical.)*
 
 ### 17.3.2 Property Aliases
 
 | Widget | Canonical property | Legacy aliases |
 |--------|--------------------|----------------|
+| `otpInput` | `onComplete` | `autoSubmit` |
 | `text` | `text` (the content) | `content` (was canonical in v1.0) |
 | `button` | `label` | `text` (when applied to a button; v1.1 drift) |
 | `textInput`, `textField` | `placeholder` | `hint` |

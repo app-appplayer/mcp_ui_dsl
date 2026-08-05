@@ -4,6 +4,18 @@ profile: Core
 description: |
   Single radio button. The group's selected value is bound via `groupValue` (or the enclosing `radioGroup`'s `binding`).
 properties:
+  activeColor:
+    type: Color
+    description: "Colour of the selected / active portion."
+  focusColor:
+    type: Color
+    description: "Overlay while the surface holds focus."
+  hoverColor:
+    type: Color
+    description: "Overlay while a pointer rests on the surface."
+  splashRadius:
+    type: Dimension
+    description: "Radius the ripple expands to."
   value:
     type: "any"
     required: true
@@ -27,19 +39,4 @@ properties:
   fillColor:
     type: Color
     description: "Area fill color."
-  activeColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `activeColor`; the registry had not declared it."
-  bindTo:
-    type: "string"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `bindTo`; the registry had not declared it."
-  focusColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `focusColor`; the registry had not declared it."
-  hoverColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `hoverColor`; the registry had not declared it."
-  splashRadius:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `splashRadius`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.

@@ -5,6 +5,21 @@ since: v1.0
 description: |
   Geographic map with markers and overlays.
 properties:
+  markerColor:
+    type: Color
+    description: "Default colour for a marker with no colour of its own."
+  showCoordinates:
+    type: "boolean"
+    description: "Show the coordinate readout."
+  showGrid:
+    type: "boolean"
+    description: "Draw the coordinate grid."
+  height:
+    type: Dimension
+    description: "Fixed height."
+  interactive:
+    type: "boolean"
+    description: "Whether the surface responds to pointer input."
   center:
     type: "{ latitude, longitude }"
     description: "Map center coordinates. Required when flat `latitude` / `longitude` are omitted."
@@ -90,21 +105,6 @@ properties:
   gridColor:
     type: Color
     description: "Grid color."
-  height:
-    type: Dimension
-    description: "Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass."
-  interactive:
-    type: "boolean | binding"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `interactive`; the registry had not declared it."
-  markerColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `markerColor`; the registry had not declared it."
-  showCoordinates:
-    type: "boolean | binding"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `showCoordinates`; the registry had not declared it."
-  showGrid:
-    type: "boolean | binding"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `showGrid`; the registry had not declared it."
   width:
     type: Dimension
     description: "Measured from real documents (2026-08-04): number, `{value, unit}`, a dimension string or a binding."

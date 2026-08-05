@@ -4,6 +4,48 @@ profile: Core
 description: |
   Horizontal tab selector. Each tab's text field is `label`.
 properties:
+  indicator:
+    type: "object"
+    description: "Decoration drawn as the selection indicator, replacing the default underline."
+  indicatorPadding:
+    type: EdgeInsets
+    description: "Space between the indicator and the tab bounds."
+  indicatorSize:
+    type: "string"
+    description: "What the indicator spans: `tab` (the whole tab) or `label` (the text only)."
+  indicatorWeight:
+    type: Dimension
+    description: "Thickness of the default underline indicator."
+  isScrollable:
+    type: "boolean"
+    description: "Let the tabs scroll horizontally instead of sharing the width."
+  labelPadding:
+    type: EdgeInsets
+    description: "Space around each tab label."
+  mouseCursor:
+    type: "string"
+    description: "Pointer cursor shown over a tab."
+  unselectedLabelColor:
+    type: Color
+    description: "Colour of labels that are not selected."
+  unselectedLabelStyle:
+    type: TextStyle
+    description: "Text style for labels that are not selected."
+  enableFeedback:
+    type: "boolean"
+    description: "Play the platform tap sound / haptic on activation."
+  labelColor:
+    type: Color
+    description: "Colour applied to the label text."
+  overlayColor:
+    type: Color
+    description: "Overlay used for the focus / hover / press states together."
+  padding:
+    type: EdgeInsets
+    description: "Space inside the surface, around its content."
+  physics:
+    type: "string"
+    description: "Scroll response: `bouncing`, `clamping`, `never`, `always`."
   selectedIndex:
     type: "number | binding"
     default: 0
@@ -26,49 +68,7 @@ properties:
     description: "Default text style for item labels (selected and unselected). Per-item override via NavItem.style.labelStyle."
   onTap:
     type: Action
-    description: "onTap"
-  enableFeedback:
-    type: "boolean"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `enableFeedback`; the registry had not declared it."
-  indicator:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `indicator`; the registry had not declared it."
-  indicatorPadding:
-    type: EdgeInsets
-    description: "Promoted from the runtime (2026-08-04): the factory reads `indicatorPadding`; the registry had not declared it."
-  indicatorSize:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `indicatorSize`; the registry had not declared it."
-  indicatorWeight:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `indicatorWeight`; the registry had not declared it."
-  isScrollable:
-    type: "boolean"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `isScrollable`; the registry had not declared it."
-  labelColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `labelColor`; the registry had not declared it."
-  labelPadding:
-    type: EdgeInsets
-    description: "Promoted from the runtime (2026-08-04): the factory reads `labelPadding`; the registry had not declared it."
-  mouseCursor:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `mouseCursor`; the registry had not declared it."
-  overlayColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `overlayColor`; the registry had not declared it."
-  padding:
-    type: EdgeInsets
-    description: "Promoted from the runtime (2026-08-04): the factory reads `padding`; the registry had not declared it."
-  physics:
-    type: "string"
-    description: "Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass."
-  unselectedLabelColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `unselectedLabelColor`; the registry had not declared it."
-  unselectedLabelStyle:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `unselectedLabelStyle`; the registry had not declared it."
+    description: "Fired when a tab is tapped. `{{event.value}}` carries its index."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

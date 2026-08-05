@@ -21,9 +21,11 @@ properties:
     enum: [numeric, alphanumeric]
     default: "\"numeric\""
     description: "Restricts accepted characters and selects the on-screen keyboard."
-  autoSubmit:
+  onComplete:
     type: Action
-    description: "Fired once the last cell is filled, so the common case needs no separate button."
+    description: |
+      Fired once every digit is filled. Canonical §17.1.4 spelling; the older
+      `autoSubmit` name is still accepted and does the same thing.
   masked:
     type: "boolean"
     default: false

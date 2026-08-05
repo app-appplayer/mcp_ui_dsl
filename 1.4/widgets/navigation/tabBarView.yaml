@@ -4,6 +4,12 @@ profile: Core
 description: |
   Content area that displays widgets corresponding to the currently selected tab.
 properties:
+  dragStartBehavior:
+    type: "string"
+    description: "When a drag is recognised: `start` or `down`."
+  physics:
+    type: "string"
+    description: "Scroll response: `bouncing`, `clamping`, `never`, `always`."
   selectedIndex:
     type: "number | binding"
     description: "Displayed index (usually bound to the same state as a `tabBar`)."
@@ -11,12 +17,6 @@ properties:
     type: "array<Widget>"
     required: true
     description: "One child per tab."
-  dragStartBehavior:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `dragStartBehavior`; the registry had not declared it."
-  physics:
-    type: "string"
-    description: "Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

@@ -23,7 +23,7 @@ properties:
       - backgroundColor
   backgroundImage:
     type: BackgroundImage
-    description: "backgroundImage"
+    description: "Image drawn behind the initials or icon."
   foregroundColor:
     type: Color
     description: "Bar color."
@@ -32,7 +32,7 @@ properties:
     description: "Icon shown. Any `IconRef` form."
   radius:
     type: "number"
-    description: "radius"
+    description: "Radius of the circle, in logical pixels."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

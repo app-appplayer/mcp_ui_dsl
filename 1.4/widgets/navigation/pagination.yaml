@@ -11,6 +11,9 @@ description: |
   by every author. Stating it once also fixes what a screen reader hears —
   "page 3 of 12", not "3".
 properties:
+  current:
+    type: "number"
+    description: "Page currently shown, 1-based."
   binding:
     type: string
     description: "State path holding the current page. 1-based."
@@ -37,9 +40,6 @@ properties:
     type: "boolean"
     default: false
     description: "Render a total-count summary."
-  current:
-    type: "number | binding"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `current`; the registry had not declared it."
 events:
   onChange:
     description: Fired when the page or page size changes.

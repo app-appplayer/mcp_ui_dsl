@@ -4,46 +4,37 @@ profile: Core
 since: v1.0
 description: |
   Network topology graph. Same node/edge model as `graph`, with topology-oriented defaults (hierarchical layout, directed edges).
-  backgroundColor:
-    type: Color
-    description: "Legacy alias of `color`."
+properties:
   onNodeTap:
     type: Action
-    description: "onNodeTap"
-properties:
-  backgroundColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `backgroundColor`; the registry had not declared it."
+    description: "Fired when a node is tapped. `{{event.value}}` carries its id."
   edgeColor:
     type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `edgeColor`; the registry had not declared it."
+    description: "Default colour for an edge with no colour of its own."
   edges:
-    type: "array | binding"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `edges`; the registry had not declared it."
-  height:
-    type: Dimension
-    description: "Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass."
-  interactive:
-    type: "boolean | binding"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `interactive`; the registry had not declared it."
-  labelColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `labelColor`; the registry had not declared it."
+    type: array<object>
+    description: "Edges as `{ from, to, label?, color? }`."
   layout:
-    type: "string | binding"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `layout`; the registry had not declared it."
+    type: "string"
+    description: "Placement algorithm: `force`, `circular`, `grid`, `tree`."
   nodeColor:
     type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `nodeColor`; the registry had not declared it."
+    description: "Default fill for a node with no colour of its own."
   nodes:
-    type: "array | binding"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `nodes`; the registry had not declared it."
+    type: array<object>
+    description: "Nodes as `{ id, label?, color? }`."
   onEdgeTap:
     type: Action
-    description: "Promoted from the runtime (2026-08-04): the factory reads `onEdgeTap`; the registry had not declared it."
-  onNodeTap:
-    type: Action
-    description: "Promoted from the runtime (2026-08-04): the factory reads `onNodeTap`; the registry had not declared it."
+    description: "Fired when an edge is tapped."
+  height:
+    type: Dimension
+    description: "Fixed height."
+  interactive:
+    type: "boolean"
+    description: "Whether the surface responds to pointer input."
+  labelColor:
+    type: Color
+    description: "Colour applied to the label text."
   width:
     type: Dimension
     description: "Measured from real documents (2026-08-04): number, `{value, unit}`, a dimension string or a binding."

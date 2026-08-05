@@ -4,6 +4,12 @@ profile: Core
 description: |
   Displays a single child selected by index. All children retain state.
 properties:
+  sizing:
+    type: "string"
+    description: "How the stack sizes itself against its children: `loose`, `expand`, `passthrough`."
+  clipBehavior:
+    type: "string"
+    description: "How content crossing the bounds is clipped."
   index:
     type: "number | binding"
     default: 0
@@ -19,12 +25,6 @@ properties:
   textDirection:
     type: "string"
     description: "Resolution direction for `start`/`end` alignment."
-  clipBehavior:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it."
-  sizing:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `sizing`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

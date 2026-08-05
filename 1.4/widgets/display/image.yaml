@@ -8,6 +8,15 @@ description: |
   of those it resolves (`06_Runtime_Contract.md` §6.12) and routes the
   rest to `fallback` / `fallbackUrl` / `fallbackBehavior`.
 properties:
+  errorWidget:
+    type: "string"
+    description: "Text shown on the error tile when nothing resolves."
+  fallbackBehavior:
+    type: "string"
+    description: "What to draw when nothing resolves: `error` (default) or `hide`."
+  fallbackUrl:
+    type: AssetRef
+    description: "Second source tried when the first cannot be resolved (§6.12.4)."
   src:
     type: AssetRef
     required: true
@@ -32,22 +41,13 @@ properties:
     description: "Alignment within bounds."
   fallback:
     type: Widget
-    description: "fallback"
+    description: "Widget drawn when the source cannot be resolved (§6.12.4)."
   loading:
     type: Widget
-    description: "loading"
+    description: "Widget drawn while the source is being read."
   placeholder:
     type: "string"
     description: "Placeholder text."
-  errorWidget:
-    type: "string"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `errorWidget`; the registry had not declared it."
-  fallbackBehavior:
-    type: "string"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `fallbackBehavior`; the registry had not declared it."
-  fallbackUrl:
-    type: "string | binding"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `fallbackUrl`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

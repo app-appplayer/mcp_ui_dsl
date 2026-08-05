@@ -7,6 +7,33 @@ aliases:
 description: |
   Single row in a list with optional leading/trailing widgets. Replaces Material `listTile` naming.
 properties:
+  contentPadding:
+    type: EdgeInsets
+    description: "Space inside the row, around its content."
+  dense:
+    type: "boolean"
+    description: "Use the compact row height."
+  isThreeLine:
+    type: "boolean"
+    description: "Reserve room for a three-line row."
+  selectedTileColor:
+    type: Color
+    description: "Background of the row while selected."
+  tileColor:
+    type: Color
+    description: "Background of the row."
+  focusColor:
+    type: Color
+    description: "Overlay while the surface holds focus."
+  hoverColor:
+    type: Color
+    description: "Overlay while a pointer rests on the surface."
+  iconColor:
+    type: Color
+    description: "Colour applied to the icon."
+  shape:
+    type: "object"
+    description: "Outline of the surface, as a shape descriptor."
   title:
     type: "string | Widget"
     description: "Primary text, or an inline Widget for rich titles."
@@ -32,43 +59,10 @@ properties:
     description: "Whether the item is interactive."
   onLongPress:
     type: Action
-    description: "onLongPress"
+    description: "Fired on a long press."
   textColor:
     type: Color
     description: "Default text color"
-  contentPadding:
-    type: EdgeInsets
-    description: "Promoted from the runtime (2026-08-04): the factory reads `contentPadding`; the registry had not declared it."
-  dense:
-    type: "boolean"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `dense`; the registry had not declared it."
-  focusColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `focusColor`; the registry had not declared it."
-  hoverColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `hoverColor`; the registry had not declared it."
-  iconColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `iconColor`; the registry had not declared it."
-  isThreeLine:
-    type: "boolean"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `isThreeLine`; the registry had not declared it."
-  long-press:
-    type: Action
-    description: "Promoted from the runtime (2026-08-04): the factory reads `long-press`; the registry had not declared it."
-  longPress:
-    type: Action
-    description: "Promoted from the runtime (2026-08-04): the factory reads `longPress`; the registry had not declared it."
-  selectedTileColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `selectedTileColor`; the registry had not declared it."
-  shape:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it."
-  tileColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `tileColor`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

@@ -4,6 +4,12 @@ profile: Core
 description: |
   Aligns a single child at a specified alignment.
 properties:
+  heightFactor:
+    type: "number"
+    description: "Size to this multiple of the child height."
+  widthFactor:
+    type: "number"
+    description: "Size to this multiple of the child width."
   alignment:
     type: Alignment
     default: "\"center\""
@@ -12,12 +18,6 @@ properties:
     type: "Widget"
     required: true
     description: "Aligned widget."
-  heightFactor:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `heightFactor`; the registry had not declared it."
-  widthFactor:
-    type: Dimension
-    description: "Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

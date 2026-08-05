@@ -7,6 +7,9 @@ description: |
   `BoxDecoration` may be supplied via `decoration:`, or any of its
   fields may appear flat at the top level for ergonomic shorthand.
 properties:
+  position:
+    type: "string"
+    description: "Where the decoration sits relative to the child: `background` or `foreground`."
   decoration:
     type: BoxDecoration
     description: |
@@ -46,7 +49,4 @@ properties:
   children:
     type: "array<Widget>"
     description: Multiple widgets; runtime wraps them in a linear column.
-  position:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `position`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.

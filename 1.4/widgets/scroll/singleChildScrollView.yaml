@@ -4,6 +4,15 @@ profile: Core
 description: |
   Lightweight scrollable wrapper for a single child.
 properties:
+  clipBehavior:
+    type: "string"
+    description: "How content crossing the bounds is clipped."
+  physics:
+    type: "string"
+    description: "Scroll response: `bouncing`, `clamping`, `never`, `always`."
+  primary:
+    type: "boolean"
+    description: "Whether this is the primary scroll view of the page."
   direction:
     type: "string"
     default: "\"vertical\""
@@ -23,15 +32,6 @@ properties:
   scrollDirection:
     type: "string"
     description: "Scroll axis."
-  clipBehavior:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it."
-  physics:
-    type: "string"
-    description: "Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass."
-  primary:
-    type: "boolean"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `primary`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

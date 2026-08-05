@@ -176,16 +176,16 @@ Wraps a child with accessibility annotations (ARIA-style). See [`13_Accessibilit
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `announceNavigation` | `boolean` | no | — | Announce navigation changes through the screen reader. |
+| `announceOnChange` | `boolean` | no | — | Announce the watched value whenever it changes. |
+| `autoFocus` | `boolean` | no | — | Move focus into this subtree when it appears. |
+| `focusGroup` | `string` | no | — | Name of the focus group this subtree belongs to. Traversal moves through one group before leaving it, so the name is what ties siblings together.  |
+| `focusOrder` | `number` | no | — | Position of this subtree in the focus order; lower comes first. |
+| `liveRegion` | `string` | no | — | Announce updates inside the subtree without moving focus to it, at the named urgency — `polite` waits for a pause, `assertive` interrupts, `status` and `alert` carry the matching ARIA roles.  |
+| `navigationMessage` | `string` | no | — | Message announced when navigation reaches this subtree. |
+| `watchPath` | `string` | no | — | State path whose changes are announced (with `announceOnChange`). |
 | `child` | `Widget` | yes | — | Wrapped subtree. |
 | `accessibility` | `object` | no | — | `{ label, hint, role, live }` — mirrors §13. |
-| `announceNavigation` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `announceNavigation`; the registry had not declared it. |
-| `announceOnChange` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `announceOnChange`; the registry had not declared it. |
-| `autoFocus` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `autoFocus`; the registry had not declared it. |
-| `focusGroup` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `focusGroup`; the registry had not declared it. |
-| `focusOrder` | `number` | no | — | Promoted from the runtime (2026-08-04): the factory reads `focusOrder`; the registry had not declared it. |
-| `liveRegion` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `liveRegion`; the registry had not declared it. |
-| `navigationMessage` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `navigationMessage`; the registry had not declared it. |
-| `watchPath` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `watchPath`; the registry had not declared it. |
 
 ---
 
@@ -257,22 +257,20 @@ runtime renders it as a `Dialog` surface scoped to the current navigator
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `insetPadding` | `EdgeInsets` | no | — | Space between the dialog and the screen edges. |
+| `scrollable` | `boolean` | no | — | Let the body scroll when it does not fit. |
+| `clipBehavior` | `string` | no | — | How content crossing the bounds is clipped. |
+| `shadowColor` | `Color` | no | — | Colour of the drop shadow cast by the surface. |
+| `shape` | `object` | no | — | Outline of the surface, as a shape descriptor. |
+| `surfaceTintColor` | `Color` | no | — | Elevation tint applied over the surface colour (M3). |
 | `title` | `string` | no | — | Dialog title shown at the top. |
 | `content` | `string | Widget` | no | — | Dialog body. When a string, rendered as a single `Text`. When a widget, rendered as-is. |
 | `dismissible` | `boolean` | no | true | Whether tapping outside the dialog closes it. |
 | `onClose` | `Action` | no | — | Fired when the dialog is dismissed without one of `actions[].onTap` being selected (e.g., outside-tap when `dismissible: true`, escape key). |
 | `actions` | `array<object{ label: string, variant: string, primary: boolean, onTap: Action }>` | no | — | Action buttons rendered in the dialog footer. Each entry:   - `label` (required): button text.   - `variant`: one of `text` / `elevated` / `outlined` / `filled`; default `text`.   - `primary`: highlights the button as the default action.   - `onTap`: the action fired on press. The runtime pops the dialog     BEFORE executing `onTap`, so handlers that trigger state changes or     navigation do not race with the dialog dismissal.  |
-| `alignment` | `Alignment` | no | — | alignment |
+| `alignment` | `Alignment` | no | — | Where the dialog sits in the screen. |
 | `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
-| `elevation` | `Dimension` | no | — | elevation |
-| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
-| `contentWidget` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `contentWidget`; the registry had not declared it. |
-| `insetPadding` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `insetPadding`; the registry had not declared it. |
-| `scrollable` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `scrollable`; the registry had not declared it. |
-| `shadowColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it. |
-| `shape` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it. |
-| `surfaceTintColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `surfaceTintColor`; the registry had not declared it. |
-| `titleWidget` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `titleWidget`; the registry had not declared it. |
+| `elevation` | `Dimension` | no | — | Shadow depth of the dialog surface. |
 
 ### Examples
 
@@ -335,10 +333,10 @@ Aligns a single child at a specified alignment.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `heightFactor` | `number` | no | — | Size to this multiple of the child height. |
+| `widthFactor` | `number` | no | — | Size to this multiple of the child width. |
 | `alignment` | `Alignment` | no | "center" | Alignment of the child within this widget's bounds. Defaults to `center` when omitted. |
 | `child` | `Widget` | yes | — | Aligned widget. |
-| `heightFactor` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `heightFactor`; the registry had not declared it. |
-| `widthFactor` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
 
 ### Examples
 
@@ -396,6 +394,11 @@ builds the runtime tweens between the old and new values over
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `foregroundDecoration` | `BoxDecoration` | no | — | Decoration painted over the child. |
+| `transform` | `array<number>` | no | — | 4×4 matrix applied to the box, in row-major order. |
+| `transformAlignment` | `Alignment` | no | — | Origin the transform is applied about. |
+| `clipBehavior` | `string` | no | — | How content crossing the bounds is clipped. |
+| `constraints` | `object` | no | — | Minimum / maximum width and height the box may take. |
 | `duration` | `Dimension` | no | 300 | Animation duration in milliseconds. |
 | `curve` | `AnimationCurve` | no | "easeInOut" | Easing curve. |
 | `width` | `Dimension` | no | — | Animated width. |
@@ -406,11 +409,6 @@ builds the runtime tweens between the old and new values over
 | `decoration` | `BoxDecoration` | no | — | Animated decoration (color/gradient/border/shadow/image). |
 | `onEnd` | `Action` | no | — | Fires when the animation completes. |
 | `child` | `Widget` | no | — | Animated child widget. |
-| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
-| `constraints` | `object` | no | — | Measured from real documents (2026-08-04): object. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `foregroundDecoration` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `foregroundDecoration`; the registry had not declared it. |
-| `transform` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `transform`; the registry had not declared it. |
-| `transformAlignment` | `Alignment` | no | — | Promoted from the runtime (2026-08-04): the factory reads `transformAlignment`; the registry had not declared it. |
 
 ### Examples
 
@@ -586,10 +584,10 @@ Circular widget for user images or initials.
 | `label` *(aliases: `text`)* | `string` | no | — | Text label (typically initials). |
 | `size` | `number` | no | 40 | Diameter in logical pixels. |
 | `color` *(aliases: `backgroundColor`)* | `Color` | no | — | Background color when showing label. |
-| `backgroundImage` | `BackgroundImage` | no | — | backgroundImage |
+| `backgroundImage` | `BackgroundImage` | no | — | Image drawn behind the initials or icon. |
 | `foregroundColor` | `Color` | no | — | Bar color. |
 | `icon` | `IconRef` | no | — | Icon shown. Any `IconRef` form. |
-| `radius` | `number` | no | — | radius |
+| `radius` | `number` | no | — | Radius of the circle, in logical pixels. |
 
 ### Examples
 
@@ -617,15 +615,15 @@ Small status indicator typically anchored to another widget.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `isLabelVisible` | `boolean` | no | — | Whether the badge label is drawn at all. |
+| `smallSize` | `boolean` | no | — | Render the compact form — a smaller dot and label. The dimensions are the M3 badge sizes, so this is a form switch, not a measurement.  |
+| `offset` | `object` | no | — | Displacement from the anchor, as `{ dx, dy }`. |
 | `label` | `string` | no | — | Text content of the badge. |
 | `color` | `Color` | no | — | Badge background color. |
 | `child` | `Widget` | no | — | Optional child the badge is attached to. |
-| `alignment` | `Alignment` | no | — | alignment |
+| `alignment` | `Alignment` | no | — | Where the badge sits against the child it decorates. |
 | `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
 | `textColor` | `Color` | no | — | Default text color |
-| `isLabelVisible` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `isLabelVisible`; the registry had not declared it. |
-| `offset` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `offset`; the registry had not declared it. |
-| `smallSize` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `smallSize`; the registry had not declared it. |
 
 ### Examples
 
@@ -734,28 +732,27 @@ Bottom navigation bar. Each item's text field is `label`.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `fixedColor` | `Color` | no | — | Colour of the selected item when the bar is in fixed mode. |
+| `selectedFontSize` | `Dimension` | no | — | Label size for the selected item. |
+| `selectedIconTheme` | `object` | no | — | Icon size / colour for the selected item. |
+| `selectedItemColor` | `Color` | no | — | Colour of the selected item. |
+| `selectedLabelStyle` | `TextStyle` | no | — | Text style for the selected label. |
+| `showSelectedLabels` | `boolean` | no | — | Whether the selected item shows its label. |
+| `showUnselectedLabels` | `boolean` | no | — | Whether unselected items show their labels. |
+| `unselectedFontSize` | `Dimension` | no | — | Label size for the items that are not selected. |
+| `unselectedIconTheme` | `object` | no | — | Icon size / colour for the items that are not selected. |
+| `unselectedItemColor` | `Color` | no | — | Colour of the items that are not selected. |
+| `unselectedLabelStyle` | `TextStyle` | no | — | Text style for the labels that are not selected. |
+| `enableFeedback` | `boolean` | no | — | Play the platform tap sound / haptic on activation. |
+| `iconSize` | `Dimension` | no | — | Rendered size of the icon. |
 | `selectedIndex` | `number | binding` | no | 0 | Currently selected index. Defaults to 0 when omitted. |
 | `items` | `array<NavItem>` | yes | — | `{ icon, label, route? }` entries. |
 | `onChange` | `Action` | no | — | Fired when selection changes. |
 | `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
 | `change` | `Action` | no | — | Legacy alias of `onChange`. |
-| `elevation` | `Dimension` | no | — | elevation |
-| `onTap` | `Action` | no | — | onTap |
-| `bindTo` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `bindTo`; the registry had not declared it. |
+| `elevation` | `Dimension` | no | — | Shadow depth of the bar. |
+| `onTap` | `Action` | no | — | Fired when an item is tapped. `{{event.value}}` carries its index. |
 | `currentIndex` | `number` | no | — | Measured from real documents (2026-08-04): a zero-based tab index, or a binding to one — not a length. |
-| `enableFeedback` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `enableFeedback`; the registry had not declared it. |
-| `fixedColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `fixedColor`; the registry had not declared it. |
-| `iconSize` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `iconSize`; the registry had not declared it. |
-| `selectedFontSize` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `selectedFontSize`; the registry had not declared it. |
-| `selectedIconTheme` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `selectedIconTheme`; the registry had not declared it. |
-| `selectedItemColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `selectedItemColor`; the registry had not declared it. |
-| `selectedLabelStyle` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `selectedLabelStyle`; the registry had not declared it. |
-| `showSelectedLabels` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `showSelectedLabels`; the registry had not declared it. |
-| `showUnselectedLabels` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `showUnselectedLabels`; the registry had not declared it. |
-| `unselectedFontSize` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `unselectedFontSize`; the registry had not declared it. |
-| `unselectedIconTheme` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `unselectedIconTheme`; the registry had not declared it. |
-| `unselectedItemColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `unselectedItemColor`; the registry had not declared it. |
-| `unselectedLabelStyle` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `unselectedLabelStyle`; the registry had not declared it. |
 
 ### Examples
 
@@ -789,20 +786,20 @@ Modal bottom sheet with swipeable handle.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `dragHandleColor` | `Color` | no | — | Colour of the drag handle. |
+| `dragHandleSize` | `object` | no | — | Size of the drag handle, as `{ width, height }`. |
+| `onClosing` | `Action` | no | — | Fired as the sheet begins to close. |
+| `showDragHandle` | `boolean` | no | — | Draw the drag handle at the top of the sheet. |
+| `clipBehavior` | `string` | no | — | How content crossing the bounds is clipped. |
+| `constraints` | `object` | no | — | Minimum / maximum width and height the box may take. |
+| `shadowColor` | `Color` | no | — | Colour of the drop shadow cast by the surface. |
 | `child` | `Widget` | yes | — | Sheet content. |
 | `isDismissible` | `boolean` | no | true | Allow dismiss by tapping scrim. |
 | `enableDrag` | `boolean` | no | true | Allow drag to dismiss. |
 | `backgroundColor` | `Color` | no | — | Sheet background. |
 | `shape` | `object` | no | — | `{ type: "rounded", radius: { top: 16 } }`. |
 | `onClose` | `Action` | no | — | Fired when the sheet is dismissed (scrim tap when `isDismissible` is true, drag-down when `enableDrag` is true). |
-| `elevation` | `Dimension` | no | — | elevation |
-| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
-| `constraints` | `object` | no | — | Measured from real documents (2026-08-04): object. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `dragHandleColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `dragHandleColor`; the registry had not declared it. |
-| `dragHandleSize` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `dragHandleSize`; the registry had not declared it. |
-| `onClosing` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onClosing`; the registry had not declared it. |
-| `shadowColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it. |
-| `showDragHandle` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `showDragHandle`; the registry had not declared it. |
+| `elevation` | `Dimension` | no | — | Shadow depth of the sheet surface. |
 
 ---
 
@@ -820,6 +817,7 @@ commonly used as a styled wrapper around any child widget.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `constraints` | `object` | no | — | Minimum / maximum width and height the box may take. |
 | `width` | `Dimension` | no | — | Fixed width — a number of logical pixels, or a `{value, unit}` object. When omitted, the box shrinks to its child's width. |
 | `height` | `Dimension` | no | — | Fixed height — a number of logical pixels, or a `{value, unit}` object. When omitted, the box shrinks to its child's height. |
 | `minWidth` | `number` | no | — | Minimum width constraint. Honored independently of `width`; a child wider than `minWidth` is allowed. |
@@ -831,7 +829,6 @@ commonly used as a styled wrapper around any child widget.
 | `alignment` | `Alignment` | no | — | Alignment of the child inside the box when the box is larger than the child. See the `Alignment` primitive for the canonical 9-token directional set and the `{x, y}` numeric form.  |
 | `color` *(aliases: `backgroundColor`)* | `Color` | no | — | Solid background color. Shorthand for `decoration.color`; mutually exclusive with `decoration`. |
 | `decoration` | `BoxDecoration` | no | — | Visual decoration. Mutually exclusive with the top-level `color` shorthand — when both are present `decoration` wins. See the `BoxDecoration` $def for the full property set: `color`, `gradient`, `image`, `border`, `borderRadius`, `boxShadow`, `shape`, `backdropBlur`.  |
-| `constraints` | `object` | no | — | Measured from real documents (2026-08-04): object. Promoted from the runtime; type narrowed from the values documents actually pass. |
 
 ### Children
 
@@ -927,6 +924,11 @@ Interactive button. The canonical label field is `label`.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `fullWidth` | `boolean` | no | — | Stretch the button to the available width. |
+| `iconPosition` | `string` | no | — | Which side the icon sits on: `start` or `end`. |
+| `ariaLabel` | `string` | no | — | Label announced by a screen reader in place of the content. |
+| `borderWidth` | `Dimension` | no | — | Thickness of the outline. |
+| `size` | `Dimension` | no | — | Rendered size. |
 | `label` *(aliases: `text`)* | `string` | yes | — | Button text. |
 | `variant` *(aliases: `style`)* | `string` | no | "elevated" | `elevated`, `filled`, `outlined`, `text`, `icon`. |
 | `elevation` | `string` | no | — | Shadow elevation. Accepts either a numeric dp value or an M3 elevation token shorthand (`level0` … `level5`) that resolves through `theme.elevation.<token>.shadow`. Honored only by the `elevated` variant; ignored by `filled`/`outlined`/`text`/`icon`.  |
@@ -938,20 +940,9 @@ Interactive button. The canonical label field is `label`.
 | `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
 | `borderColor` | `Color` | no | — | Pad border |
 | `foregroundColor` | `Color` | no | — | Bar color. |
-| `loading` | `boolean` | no | — | loading |
-| `onSubmit` | `Action` | no | — | onSubmit |
+| `loading` | `boolean` | no | — | Show a progress indicator in place of the label and refuse taps. |
+| `onSubmit` | `Action` | no | — | Fired when the button submits its enclosing form. |
 | `submit` | `Action` | no | — | Legacy alias of `onSubmit`. |
-| `aria-label` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `aria-label`; the registry had not declared it. |
-| `ariaLabel` | `string | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `ariaLabel`; the registry had not declared it. |
-| `borderWidth` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `borderWidth`; the registry had not declared it. |
-| `disabled` | `boolean | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `disabled`; the registry had not declared it. |
-| `double-click` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `double-click`; the registry had not declared it. |
-| `doubleClick` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `doubleClick`; the registry had not declared it. |
-| `fullWidth` | `boolean` | no | — | Measured from real documents (2026-08-04): boolean. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `iconPosition` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `iconPosition`; the registry had not declared it. |
-| `long-press` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `long-press`; the registry had not declared it. |
-| `longPress` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `longPress`; the registry had not declared it. |
-| `size` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, string form or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
 
 ### Examples
 
@@ -978,6 +969,14 @@ Calendar view for date selection and event display.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `eventColor` | `Color` | no | — | Colour of the marker drawn on a day that has events. |
+| `firstDayOfWeek` | `number` | no | — | Weekday the grid starts on, `0` = Sunday. |
+| `onMonthChange` | `Action` | no | — | Fired when the visible month changes. |
+| `primaryColor` | `Color` | no | — | Colour of the selection and header accents. |
+| `showHeader` | `boolean` | no | — | Show the month header with its navigation controls. |
+| `showWeekNumbers` | `boolean` | no | — | Show the ISO week number beside each row. |
+| `todayColor` | `Color` | no | — | Colour marking the current day. |
+| `height` | `Dimension` | no | — | Fixed height. |
 | `selectedDate` | `string | binding` | no | — | Currently selected date (ISO 8601 string, or binding to a string). |
 | `events` | `binding` | no | — | Array of `{ date, title, color? }` |
 | `firstDate` | `string` | no | — | Earliest selectable date (ISO 8601). |
@@ -987,15 +986,6 @@ Calendar view for date selection and event display.
 | `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
 | `change` | `Action` | no | — | Legacy alias of `onChange`. |
 | `selectedColor` | `Color` | no | — | Foreground color (icon + label) for the selected item. |
-| `eventColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `eventColor`; the registry had not declared it. |
-| `firstDayOfWeek` | `number | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `firstDayOfWeek`; the registry had not declared it. |
-| `height` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `onDateSelect` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onDateSelect`; the registry had not declared it. |
-| `onMonthChange` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onMonthChange`; the registry had not declared it. |
-| `primaryColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `primaryColor`; the registry had not declared it. |
-| `showHeader` | `boolean | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `showHeader`; the registry had not declared it. |
-| `showWeekNumbers` | `boolean | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `showWeekNumbers`; the registry had not declared it. |
-| `todayColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `todayColor`; the registry had not declared it. |
 | `width` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}`, a dimension string or a binding. |
 
 ### Examples
@@ -1032,9 +1022,6 @@ backgroundColor:
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
-| `backgroundColor` | `string` | no | — | Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `commands` | `array` | no | — | Measured from real documents (2026-08-04): array. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `height` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
 | `width` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}`, a dimension string or a binding. |
 
 ### Examples
@@ -1079,15 +1066,15 @@ Elevated single-child container.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `semanticContainer` | `boolean` | no | — | Treat the card and its contents as one node in the accessibility tree. |
+| `clipBehavior` | `string` | no | — | How content crossing the bounds is clipped. |
+| `shadowColor` | `Color` | no | — | Colour of the drop shadow cast by the surface. |
+| `surfaceTintColor` | `Color` | no | — | Elevation tint applied over the surface colour (M3). |
 | `elevation` | `string` | no | 1 | Shadow elevation. Accepts either a numeric dp value or an M3 elevation token shorthand (`level0` … `level5`) which resolves through `theme.elevation.<token>.shadow`.  |
 | `margin` | `EdgeInsets` | no | — | Outer margin. |
 | `shape` | `string` | no | — | Shape of the card surface. M3 shape token shorthand (`extraSmall` / `small` / `medium` / `large` / `extraLarge` / `full` / `none`) resolves through `theme.shape.<token>`. Object form `{ type: "rounded", radius: 12 }` is also accepted.  |
 | `color` *(aliases: `backgroundColor`)* | `Color` | no | — | Card surface color. |
 | `child` | `Widget` | yes | — | Card content. |
-| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
-| `semanticContainer` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `semanticContainer`; the registry had not declared it. |
-| `shadowColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it. |
-| `surfaceTintColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `surfaceTintColor`; the registry had not declared it. |
 
 ### Examples
 
@@ -1166,9 +1153,9 @@ Centers a single child within available space.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `heightFactor` | `number` | no | — | Size to this multiple of the child height. |
+| `widthFactor` | `number` | no | — | Size to this multiple of the child width. |
 | `child` | `Widget` | yes | — | Centered widget. |
-| `heightFactor` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `heightFactor`; the registry had not declared it. |
-| `widthFactor` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
 
 ### Examples
 
@@ -1190,6 +1177,12 @@ Data visualization widget with multiple chart types.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `colors` | `array<Color>` | no | — | Series colours, applied in order. |
+| `primaryColor` | `Color` | no | — | Colour of the first series when `colors` is not given. |
+| `showGrid` | `boolean` | no | — | Draw the background grid. |
+| `showLabels` | `boolean` | no | — | Draw the axis labels. |
+| `showLegend` | `boolean` | no | — | Draw the series legend. |
+| `labelColor` | `Color` | no | — | Colour applied to the label text. |
 | `chartType` | `string` | yes | — | Chart visualization style. |
 | `data` | `object | array` | yes | — | Canonical `{ labels: string[], datasets: Dataset[] }`, or legacy `[{label, value}]` array form. |
 | `data.datasets[].label` | `string` | no | — | Dataset label shown in legend |
@@ -1205,12 +1198,6 @@ Data visualization widget with multiple chart types.
 | `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
 | `gridColor` | `Color` | no | — | Grid color. |
 | `title` | `string` | no | — | Dialog title shown at the top. |
-| `colors` | `array` | no | — | Measured from real documents (2026-08-04): array. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `labelColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `labelColor`; the registry had not declared it. |
-| `primaryColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `primaryColor`; the registry had not declared it. |
-| `showGrid` | `boolean | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `showGrid`; the registry had not declared it. |
-| `showLabels` | `boolean | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `showLabels`; the registry had not declared it. |
-| `showLegend` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `showLegend`; the registry had not declared it. |
 
 ### Examples
 
@@ -1256,9 +1243,8 @@ Boolean checkbox. Shared rows per §2.6.0; `value` is `boolean`.
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
 | `label` | `string` | no | — | Optional label. |
+| `tristate` | `boolean` | no | false | Allow the third, indeterminate state. With `tristate: true` the value cycles unchecked → checked → indeterminate, and `null` is a value the binding carries. A parent row summarising children that are partly selected has no other way to say so — `false` would claim none are.  |
 | `change` | `Action` | no | — | Legacy alias of `onChange`. |
-| `bindTo` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `bindTo`; the registry had not declared it. |
-| `tristate` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `tristate`; the registry had not declared it. |
 
 ### Examples
 
@@ -1323,6 +1309,12 @@ Compact element representing an attribute, action, or filter.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `deleteIcon` | `IconRef` | no | — | Icon for the delete control. |
+| `onDeleted` | `Action` | no | — | Fired when the delete control is used. |
+| `side` | `object` | no | — | Outline drawn around the chip, as `{ color, width }`. |
+| `padding` | `EdgeInsets` | no | — | Space inside the surface, around its content. |
+| `shadowColor` | `Color` | no | — | Colour of the drop shadow cast by the surface. |
+| `shape` | `object` | no | — | Outline of the surface, as a shape descriptor. |
 | `label` | `string` | yes | — | Display text. |
 | `avatar` | `Widget` | no | — | Leading widget (icon or image). |
 | `selected` | `boolean` | no | false | Selected state. |
@@ -1330,16 +1322,9 @@ Compact element representing an attribute, action, or filter.
 | `onDelete` | `Action` | no | — | Action when delete icon is tapped. |
 | `onTap` | `Action` | no | — | Action when chip is tapped. |
 | `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
-| `elevation` | `Dimension` | no | — | elevation |
+| `elevation` | `Dimension` | no | — | Shadow depth of the chip. |
 | `labelStyle` | `TextStyle` | no | — | Default text style for item labels (selected and unselected). Per-item override via NavItem.style.labelStyle. |
 | `onPressed` | `Action` | no | — | Legacy alias of `onTap`. |
-| `delete` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `delete`; the registry had not declared it. |
-| `deleteIcon` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `deleteIcon`; the registry had not declared it. |
-| `onDeleted` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onDeleted`; the registry had not declared it. |
-| `padding` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `padding`; the registry had not declared it. |
-| `shadowColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it. |
-| `shape` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it. |
-| `side` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `side`; the registry had not declared it. |
 
 ### Examples
 
@@ -1370,8 +1355,8 @@ Clips a child to an oval.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `clipBehavior` | `string` | no | — | How content crossing the bounds is clipped. |
 | `child` | `Widget` | yes | — | Clipped child. |
-| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
 
 ---
 
@@ -1385,9 +1370,9 @@ Clips a child to a rounded rectangle.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `clipBehavior` | `string` | no | — | How content crossing the bounds is clipped. |
 | `borderRadius` | `BorderRadius` | no | 0 | Corner radius — uniform number or directional `{topStart, topEnd, bottomStart, bottomEnd, all}` per the `BorderRadius` primitive.  |
 | `child` | `Widget` | yes | — | Clipped child. |
-| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
 
 ---
 
@@ -1403,6 +1388,7 @@ Syntax-highlighted code editor.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `lineNumberColor` | `Color` | no | — | Colour of the line-number gutter. |
 | `copyable` | `boolean` | no | false | Offer a copy-to-clipboard control. Useful with `readOnly`. |
 | `expandAll` | `boolean` | no | false | Expand every collapsible region on load. Chiefly for structured languages such as JSON. |
 | `code` | `string | binding` | no | — | Code content — literal string or binding. Required unless `binding` supplies the content. |
@@ -1420,7 +1406,6 @@ Syntax-highlighted code editor.
 | `onChange` | `Action` | no | — | Fired on code change; `event.value` is current code |
 | `binding` | `string` | no | — | State path bound two-way to the widget value (§2.6.0). Runtime reads/writes this path without requiring an explicit onChange. |
 | `change` | `Action` | no | — | Legacy alias of `onChange`. |
-| `lineNumberColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `lineNumberColor`; the registry had not declared it. |
 
 ### Examples
 
@@ -1624,20 +1609,20 @@ Dialog with arbitrary widget content.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `actions` | `array<Widget>` | no | — | Action row along the bottom of the dialog. |
+| `insetPadding` | `EdgeInsets` | no | — | Space between the dialog and the screen edges. |
+| `clipBehavior` | `string` | no | — | How content crossing the bounds is clipped. |
+| `shadowColor` | `Color` | no | — | Colour of the drop shadow cast by the surface. |
+| `shape` | `object` | no | — | Outline of the surface, as a shape descriptor. |
+| `surfaceTintColor` | `Color` | no | — | Elevation tint applied over the surface colour (M3). |
 | `child` | `Widget` | yes | — | Dialog body. |
 | `dismissible` | `boolean` | no | true | Whether tapping outside dismisses. |
 | `onClose` | `Action` | no | — | Fired when the dialog is dismissed (outside-tap when `dismissible: true`, escape key). |
-| `alignment` | `Alignment` | no | — | alignment |
+| `alignment` | `Alignment` | no | — | Where the dialog sits in the screen. |
 | `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
-| `content` | `string` | no | — | content |
-| `elevation` | `Dimension` | no | — | elevation |
+| `content` | `string` | no | — | Body text. Use `children` when the body is more than a string. |
+| `elevation` | `Dimension` | no | — | Shadow depth of the dialog surface. |
 | `title` | `string` | no | — | Dialog title shown at the top. |
-| `actions` | `array` | no | — | Promoted from the runtime (2026-08-04): the factory reads `actions`; the registry had not declared it. |
-| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
-| `insetPadding` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `insetPadding`; the registry had not declared it. |
-| `shadowColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it. |
-| `shape` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it. |
-| `surfaceTintColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `surfaceTintColor`; the registry had not declared it. |
 
 ---
 
@@ -1686,7 +1671,6 @@ Material-style sortable, selectable data table bound to a row array.
 | `sortAscending` | `binding` | no | true | Current sort direction |
 | `onSort` | `Action` | no | — | Fired on header tap of a sortable column |
 | `onRowTap` | `Action` | no | — | Fired on row tap; `event.row` is the row object |
-| `rowClick` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `rowClick`; the registry had not declared it. |
 
 ### Examples
 
@@ -1735,13 +1719,13 @@ Date input with calendar/text entry modes. Shared rows per §2.6.0; `value` is a
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
+| `errorText` | `string` | no | — | Error message shown under the field. Overrides validation output. |
 | `label` | `string` | no | — | Field label. |
 | `format` | `string` | no | "yyyy-MM-dd" | Display format. |
 | `firstDate` | `string` | no | — | Earliest allowed date (ISO). |
 | `lastDate` | `string` | no | — | Latest allowed date (ISO). |
 | `mode` | `string` | no | "calendar" | `calendar`, `input`, `both`. |
 | `locale` | `string` | no | — | Locale identifier. |
-| `errorText` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `errorText`; the registry had not declared it. |
 
 ---
 
@@ -1759,6 +1743,7 @@ Standalone date picker surface. Shared rows per §2.6.0; `value` is an ISO date 
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
+| `initialDate` | `string` | no | — | Date the picker opens on when the bound value is empty (ISO 8601). |
 | `label` | `string` | no | — | Field label shown beside or above the control. |
 | `firstDate` | `string` | no | — | Earliest allowed date. |
 | `lastDate` | `string` | no | — | Latest allowed date. |
@@ -1766,8 +1751,6 @@ Standalone date picker surface. Shared rows per §2.6.0; `value` is an ISO date 
 | `dateFormat` | `string` | no | — | Display pattern for the date portion. Display only — the bound value stays ISO-8601. |
 | `icon` | `IconRef` | no | — | Icon shown. Any `IconRef` form. |
 | `variant` | `string` | no | — | `elevated`, `filled`, `outlined`, `text`, `icon`. |
-| `bindTo` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `bindTo`; the registry had not declared it. |
-| `initialDate` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `initialDate`; the registry had not declared it. |
 
 ---
 
@@ -1785,6 +1768,7 @@ Date range selection. Exception to §2.6.0: instead of a single `binding`, the r
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the picker accepts user input. |
 | `onChange` | `Action` | no | — | Fired when the range changes. Receives `{{event.value}}` as `{ start, end }`. |
+| `errorText` | `string` | no | — | Error message shown under the field. Overrides validation output. |
 | `startDate` | `string` | no | — | State path bound two-way to the range's start (ISO date). |
 | `endDate` | `string` | no | — | State path bound two-way to the range's end (ISO date). |
 | `label` | `string` | no | — | Field label. |
@@ -1793,9 +1777,6 @@ Date range selection. Exception to §2.6.0: instead of a single `binding`, the r
 | `format` | `string` | no | "yyyy-MM-dd" | Display format. |
 | `locale` | `string` | no | — | Locale identifier. |
 | `change` | `Action` | no | — | Legacy alias of `onChange`. |
-| `endBinding` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `endBinding`; the registry had not declared it. |
-| `errorText` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `errorText`; the registry had not declared it. |
-| `startBinding` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `startBinding`; the registry had not declared it. |
 
 ### Examples
 
@@ -1863,6 +1844,7 @@ fields may appear flat at the top level for ergonomic shorthand.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `position` | `string` | no | — | Where the decoration sits relative to the child: `background` or `foreground`. |
 | `decoration` | `BoxDecoration` | no | — | Full decoration object. Alternatively, the constituent fields (`color`, `gradient`, `image`, `border`, `borderRadius`, `boxShadow`, `shape`, `backdropBlur`) may appear flat at the top level. Flat keys override matching `decoration.<field>` entries.  |
 | `color` | `Color` | no | — | Flat shorthand for `decoration.color`. |
 | `borderRadius` | `BorderRadius` | no | — | Flat shorthand for `decoration.borderRadius`. |
@@ -1874,7 +1856,6 @@ fields may appear flat at the top level for ergonomic shorthand.
 | `backdropBlur` | `number` | no | — | Flat shorthand for `decoration.backdropBlur` (Gaussian blur sigma). |
 | `child` | `Widget` | no | — | Decorated widget. Required when `children` is omitted. |
 | `children` | `array<Widget>` | no | — | Multiple widgets; runtime wraps them in a linear column. |
-| `position` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `position`; the registry had not declared it. |
 
 ---
 
@@ -1921,12 +1902,12 @@ Horizontal separator.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `vertical` | `boolean` | no | — | Draw the rule vertically instead of horizontally. |
+| `height` | `Dimension` | no | — | Fixed height. |
 | `thickness` | `number` | no | 1 | Line thickness. |
 | `color` | `Color` | no | — | Line color. |
 | `indent` | `number` | no | — | Leading indent. |
 | `endIndent` | `number` | no | — | Trailing indent. |
-| `height` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `vertical` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `vertical`; the registry had not declared it. |
 
 ---
 
@@ -1959,6 +1940,13 @@ Drag source widget that produces drag data and feedback visuals.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `affinity` | `string` | no | — | Axis this drag claims before competing gestures: `horizontal`, `vertical`. |
+| `axis` | `string` | no | — | Axis the drag is restricted to. |
+| `dragAnchorStrategy` | `string` | no | — | Where the dragged feedback sits relative to the pointer: `child` or `pointer`. |
+| `onDragCompleted` | `Action` | no | — | Fired when the drag ends on a target that accepted it. |
+| `onDragEnd` | `Action` | no | — | Fired when the drag ends, wherever it ended. |
+| `onDragStarted` | `Action` | no | — | Fired when the drag begins. |
+| `onDraggableCanceled` | `Action` | no | — | Fired when the drag ends without a target accepting it. |
 | `data` | `any | binding` | yes | — | Payload emitted on drop. |
 | `feedback` | `Widget` | no | — | Widget shown while dragging. |
 | `childWhenDragging` | `Widget` | no | — | Replacement for the source while dragging. |
@@ -1995,17 +1983,17 @@ Side navigation drawer. Each item's text field is `label`.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `semanticLabel` | `string` | no | — | Label announced by a screen reader in place of the content. |
+| `shadowColor` | `Color` | no | — | Colour of the drop shadow cast by the surface. |
+| `shape` | `object` | no | — | Outline of the surface, as a shape descriptor. |
+| `surfaceTintColor` | `Color` | no | — | Elevation tint applied over the surface colour (M3). |
 | `items` | `array<DrawerItem>` | no | — | `{ icon, label, route? }` entries. Required when `children` is omitted. |
 | `children` | `array<Widget>` | no | — | Custom drawer body widgets. Mutually exclusive with `items`. |
 | `header` | `Widget` | no | — | Drawer header widget. |
 | `onSelect` | `Action` | no | — | Fired when an item is selected. |
 | `onClose` | `Action` | no | — | Fired when the drawer is dismissed (modal: scrim tap or escape; permanent: not fired). |
 | `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
-| `elevation` | `Dimension` | no | — | elevation |
-| `semanticLabel` | `string | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `semanticLabel`; the registry had not declared it. |
-| `shadowColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it. |
-| `shape` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it. |
-| `surfaceTintColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `surfaceTintColor`; the registry had not declared it. |
+| `elevation` | `Dimension` | no | — | Shadow depth of the drawer surface. |
 | `width` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}`, a dimension string or a binding. |
 
 ### Examples
@@ -2097,6 +2085,7 @@ File and directory browser.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `iconColor` | `Color` | no | — | Colour applied to the icon. |
 | `items` | `array<object> | binding` | no | — | Hierarchical `{ name, path, type, children? }` tree. Required when `rootPath`/`files`/`directories` legacy props are omitted. |
 | `rootPath` | `string` | no | — | Legacy: root path string; pairs with flat `files` / `directories`. |
 | `files` | `array<string>` | no | — | Legacy: flat file list (alternative to hierarchical `items`). |
@@ -2110,9 +2099,6 @@ File and directory browser.
 | `onSelect` | `Action` | no | — | Fired on selection; `event.value` is the selected path |
 | `onOpen` | `Action` | no | — | Fired on activation (double-tap / Enter); `event.value` is the path |
 | `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
-| `iconColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `iconColor`; the registry had not declared it. |
-| `open` | `string` | no | — | Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `select` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `select`; the registry had not declared it. |
 
 ### Examples
 
@@ -2226,10 +2212,10 @@ Scales and aligns its child to fit available space.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `clipBehavior` | `string` | no | — | How content crossing the bounds is clipped. |
 | `fit` | `string` | no | "contain" | `cover`, `contain`, `fill`, `scaleDown`, `none`. |
 | `alignment` | `Alignment` | no | "center" | Alignment within the fitted bounds. |
 | `child` | `Widget` | yes | — | Child widget. |
-| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
 
 ---
 
@@ -2259,29 +2245,27 @@ Floating action button (FAB).
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `disabledElevation` | `Dimension` | no | — | Shadow depth while disabled. |
+| `focusElevation` | `Dimension` | no | — | Shadow depth while focused. |
+| `heroTag` | `string` | no | — | Tag used to animate the button between routes; distinct tags let two coexist. |
+| `highlightElevation` | `Dimension` | no | — | Shadow depth while held down. |
+| `hoverElevation` | `Dimension` | no | — | Shadow depth while hovered. |
+| `isExtended` | `boolean` | no | — | Render the extended form, with a label beside the icon. |
+| `materialTapTargetSize` | `string` | no | — | Minimum tap target: `padded` (48dp) or `shrinkWrap`. |
+| `mini` | `boolean` | no | — | Render the smaller button size. |
+| `autofocus` | `boolean` | no | — | Take focus when the surface first appears. |
+| `clipBehavior` | `string` | no | — | How content crossing the bounds is clipped. |
+| `focusColor` | `Color` | no | — | Overlay while the surface holds focus. |
+| `hoverColor` | `Color` | no | — | Overlay while a pointer rests on the surface. |
+| `shape` | `object` | no | — | Outline of the surface, as a shape descriptor. |
+| `splashColor` | `Color` | no | — | Colour of the ripple that expands from the touch point. |
 | `icon` | `IconRef` | no | — | Icon shown. Any `IconRef` form. |
 | `label` | `string` | no | — | Extended FAB label. |
 | `onTap` *(aliases: `click`, `onPressed`)* | `Action` | no | — | Tap handler. Omitted FABs render as inert. |
 | `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
-| `elevation` | `Dimension` | no | — | elevation |
+| `elevation` | `Dimension` | no | — | Shadow depth at rest. |
 | `foregroundColor` | `Color` | no | — | Bar color. |
-| `onLongPress` | `Action` | no | — | onLongPress |
-| `autofocus` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `autofocus`; the registry had not declared it. |
-| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
-| `disabledElevation` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `disabledElevation`; the registry had not declared it. |
-| `focusColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `focusColor`; the registry had not declared it. |
-| `focusElevation` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `focusElevation`; the registry had not declared it. |
-| `heroTag` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `heroTag`; the registry had not declared it. |
-| `highlightElevation` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `highlightElevation`; the registry had not declared it. |
-| `hoverColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `hoverColor`; the registry had not declared it. |
-| `hoverElevation` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `hoverElevation`; the registry had not declared it. |
-| `isExtended` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `isExtended`; the registry had not declared it. |
-| `long-press` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `long-press`; the registry had not declared it. |
-| `longPress` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `longPress`; the registry had not declared it. |
-| `materialTapTargetSize` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `materialTapTargetSize`; the registry had not declared it. |
-| `mini` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `mini`; the registry had not declared it. |
-| `shape` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it. |
-| `splashColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `splashColor`; the registry had not declared it. |
+| `onLongPress` | `Action` | no | — | Fired on a long press. |
 
 ### Examples
 
@@ -2365,7 +2349,7 @@ Sizes the child as a fraction of the parent.
 | `widthFactor` | `number` | no | — | Width fraction in `0.0..1.0`. |
 | `heightFactor` | `number` | no | — | Height fraction in `0.0..1.0`. |
 | `child` | `Widget` | yes | — | Child widget. |
-| `alignment` | `Alignment` | no | — | alignment |
+| `alignment` | `Alignment` | no | — | Where the sized child sits inside the available space. |
 
 ---
 
@@ -2482,6 +2466,7 @@ Detects touch and pointer gestures on its child.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `onScaleUpdate` | `Action` | no | — | Fired as a pinch / rotate gesture proceeds. `{{event.value}}` carries the scale. |
 | `child` | `Widget` | yes | — | Detected widget. |
 | `onTap` | `Action` | no | — | Tap. |
 | `onDoubleTap` | `Action` | no | — | Double tap. |
@@ -2489,12 +2474,6 @@ Detects touch and pointer gestures on its child.
 | `onPanStart` | `Action` | no | — | Pan start. |
 | `onPanUpdate` | `Action` | no | — | Pan update. |
 | `onPanEnd` | `Action` | no | — | Pan end. |
-| `double-click` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `double-click`; the registry had not declared it. |
-| `long-press` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `long-press`; the registry had not declared it. |
-| `longPress` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `longPress`; the registry had not declared it. |
-| `onScaleUpdate` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onScaleUpdate`; the registry had not declared it. |
-| `panEnd` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `panEnd`; the registry had not declared it. |
-| `panStart` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `panStart`; the registry had not declared it. |
 
 ### Examples
 
@@ -2529,6 +2508,7 @@ Time-series / numeric data graph (line, bar, area, scatter) drawn on a single se
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `labelColor` | `Color` | no | — | Colour applied to the label text. |
 | `data` | `array<Point> | binding` | yes | — | Array of `{ x, y }` points (or `{ label, value }`). |
 | `chartType` | `string` | no | line | Chart style. Legacy alias `type` is retained for backward compatibility but avoid it — it collides with the widget-type discriminator. |
 | `width` | `number` | no | 300 | Render width in logical px. |
@@ -2539,7 +2519,6 @@ Time-series / numeric data graph (line, bar, area, scatter) drawn on a single se
 | `fillColor` | `Color` | no | — | Area fill color. |
 | `gridColor` | `Color` | no | light grey | Grid color. |
 | `strokeWidth` | `number` | no | 2 | Line stroke thickness. |
-| `labelColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `labelColor`; the registry had not declared it. |
 
 ### Examples
 
@@ -2575,6 +2554,12 @@ Scrollable two-dimensional collection.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `mainAxisExtent` | `Dimension` | no | — | Fixed extent of each row along the scroll axis. |
+| `maxCrossAxisExtent` | `Dimension` | no | — | Widest a cell may be before the grid adds a column. |
+| `padding` | `EdgeInsets` | no | — | Space inside the surface, around its content. |
+| `physics` | `string` | no | — | Scroll response: `bouncing`, `clamping`, `never`, `always`. |
+| `shrinkWrap` | `boolean` | no | — | Size to the content instead of filling the viewport. |
+| `spacing` | `Dimension` | no | — | Gap between adjacent items. |
 | `items` | `array | binding` | no | — | Array source. Required when `children` is omitted. |
 | `itemTemplate` | `Widget` | no | — | Template rendered per bound item. Required with `items`. |
 | `children` | `array<Widget>` | no | — | Static grid cells. Mutually exclusive with `items` + `itemTemplate`. |
@@ -2585,15 +2570,6 @@ Scrollable two-dimensional collection.
 | `reverse` | `boolean` | no | — | When true, run the transition in reverse direction (for back navigation). |
 | `scrollDirection` | `string` | no | — | Scroll axis. |
 | `template` | `object` | no | — | Template name to instantiate. |
-| `childAspectRatio` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `crossAxisSpacing` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `mainAxisExtent` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `mainAxisExtent`; the registry had not declared it. |
-| `mainAxisSpacing` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `maxCrossAxisExtent` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `maxCrossAxisExtent`; the registry had not declared it. |
-| `padding` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `padding`; the registry had not declared it. |
-| `physics` | `string` | no | — | Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `shrinkWrap` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shrinkWrap`; the registry had not declared it. |
-| `spacing` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
 
 ### Examples
 
@@ -2634,6 +2610,14 @@ Application header / toolbar at the top of a page.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `automaticallyImplyLeading` | `boolean` | no | — | Insert a back / drawer control when the route provides one. |
+| `bottomHeight` | `Dimension` | no | — | Height reserved for the bottom area (tabs, search, …). |
+| `bottomOpacity` | `number` | no | — | Opacity of the bottom area, `0.0`–`1.0`. |
+| `flexibleSpace` | `Widget` | no | — | Widget stretched behind the bar contents, used for collapsing headers. |
+| `toolbarHeight` | `Dimension` | no | — | Height of the bar itself, excluding any bottom area. |
+| `toolbarOpacity` | `number` | no | — | Opacity of the toolbar contents, `0.0`–`1.0`. |
+| `shadowColor` | `Color` | no | — | Colour of the drop shadow cast by the surface. |
+| `shape` | `object` | no | — | Outline of the surface, as a shape descriptor. |
 | `title` | `string | Widget` | no | — | Header title. |
 | `leading` | `Widget` | no | — | Leading widget (hamburger, back arrow). |
 | `actions` | `array<Widget>` | no | — | Trailing action widgets. |
@@ -2643,14 +2627,6 @@ Application header / toolbar at the top of a page.
 | `centerTitle` | `boolean` | no | false | Whether to center the title. |
 | `bottom` | `Dimension` | no | — | Distance from the parent stack's bottom edge. |
 | `foregroundColor` | `Color` | no | — | Bar color. |
-| `automaticallyImplyLeading` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `automaticallyImplyLeading`; the registry had not declared it. |
-| `bottomHeight` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `bottomHeight`; the registry had not declared it. |
-| `bottomOpacity` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `bottomOpacity`; the registry had not declared it. |
-| `flexibleSpace` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `flexibleSpace`; the registry had not declared it. |
-| `shadowColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it. |
-| `shape` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it. |
-| `toolbarHeight` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `toolbarHeight`; the registry had not declared it. |
-| `toolbarOpacity` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `toolbarOpacity`; the registry had not declared it. |
 
 ### Examples
 
@@ -2681,6 +2657,12 @@ Two-dimensional heatmap visualization.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `cellGap` | `Dimension` | no | — | Gap between adjacent cells. |
+| `colorScheme` | `string` | no | — | Named colour ramp used between `minValue` and `maxValue`. |
+| `columns` | `number` | no | — | Number of columns the values are laid out in. |
+| `maxValue` | `number` | no | — | Value mapped to the high end of the colour range. |
+| `minValue` | `number` | no | — | Value mapped to the low end of the colour range. |
+| `showLabels` | `boolean` | no | — | Draw the numeric value inside each cell. |
 | `data` | `array | binding` | yes | — | 2D numeric array (rows × columns). Literal array or binding. |
 | `columnLabels` | `array<string>` | no | — | Horizontal axis labels |
 | `rowLabels` | `array<string>` | no | — | Vertical axis labels |
@@ -2690,12 +2672,6 @@ Two-dimensional heatmap visualization.
 | `colorRange.high` | `Color` | no | — | Color at the high end of the range. |
 | `showValues` | `boolean` | no | false | Render numeric value inside each cell |
 | `onCellTap` | `Action` | no | — | Fired on cell tap; `event.row`, `event.column`, `event.value` |
-| `cellGap` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `cellGap`; the registry had not declared it. |
-| `colorScheme` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `colorScheme`; the registry had not declared it. |
-| `columns` | `number` | no | — | Promoted from the runtime (2026-08-04): the factory reads `columns`; the registry had not declared it. |
-| `maxValue` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `maxValue`; the registry had not declared it. |
-| `minValue` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `minValue`; the registry had not declared it. |
-| `showLabels` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `showLabels`; the registry had not declared it. |
 
 ### Examples
 
@@ -2843,20 +2819,20 @@ Icon-only button for compact actions.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `fontFamily` | `string` | no | — | Font family the icon glyph is taken from, for icon sets outside the default. |
+| `disabledColor` | `Color` | no | — | Colour used while the control is disabled. |
+| `enableFeedback` | `boolean` | no | — | Play the platform tap sound / haptic on activation. |
+| `highlightColor` | `Color` | no | — | Overlay while the surface is held down. |
+| `iconSize` | `Dimension` | no | — | Rendered size of the icon. |
+| `padding` | `EdgeInsets` | no | — | Space inside the surface, around its content. |
+| `splashColor` | `Color` | no | — | Colour of the ripple that expands from the touch point. |
+| `splashRadius` | `Dimension` | no | — | Radius the ripple expands to. |
 | `icon` | `IconRef` | yes | — | Icon shown. Any `IconRef` form. |
 | `size` | `number` | no | — | Icon size; uses theme default if omitted. |
 | `color` | `Color` | no | — | Icon color. |
 | `enabled` | `boolean` | no | true | Whether the button is interactive. |
 | `onTap` | `Action` | no | — | Tap handler. |
-| `alignment` | `Alignment` | no | — | alignment |
-| `disabledColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `disabledColor`; the registry had not declared it. |
-| `enableFeedback` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `enableFeedback`; the registry had not declared it. |
-| `fontFamily` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `fontFamily`; the registry had not declared it. |
-| `highlightColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `highlightColor`; the registry had not declared it. |
-| `iconSize` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `iconSize`; the registry had not declared it. |
-| `padding` | `EdgeInsets` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `splashColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `splashColor`; the registry had not declared it. |
-| `splashRadius` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `splashRadius`; the registry had not declared it. |
+| `alignment` | `Alignment` | no | — | Where the icon sits inside the button bounds. |
 
 ### Examples
 
@@ -2887,17 +2863,17 @@ rest to `fallback` / `fallbackUrl` / `fallbackBehavior`.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `errorWidget` | `string` | no | — | Text shown on the error tile when nothing resolves. |
+| `fallbackBehavior` | `string` | no | — | What to draw when nothing resolves: `error` (default) or `hide`. |
+| `fallbackUrl` | `AssetRef` | no | — | Second source tried when the first cannot be resolved (§6.12.4). |
 | `src` *(aliases: `source`, `backgroundImage`)* | `AssetRef` | yes | — | Image source. Any `AssetRef` form. |
 | `width` | `number` | no | — | Width in logical pixels. |
 | `height` | `number` | no | — | Height in logical pixels. |
 | `fit` | `string` | no | "contain" | `cover`, `contain`, `fill`, `none`, `scaleDown`, `fitHeight`, `fitWidth`. |
 | `alignment` | `Alignment` | no | "center" | Alignment within bounds. |
-| `fallback` | `Widget` | no | — | fallback |
-| `loading` | `Widget` | no | — | loading |
+| `fallback` | `Widget` | no | — | Widget drawn when the source cannot be resolved (§6.12.4). |
+| `loading` | `Widget` | no | — | Widget drawn while the source is being read. |
 | `placeholder` | `string` | no | — | Placeholder text. |
-| `errorWidget` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `errorWidget`; the registry had not declared it. |
-| `fallbackBehavior` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `fallbackBehavior`; the registry had not declared it. |
-| `fallbackUrl` | `string | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `fallbackUrl`; the registry had not declared it. |
 
 ### Examples
 
@@ -2973,12 +2949,12 @@ Displays a single child selected by index. All children retain state.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `sizing` | `string` | no | — | How the stack sizes itself against its children: `loose`, `expand`, `passthrough`. |
+| `clipBehavior` | `string` | no | — | How content crossing the bounds is clipped. |
 | `index` | `number | binding` | no | 0 | Index of the child to display. |
 | `alignment` | `Alignment` | no | "topStart" | Alignment of the displayed child. |
 | `children` | `array<Widget>` | yes | — | Candidate children. |
 | `textDirection` | `string` | no | — | Resolution direction for `start`/`end` alignment. |
-| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
-| `sizing` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `sizing`; the registry had not declared it. |
 
 ### Examples
 
@@ -3008,31 +2984,27 @@ Material-style touch feedback with ripple effect.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `onHighlightChanged` | `Action` | no | — | Fired when the pressed state changes. |
+| `onHover` | `Action` | no | — | Fired when a pointer enters or leaves. `{{event.value}}` is the hover state. |
+| `onTapCancel` | `Action` | no | — | Fired when the press is abandoned before it becomes a tap. |
+| `onTapDown` | `Action` | no | — | Fired when the pointer goes down. |
+| `onTapUp` | `Action` | no | — | Fired when the pointer lifts. |
+| `autofocus` | `boolean` | no | — | Take focus when the surface first appears. |
+| `canRequestFocus` | `boolean` | no | — | Whether the surface is reachable by focus traversal at all. |
+| `customBorder` | `object` | no | — | Shape the ripple and highlight are clipped to. |
+| `enableFeedback` | `boolean` | no | — | Play the platform tap sound / haptic on activation. |
+| `excludeFromSemantics` | `boolean` | no | — | Keep the surface out of the accessibility tree. |
+| `focusColor` | `Color` | no | — | Overlay while the surface holds focus. |
+| `highlightColor` | `Color` | no | — | Overlay while the surface is held down. |
+| `hoverColor` | `Color` | no | — | Overlay while a pointer rests on the surface. |
+| `overlayColor` | `Color` | no | — | Overlay used for the focus / hover / press states together. |
+| `splashColor` | `Color` | no | — | Colour of the ripple that expands from the touch point. |
+| `splashRadius` | `Dimension` | no | — | Radius the ripple expands to. |
 | `child` | `Widget` | yes | — | Tappable widget. |
 | `borderRadius` | `number` | no | — | Ripple clip radius. |
 | `onTap` | `Action` | no | — | Tap handler. |
 | `onLongPress` | `Action` | no | — | Long-press handler. |
-| `onDoubleTap` | `Action` | no | — | onDoubleTap |
-| `autofocus` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `autofocus`; the registry had not declared it. |
-| `canRequestFocus` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `canRequestFocus`; the registry had not declared it. |
-| `customBorder` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `customBorder`; the registry had not declared it. |
-| `double-click` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `double-click`; the registry had not declared it. |
-| `enableFeedback` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `enableFeedback`; the registry had not declared it. |
-| `excludeFromSemantics` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `excludeFromSemantics`; the registry had not declared it. |
-| `focusColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `focusColor`; the registry had not declared it. |
-| `highlightColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `highlightColor`; the registry had not declared it. |
-| `hover` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `hover`; the registry had not declared it. |
-| `hoverColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `hoverColor`; the registry had not declared it. |
-| `long-press` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `long-press`; the registry had not declared it. |
-| `longPress` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `longPress`; the registry had not declared it. |
-| `onHighlightChanged` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onHighlightChanged`; the registry had not declared it. |
-| `onHover` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onHover`; the registry had not declared it. |
-| `onTapCancel` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onTapCancel`; the registry had not declared it. |
-| `onTapDown` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onTapDown`; the registry had not declared it. |
-| `onTapUp` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onTapUp`; the registry had not declared it. |
-| `overlayColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `overlayColor`; the registry had not declared it. |
-| `splashColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `splashColor`; the registry had not declared it. |
-| `splashRadius` | `number | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `splashRadius`; the registry had not declared it. |
+| `onDoubleTap` | `Action` | no | — | Fired on a double tap. |
 
 ---
 
@@ -3060,9 +3032,9 @@ Constrains a child to the intrinsic width required by its content.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `stepHeight` | `Dimension` | no | — | Round the intrinsic height up to a multiple of this. |
+| `stepWidth` | `Dimension` | no | — | Round the intrinsic width up to a multiple of this. |
 | `child` | `Widget` | yes | — | Child widget. |
-| `stepHeight` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `stepHeight`; the registry had not declared it. |
-| `stepWidth` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `stepWidth`; the registry had not declared it. |
 
 ---
 
@@ -3189,6 +3161,7 @@ Defer rendering of an expensive subtree until it enters the viewport (or until e
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `delay` | `number` | no | — | Milliseconds to wait before building, when `trigger` is `delay`. |
 | `placeholder` | `Widget` | no | — | Rendered while `content` is not yet materialized |
 | `content` *(aliases: `child`)* | `Widget | object` | no | — | Inline widget, or `{ source: "ui://..." }` to fetch a remote page fragment. Required when `children` is omitted. |
 | `child` | `Widget` | no | — | A single deferred widget. Alternative to `content` for the simple case. |
@@ -3196,7 +3169,6 @@ Defer rendering of an expensive subtree until it enters the viewport (or until e
 | `trigger` | `string` | no | visible | `visible` renders when the widget becomes visible to the user (typically scrolled into view); `immediate` renders on mount; `manual` renders when a `load()` signal is received. |
 | `onLoad` | `Action` | no | — | Fired after `content` is materialized |
 | `onError` | `Action` | no | — | Fired if `content` fetch fails; `event.error` |
-| `delay` | `number | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `delay`; the registry had not declared it. |
 
 ### Examples
 
@@ -3308,14 +3280,14 @@ Main-axis sizing: when at least one child is `expanded` / `flexible` / `spacer` 
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `wrap` | `boolean` | no | — | Let children flow onto another line instead of overflowing. |
+| `padding` | `EdgeInsets` | no | — | Space inside the surface, around its content. |
 | `mainAxisSize` | `string` | no | — | `max` fills the parent along `direction`; `min` shrink-wraps. Defaults to `max` when a flex child (`expanded`/`flexible`/`spacer`) is present, otherwise `min`. |
 | `direction` *(aliases: `orientation`, `scrollDirection`)* | `string` | yes | "vertical" | `"horizontal"` or `"vertical"`. |
 | `alignment` *(aliases: `crossAxisAlignment`)* | `string` | no | "start" | Cross-axis alignment: `start`, `center`, `end`, `stretch`. |
-| `distribution` *(aliases: `mainAxisAlignment`)* | `string` | no | "start" | Main-axis distribution: `start`, `center`, `end`, `spaceBetween`, `spaceAround`, `spaceEvenly`. |
+| `distribution` *(aliases: `mainAxisAlignment`)* | `string` | no | "start" | Main-axis distribution. §17.1.3 spells multi-word enum values in camelCase, so `spaceBetween` / `spaceAround` / `spaceEvenly` are the declared values. The pre-1.3 kebab spellings are not part of the canonical surface; a runtime MAY keep accepting them (§17.3).  |
 | `spacing` *(aliases: `gap`, `itemSpacing`)* | `number` | no | 0 | Gap between children in logical pixels. |
 | `children` | `array<Widget>` | yes | — | Child widgets arranged along `direction`. |
-| `padding` | `EdgeInsets` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `wrap` | `boolean | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `wrap`; the registry had not declared it. |
 
 ### Examples
 
@@ -3418,6 +3390,12 @@ Scrollable linear collection rendered from an array binding.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `itemBuilder` | `Widget` | no | — | Template built once per item, with `{{item}}` and `{{index}}` in scope. |
+| `itemCount` | `number` | no | — | How many items to build when the list is generated rather than listed. |
+| `scrollCacheExtent` | `Dimension` | no | — | Pixels kept built beyond the viewport on each side. |
+| `padding` | `EdgeInsets` | no | — | Space inside the surface, around its content. |
+| `physics` | `string` | no | — | Scroll response: `bouncing`, `clamping`, `never`, `always`. |
+| `shrinkWrap` | `boolean` | no | — | Size to the content instead of filling the viewport. |
 | `virtual` | `boolean` | no | false | Render only visible items. Requires `itemHeight` — a virtualised list cannot measure items it has not built. |
 | `itemHeight` | `number` | no | — | Fixed item height in logical pixels. Required when `virtual` is true. |
 | `overscan` | `number` | no | 3 | Items rendered beyond the viewport on each side, trading memory for scroll smoothness. |
@@ -3431,13 +3409,6 @@ Scrollable linear collection rendered from an array binding.
 | `reverse` | `boolean` | no | — | When true, run the transition in reverse direction (for back navigation). |
 | `scrollDirection` | `string` | no | — | Scroll axis. |
 | `template` | `object` | no | — | Template name to instantiate. |
-| `itemBuilder` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `itemBuilder`; the registry had not declared it. |
-| `itemCount` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `itemCount`; the registry had not declared it. |
-| `itemSpacing` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `padding` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `padding`; the registry had not declared it. |
-| `physics` | `string` | no | — | Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `scrollCacheExtent` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `scrollCacheExtent`; the registry had not declared it. |
-| `shrinkWrap` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shrinkWrap`; the registry had not declared it. |
 
 ### Examples
 
@@ -3470,6 +3441,15 @@ Single row in a list with optional leading/trailing widgets. Replaces Material `
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `contentPadding` | `EdgeInsets` | no | — | Space inside the row, around its content. |
+| `dense` | `boolean` | no | — | Use the compact row height. |
+| `isThreeLine` | `boolean` | no | — | Reserve room for a three-line row. |
+| `selectedTileColor` | `Color` | no | — | Background of the row while selected. |
+| `tileColor` | `Color` | no | — | Background of the row. |
+| `focusColor` | `Color` | no | — | Overlay while the surface holds focus. |
+| `hoverColor` | `Color` | no | — | Overlay while a pointer rests on the surface. |
+| `iconColor` | `Color` | no | — | Colour applied to the icon. |
+| `shape` | `object` | no | — | Outline of the surface, as a shape descriptor. |
 | `title` | `string | Widget` | no | — | Primary text, or an inline Widget for rich titles. |
 | `subtitle` | `string | Widget` | no | — | Secondary text, or an inline Widget. |
 | `leading` | `Widget` | no | — | Leading widget (icon, avatar). |
@@ -3477,19 +3457,8 @@ Single row in a list with optional leading/trailing widgets. Replaces Material `
 | `onTap` | `Action` | no | — | Tap handler. |
 | `selected` | `boolean` | no | false | Selected state. |
 | `enabled` | `boolean` | no | true | Whether the item is interactive. |
-| `onLongPress` | `Action` | no | — | onLongPress |
+| `onLongPress` | `Action` | no | — | Fired on a long press. |
 | `textColor` | `Color` | no | — | Default text color |
-| `contentPadding` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `contentPadding`; the registry had not declared it. |
-| `dense` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `dense`; the registry had not declared it. |
-| `focusColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `focusColor`; the registry had not declared it. |
-| `hoverColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `hoverColor`; the registry had not declared it. |
-| `iconColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `iconColor`; the registry had not declared it. |
-| `isThreeLine` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `isThreeLine`; the registry had not declared it. |
-| `long-press` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `long-press`; the registry had not declared it. |
-| `longPress` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `longPress`; the registry had not declared it. |
-| `selectedTileColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `selectedTileColor`; the registry had not declared it. |
-| `shape` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it. |
-| `tileColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `tileColor`; the registry had not declared it. |
 
 ### Examples
 
@@ -3520,14 +3489,14 @@ Embedded Lottie/JSON animation playback.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `fit` | `string` | no | — | How the animation scales to its bounds. |
+| `onComplete` | `Action` | no | — | Fired when a non-looping animation reaches its end. |
+| `speed` | `number` | no | — | Playback rate; `1.0` is the authored speed. |
+| `height` | `Dimension` | no | — | Fixed height. |
 | `src` *(aliases: `source`)* | `AssetRef` | yes | — | Animation source. Any `AssetRef` form. |
 | `autoPlay` | `boolean` | no | true | Play on mount. |
 | `loop` | `boolean` | no | true | Loop playback. |
 | `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
-| `fit` | `string | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `fit`; the registry had not declared it. |
-| `height` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `onComplete` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onComplete`; the registry had not declared it. |
-| `speed` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `speed`; the registry had not declared it. |
 | `width` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}`, a dimension string or a binding. |
 
 ---
@@ -3542,6 +3511,11 @@ Geographic map with markers and overlays.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `markerColor` | `Color` | no | — | Default colour for a marker with no colour of its own. |
+| `showCoordinates` | `boolean` | no | — | Show the coordinate readout. |
+| `showGrid` | `boolean` | no | — | Draw the coordinate grid. |
+| `height` | `Dimension` | no | — | Fixed height. |
+| `interactive` | `boolean` | no | — | Whether the surface responds to pointer input. |
 | `center` | `{ latitude, longitude }` | no | — | Map center coordinates. Required when flat `latitude` / `longitude` are omitted. |
 | `latitude` | `number` | no | — | Flat shorthand for `center.latitude` — legacy alternative to `center`. |
 | `longitude` | `number` | no | — | Flat shorthand for `center.longitude` — legacy alternative to `center`. |
@@ -3564,11 +3538,6 @@ Geographic map with markers and overlays.
 | `onMapTap` | `Action` | no | — | Fired on map tap; `event.latitude` / `event.longitude` |
 | `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
 | `gridColor` | `Color` | no | — | Grid color. |
-| `height` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `interactive` | `boolean | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `interactive`; the registry had not declared it. |
-| `markerColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `markerColor`; the registry had not declared it. |
-| `showCoordinates` | `boolean | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `showCoordinates`; the registry had not declared it. |
-| `showGrid` | `boolean | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `showGrid`; the registry had not declared it. |
 | `width` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}`, a dimension string or a binding. |
 
 ### Examples
@@ -3699,6 +3668,9 @@ Audio / video player widget.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `accentColor` | `Color` | no | — | Colour of the progress bar and active controls. |
+| `controlsColor` | `Color` | no | — | Colour of the transport controls. |
+| `onSeek` | `Action` | no | — | Fired when the position is changed by the user. |
 | `source` *(aliases: `src`)* | `AssetRef` | yes | — | Media asset reference (audio or video file). |
 | `mediaType` | `string` | no | inferred | Media kind. |
 | `autoPlay` | `boolean` | no | false | Start playing automatically |
@@ -3718,9 +3690,6 @@ Audio / video player widget.
 | `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
 | `duration` | `Dimension` | no | — | Animation duration in milliseconds. |
 | `title` | `string` | no | — | Dialog title shown at the top. |
-| `accentColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `accentColor`; the registry had not declared it. |
-| `controlsColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `controlsColor`; the registry had not declared it. |
-| `onSeek` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onSeek`; the registry had not declared it. |
 
 ### Examples
 
@@ -3765,7 +3734,6 @@ Responsive widget that inspects the current layout context and picks a child bas
 | `else` | `Widget` | no | — | Rendered when `condition` is falsy. Legacy alias: `orElse`. |
 | `breakpoints` | `object` | no | — | Map of breakpoint name → Widget (e.g., `{ "sm": ..., "md": ... }`). |
 | `defaultChild` | `Widget` | no | — | Rendered when no breakpoint matches. |
-| `orElse` | `object` | no | — | Measured from real documents (2026-08-04): object. Promoted from the runtime; type narrowed from the values documents actually pass. |
 
 ---
 
@@ -3876,26 +3844,24 @@ Vertical navigation rail for tablet/desktop layouts. Each item's text field is `
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `extended` | `boolean` | no | — | Show labels beside the icons instead of under them. |
+| `groupAlignment` | `number` | no | — | Where the destination group sits vertically, `-1.0` (top) to `1.0` (bottom). |
+| `labelType` | `string` | no | — | When labels appear: `none`, `selected`, `all`. |
+| `minExtendedWidth` | `Dimension` | no | — | Width of the rail once `extended` is set. |
+| `minWidth` | `Dimension` | no | — | Width of the rail in its collapsed form. |
+| `selectedIconTheme` | `object` | no | — | Icon size / colour for the selected destination. |
+| `selectedLabelTextStyle` | `TextStyle` | no | — | Text style for the selected label. |
+| `unselectedIconTheme` | `object` | no | — | Icon size / colour for destinations that are not selected. |
+| `unselectedLabelTextStyle` | `TextStyle` | no | — | Text style for labels that are not selected. |
 | `selectedIndex` | `number | binding` | no | — | Currently selected item. |
 | `items` *(aliases: `destinations`)* | `array<NavItem>` | yes | — | `{ icon, label, route? }` entries. |
 | `onChange` | `Action` | no | — | Fired when selection changes. |
 | `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
 | `change` | `Action` | no | — | Legacy alias of `onChange`. |
-| `elevation` | `Dimension` | no | — | elevation |
-| `leading` | `Widget` | no | — | leading |
-| `onSelect` | `Action` | no | — | onSelect |
-| `trailing` | `Widget` | no | — | trailing |
-| `extended` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `extended`; the registry had not declared it. |
-| `groupAlignment` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `groupAlignment`; the registry had not declared it. |
-| `labelType` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `labelType`; the registry had not declared it. |
-| `minExtendedWidth` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `minExtendedWidth`; the registry had not declared it. |
-| `minWidth` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `onDestinationSelected` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onDestinationSelected`; the registry had not declared it. |
-| `select` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `select`; the registry had not declared it. |
-| `selectedIconTheme` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `selectedIconTheme`; the registry had not declared it. |
-| `selectedLabelTextStyle` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `selectedLabelTextStyle`; the registry had not declared it. |
-| `unselectedIconTheme` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `unselectedIconTheme`; the registry had not declared it. |
-| `unselectedLabelTextStyle` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `unselectedLabelTextStyle`; the registry had not declared it. |
+| `elevation` | `Dimension` | no | — | Shadow depth of the rail surface. |
+| `leading` | `Widget` | no | — | Widget pinned above the destinations. |
+| `onSelect` | `Action` | no | — | Fired when a destination is chosen. `{{event.value}}` carries its index. |
+| `trailing` | `Widget` | no | — | Widget pinned below the destinations. |
 
 ### Examples
 
@@ -3921,12 +3887,6 @@ Vertical navigation rail for tablet/desktop layouts. Each item's text field is `
 ## `networkGraph`  *(advanced · Core · v1.0)*
 
 Network topology graph. Same node/edge model as `graph`, with topology-oriented defaults (hierarchical layout, directed edges).
-backgroundColor:
-  type: Color
-  description: "Legacy alias of `color`."
-onNodeTap:
-  type: Action
-  description: "onNodeTap"
 
 ### Properties
 
@@ -3934,17 +3894,16 @@ onNodeTap:
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
-| `backgroundColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `backgroundColor`; the registry had not declared it. |
-| `edgeColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `edgeColor`; the registry had not declared it. |
-| `edges` | `array | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `edges`; the registry had not declared it. |
-| `height` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `interactive` | `boolean | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `interactive`; the registry had not declared it. |
-| `labelColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `labelColor`; the registry had not declared it. |
-| `layout` | `string | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `layout`; the registry had not declared it. |
-| `nodeColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `nodeColor`; the registry had not declared it. |
-| `nodes` | `array | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `nodes`; the registry had not declared it. |
-| `onEdgeTap` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onEdgeTap`; the registry had not declared it. |
-| `onNodeTap` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onNodeTap`; the registry had not declared it. |
+| `onNodeTap` | `Action` | no | — | Fired when a node is tapped. `{{event.value}}` carries its id. |
+| `edgeColor` | `Color` | no | — | Default colour for an edge with no colour of its own. |
+| `edges` | `array<object>` | no | — | Edges as `{ from, to, label?, color? }`. |
+| `layout` | `string` | no | — | Placement algorithm: `force`, `circular`, `grid`, `tree`. |
+| `nodeColor` | `Color` | no | — | Default fill for a node with no colour of its own. |
+| `nodes` | `array<object>` | no | — | Nodes as `{ id, label?, color? }`. |
+| `onEdgeTap` | `Action` | no | — | Fired when an edge is tapped. |
+| `height` | `Dimension` | no | — | Fixed height. |
+| `interactive` | `boolean` | no | — | Whether the surface responds to pointer input. |
+| `labelColor` | `Color` | no | — | Colour applied to the label text. |
 | `width` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}`, a dimension string or a binding. |
 
 ### Examples
@@ -3979,6 +3938,7 @@ Specialized input for numeric values. Shared rows per §2.6.0; `value` is `numbe
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
+| `error` | `string` | no | — | Error message shown under the field. |
 | `showStepper` | `boolean` | no | true | Render increment/decrement controls. False leaves keyboard entry only. |
 | `label` | `string` | no | — | Field label. |
 | `min` | `number` | no | — | Minimum value. |
@@ -3992,8 +3952,6 @@ Specialized input for numeric values. Shared rows per §2.6.0; `value` is `numbe
 | `format` | `string` | no | — | Display format. |
 | `helperText` | `string` | no | — | Helper text shown below the field. |
 | `hint` | `string` | no | — | Legacy alias of `placeholder`. |
-| `decimals` | `number` | no | — | Promoted from the runtime (2026-08-04): the factory reads `decimals`; the registry had not declared it. |
-| `error` | `boolean | binding` | no | — | Measured from real documents (2026-08-04): boolean. Promoted from the runtime; type narrowed from the values documents actually pass. |
 
 ---
 
@@ -4011,13 +3969,13 @@ Incremental numeric input with plus/minus buttons. Shared rows per §2.6.0; `val
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
+| `size` | `string` | no | — | Control size preset. Defaults to `medium`. |
 | `label` | `string` | no | — | Field label shown beside or above the control. |
 | `min` | `number` | no | — | Minimum value. |
 | `max` | `number` | no | — | Maximum value. |
 | `step` | `number` | no | 1 | Increment size. |
 | `change` | `Action` | no | — | Legacy alias of `onChange`. |
-| `color` | `Color` | no | — | color |
-| `size` | `string | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `size`; the registry had not declared it. |
+| `color` | `Color` | no | — | Colour of the increment / decrement controls. |
 
 ---
 
@@ -4099,7 +4057,7 @@ that intent. None of the three can be recovered by the author.
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
 | `length` | `number` | no | 6 | Number of cells. |
 | `inputType` | `string` | no | "numeric" | Restricts accepted characters and selects the on-screen keyboard. |
-| `autoSubmit` | `Action` | no | — | Fired once the last cell is filled, so the common case needs no separate button. |
+| `onComplete` | `Action` | no | — | Fired once every digit is filled. Canonical §17.1.4 spelling; the older `autoSubmit` name is still accepted and does the same thing.  |
 | `masked` | `boolean` | no | false | Obscure entered characters. |
 | `autofill` | `boolean` | no | true | Declare one-time-code autofill to the platform. A runtime without it renders normally rather than failing. |
 
@@ -4155,6 +4113,9 @@ always one full page. Each child is rendered as a separate page.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `padEnds` | `boolean` | no | — | Pad the first and last page so they can centre. |
+| `pageSnapping` | `boolean` | no | — | Snap to page boundaries when the drag ends. |
+| `clipBehavior` | `string` | no | — | How content crossing the bounds is clipped. |
 | `direction` | `string` | no | "horizontal" | Scroll axis. |
 | `children` | `array<Widget>` | yes | — | One child per page. |
 | `initialPage` | `number` | no | 0 | Index of the page rendered first. |
@@ -4162,12 +4123,9 @@ always one full page. Each child is rendered as a separate page.
 | `scrollPhysics` | `string` | no | "clamping" | Edge / overscroll behaviour. `bouncing` mirrors iOS rubber-band; `clamping` is the Android-style hard stop; `neverScrollable` disables user dragging (use programmatic page change only).  |
 | `allowImplicitScrolling` | `boolean` | no | false | Pre-render the adjacent pages off-screen so subsequent swipes are instant (assistive-technology friendly). Costs memory.  |
 | `onPageChanged` | `Action` | no | — | Fires after the active page settles. `event.page` carries the new index. |
-| `onChange` | `Action` | no | — | onChange |
+| `onChange` | `Action` | no | — | Fired when the visible page changes. `{{event.value}}` carries its index. |
 | `reverse` | `boolean` | no | — | When true, run the transition in reverse direction (for back navigation). |
 | `scrollDirection` | `string` | no | — | Scroll axis. |
-| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
-| `padEnds` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `padEnds`; the registry had not declared it. |
-| `pageSnapping` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `pageSnapping`; the registry had not declared it. |
 
 ### Examples
 
@@ -4207,6 +4165,7 @@ by every author. Stating it once also fixes what a screen reader hears —
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `current` | `number` | no | — | Page currently shown, 1-based. |
 | `binding` | `string` | no | — | State path holding the current page. 1-based. |
 | `total` | `number` | yes | — | Total item count (not page count) — the widget derives pages from `pageSize`. |
 | `pageSize` | `number` | no | 20 | Items per page. |
@@ -4214,7 +4173,6 @@ by every author. Stating it once also fixes what a screen reader hears —
 | `showSizeChanger` | `boolean` | no | false | Offer a page-size selector. |
 | `pageSizeOptions` | `array<number>` | no | — | Choices for the size selector. Ignored when `showSizeChanger` is false. |
 | `showTotal` | `boolean` | no | false | Render a total-count summary. |
-| `current` | `number | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `current`; the registry had not declared it. |
 
 ### Events
 
@@ -4250,6 +4208,7 @@ picked file (`fileInput` writes a `data:` URI), or a server resource.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `height` | `Dimension` | no | — | Fixed height. |
 | `src` | `AssetRef` | yes | — | Document source. Any `AssetRef` form. |
 | `page` | `number | binding` | no | — | Current page, 1-based. One-way — the embedded viewer reports no page change back. |
 | `zoom` | `number | binding` | no | — | Zoom factor; `1.0` is fit-width. One-way — the embedded viewer reports no zoom change back. |
@@ -4257,7 +4216,6 @@ picked file (`fileInput` writes a `data:` URI), or a server resource.
 | `showPageNav` | `boolean` | no | true | Page stepper within the toolbar. |
 | `showZoom` | `boolean` | no | true | Zoom controls within the toolbar. |
 | `fit` | `string` | no | "width" | Initial fit. |
-| `height` | `number | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `height`; the registry had not declared it. |
 
 ### Events
 
@@ -4384,25 +4342,22 @@ Button that reveals a popup menu of options.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `onCanceled` | `Action` | no | — | Fired when the menu closes with nothing chosen. |
+| `onOpened` | `Action` | no | — | Fired when the menu opens. |
+| `iconSize` | `Dimension` | no | — | Rendered size of the icon. |
+| `offset` | `object` | no | — | Displacement from the anchor, as `{ dx, dy }`. |
+| `padding` | `EdgeInsets` | no | — | Space inside the surface, around its content. |
+| `shadowColor` | `Color` | no | — | Colour of the drop shadow cast by the surface. |
+| `shape` | `object` | no | — | Outline of the surface, as a shape descriptor. |
+| `splashRadius` | `Dimension` | no | — | Radius the ripple expands to. |
+| `surfaceTintColor` | `Color` | no | — | Elevation tint applied over the surface colour (M3). |
 | `icon` | `IconRef` | no | "more_vert" | Trigger icon. Any `IconRef` form. |
 | `items` | `array<MenuItem>` | yes | — | `{ value, label, icon?, enabled? }` entries. |
 | `onSelect` | `Action` | no | — | Fired when an item is selected. |
 | `change` | `Action` | no | — | Legacy alias of `onChange`. |
-| `color` | `Color` | no | — | color |
-| `elevation` | `Dimension` | no | — | elevation |
-| `onChange` | `Action` | no | — | onChange |
-| `enabled` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `enabled`; the registry had not declared it. |
-| `iconSize` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `iconSize`; the registry had not declared it. |
-| `offset` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `offset`; the registry had not declared it. |
-| `onCanceled` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onCanceled`; the registry had not declared it. |
-| `onOpened` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onOpened`; the registry had not declared it. |
-| `onSelected` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onSelected`; the registry had not declared it. |
-| `padding` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `padding`; the registry had not declared it. |
-| `select` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `select`; the registry had not declared it. |
-| `shadowColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shadowColor`; the registry had not declared it. |
-| `shape` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it. |
-| `splashRadius` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `splashRadius`; the registry had not declared it. |
-| `surfaceTintColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `surfaceTintColor`; the registry had not declared it. |
+| `color` | `Color` | no | — | Background of the open menu surface. |
+| `elevation` | `Dimension` | no | — | Shadow depth of the open menu. |
+| `onChange` | `Action` | no | — | Fired when an item is chosen. `{{event.value}}` carries its value. |
 
 ### Examples
 
@@ -4435,12 +4390,12 @@ Positions a child within a `stack` using offsets.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `height` | `Dimension` | no | — | Fixed height. |
 | `child` | `Widget` | yes | — | Positioned widget. |
 | `bottom` | `Dimension` | no | — | Distance from the parent stack's bottom edge. |
 | `left` | `Dimension` | no | — | Distance from the parent stack's left edge. |
 | `right` | `Dimension` | no | — | Distance from the parent stack's right edge. |
 | `top` | `Dimension` | no | — | Distance from the parent stack's top edge. |
-| `height` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
 | `width` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}`, a dimension string or a binding. |
 
 ---
@@ -4457,12 +4412,12 @@ Progress indicator (linear or circular).
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `size` | `Dimension` | no | — | Rendered size. |
+| `strokeWidth` | `Dimension` | no | — | Thickness of the drawn stroke. |
 | `value` | `number | binding` | no | — | Progress in `0.0..1.0`; omit for indeterminate. |
 | `indicatorType` | `string` | no | "linear" | `linear` or `circular`. |
 | `color` | `Color` | no | theme primary | Foreground color. |
 | `backgroundColor` | `Color` | no | — | Track color. |
-| `size` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, string form or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `strokeWidth` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `strokeWidth`; the registry had not declared it. |
 
 ### Examples
 
@@ -4497,7 +4452,7 @@ on arrival.
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `value` | `string | binding` | yes | — | Encoded payload. A URL, a `ui://` route, or an entry token. |
 | `size` | `number` | no | 200 | Edge length in logical pixels. The grid is square. |
-| `errorCorrection` | `string` | no | "M" | Redundancy level. Higher survives damage and occlusion at the cost of density — use `H` when a logo overlays the centre. |
+| `errorCorrection` | `string` | no | "M" | Error-correction level: `low` (7%), `medium` (15%), `quartile` (25%), `high` (30%). The QR standard writes these `L`/`M`/`Q`/`H`; §17.1.3 spells enum values in lower case, so those single letters are not part of the canonical surface and a runtime MAY keep accepting them (§17.3).  |
 | `foregroundColor` | `Color` | no | — | Module color. Contrast against `backgroundColor` must stay high enough to scan; a runtime SHOULD refuse to render below it rather than emit an unreadable code. |
 | `backgroundColor` | `Color` | no | — | Quiet-zone and gap color. |
 | `margin` | `boolean` | no | true | Include the quiet zone. Omitting it breaks scanning against busy backgrounds. |
@@ -4508,7 +4463,7 @@ on arrival.
 #### `basic`
 
 ```json
-{ "type": "qrCode", "value": "https://example.com/i/42", "size": 240, "errorCorrection": "H" }
+{ "type": "qrCode", "value": "https://example.com/i/42", "size": 240, "errorCorrection": "high" }
 ```
 
 ---
@@ -4523,6 +4478,10 @@ Single radio button. The group's selected value is bound via `groupValue` (or th
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `activeColor` | `Color` | no | — | Colour of the selected / active portion. |
+| `focusColor` | `Color` | no | — | Overlay while the surface holds focus. |
+| `hoverColor` | `Color` | no | — | Overlay while a pointer rests on the surface. |
+| `splashRadius` | `Dimension` | no | — | Radius the ripple expands to. |
 | `value` | `any` | yes | — | This button's value. |
 | `groupValue` | `any | binding` | yes | — | Currently selected value in the group. |
 | `label` | `string` | no | — | Optional label. |
@@ -4530,11 +4489,6 @@ Single radio button. The group's selected value is bound via `groupValue` (or th
 | `binding` | `string` | no | — | State path bound two-way to the widget value (§2.6.0). Runtime reads/writes this path without requiring an explicit onChange. |
 | `change` | `Action` | no | — | Legacy alias of `onChange`. |
 | `fillColor` | `Color` | no | — | Area fill color. |
-| `activeColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `activeColor`; the registry had not declared it. |
-| `bindTo` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `bindTo`; the registry had not declared it. |
-| `focusColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `focusColor`; the registry had not declared it. |
-| `hoverColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `hoverColor`; the registry had not declared it. |
-| `splashRadius` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `splashRadius`; the registry had not declared it. |
 
 ---
 
@@ -4588,17 +4542,15 @@ Range selection with two thumbs. Shared rows per §2.6.0; `value` is an object `
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
+| `labels` | `array<string>` | no | — | Labels shown above the two thumbs. |
+| `onChangeEnd` | `Action` | no | — | Fired when a thumb is released. |
+| `onChangeStart` | `Action` | no | — | Fired when a thumb starts moving. |
+| `activeColor` | `Color` | no | — | Colour of the selected / active portion. |
+| `inactiveColor` | `Color` | no | — | Colour of the unselected / inactive portion. |
 | `min` | `number` | no | 0 | Minimum value. |
 | `max` | `number` | no | 1 | Maximum value. |
 | `divisions` | `number` | no | — | Number of discrete steps. |
 | `change` | `Action` | no | — | Legacy alias of `onChange`. |
-| `activeColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `activeColor`; the registry had not declared it. |
-| `bindTo` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `bindTo`; the registry had not declared it. |
-| `inactiveColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `inactiveColor`; the registry had not declared it. |
-| `labels` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `labels`; the registry had not declared it. |
-| `onChangeEnd` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onChangeEnd`; the registry had not declared it. |
-| `onChangeStart` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onChangeStart`; the registry had not declared it. |
-| `values` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `values`; the registry had not declared it. |
 
 ---
 
@@ -4616,15 +4568,14 @@ Discrete rating control (e.g., star rating). Shared rows per §2.6.0; `value` is
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
+| `allowHalf` | `boolean` | no | — | Allow half-unit ratings. |
+| `emptyColor` | `Color` | no | — | Colour of the unfilled portion. |
+| `readOnly` | `boolean` | no | — | Display only — the value cannot be changed by touch. |
+| `size` | `Dimension` | no | — | Rendered size. |
 | `max` | `number` | no | 5 | Maximum rating value. |
 | `icon` | `IconRef` | no | "star" | Icon for each unit. Any `IconRef` form. |
 | `color` | `Color` | no | — | Icon color. |
 | `change` | `Action` | no | — | Legacy alias of `onChange`. |
-| `allowHalf` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `allowHalf`; the registry had not declared it. |
-| `emptyColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `emptyColor`; the registry had not declared it. |
-| `maxRating` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `maxRating`; the registry had not declared it. |
-| `readOnly` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `readOnly`; the registry had not declared it. |
-| `size` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, string form or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
 
 ---
 
@@ -4688,6 +4639,7 @@ span styles layer on top of.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `textScaleFactor` | `number` | no | — | Multiplier applied to the text size. |
 | `spans` | `array<Span>` | yes | — | Inline span list. Each entry is a `Span` (TextSpan or WidgetSpan). See the `Span` $def for the two shapes.  |
 | `style` | `TextStyle` | no | — | Paragraph base style applied to every span unless overridden. Use this for a uniform `lineHeight` / `letterSpacing` / `fontFamily` / `color` across the paragraph; per-span styles layer on top via `merge` semantics.  |
 | `dropCap` | `DropCap` | no | — | Render the first character of the first `TextSpan` as an enlarged drop cap that the paragraph flows around. Mutually exclusive with `maxLines`.  |
@@ -4696,7 +4648,6 @@ span styles layer on top of.
 | `maxLines` | `number` | no | — | Maximum rendered lines. Mutually exclusive with `dropCap`. |
 | `overflow` | `string` | no | "clip" | Overflow behaviour when content exceeds `maxLines`. |
 | `softWrap` | `boolean` | no | true | When false, the paragraph never wraps and overflow rules apply at the right edge. |
-| `textScaleFactor` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `textScaleFactor`; the registry had not declared it. |
 
 ### Examples
 
@@ -4779,9 +4730,7 @@ editor is not a licence to inject.
 | `minHeight` | `number` | no | — | Minimum editor height in logical pixels. |
 | `maxLength` | `number` | no | — | Character ceiling, counted on the text content rather than the markup. |
 | `binding` | `string` | no | — | State path bound two-way to the widget value (§2.6.0). Runtime reads/writes this path without requiring an explicit onChange. |
-| `onChange` | `Action` | no | — | onChange |
-| `enabled` | `boolean | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `enabled`; the registry had not declared it. |
-| `value` | `string | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `value`; the registry had not declared it. |
+| `onChange` | `Action` | no | — | Fired as the document changes. `{{event.value}}` carries the current rich-text value. |
 
 ### Examples
 
@@ -4854,13 +4803,13 @@ Insets children so they avoid system UI overlaps (notch, status bar, home indica
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `maintainBottomViewPadding` | `boolean` | no | — | Keep the bottom inset while the keyboard is up. |
+| `minimum` | `EdgeInsets` | no | — | Padding applied even where the system intrusion is smaller. |
 | `child` | `Widget` | yes | — | Child widget. |
 | `bottom` | `boolean` | no | — | Distance from the parent stack's bottom edge. |
 | `left` | `boolean` | no | — | Distance from the parent stack's left edge. |
 | `right` | `boolean` | no | — | Distance from the parent stack's right edge. |
 | `top` | `boolean` | no | — | Distance from the parent stack's top edge. |
-| `maintainBottomViewPadding` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `maintainBottomViewPadding`; the registry had not declared it. |
-| `minimum` | `Dimension` | no | — | Promoted from the runtime (2026-08-04): the factory reads `minimum`; the registry had not declared it. |
 
 ### Examples
 
@@ -4960,6 +4909,7 @@ mutually exclusive.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `primary` | `boolean` | no | — | Whether this is the primary scroll view of the page. |
 | `direction` | `string` | no | "vertical" | Scroll axis. |
 | `padding` | `EdgeInsets` | no | — | Inner padding around the scrollable content. |
 | `scrollPhysics` | `string` | no | "clamping" | Edge / overscroll behaviour. |
@@ -4968,8 +4918,6 @@ mutually exclusive.
 | `slivers` | `array<Sliver>` | no | — | Sliver entries (sliverAppBar / sliverPersistentHeader / sliverList / sliverGrid / sliverFixedExtentList). Mutually exclusive with `child` and `children`.  |
 | `reverse` | `boolean` | no | — | When true, run the transition in reverse direction (for back navigation). |
 | `scrollDirection` | `string` | no | — | Scroll axis. |
-| `physics` | `string` | no | — | Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `primary` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `primary`; the registry had not declared it. |
 
 ### Examples
 
@@ -5063,16 +5011,17 @@ Single-value dropdown selection. Shared rows per §2.6.0.
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
+| `disabledHint` | `string` | no | — | Text shown in place of the value while the control is disabled. |
+| `isExpanded` | `boolean` | no | — | Let the control fill the available width. |
+| `itemHeight` | `Dimension` | no | — | Height of one option row. |
+| `iconSize` | `Dimension` | no | — | Rendered size of the icon. |
+| `style` | `TextStyle` | no | — | Text style applied to the label. |
 | `options` *(aliases: `items`)* | `array<Option>` | yes | — | `{ value, label, icon? }` entries. |
 | `placeholder` | `string` | no | — | Placeholder shown when nothing is selected. |
 | `change` | `Action` | no | — | Legacy alias of `onChange`. |
-| `elevation` | `Dimension` | no | — | elevation |
+| `elevation` | `Dimension` | no | — | Shadow depth of the open option list. |
 | `hint` | `string` | no | — | Legacy alias of `placeholder`. |
 | `label` | `string` | no | — | Field label shown beside or above the control. |
-| `disabledHint` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `disabledHint`; the registry had not declared it. |
-| `iconSize` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `iconSize`; the registry had not declared it. |
-| `isExpanded` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `isExpanded`; the registry had not declared it. |
-| `itemHeight` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `itemHeight`; the registry had not declared it. |
 
 ### Examples
 
@@ -5102,6 +5051,8 @@ Signature capture pad.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `onSignatureStart` | `Action` | no | — | Fired when the first stroke begins. |
+| `borderWidth` | `Dimension` | no | — | Thickness of the outline. |
 | `binding` | `binding` | no | — | Target binding for signature data (base64 PNG or SVG path). Required when capturing is needed; may be omitted for pure display. |
 | `penColor` *(aliases: `color`)* | `Color` | no | #000000 | Stroke color |
 | `penWidth` *(aliases: `strokeWidth`)* | `number` | no | 2.0 | Stroke width |
@@ -5113,8 +5064,6 @@ Signature capture pad.
 | `showGuide` | `boolean` | no | false | Show a signing guide line |
 | `onSignatureEnd` | `Action` | no | — | Fired when a stroke completes |
 | `onClear` | `Action` | no | — | Fired when the signature is cleared |
-| `borderWidth` | `number` | no | — | Promoted from the runtime (2026-08-04): the factory reads `borderWidth`; the registry had not declared it. |
-| `onSignatureStart` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onSignatureStart`; the registry had not declared it. |
 
 ### Examples
 
@@ -5155,17 +5104,16 @@ Dialog presenting a list of options.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `contentPadding` | `EdgeInsets` | no | — | Space around the options. |
+| `titlePadding` | `EdgeInsets` | no | — | Space around the title. |
+| `shape` | `object` | no | — | Outline of the surface, as a shape descriptor. |
 | `title` | `string` | no | — | Dialog title. |
 | `options` | `array<Option>` | no | — | `{ value, label, icon? }` entries. Required when `children` is omitted. |
 | `children` | `array<Widget>` | no | — | Custom option widgets. Mutually exclusive with `options`. |
 | `onSelect` | `Action` | no | — | Fired when an option is chosen. |
 | `onClose` | `Action` | no | — | Fired when the dialog is dismissed without an option being selected. |
 | `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
-| `elevation` | `Dimension` | no | — | elevation |
-| `contentPadding` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `contentPadding`; the registry had not declared it. |
-| `select` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `select`; the registry had not declared it. |
-| `shape` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it. |
-| `titlePadding` | `Dimension` | no | — | Promoted from the runtime (2026-08-04): the factory reads `titlePadding`; the registry had not declared it. |
+| `elevation` | `Dimension` | no | — | Shadow depth of the dialog surface. |
 
 ---
 
@@ -5179,15 +5127,15 @@ Lightweight scrollable wrapper for a single child.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `clipBehavior` | `string` | no | — | How content crossing the bounds is clipped. |
+| `physics` | `string` | no | — | Scroll response: `bouncing`, `clamping`, `never`, `always`. |
+| `primary` | `boolean` | no | — | Whether this is the primary scroll view of the page. |
 | `direction` | `string` | no | "vertical" | Scroll direction. |
 | `padding` | `EdgeInsets` | no | — | Inner padding. |
 | `child` | `Widget` | no | — | Scrolled content. Required when `children` is omitted. |
 | `children` | `array<Widget>` | no | — | Multiple widgets; runtime wraps them in a linear column along `direction`. Mutually exclusive with `child`. |
 | `reverse` | `boolean` | no | — | When true, run the transition in reverse direction (for back navigation). |
 | `scrollDirection` | `string` | no | — | Scroll axis. |
-| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
-| `physics` | `string` | no | — | Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `primary` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `primary`; the registry had not declared it. |
 
 ### Examples
 
@@ -5248,20 +5196,16 @@ Continuous single-value selection. Shared rows per §2.6.0; `value` is `number`.
 | `value` *(aliases: `values`)* | `number` | no | — | Current numeric value (overrides shared contract to register `values` legacy alias). |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
+| `onChangeEnd` | `Action` | no | — | Fired when the thumb is released. |
+| `onChangeStart` | `Action` | no | — | Fired when the thumb starts moving. |
+| `thumbColor` | `Color` | no | — | Colour of the thumb. |
+| `activeColor` | `Color` | no | — | Colour of the selected / active portion. |
+| `inactiveColor` | `Color` | no | — | Colour of the unselected / inactive portion. |
 | `label` | `string` | no | — | Field label shown beside or above the control. |
 | `min` | `number` | no | 0 | Minimum value. |
 | `max` | `number` | no | 1 | Maximum value. |
 | `divisions` | `number` | no | — | Number of discrete steps. |
 | `change` | `Action` | no | — | Legacy alias of `onChange`. |
-| `activeColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `activeColor`; the registry had not declared it. |
-| `change-end` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `change-end`; the registry had not declared it. |
-| `change-start` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `change-start`; the registry had not declared it. |
-| `changeEnd` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `changeEnd`; the registry had not declared it. |
-| `changeStart` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `changeStart`; the registry had not declared it. |
-| `inactiveColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `inactiveColor`; the registry had not declared it. |
-| `onChangeEnd` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onChangeEnd`; the registry had not declared it. |
-| `onChangeStart` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onChangeStart`; the registry had not declared it. |
-| `thumbColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `thumbColor`; the registry had not declared it. |
 
 ### Examples
 
@@ -5289,21 +5233,20 @@ Transient notification at the bottom of the screen.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `behavior` | `string` | no | — | Placement: `fixed` (attached to the bottom) or `floating`. |
+| `closeIconColor` | `Color` | no | — | Colour of the dismiss control. |
+| `dismissDirection` | `string` | no | — | Swipe direction that dismisses it: `up`, `down`, `startToEnd`, `endToStart`, `horizontal`. |
+| `showCloseIcon` | `boolean` | no | — | Show the dismiss control. |
+| `margin` | `EdgeInsets` | no | — | Space outside the surface. |
+| `padding` | `EdgeInsets` | no | — | Space inside the surface, around its content. |
+| `shape` | `object` | no | — | Outline of the surface, as a shape descriptor. |
 | `content` | `string` | yes | — | Message text. |
 | `duration` | `number` | no | 4000 | Display duration in milliseconds. |
 | `action` | `SnackBarAction` | no | — | `{ label, onTap }` optional action. |
 | `onClose` | `Action` | no | — | Fired when the snackbar is dismissed (timeout, swipe-away, or `action.onTap` complete). |
 | `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
-| `elevation` | `Dimension` | no | — | elevation |
+| `elevation` | `Dimension` | no | — | Shadow depth of the bar. |
 | `textColor` | `Color` | no | — | Default text color |
-| `behavior` | `string` | no | — | Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `closeIconColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `closeIconColor`; the registry had not declared it. |
-| `dismissDirection` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `dismissDirection`; the registry had not declared it. |
-| `margin` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `margin`; the registry had not declared it. |
-| `onVisible` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `onVisible`; the registry had not declared it. |
-| `padding` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `padding`; the registry had not declared it. |
-| `shape` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it. |
-| `showCloseIcon` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `showCloseIcon`; the registry had not declared it. |
 | `width` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}`, a dimension string or a binding. |
 
 ### Examples
@@ -5456,11 +5399,11 @@ Overlapping children. Non-positioned children align per `alignment`; positioned 
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `clipBehavior` | `string` | no | — | How content crossing the bounds is clipped. |
 | `alignment` | `Alignment` | no | "topStart" | Alignment of non-positioned children. |
 | `fit` | `string` | no | "loose" | Sizing of non-positioned children: `loose`, `expand`, `passthrough`. |
 | `children` | `array<Widget>` | yes | — | Stacked children (rendered in order; later children render on top). |
 | `textDirection` | `string` | no | — | Resolution direction for `start`/`end` alignment. |
-| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
 
 ### Examples
 
@@ -5546,14 +5489,14 @@ Step-by-step wizard. Shared `binding` / `value` / `enabled` / `onChange` per §2
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
+| `margin` | `EdgeInsets` | no | — | Space outside the surface. |
+| `physics` | `string` | no | — | Scroll response: `bouncing`, `clamping`, `never`, `always`. |
 | `steps` | `array<Step>` | yes | — | Each step: `{ title, subtitle?, state?, content, isActive? }`. |
 | `currentStep` | `number | binding` | no | 0 | One-way legacy property. Use §2.6.0 `binding` for two-way behavior. |
 | `stepperType` | `string` | no | "vertical" | `vertical` or `horizontal`. |
 | `onStepTapped` | `Action` | no | — | Fired when a step header is tapped. Receives `{{event.index}}`. |
 | `onStepContinue` | `Action` | no | — | Fired when the continue button is pressed. |
 | `onStepCancel` | `Action` | no | — | Fired when the cancel button is pressed. |
-| `margin` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `margin`; the registry had not declared it. |
-| `physics` | `string` | no | — | Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
 
 ### Examples
 
@@ -5582,27 +5525,27 @@ Horizontal tab selector. Each tab's text field is `label`.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `indicator` | `object` | no | — | Decoration drawn as the selection indicator, replacing the default underline. |
+| `indicatorPadding` | `EdgeInsets` | no | — | Space between the indicator and the tab bounds. |
+| `indicatorSize` | `string` | no | — | What the indicator spans: `tab` (the whole tab) or `label` (the text only). |
+| `indicatorWeight` | `Dimension` | no | — | Thickness of the default underline indicator. |
+| `isScrollable` | `boolean` | no | — | Let the tabs scroll horizontally instead of sharing the width. |
+| `labelPadding` | `EdgeInsets` | no | — | Space around each tab label. |
+| `mouseCursor` | `string` | no | — | Pointer cursor shown over a tab. |
+| `unselectedLabelColor` | `Color` | no | — | Colour of labels that are not selected. |
+| `unselectedLabelStyle` | `TextStyle` | no | — | Text style for labels that are not selected. |
+| `enableFeedback` | `boolean` | no | — | Play the platform tap sound / haptic on activation. |
+| `labelColor` | `Color` | no | — | Colour applied to the label text. |
+| `overlayColor` | `Color` | no | — | Overlay used for the focus / hover / press states together. |
+| `padding` | `EdgeInsets` | no | — | Space inside the surface, around its content. |
+| `physics` | `string` | no | — | Scroll response: `bouncing`, `clamping`, `never`, `always`. |
 | `selectedIndex` | `number | binding` | no | 0 | Currently selected index. Defaults to 0 when omitted. |
 | `tabs` | `array<Tab>` | yes | — | `{ label, icon? }` entries. |
 | `onChange` | `Action` | no | — | Fired when selection changes. |
 | `change` | `Action` | no | — | Legacy alias of `onChange`. |
 | `indicatorColor` | `Color` | no | — | Selection indicator pill color (rail / drawer / tabs). |
 | `labelStyle` | `TextStyle` | no | — | Default text style for item labels (selected and unselected). Per-item override via NavItem.style.labelStyle. |
-| `onTap` | `Action` | no | — | onTap |
-| `enableFeedback` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `enableFeedback`; the registry had not declared it. |
-| `indicator` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `indicator`; the registry had not declared it. |
-| `indicatorPadding` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `indicatorPadding`; the registry had not declared it. |
-| `indicatorSize` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `indicatorSize`; the registry had not declared it. |
-| `indicatorWeight` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `indicatorWeight`; the registry had not declared it. |
-| `isScrollable` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `isScrollable`; the registry had not declared it. |
-| `labelColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `labelColor`; the registry had not declared it. |
-| `labelPadding` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `labelPadding`; the registry had not declared it. |
-| `mouseCursor` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `mouseCursor`; the registry had not declared it. |
-| `overlayColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `overlayColor`; the registry had not declared it. |
-| `padding` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `padding`; the registry had not declared it. |
-| `physics` | `string` | no | — | Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `unselectedLabelColor` | `Color` | no | — | Promoted from the runtime (2026-08-04): the factory reads `unselectedLabelColor`; the registry had not declared it. |
-| `unselectedLabelStyle` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `unselectedLabelStyle`; the registry had not declared it. |
+| `onTap` | `Action` | no | — | Fired when a tab is tapped. `{{event.value}}` carries its index. |
 
 ### Examples
 
@@ -5636,10 +5579,10 @@ Content area that displays widgets corresponding to the currently selected tab.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `dragStartBehavior` | `string` | no | — | When a drag is recognised: `start` or `down`. |
+| `physics` | `string` | no | — | Scroll response: `bouncing`, `clamping`, `never`, `always`. |
 | `selectedIndex` | `number | binding` | no | — | Displayed index (usually bound to the same state as a `tabBar`). |
 | `children` | `array<Widget>` | yes | — | One child per tab. |
-| `dragStartBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `dragStartBehavior`; the registry had not declared it. |
-| `physics` | `string` | no | — | Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
 
 ### Examples
 
@@ -5669,13 +5612,13 @@ Layout table for arranging widgets in rows and columns. Not data-bound; each cel
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `textBaseline` | `string` | no | — | Baseline used to align cells in a baseline-aligned row. |
 | `rows` | `array<object{ cells: array<Widget> }>` | yes | — | Row definitions |
 | `border` | `{ color, width }` | no | — | Optional cell border |
 | `defaultColumnWidth` | `string | number` | no | flex | `flex`, `intrinsic`, or a fixed number (logical px). |
 | `defaultVerticalAlignment` | `string` | no | middle | Cell vertical alignment. |
 | `columnWidths` | `object` | no | — | Map `columnIndex` → width override |
 | `textDirection` | `string` | no | — | Resolution direction for `start`/`end` alignment. |
-| `textBaseline` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `textBaseline`; the registry had not declared it. |
 
 ### Examples
 
@@ -5730,7 +5673,6 @@ ANSI-capable terminal emulator.
 | `promptColor` | `Color` | no | — | Prompt color |
 | `onCommand` | `Action` | no | — | Fired on Enter; `event.value` is the submitted command |
 | `theme` | `string` | no | — | Editor color theme. |
-| `command` | `string` | no | — | Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
 
 ### Examples
 
@@ -5771,20 +5713,19 @@ Renders a string. The canonical content field is `text`.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `textTransform` | `string` | no | — | Case transform applied before rendering: `uppercase`, `lowercase`, `capitalize`, `none`. |
+| `ariaLabel` | `string` | no | — | Label announced by a screen reader in place of the content. |
+| `semanticsLabel` | `string` | no | — | Label announced by a screen reader in place of the content. |
+| `softWrap` | `boolean` | no | — | Whether the text breaks at soft line boundaries. |
+| `textScaleFactor` | `number` | no | — | Multiplier applied to the text size. |
 | `text` *(aliases: `content`)* | `string` | yes | — | Text content. Supports binding expressions. |
 | `variant` | `string` | no | — | M3 typography role. The runtime resolves it through `theme.typography.<variant>` (see `05_Theme.md` § 5.4) and uses the result as the base TextStyle. Inline `style` (if present) overrides individual fields on top of the resolved role.  |
 | `style` | `TextStyle` | no | — | Inline `TextStyle` overrides (color, fontWeight, fontSize, decoration, shader, shadows, fontFeatures, …). Layered on top of `variant` when both are set. A binding expression `"{{theme.typography.<role>}}"` is also accepted and resolves to the same role's typography object — equivalent to writing `variant: "<role>"`.  |
 | `dropCap` | `DropCap` | no | — | Render the first character of `text` as an enlarged drop cap that the surrounding lines flow around (book / magazine ornament). Mutually exclusive with `maxLines`.  |
 | `maxLines` | `number` | no | — | Maximum rendered lines. |
 | `overflow` | `string` | no | "clip" | `clip`, `ellipsis`, `fade`, `visible`. |
-| `textAlign` | `string` | no | "start" | `start`, `center`, `end`, `justify`. |
+| `textAlign` | `string` | no | "start" | `start`, `center`, `end`, `justify` follow the text direction (`start` is right-hand in an RTL locale). `left` and `right` are absolute and do not — they are the way to pin a column of numbers to one side whatever the locale, so they are values, not aliases. |
 | `textDirection` | `string` | no | — | Resolution direction for `start`/`end` alignment. |
-| `aria-label` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `aria-label`; the registry had not declared it. |
-| `ariaLabel` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `ariaLabel`; the registry had not declared it. |
-| `semanticsLabel` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `semanticsLabel`; the registry had not declared it. |
-| `softWrap` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `softWrap`; the registry had not declared it. |
-| `textScaleFactor` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `textScaleFactor`; the registry had not declared it. |
-| `textTransform` | `string | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `textTransform`; the registry had not declared it. |
 | `value` | `string | number | boolean | object | array` | no | — | Measured from real documents (2026-08-04): any literal or binding — the §2.6.0 input contract shape. |
 
 ### Examples
@@ -5821,6 +5762,10 @@ override the shorthand.
 | `value` | `string | binding` | no | — | One-way initial/display value when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the field accepts user input. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
+| `debounce` | `number` | no | — | Milliseconds to wait after typing stops before `onChange` fires. |
+| `textInputAction` | `string` | no | — | Keyboard action key: `done`, `next`, `search`, `send`, `go`, `newline`. |
+| `errorText` | `string` | no | — | Error message shown under the field. Overrides validation output. |
+| `style` | `TextStyle` | no | — | Text style applied to the label. |
 | `label` | `string` | no | — | Field label shown above or floating inside the field. |
 | `placeholder` *(aliases: `hint`)* | `string` | no | — | Placeholder shown when the field is empty. |
 | `helperText` | `string` | no | — | Helper text shown below the field. |
@@ -5834,12 +5779,7 @@ override the shorthand.
 | `showToggle` | `boolean` | no | false | Offer a reveal control alongside an obscured field. Ignored unless `obscureText` is true. |
 | `defaultCountry` | `string` | no | — | ISO 3166-1 alpha-2 country seeding the dialling code. Ignored unless `inputType` is `phone`. |
 | `validation` | `ValidationConfig` | no | — | Input constraints; see `../../07_Security.md` §7.2.1. |
-| `debounce` | `number` | no | — | Promoted from the runtime (2026-08-04): the factory reads `debounce`; the registry had not declared it. |
 | `error` | `string | boolean | binding` | no | — | Error state: a message to show, or `true` to mark the field with `errorText`. |
-| `errorText` | `string | binding` | no | — | Promoted from the runtime (2026-08-04): the factory reads `errorText`; the registry had not declared it. |
-| `focus` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `focus`; the registry had not declared it. |
-| `keyboardType` | `string` | no | — | Measured from real documents (2026-08-04): string or binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `textInputAction` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `textInputAction`; the registry had not declared it. |
 
 ### Events
 
@@ -5935,11 +5875,11 @@ Time input. Shared rows per §2.6.0; `value` is a time string (e.g., `"14:30"`).
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
+| `errorText` | `string` | no | — | Error message shown under the field. Overrides validation output. |
 | `label` | `string` | no | — | Field label. |
 | `format` | `string` | no | "HH:mm" | Display format. |
 | `use24HourFormat` | `boolean` | no | true | 24-hour clock. |
 | `mode` | `string` | no | "spinner" | `spinner`, `input`, `dial`. |
-| `errorText` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `errorText`; the registry had not declared it. |
 
 ---
 
@@ -5957,14 +5897,13 @@ Standalone time picker surface. Shared rows per §2.6.0; `value` is a time strin
 | `value` | `string | number | boolean | object | array` | no | — | One-way initial/display value (§2.6.0). Literal or `{{path}}`; used when `binding` is not set. |
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
+| `initialTime` | `string` | no | — | Time the picker opens on when the bound value is empty (`HH:mm`). |
 | `label` | `string` | no | — | Field label shown beside or above the control. |
 | `use24HourFormat` | `boolean` | no | false | 24-hour clock. |
 | `change` | `Action` | no | — | Legacy alias of `onChange`. |
 | `icon` | `IconRef` | no | — | Icon shown. Any `IconRef` form. |
 | `timeFormat` | `string` | no | — | Display pattern for the time portion. Display only. |
 | `variant` | `string` | no | — | `elevated`, `filled`, `outlined`, `text`, `icon`. |
-| `bindTo` | `string` | no | — | Promoted from the runtime (2026-08-04): the factory reads `bindTo`; the registry had not declared it. |
-| `initialTime` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `initialTime`; the registry had not declared it. |
 
 ---
 
@@ -5978,6 +5917,9 @@ Chronological timeline of events.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `nodeSize` | `Dimension` | no | — | Diameter of the node marker on the line. |
+| `lineWidth` | `Dimension` | no | — | Thickness of the connecting line. |
+| `spacing` | `Dimension` | no | — | Gap between adjacent items. |
 | `items` | `array<TimelineItem>` | yes | — | Timeline entries |
 | `items[].title` | `string` | yes | — | Entry title |
 | `items[].subtitle` | `string` | no | — | Secondary text |
@@ -5985,11 +5927,8 @@ Chronological timeline of events.
 | `items[].time` | `string` | no | — | Event time (ISO 8601). |
 | `items[].color` | `string` | no | theme | Marker color |
 | `orientation` | `string` | no | vertical | Layout axis. |
-| `itemTemplate` | `Widget` | no | — | itemTemplate |
+| `itemTemplate` | `Widget` | no | — | Template built once per entry, with `{{item}}` and `{{index}}` in scope. |
 | `lineColor` | `Color` | no | — | Line / bar color. |
-| `lineWidth` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `lineWidth`; the registry had not declared it. |
-| `nodeSize` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `nodeSize`; the registry had not declared it. |
-| `spacing` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
 
 ### Examples
 
@@ -6054,21 +5993,21 @@ Wrapper that reveals a tooltip on hover or long-press.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `preferBelow` | `boolean` | no | — | Prefer to place the tooltip under the anchor. |
+| `richMessage` | `array<object>` | no | — | Message as styled spans, when plain text is not enough. |
+| `showDuration` | `number` | no | — | How long the tooltip stays up, in milliseconds. |
+| `textStyle` | `TextStyle` | no | — | Text style of the tooltip message. |
+| `triggerMode` | `string` | no | — | What raises it: `tap`, `longPress`, `manual`. |
+| `verticalOffset` | `Dimension` | no | — | Distance between the anchor and the tooltip. |
+| `enableFeedback` | `boolean` | no | — | Play the platform tap sound / haptic on activation. |
+| `excludeFromSemantics` | `boolean` | no | — | Keep the surface out of the accessibility tree. |
+| `height` | `Dimension` | no | — | Fixed height. |
+| `margin` | `EdgeInsets` | no | — | Space outside the surface. |
+| `padding` | `EdgeInsets` | no | — | Space inside the surface, around its content. |
 | `message` | `string` | yes | — | Tooltip text. |
 | `child` | `Widget` | yes | — | Wrapped widget. |
 | `decoration` | `BoxDecoration` | no | — | Animated decoration (color/gradient/border/shadow/image). |
 | `textAlign` | `string` | no | — | Alignment for the composed paragraph. |
-| `enableFeedback` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `enableFeedback`; the registry had not declared it. |
-| `excludeFromSemantics` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `excludeFromSemantics`; the registry had not declared it. |
-| `height` | `Dimension` | no | — | Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass. |
-| `margin` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `margin`; the registry had not declared it. |
-| `padding` | `EdgeInsets` | no | — | Promoted from the runtime (2026-08-04): the factory reads `padding`; the registry had not declared it. |
-| `preferBelow` | `boolean` | no | — | Promoted from the runtime (2026-08-04): the factory reads `preferBelow`; the registry had not declared it. |
-| `richMessage` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `richMessage`; the registry had not declared it. |
-| `showDuration` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `showDuration`; the registry had not declared it. |
-| `textStyle` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `textStyle`; the registry had not declared it. |
-| `triggerMode` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `triggerMode`; the registry had not declared it. |
-| `verticalOffset` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `verticalOffset`; the registry had not declared it. |
 | `waitDuration` | `number` | no | — | Measured from real documents (2026-08-04): milliseconds before the tooltip appears. |
 
 ### Examples
@@ -6156,8 +6095,6 @@ Hierarchical tree view with expandable nodes.
 | `onSelect` | `Action` | no | — | Fired when a node is selected (requires `selectable: true`). Event payload is the node object. |
 | `onExpand` | `Action` | no | — | Fired on node expand; `event.id` |
 | `onCollapse` | `Action` | no | — | Fired on node collapse; `event.id` |
-| `expandAll` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `expandAll`; the registry had not declared it. |
-| `select` | `Action` | no | — | Promoted from the runtime (2026-08-04): the factory reads `select`; the registry had not declared it. |
 
 ### Examples
 
@@ -6256,14 +6193,14 @@ Shows or hides a child with optional state preservation and replacement content.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `maintainAnimation` | `boolean` | no | — | Keep animations running while hidden. |
+| `maintainInteractivity` | `boolean` | no | — | Keep the subtree interactive while hidden. |
 | `visible` | `boolean | binding` | no | true | Whether the child is visible. Defaults to `true` when omitted. |
 | `maintainSize` | `boolean` | no | false | Keep space allocated when hidden. |
 | `maintainState` | `boolean` | no | false | Preserve `child` state when hidden. Does not affect `replacement`, which is built fresh each time it is shown. |
 | `replacement` | `Widget` | no | — | Widget shown in place of `child` when `visible` is `false`. When absent, the child is simply hidden in-place (respecting `maintainSize` / `maintainState`). |
 | `child` | `Widget` | no | — | Primary widget. Required when `children` is omitted. |
 | `children` | `array<Widget>` | no | — | Multiple widgets; runtime wraps them in a linear column. Mutually exclusive with `child`. |
-| `maintainAnimation` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `maintainAnimation`; the registry had not declared it. |
-| `maintainInteractivity` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `maintainInteractivity`; the registry had not declared it. |
 
 ### Examples
 
@@ -6396,6 +6333,9 @@ Flow layout that wraps children to the next line when they exceed available widt
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
+| `runAlignment` | `string` | no | — | How the runs (lines) are aligned along the cross axis. |
+| `verticalDirection` | `string` | no | — | Order children are laid out vertically: `down` or `up`. |
+| `clipBehavior` | `string` | no | — | How content crossing the bounds is clipped. |
 | `direction` | `string` | no | "horizontal" | Primary flow direction. |
 | `spacing` | `number` | no | 0 | Gap between children on the same run. |
 | `runSpacing` | `number` | no | 0 | Gap between runs. |
@@ -6403,7 +6343,4 @@ Flow layout that wraps children to the next line when they exceed available widt
 | `children` | `array<Widget>` | yes | — | Children to wrap. |
 | `crossAxisAlignment` | `string` | no | — | Legacy alias of `alignment`. |
 | `textDirection` | `string` | no | — | Resolution direction for `start`/`end` alignment. |
-| `clipBehavior` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it. |
-| `runAlignment` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `runAlignment`; the registry had not declared it. |
-| `verticalDirection` | `any` | no | — | Promoted from the runtime (2026-08-04): the factory reads `verticalDirection`; the registry had not declared it. |
 

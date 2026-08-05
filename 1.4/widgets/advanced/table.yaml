@@ -5,6 +5,9 @@ since: v1.0
 description: |
   Layout table for arranging widgets in rows and columns. Not data-bound; each cell is a widget.
 properties:
+  textBaseline:
+    type: "string"
+    description: "Baseline used to align cells in a baseline-aligned row."
   rows:
     type: "array<object{ cells: array<Widget> }>"
     required: true
@@ -29,9 +32,6 @@ properties:
   textDirection:
     type: "string"
     description: "Resolution direction for `start`/`end` alignment."
-  textBaseline:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `textBaseline`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

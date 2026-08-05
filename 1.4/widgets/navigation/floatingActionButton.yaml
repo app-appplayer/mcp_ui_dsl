@@ -4,6 +4,48 @@ profile: Core
 description: |
   Floating action button (FAB).
 properties:
+  disabledElevation:
+    type: Dimension
+    description: "Shadow depth while disabled."
+  focusElevation:
+    type: Dimension
+    description: "Shadow depth while focused."
+  heroTag:
+    type: "string"
+    description: "Tag used to animate the button between routes; distinct tags let two coexist."
+  highlightElevation:
+    type: Dimension
+    description: "Shadow depth while held down."
+  hoverElevation:
+    type: Dimension
+    description: "Shadow depth while hovered."
+  isExtended:
+    type: "boolean"
+    description: "Render the extended form, with a label beside the icon."
+  materialTapTargetSize:
+    type: "string"
+    description: "Minimum tap target: `padded` (48dp) or `shrinkWrap`."
+  mini:
+    type: "boolean"
+    description: "Render the smaller button size."
+  autofocus:
+    type: "boolean"
+    description: "Take focus when the surface first appears."
+  clipBehavior:
+    type: "string"
+    description: "How content crossing the bounds is clipped."
+  focusColor:
+    type: Color
+    description: "Overlay while the surface holds focus."
+  hoverColor:
+    type: Color
+    description: "Overlay while a pointer rests on the surface."
+  shape:
+    type: "object"
+    description: "Outline of the surface, as a shape descriptor."
+  splashColor:
+    type: Color
+    description: "Colour of the ripple that expands from the touch point."
   icon:
     type: IconRef
     description: "Icon shown. Any `IconRef` form."
@@ -19,61 +61,13 @@ properties:
     description: "Legacy alias of `color`."
   elevation:
     type: Dimension
-    description: "elevation"
+    description: "Shadow depth at rest."
   foregroundColor:
     type: Color
     description: "Bar color."
   onLongPress:
     type: Action
-    description: "onLongPress"
-  autofocus:
-    type: "boolean"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `autofocus`; the registry had not declared it."
-  clipBehavior:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `clipBehavior`; the registry had not declared it."
-  disabledElevation:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `disabledElevation`; the registry had not declared it."
-  focusColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `focusColor`; the registry had not declared it."
-  focusElevation:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `focusElevation`; the registry had not declared it."
-  heroTag:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `heroTag`; the registry had not declared it."
-  highlightElevation:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `highlightElevation`; the registry had not declared it."
-  hoverColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `hoverColor`; the registry had not declared it."
-  hoverElevation:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `hoverElevation`; the registry had not declared it."
-  isExtended:
-    type: "boolean"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `isExtended`; the registry had not declared it."
-  long-press:
-    type: Action
-    description: "Promoted from the runtime (2026-08-04): the factory reads `long-press`; the registry had not declared it."
-  longPress:
-    type: Action
-    description: "Promoted from the runtime (2026-08-04): the factory reads `longPress`; the registry had not declared it."
-  materialTapTargetSize:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `materialTapTargetSize`; the registry had not declared it."
-  mini:
-    type: "boolean"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `mini`; the registry had not declared it."
-  shape:
-    type: any
-    description: "Promoted from the runtime (2026-08-04): the factory reads `shape`; the registry had not declared it."
-  splashColor:
-    type: Color
-    description: "Promoted from the runtime (2026-08-04): the factory reads `splashColor`; the registry had not declared it."
+    description: "Fired on a long press."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

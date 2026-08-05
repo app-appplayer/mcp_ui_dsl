@@ -4,6 +4,12 @@ profile: Core
 description: |
   Horizontal separator.
 properties:
+  vertical:
+    type: "boolean"
+    description: "Draw the rule vertically instead of horizontally."
+  height:
+    type: Dimension
+    description: "Fixed height."
   thickness:
     type: "number"
     default: 1
@@ -17,10 +23,4 @@ properties:
   endIndent:
     type: "number"
     description: "Trailing indent."
-  height:
-    type: Dimension
-    description: "Measured from real documents (2026-08-04): number, `{value, unit}` or a binding. Promoted from the runtime; type narrowed from the values documents actually pass."
-  vertical:
-    type: "boolean"
-    description: "Promoted from the runtime (2026-08-04): the factory reads `vertical`; the registry had not declared it."
 # examples migrated verbatim from prose JSON fences.
