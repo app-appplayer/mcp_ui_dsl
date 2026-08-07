@@ -68,8 +68,8 @@ Rectangular region with padding, margin, border, decoration, and size constraint
 | `maxWidth` | number | no | — | Maximum width constraint; caps the child's width. |
 | `minHeight` | number | no | — | Minimum height constraint. |
 | `maxHeight` | number | no | — | Maximum height constraint. |
-| `padding` | string \| EdgeInsets | no | — | Inner spacing. String form accepts an M3 spacing token (`xxs` / `xs` / `sm` / `md` / `lg` / `xl` / `2xl` / `3xl` / `4xl`, or any custom slot in `theme.spacing`) that resolves through `theme.spacing.<token>` to a uniform inset; object form is `{all}`, `{horizontal, vertical}`, `{top, right, bottom, left}`, or `{token: "md"}`. |
-| `margin` | EdgeInsets | no | — | Outer spacing. |
+| `padding` | BoxSpacing | no | — | Inner spacing. String form accepts an M3 spacing token (`xxs` / `xs` / `sm` / `md` / `lg` / `xl` / `2xl` / `3xl` / `4xl`, or any custom slot in `theme.spacing`) that resolves through `theme.spacing.<token>` to a uniform inset; object form is `{all}`, `{horizontal, vertical}`, `{top, right, bottom, left}`, or `{token: "md"}`. A string that is not a declared slot (`"16px"`) resolves to no inset; the runtime reports it rather than rejecting the document. |
+| `margin` | BoxSpacing | no | — | Outer spacing. Same spellings as `padding`, token included: `box` resolves both through one helper. |
 | `alignment` | string | no | — | Alignment of the child within the box. |
 | `decoration` | object | no | — | `color`, `borderRadius`, `border`, `boxShadow`, `gradient`. |
 | `color` | string | no | — | Shorthand for `decoration.color`. |
@@ -1026,7 +1026,7 @@ Time input. Shared rows per §2.6.0; `value` is a time string (e.g., `"14:30"`).
 |----------|------|----------|---------|-------------|
 | `label` | string | no | — | Field label. |
 | `format` | string | no | `"HH:mm"` | Display format. |
-| `use24HourFormat` | boolean | no | `true` | 24-hour clock. |
+| `use24HourFormat` | boolean | no | `false` | 24-hour clock. |
 | `mode` | string | no | `"spinner"` | `spinner`, `input`, `dial`. |
 
 ### 2.6.15 `datePicker`
@@ -1046,7 +1046,7 @@ Standalone time picker surface. Shared rows per §2.6.0; `value` is a time strin
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
 | `label` | string | no | — | Field label shown beside or above the control. |
-| `use24HourFormat` | boolean | no | `false` | 24-hour clock. |
+| `use24HourFormat` | boolean | no | `true` | 24-hour clock. |
 
 ### 2.6.17 `dateRangePicker`
 

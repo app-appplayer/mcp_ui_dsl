@@ -17,8 +17,17 @@ properties:
     type: Dimension
     description: "Thickness of the outline."
   size:
-    type: Dimension
-    description: "Rendered size."
+    type: ["string", "number"]
+    enum: [small, medium, large]
+    default: "\"medium\""
+    description: |
+      Rendered size: the named steps `small` / `medium` / `large`, which
+      the runtime's padding, icon size and spinner size are written
+      against. It was declared as a `Dimension` here — a number, which the
+      button reads as no size at all and falls back to `medium`, while the
+      named steps it does honour were rejected before the document loaded.
+      A number is still accepted so that documents carrying one keep
+      loading; the button renders at `medium`.
   label:
     type: "string"
     required: true

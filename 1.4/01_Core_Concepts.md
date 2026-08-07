@@ -366,6 +366,23 @@ The `version` field is informational for feature introduction. It is **not** the
 
 Features introduced after v1.0 carry a `since: vX.Y` marker on their heading or schema row throughout this specification. The marker tells implementers which DSL version first introduced the feature, independently of which profile governs it.
 
+### 1.7.5 Backward Compatibility *(since v1.4.1)*
+
+§1.7.2 governs the forward direction — a document that names an older version may still carry newer fields. This section governs the other one, which costs more when it is wrong.
+
+**A published document MUST keep opening.** Within a major version, the set of values a slot accepts MAY grow and MUST NOT shrink. A validator MUST NOT reject a value that was legal in the version the document declares.
+
+This is not a style preference. **A runtime validates a document at load, not at authoring time** (§18.2.6), so a slot that stops accepting a spelling does not merely refuse a new author — it stops every already-distributed bundle carrying that spelling from opening at all. A bundle in a marketplace is not re-authored when this specification changes; it is a fixed artifact that must still run. "Tightened the schema" and "broke the installed base" are the same event described from two ends.
+
+Consequently:
+
+- **Retiring a spelling is a documentation change, not a validation change.** Remove it from the canonical surface — the prose, the examples, the emitters, the authoring tools — so new documents are written the new way. The validator keeps accepting the old spelling, and the runtime keeps rendering it. §17.3 already describes this arrangement for aliases; §1.7.5 makes it the general rule.
+- **Where a slot must genuinely become stricter, gate the strictness on `version`.** The declared version says which contract the document was written against, and that contract is what it is judged by. A document declaring `1.0` is judged by 1.0's rules even on a runtime that implements a later version.
+- **A value that resolves to nothing is reported, not rejected.** When a document carries something the runtime cannot make sense of — a spacing token no theme declares, an asset scheme it does not implement — the answer is a diagnostic and the slot's declared fallback, never a refusal to open the document. §6.12.4 says this for assets; it generalizes.
+- **Implementation cost is not a reason to break a bundle.** Accepting two spellings is untidy in a way that is confined to one file. A bundle that no longer opens is a failure the author cannot see, cannot reproduce from the document, and cannot fix without republishing.
+
+A narrowing that cannot be expressed any of these ways requires a **major version**, where the break is declared rather than discovered.
+
 ## 1.8 Required Runtime Behavior
 
 Normative requirements for parsing, rendering, lifecycle execution, and state isolation are in [`18_Conformance.md`](18_Conformance.md) §18.2 (Core Profile) with cross-cutting requirements in §18.2.8 (security) and §18.2.10 (legacy alias acceptance).

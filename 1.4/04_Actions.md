@@ -352,6 +352,104 @@ Shows an in-app toast or snackbar.
 
 System-level notifications (outside the app UI) use `client.notification` — see §4.12.
 
+## 4.9a Sound Action *(since v1.4)*
+
+Plays a short sound: a button click, an alarm, a confirmation chime. **Core
+Profile** — a served application and a browser-rendered one need to be heard as
+much as an installed one, and a sound carries none of the user's data, so there
+is nothing here to confine to the Client Profile.
+
+Distinct from `mediaPlayer` (§10.6) on purpose. That widget is a *transport with
+a surface*: it occupies layout, shows position, and is seeked. A sound effect has
+no surface, overlaps other sounds, and is over before anyone would look at it.
+Expressing it as a widget would force an author to place an invisible element to
+make a beep.
+
+| Property | Type | Required | Default | Description |
+|----------|------|----------|---------|-------------|
+| `type` | string | Yes | — | `"sound.play"` |
+| `source` | `AssetRef` | Yes | — | The sound to play (§6.12 — a bundled file, a served one, an inline `data:`) |
+| `volume` | number | No | 1.0 | 0.0–1.0, relative to the host's own volume |
+| `id` | string | No | — | Names this playback so `sound.stop` can end it |
+| `loop` | boolean | No | `false` | Repeat until stopped. Requires `id` — an unnamed loop cannot be stopped |
+| `onError` | Action | No | — | Fired when the sound cannot be played, with the standard action-error shape (`event.code`, `event.message`) — no new spelling for the same event |
+
+```json
+{
+  "type": "sound.play",
+  "source": "bundle://assets/alarm.mp3",
+  "volume": 0.8,
+  "id": "alarm",
+  "loop": true
+}
+```
+
+`sound.stop` ends a playback started with `id`; omitting `id` stops every sound
+this document started.
+
+```json
+{ "type": "sound.stop", "id": "alarm" }
+```
+
+**Rules**
+
+- Sounds **overlap**. Playing a second sound while one is sounding MUST NOT cut
+  the first off — a click during an alarm is both, not the last one.
+- A runtime that cannot play sound MUST NOT swallow the action: it fires
+  `onError` and declares the capability absent
+  ([`06_Runtime_Contract.md`](06_Runtime_Contract.md) §6.13.2). Silence that
+  looks like success is the failure this rule exists to prevent.
+- A host MAY refuse playback (a browser before the first user gesture, a muted
+  device, a policy). That refusal is an error the document can see, through
+  `onError`, and never a rendered message.
+- A document MUST NOT rely on a sound as the only carrier of information. It is
+  an accompaniment: something audible must also be visible, or the app is unusable
+  where audio is refused, muted, or unheard.
+
+## 4.9b Media Actions *(since v1.4)*
+
+Drives a `mediaPlayer` (§10.6) from the document: `media.play`, `media.pause`,
+`media.toggle`, `media.seek`. **Core Profile**, for the same reason as §4.9a.
+
+Exists because `controls: false` was otherwise a dead end. An author who wants
+their own transport — a play button that matches their design, a scrubber built
+from a `slider` — could hide the built-in one and then had no way to start
+playback. Turning something off must not remove the ability to do it yourself.
+
+| Property | Type | Required | Default | Description |
+|----------|------|----------|---------|-------------|
+| `type` | string | Yes | — | `"media.play"` · `"media.pause"` · `"media.toggle"` · `"media.seek"` |
+| `id` | string | Yes | — | The `id` of the `mediaPlayer` this acts on |
+| `position` | number | `media.seek` only | — | Target position in seconds |
+| `onError` | Action | No | — | Fired when the action cannot be carried out (standard `event.code` / `event.message`) |
+
+```json
+{
+  "type": "mediaPlayer", "id": "lecture", "controls": false,
+  "source": "bundle://assets/lecture.mp3", "mediaType": "audio",
+  "onTimeUpdate": {
+    "type": "state", "action": "set", "binding": "at", "value": "{{event.currentTime}}"
+  }
+}
+```
+```json
+{ "type": "button", "label": "Play", "click": { "type": "media.toggle", "id": "lecture" } }
+```
+
+**Rules**
+
+- The target is addressed by the widget's `id`. An action naming an `id` that is
+  not mounted MUST report through `onError` — silently doing nothing would be
+  indistinguishable from a player that is present but refusing.
+- Reading playback state uses the events the widget already declares
+  (`onPlay`, `onPause`, `onTimeUpdate`, `onEnded`); no separate binding surface
+  is introduced. **A runtime MUST fire `onTimeUpdate` as the position advances**
+  — an author building their own scrubber has no other way to know where
+  playback is, and a transport built on a value that never changes is the
+  facsimile [`06_Runtime_Contract.md`](06_Runtime_Contract.md) §6.13.1 forbids.
+- These actions never *create* playback: they act on a mounted `mediaPlayer`.
+  Playing a sound with no surface is `sound.play` (§4.9a).
+
 ## 4.10 Animation Action
 
 Triggers an imperative animation on a target widget.

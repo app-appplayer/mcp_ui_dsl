@@ -59,17 +59,31 @@ properties:
     default: false
     description: "Whether rows are selectable"
   sortColumn:
-    type: "binding"
+    type: "string"
     default: null
-    description: "Current sort column key"
+    description: |
+      Current sort column key. Declared `binding` before, which accepted
+      `"{{sortColumn}}"` and rejected the key itself — a table sorted by a
+      fixed column could not say so.
   sortAscending:
-    type: "binding"
+    type: "boolean"
     default: true
-    description: "Current sort direction"
+    description: |
+      Current sort direction. `true` is ascending. Declared `binding` before,
+      so writing the direction as the boolean the runtime reads was rejected
+      at load.
   onSort:
     type: "Action"
     default: null
     description: "Fired on header tap of a sortable column"
+  onCellEdit:
+    type: Action
+    default: null
+    description: |
+      Fired when an edited cell is committed. `event.row` is the row object,
+      `event.column` its column key, `event.value` the new value and
+      `event.previous` the old one. The widget does not mutate `rows` — the
+      document decides what an edit means.
   onRowTap:
     type: "Action"
     default: null

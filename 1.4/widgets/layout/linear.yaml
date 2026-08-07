@@ -37,12 +37,12 @@ properties:
   distribution:
     type: "string"
     enum: [start, center, end, spaceBetween, spaceAround, spaceEvenly]
+    legacyValues: [space-between, space-around, space-evenly]
     default: "\"start\""
     description: |
-      Main-axis distribution. §17.1.3 spells multi-word enum values in
-      camelCase, so `spaceBetween` / `spaceAround` / `spaceEvenly` are the
-      declared values. The pre-1.3 kebab spellings are not part of the
-      canonical surface; a runtime MAY keep accepting them (§17.3).
+      Main-axis distribution: `start` · `center` · `end` · `spaceBetween` ·
+      `spaceAround` · `spaceEvenly` (§17.1.3 spells multi-word values in
+      camelCase).
     aliases:
       - mainAxisAlignment
   spacing:

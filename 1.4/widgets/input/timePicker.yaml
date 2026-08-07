@@ -12,8 +12,10 @@ properties:
     description: "Field label shown beside or above the control."
   use24HourFormat:
     type: "boolean"
-    default: false
-    description: "24-hour clock."
+    default: true
+    description: |
+      24-hour clock. The default follows what this picker has drawn since it
+      shipped; `timeField` defaults the other way — see its note.
   change:
     type: Action
     description: "Legacy alias of `onChange`."

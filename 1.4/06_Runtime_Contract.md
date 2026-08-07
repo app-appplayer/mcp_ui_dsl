@@ -403,3 +403,52 @@ This is guidance, not a constraint on the wire format. A runtime MUST NOT
 reject a document for carrying an inline asset, and MUST NOT impose a size
 limit on state (§6.12.6 governs *assets*, and the host cannot tell which
 string in a payload was meant to be one).
+
+## 6.13 Declared Behaviour *(since v1.4)*
+
+§6.12.4 fixes honesty for assets. This section states the same rule for the
+**behaviour a widget declares** — playing media, loading a page, drawing a map,
+speaking, signing — because the failure mode there is worse and was found in the
+field: a runtime that cannot perform a behaviour can still draw something that
+looks like it is performing it.
+
+### 6.13.1 A declared behaviour is performed or reported (MUST)
+
+A widget whose contract declares an effect — sound comes out, a page loads, a
+document renders, an animation plays — MUST either perform that effect or report
+that it cannot. There is no third state.
+
+A runtime MUST NOT render a facsimile of the behaviour succeeding. Concretely,
+and each of these has been shipped by an implementation of this spec:
+
+- a media transport whose position advances on a timer while nothing is decoded,
+  firing `onPlay` and `onEnded` as though playback occurred;
+- a web view that reports a successful load and renders the URL as text;
+- a map that draws a coloured rectangle where tiles would be.
+
+Each satisfies "parse and render" and each tells the user the opposite of the
+truth. **A silent failure is recoverable; a simulated success is not** — nobody
+looks for a bug in something that appears to work, and the author ships a
+document believing the effect reached the user.
+
+### 6.13.2 Inability is a capability fact, not a rendering (MUST)
+
+A runtime that lacks a behaviour MUST publish that fact the way §6.12.4 requires
+for asset forms — discoverable by the embedding host, not merely documented — and
+MUST route the individual failure to the widget's declared error path
+(`onError` where the widget defines one) and to the diagnostic channel (§6.9).
+
+The screen is not the diagnostic channel. A box reading "video not supported"
+is the substitution §6.12.4 already forbids for assets, and it is forbidden here
+for the same reason: the author asked for an effect, and the layout is not where
+the runtime's limits are reported.
+
+### 6.13.3 A host-provided capability is the normal case (informative)
+
+Most of these behaviours are platform powers, not rendering: an audio decoder, a
+web engine, a tile source. A runtime is expected to accept them from its embedder
+rather than carry them, exactly as it accepts asset resolution. The contract
+above is written so that a runtime with none of them is still conformant — it
+declares what it has and reports what it does not — while one that fakes them is
+not.
+

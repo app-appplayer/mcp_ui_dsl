@@ -63,6 +63,15 @@ properties:
   height:
     type: "number"
     description: "Fixed widget height in logical pixels."
+  onDrop:
+    type: Action
+    default: null
+    description: |
+      Fired when a dragged node is released on another. `event.item` is the
+      node that moved, `event.target` the node it was released on, and
+      `event.position` one of `before` / `inside` / `after` — which edge of
+      the target it landed on. The widget does not mutate the tree; the
+      document decides what a move means.
   onNodeTap:
     type: "Action"
     default: null

@@ -275,7 +275,8 @@ Audio / video player widget.
 | `volume` | number | 1.0 | Volume 0.0–1.0 |
 | `controls` | boolean | `true` | Show native controls |
 | `poster` | `AssetRef` | — | Preview image rendered before playback (video only). |
-| `waveform` | boolean | `false` | Audio mode only — render the audio's amplitude waveform above the transport controls, advancing with playback. |
+| `id` | string | — | Names this player so §4.9b media actions can drive it. Required to build a custom transport (`controls: false`). |
+| `waveform` | boolean | `false` | Audio mode only — render the audio's amplitude waveform above the transport controls, advancing with playback. A runtime whose host does not supply amplitude data MUST report the capability absent through `onError` (§6.13.2) rather than accept the property and draw nothing. |
 | `width` | number | null | Display width |
 | `height` | number | null | Display height |
 | `onPlay` | Action | null | Fired when playback starts |
@@ -372,13 +373,13 @@ Radial gauge for a value within a range.
 | `max` | number | 100 | Range maximum |
 | `segments` | `Segment[]` | null | Color segments with `from`, `to`, `color` |
 | `size` | number | 200 | Diameter (logical px) |
-| `strokeWidth` | number | 20 | Arc thickness |
+| `strokeWidth` | number | 10 | Arc thickness in logical pixels |
 | `backgroundColor` | string | `#E0E0E0` | Track color |
 | `valueColor` | string | theme primary | Value arc color (when no segments) |
 | `showLabel` | boolean | `true` | Show numeric label |
-| `labelFormat` | string | `{value}` | Label format pattern |
-| `startAngle` | number | 135 | Start angle in degrees |
-| `sweepAngle` | number | 270 | Sweep span in degrees |
+| `labelFormat` | string | `{value}%` | Label pattern; `{value}` is the reading |
+| `startAngle` | number | -220 | Start angle in degrees |
+| `sweepAngle` | number | 260 | Sweep span in degrees |
 
 ## 10.10 `heatmap` *(since v1.0)*
 
@@ -403,7 +404,7 @@ Two-dimensional heatmap visualization.
 | `rowLabels` | string[] | null | Vertical axis labels |
 | `cellSize` | number | 40 | Cell size (logical px) |
 | `colorRange` | `{ low, high }` | `{ "#E3F2FD", "#1565C0" }` | Hex gradient endpoints |
-| `showValues` | boolean | `false` | Render numeric value inside each cell |
+| `showValues` | boolean | `true` | Render numeric value inside each cell |
 | `onCellTap` | Action | null | Fired on cell tap; `event.row`, `event.column`, `event.value` |
 
 ## 10.11 `tree` *(since v1.0)*
@@ -516,7 +517,7 @@ Syntax-highlighted code editor.
 |----------|------|---------|-------------|
 | `code` | string \| binding | no | — | Code content. Required unless `binding` supplies it. |
 | `language` | enum | `plaintext` | `plaintext`, `javascript`, `typescript`, `dart`, `python`, `java`, `kotlin`, `swift`, `go`, `rust`, `c`, `cpp`, `csharp`, `ruby`, `php`, `sql`, `json`, `yaml`, `xml`, `html`, `css`, `markdown`, `shell` |
-| `theme` | enum | `vsLight` | `vsLight`, `vsDark`, `monokai`, `solarizedLight`, `solarizedDark`, `github`, `dracula` |
+| `theme` | enum | `vsDark` | `vsLight`, `vsDark`, `monokai`, `solarizedLight`, `solarizedDark`, `github`, `dracula` (legacy `light` / `dark` still read) |
 | `readOnly` | boolean | `false` | Disable editing (syntax highlighting still applies) |
 | `showLineNumbers` | boolean | `true` | Show gutter line numbers |
 | `fontSize` | number | null | Font size (logical px) |
@@ -723,7 +724,7 @@ Signature capture pad.
 | `backgroundColor` | string | null | Pad background |
 | `borderColor` | string | null | Pad border |
 | `showClearButton` | boolean | `true` | Show a clear-signature button |
-| `showGuide` | boolean | `false` | Show a signing guide line |
+| `showGuide` | boolean | `true` | Show a signing guide line |
 | `onSignatureEnd` | Action | null | Fired when a stroke completes |
 | `onClear` | Action | null | Fired when the signature is cleared |
 

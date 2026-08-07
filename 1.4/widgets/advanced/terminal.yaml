@@ -6,13 +6,15 @@ description: |
   ANSI-capable terminal emulator.
 properties:
   lines:
-    type: "binding"
+    type: array<string>
     default: null
-    description: "Output lines array (ANSI-escaped strings accepted)"
+    description: |
+      Output lines (ANSI-escaped strings accepted). Declared `binding`
+      before, which rejected a literal list of lines.
   prompt:
     type: "string"
-    default: "$"
-    description: "Input prompt prefix"
+    default: "$ "
+    description: "Input prompt prefix, including its trailing space."
   showInput:
     type: "boolean"
     default: true

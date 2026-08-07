@@ -48,8 +48,8 @@ properties:
     description: "Show a clear-signature button"
   showGuide:
     type: "boolean"
-    default: false
-    description: "Show a signing guide line"
+    default: true
+    description: "Show a signing guide line."
   onSignatureEnd:
     type: "Action"
     default: null

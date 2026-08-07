@@ -31,16 +31,20 @@ properties:
     type: number
     description: Maximum height constraint.
   padding:
-    type: ["string", "EdgeInsets"]
+    type: BoxSpacing
     description: |
       Space inside the box, between the border and the child. Accepts an
       M3 spacing token shorthand (`xxs` / `xs` / `sm` / `md` / `lg` /
       `xl` / `2xl` / `3xl` / `4xl`, or any custom slot in
       `theme.spacing`) — resolved through `theme.spacing.<token>` to a
-      uniform inset — or the legacy EdgeInsets object form.
+      uniform inset — the `{token}` object form, or any EdgeInsets spelling.
   margin:
-    type: EdgeInsets
-    description: Space outside the box, between the box and its parent.
+    type: BoxSpacing
+    description: |
+      Space outside the box, between the box and its parent. Takes the same
+      spellings as `padding`, token included — the widget resolves both
+      through one helper, so declaring less here only made the token
+      unauthorable, never unrenderable.
   alignment:
     type: Alignment
     description: |

@@ -28,8 +28,8 @@ properties:
     description: "Diameter (logical px)"
   strokeWidth:
     type: "number"
-    default: 20
-    description: "Arc thickness"
+    default: 10
+    description: "Arc thickness in logical pixels."
   backgroundColor:
     type: Color
     default: "#E0E0E0"
@@ -44,16 +44,21 @@ properties:
     description: "Show numeric label"
   labelFormat:
     type: "string"
-    default: "{value}"
-    description: "Label format pattern"
+    default: "{value}%"
+    description: |
+      Label pattern; `{value}` is replaced by the reading. The default carries
+      the per-cent sign because that is what every gauge written so far has
+      been drawing — a gauge of something else writes its own pattern.
   startAngle:
     type: "number"
-    default: 135
-    description: "Start angle in degrees"
+    default: -220
+    description: |
+      Start angle in degrees, measured the way the painter does: `-220` with a
+      sweep of `260` is the open-bottom dial these gauges have always drawn.
   sweepAngle:
     type: "number"
-    default: 270
-    description: "Sweep span in degrees"
+    default: 260
+    description: "Sweep span in degrees."
 # examples migrated verbatim from prose JSON fences.
 examples:
   - name: prose_example_0

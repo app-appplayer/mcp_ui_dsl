@@ -51,8 +51,11 @@ properties:
     description: "Color at the high end of the range."
   showValues:
     type: "boolean"
-    default: false
-    description: "Render numeric value inside each cell"
+    default: true
+    description: |
+      Render the numeric value inside each cell. On by default: every heatmap
+      written before this property was read showed its numbers, and turning
+      them off by default would change what those documents display.
   onCellTap:
     type: "Action"
     default: null

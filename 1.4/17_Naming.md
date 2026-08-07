@@ -141,7 +141,7 @@ Full catalog in [`04_Actions.md`](04_Actions.md).
 
 #### Client Profile
 
-`channel`, `permission`, `client.selectFile`, `client.readFile`, `client.writeFile`, `client.saveFile`, `client.listFiles`, `client.httpRequest`, `client.getSystemInfo`, `client.clipboard`, `client.exec`, `client.notification`, `client.storage.get`, `client.storage.set`, `client.storage.remove`, `permission.revoke`, `channel.start`, `channel.stop`, `channel.restart`, `channel.toggle`, `channel.send`, `identity.promote`, `identity.release`
+`channel`, `permission`, `client.selectFile`, `client.readFile`, `client.writeFile`, `client.saveFile`, `client.listFiles`, `client.httpRequest`, `client.getSystemInfo`, `client.clipboard`, `client.exec`, `client.notification`, `client.storage.get`, `client.storage.set`, `client.storage.remove`, `permission.revoke`, `channel.start`, `channel.stop`, `channel.restart`, `channel.toggle`, `channel.send`, `identity.promote`, `identity.release`, `sound.play`, `sound.stop`, `media.play`, `media.pause`, `media.toggle`, `media.seek`
 
 ### 17.2.3 Navigation Sub-Actions
 

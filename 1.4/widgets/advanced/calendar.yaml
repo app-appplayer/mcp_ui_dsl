@@ -34,9 +34,12 @@ properties:
     default: null
     description: "Currently selected date (ISO 8601 string, or binding to a string)."
   events:
-    type: "binding"
+    type: array<object>
     default: null
-    description: "Array of `{ date, title, color? }`"
+    description: |
+      Array of `{ date, title, color? }`. Declared `binding` before — a
+      calendar could only take its events through a state path, never as the
+      list the description names.
   firstDate:
     type: "string"
     default: null

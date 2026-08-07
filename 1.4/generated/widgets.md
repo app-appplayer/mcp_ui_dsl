@@ -824,8 +824,8 @@ commonly used as a styled wrapper around any child widget.
 | `maxWidth` | `number` | no | — | Maximum width constraint. Caps the child's width regardless of intrinsic size. |
 | `minHeight` | `number` | no | — | Minimum height constraint. |
 | `maxHeight` | `number` | no | — | Maximum height constraint. |
-| `padding` | `string` | no | — | Space inside the box, between the border and the child. Accepts an M3 spacing token shorthand (`xxs` / `xs` / `sm` / `md` / `lg` / `xl` / `2xl` / `3xl` / `4xl`, or any custom slot in `theme.spacing`) — resolved through `theme.spacing.<token>` to a uniform inset — or the legacy EdgeInsets object form.  |
-| `margin` | `EdgeInsets` | no | — | Space outside the box, between the box and its parent. |
+| `padding` | `BoxSpacing` | no | — | Space inside the box, between the border and the child. Accepts an M3 spacing token shorthand (`xxs` / `xs` / `sm` / `md` / `lg` / `xl` / `2xl` / `3xl` / `4xl`, or any custom slot in `theme.spacing`) — resolved through `theme.spacing.<token>` to a uniform inset — the `{token}` object form, or any EdgeInsets spelling.  |
+| `margin` | `BoxSpacing` | no | — | Space outside the box, between the box and its parent. Takes the same spellings as `padding`, token included — the widget resolves both through one helper, so declaring less here only made the token unauthorable, never unrenderable.  |
 | `alignment` | `Alignment` | no | — | Alignment of the child inside the box when the box is larger than the child. See the `Alignment` primitive for the canonical 9-token directional set and the `{x, y}` numeric form.  |
 | `color` *(aliases: `backgroundColor`)* | `Color` | no | — | Solid background color. Shorthand for `decoration.color`; mutually exclusive with `decoration`. |
 | `decoration` | `BoxDecoration` | no | — | Visual decoration. Mutually exclusive with the top-level `color` shorthand — when both are present `decoration` wins. See the `BoxDecoration` $def for the full property set: `color`, `gradient`, `image`, `border`, `borderRadius`, `boxShadow`, `shape`, `backdropBlur`.  |
@@ -928,7 +928,7 @@ Interactive button. The canonical label field is `label`.
 | `iconPosition` | `string` | no | — | Which side the icon sits on: `start` or `end`. |
 | `ariaLabel` | `string` | no | — | Label announced by a screen reader in place of the content. |
 | `borderWidth` | `Dimension` | no | — | Thickness of the outline. |
-| `size` | `Dimension` | no | — | Rendered size. |
+| `size` | `string` | no | "medium" | Rendered size: the named steps `small` / `medium` / `large`, which the runtime's padding, icon size and spinner size are written against. It was declared as a `Dimension` here — a number, which the button reads as no size at all and falls back to `medium`, while the named steps it does honour were rejected before the document loaded. A number is still accepted so that documents carrying one keep loading; the button renders at `medium`.  |
 | `label` *(aliases: `text`)* | `string` | yes | — | Button text. |
 | `variant` *(aliases: `style`)* | `string` | no | "elevated" | `elevated`, `filled`, `outlined`, `text`, `icon`. |
 | `elevation` | `string` | no | — | Shadow elevation. Accepts either a numeric dp value or an M3 elevation token shorthand (`level0` … `level5`) that resolves through `theme.elevation.<token>.shadow`. Honored only by the `elevated` variant; ignored by `filled`/`outlined`/`text`/`icon`.  |
@@ -978,7 +978,7 @@ Calendar view for date selection and event display.
 | `todayColor` | `Color` | no | — | Colour marking the current day. |
 | `height` | `Dimension` | no | — | Fixed height. |
 | `selectedDate` | `string | binding` | no | — | Currently selected date (ISO 8601 string, or binding to a string). |
-| `events` | `binding` | no | — | Array of `{ date, title, color? }` |
+| `events` | `array<object>` | no | — | Array of `{ date, title, color? }`. Declared `binding` before — a calendar could only take its events through a state path, never as the list the description names.  |
 | `firstDate` | `string` | no | — | Earliest selectable date (ISO 8601). |
 | `lastDate` | `string` | no | — | Latest selectable date (ISO 8601). |
 | `view` | `string` | no | month | Calendar display granularity. |
@@ -1393,7 +1393,7 @@ Syntax-highlighted code editor.
 | `expandAll` | `boolean` | no | false | Expand every collapsible region on load. Chiefly for structured languages such as JSON. |
 | `code` | `string | binding` | no | — | Code content — literal string or binding. Required unless `binding` supplies the content. |
 | `language` | `string` | no | plaintext | Syntax highlighting language. |
-| `theme` | `string` | no | vsLight | Editor color theme. |
+| `theme` | `string` | no | vsDark | Editor color theme. |
 | `readOnly` | `boolean` | no | false | Disable editing (syntax highlighting still applies) |
 | `showLineNumbers` | `boolean` | no | true | Show gutter line numbers |
 | `fontSize` | `number` | no | — | Font size (logical px) |
@@ -1450,7 +1450,7 @@ Color selection. Shared rows per §2.6.0; `value` is a hex color string.
 | `label` | `string` | no | — | Field label shown beside or above the control. |
 | `showAlpha` | `boolean` | no | false | Enable alpha channel. |
 | `showLabel` | `boolean` | no | true | Show hex label. |
-| `pickerType` | `string` | no | "wheel" | `wheel`, `palette`, `both`. |
+| `pickerType` | `string` | no | "palette" | `wheel` (a continuous hue strip), `palette` (preset swatches), or `both`. The default is `palette` — what every picker has drawn since it shipped. The registry said `wheel` while no implementation did that, and changing the default would change screens that never named it.  |
 | `enableHistory` | `boolean` | no | false | Show recent colors. |
 
 ---
@@ -1667,9 +1667,10 @@ Material-style sortable, selectable data table bound to a row array.
 | `columns[].align` | `string` | no | start | Horizontal text alignment. |
 | `rows` | `array<object> | binding` | yes | — | Array of row objects |
 | `selectable` | `boolean` | no | false | Whether rows are selectable |
-| `sortColumn` | `binding` | no | — | Current sort column key |
-| `sortAscending` | `binding` | no | true | Current sort direction |
+| `sortColumn` | `string` | no | — | Current sort column key. Declared `binding` before, which accepted `"{{sortColumn}}"` and rejected the key itself — a table sorted by a fixed column could not say so.  |
+| `sortAscending` | `boolean` | no | true | Current sort direction. `true` is ascending. Declared `binding` before, so writing the direction as the boolean the runtime reads was rejected at load.  |
 | `onSort` | `Action` | no | — | Fired on header tap of a sortable column |
+| `onCellEdit` | `Action` | no | — | Fired when an edited cell is committed. `event.row` is the row object, `event.column` its column key, `event.value` the new value and `event.previous` the old one. The widget does not mutate `rows` — the document decides what an edit means.  |
 | `onRowTap` | `Action` | no | — | Fired on row tap; `event.row` is the row object |
 
 ### Examples
@@ -2422,13 +2423,13 @@ Radial gauge for a value within a range.
 | `max` | `number` | no | 100 | Range maximum |
 | `segments` | `array<Segment>` | no | — | Color segments with `from`, `to`, `color` |
 | `size` | `number` | no | 200 | Diameter (logical px) |
-| `strokeWidth` | `number` | no | 20 | Arc thickness |
+| `strokeWidth` | `number` | no | 10 | Arc thickness in logical pixels. |
 | `backgroundColor` | `Color` | no | #E0E0E0 | Track color |
 | `valueColor` | `Color` | no | theme primary | Value arc color (when no segments) |
 | `showLabel` | `boolean` | no | true | Show numeric label |
-| `labelFormat` | `string` | no | {value} | Label format pattern |
-| `startAngle` | `number` | no | 135 | Start angle in degrees |
-| `sweepAngle` | `number` | no | 270 | Sweep span in degrees |
+| `labelFormat` | `string` | no | {value}% | Label pattern; `{value}` is replaced by the reading. The default carries the per-cent sign because that is what every gauge written so far has been drawing — a gauge of something else writes its own pattern.  |
+| `startAngle` | `number` | no | -220 | Start angle in degrees, measured the way the painter does: `-220` with a sweep of `260` is the open-bottom dial these gauges have always drawn.  |
+| `sweepAngle` | `number` | no | 260 | Sweep span in degrees. |
 
 ### Examples
 
@@ -2509,7 +2510,7 @@ Time-series / numeric data graph (line, bar, area, scatter) drawn on a single se
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `labelColor` | `Color` | no | — | Colour applied to the label text. |
-| `data` | `array<Point> | binding` | yes | — | Array of `{ x, y }` points (or `{ label, value }`). |
+| `data` | `array<Point>` | yes | — | Points as `{ x, y }` or `{ label, value }`, or bare numbers when the x axis is just the position in the list — which is what a sparkline fed from a rolling buffer carries.  |
 | `chartType` | `string` | no | line | Chart style. Legacy alias `type` is retained for backward compatibility but avoid it — it collides with the widget-type discriminator. |
 | `width` | `number` | no | 300 | Render width in logical px. |
 | `height` | `number` | no | 200 | Render height. |
@@ -2670,7 +2671,7 @@ Two-dimensional heatmap visualization.
 | `colorRange` | `{ low, high }` | no | { "#E3F2FD", "#1565C0" } | Gradient endpoints — the color a cell takes at the lowest value and at the highest. |
 | `colorRange.low` | `Color` | no | — | Color at the low end of the range. |
 | `colorRange.high` | `Color` | no | — | Color at the high end of the range. |
-| `showValues` | `boolean` | no | false | Render numeric value inside each cell |
+| `showValues` | `boolean` | no | true | Render the numeric value inside each cell. On by default: every heatmap written before this property was read showed its numbers, and turning them off by default would change what those documents display.  |
 | `onCellTap` | `Action` | no | — | Fired on cell tap; `event.row`, `event.column`, `event.value` |
 
 ### Examples
@@ -3285,7 +3286,7 @@ Main-axis sizing: when at least one child is `expanded` / `flexible` / `spacer` 
 | `mainAxisSize` | `string` | no | — | `max` fills the parent along `direction`; `min` shrink-wraps. Defaults to `max` when a flex child (`expanded`/`flexible`/`spacer`) is present, otherwise `min`. |
 | `direction` *(aliases: `orientation`, `scrollDirection`)* | `string` | yes | "vertical" | `"horizontal"` or `"vertical"`. |
 | `alignment` *(aliases: `crossAxisAlignment`)* | `string` | no | "start" | Cross-axis alignment: `start`, `center`, `end`, `stretch`. |
-| `distribution` *(aliases: `mainAxisAlignment`)* | `string` | no | "start" | Main-axis distribution. §17.1.3 spells multi-word enum values in camelCase, so `spaceBetween` / `spaceAround` / `spaceEvenly` are the declared values. The pre-1.3 kebab spellings are not part of the canonical surface; a runtime MAY keep accepting them (§17.3).  |
+| `distribution` *(aliases: `mainAxisAlignment`)* | `string` | no | "start" | Main-axis distribution: `start` · `center` · `end` · `spaceBetween` · `spaceAround` · `spaceEvenly` (§17.1.3 spells multi-word values in camelCase).  |
 | `spacing` *(aliases: `gap`, `itemSpacing`)* | `number` | no | 0 | Gap between children in logical pixels. |
 | `children` | `array<Widget>` | yes | — | Child widgets arranged along `direction`. |
 
@@ -3672,7 +3673,7 @@ Audio / video player widget.
 | `controlsColor` | `Color` | no | — | Colour of the transport controls. |
 | `onSeek` | `Action` | no | — | Fired when the position is changed by the user. |
 | `source` *(aliases: `src`)* | `AssetRef` | yes | — | Media asset reference (audio or video file). |
-| `mediaType` | `string` | no | inferred | Media kind. |
+| `mediaType` | `string` | no | — | Media kind. Omitted, it is inferred from the source's extension — an `.mp3` is audio — and anything unrecognised is treated as video.  |
 | `autoPlay` | `boolean` | no | false | Start playing automatically |
 | `loop` | `boolean` | no | false | Loop at end |
 | `muted` | `boolean` | no | false | Start muted |
@@ -4452,7 +4453,7 @@ on arrival.
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `value` | `string | binding` | yes | — | Encoded payload. A URL, a `ui://` route, or an entry token. |
 | `size` | `number` | no | 200 | Edge length in logical pixels. The grid is square. |
-| `errorCorrection` | `string` | no | "M" | Error-correction level: `low` (7%), `medium` (15%), `quartile` (25%), `high` (30%). The QR standard writes these `L`/`M`/`Q`/`H`; §17.1.3 spells enum values in lower case, so those single letters are not part of the canonical surface and a runtime MAY keep accepting them (§17.3).  |
+| `errorCorrection` | `string` | no | "medium" | Error-correction level: `low` (7%), `medium` (15%), `quartile` (25%), `high` (30%).  |
 | `foregroundColor` | `Color` | no | — | Module color. Contrast against `backgroundColor` must stay high enough to scan; a runtime SHOULD refuse to render below it rather than emit an unreadable code. |
 | `backgroundColor` | `Color` | no | — | Quiet-zone and gap color. |
 | `margin` | `boolean` | no | true | Include the quiet zone. Omitting it breaks scanning against busy backgrounds. |
@@ -5061,7 +5062,7 @@ Signature capture pad.
 | `backgroundColor` | `Color` | no | — | Pad background |
 | `borderColor` | `Color` | no | — | Pad border |
 | `showClearButton` | `boolean` | no | true | Show a clear-signature button |
-| `showGuide` | `boolean` | no | false | Show a signing guide line |
+| `showGuide` | `boolean` | no | true | Show a signing guide line. |
 | `onSignatureEnd` | `Action` | no | — | Fired when a stroke completes |
 | `onClear` | `Action` | no | — | Fired when the signature is cleared |
 
@@ -5661,8 +5662,8 @@ ANSI-capable terminal emulator.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
-| `lines` | `binding` | no | — | Output lines array (ANSI-escaped strings accepted) |
-| `prompt` | `string` | no | $ | Input prompt prefix |
+| `lines` | `array<string>` | no | — | Output lines (ANSI-escaped strings accepted). Declared `binding` before, which rejected a literal list of lines.  |
+| `prompt` | `string` | no | $  | Input prompt prefix, including its trailing space. |
 | `showInput` | `boolean` | no | true | Render an input line |
 | `maxLines` | `number` | no | — | Scrollback retention cap |
 | `width` | `number` | no | — | Widget width |
@@ -5878,7 +5879,7 @@ Time input. Shared rows per §2.6.0; `value` is a time string (e.g., `"14:30"`).
 | `errorText` | `string` | no | — | Error message shown under the field. Overrides validation output. |
 | `label` | `string` | no | — | Field label. |
 | `format` | `string` | no | "HH:mm" | Display format. |
-| `use24HourFormat` | `boolean` | no | true | 24-hour clock. |
+| `use24HourFormat` | `boolean` | no | false | 24-hour clock. The default follows what this field has drawn since it shipped; `timePicker` defaults the other way, and unifying them would change every screen that never set the property.  |
 | `mode` | `string` | no | "spinner" | `spinner`, `input`, `dial`. |
 
 ---
@@ -5899,7 +5900,7 @@ Standalone time picker surface. Shared rows per §2.6.0; `value` is a time strin
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
 | `initialTime` | `string` | no | — | Time the picker opens on when the bound value is empty (`HH:mm`). |
 | `label` | `string` | no | — | Field label shown beside or above the control. |
-| `use24HourFormat` | `boolean` | no | false | 24-hour clock. |
+| `use24HourFormat` | `boolean` | no | true | 24-hour clock. The default follows what this picker has drawn since it shipped; `timeField` defaults the other way — see its note.  |
 | `change` | `Action` | no | — | Legacy alias of `onChange`. |
 | `icon` | `IconRef` | no | — | Icon shown. Any `IconRef` form. |
 | `timeFormat` | `string` | no | — | Display pattern for the time portion. Display only. |
@@ -6091,6 +6092,7 @@ Hierarchical tree view with expandable nodes.
 | `lineColor` | `Color` | no | — | Color of connector lines when `showLines` is true. |
 | `width` | `number` | no | — | Fixed widget width in logical pixels. |
 | `height` | `number` | no | — | Fixed widget height in logical pixels. |
+| `onDrop` | `Action` | no | — | Fired when a dragged node is released on another. `event.item` is the node that moved, `event.target` the node it was released on, and `event.position` one of `before` / `inside` / `after` — which edge of the target it landed on. The widget does not mutate the tree; the document decides what a move means.  |
 | `onNodeTap` | `Action` | no | — | Fired on node tap |
 | `onSelect` | `Action` | no | — | Fired when a node is selected (requires `selectable: true`). Event payload is the node object. |
 | `onExpand` | `Action` | no | — | Fired on node expand; `event.id` |

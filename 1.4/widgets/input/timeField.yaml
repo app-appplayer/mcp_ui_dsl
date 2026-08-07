@@ -16,8 +16,11 @@ properties:
     description: "Display format."
   use24HourFormat:
     type: "boolean"
-    default: true
-    description: "24-hour clock."
+    default: false
+    description: |
+      24-hour clock. The default follows what this field has drawn since it
+      shipped; `timePicker` defaults the other way, and unifying them would
+      change every screen that never set the property.
   mode:
     type: "string"
     enum: [spinner, input, dial]

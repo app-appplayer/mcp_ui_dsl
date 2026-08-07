@@ -39,7 +39,7 @@ Required for every conformant implementation.
 
 ### 18.2.1 Required Widget Types
 
-Runtimes MUST parse and render every widget in [`17_Naming.md`](17_Naming.md) §17.2.1 that is tagged *Core Profile*. This comprises:
+Runtimes MUST parse and render every widget in [`17_Naming.md`](17_Naming.md) §17.2.1 that is tagged *Core Profile*, and MUST satisfy [`06_Runtime_Contract.md`](06_Runtime_Contract.md) §6.13 for any behaviour those widgets declare — **rendering a facsimile of a behaviour succeeding is non-conformant**, and is not made conformant by the widget being drawn. This comprises:
 
 - **Layout:** `box`, `linear`, `stack`, `center`, `align`, `padding`, `expanded`, `flexible`, `spacer`, `sizedBox`, `wrap`, `positioned`, `safeArea`, `visibility`, `conditional`, `margin`, `aspectRatio`, `constrained`, `fractionallySized`, `intrinsicHeight`, `intrinsicWidth`, `accordion` *(since v1.4)*
 - **Display:** `text`, `richText`, `image`, `icon`, `card`, `divider`, `verticalDivider`, `badge`, `chip`, `avatar`, `tooltip`, `placeholder`, `progressBar`, `banner`
@@ -277,7 +277,9 @@ Required for runtimes that expose advanced visualization or editor widgets.
 
 ### 18.5.1 Required
 
-Runtimes claiming the Advanced Profile MUST parse and render every widget in [`10_Advanced_Widgets.md`](10_Advanced_Widgets.md) §10.1, subject to the version gating in §18.5.2:
+Runtimes claiming the Advanced Profile MUST parse and render every widget in [`10_Advanced_Widgets.md`](10_Advanced_Widgets.md) §10.1, subject to the version gating in §18.5.2, and MUST satisfy §6.13 for the behaviour each declares. Most of this catalogue is behavioural — media plays, a web view loads, a map draws tiles, a document paginates — so "render" alone is not the test: a runtime that draws the chrome of a player, a browser or a map without performing what it depicts is **not conformant at this level**, and MUST instead declare the capability absent (§6.13.2) and report through `onError`.
+
+Declaring a capability absent is not a failure of conformance. Faking it is.
 
 `chart`, `table`, `dataTable`, `map`, `mediaPlayer`, `calendar`, `timeline`, `gauge`, `heatmap`, `tree`, `graph`, `networkGraph`, `codeEditor`, `terminal`, `fileExplorer`, `markdown`, `webView`, `signature`, `canvas`, `lightbox`, `qrCode`, `barcode`, `pdfViewer`, `diffViewer`, `richTextEditor`, `splitter`, `resizable`, `kanban`, `gantt`, `spreadsheet`.
 

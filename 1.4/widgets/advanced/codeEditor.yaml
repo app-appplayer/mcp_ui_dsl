@@ -28,7 +28,8 @@ properties:
   theme:
     type: "string"
     enum: ["vsLight", "vsDark", "monokai", "solarizedLight", "solarizedDark", "github", "dracula"]
-    default: "vsLight"
+    legacyValues: ["light", "dark"]
+    default: "vsDark"
     description: "Editor color theme."
   readOnly:
     type: "boolean"

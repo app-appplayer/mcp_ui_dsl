@@ -83,8 +83,25 @@ definition:
           "warning",
           "onWarning",
           "info",
-          "onInfo"
-        ]
+          "onInfo",
+          "divider",
+          "foreground",
+          "textOnPrimary",
+          "textOnSecondary",
+          "textOnBackground",
+          "textOnSurface",
+          "textOnError"
+        ],
+        "x-legacy": [
+          "divider",
+          "foreground",
+          "textOnPrimary",
+          "textOnSecondary",
+          "textOnBackground",
+          "textOnSurface",
+          "textOnError"
+        ],
+        "x-legacy-note": "Pre-M3 slot names (\u00a717.3). Accepted so documents written before \u00a75.3.1's roles keep loading and painting; \u00a75.3.1 lists what to write now."
       },
       {
         "type": "string",

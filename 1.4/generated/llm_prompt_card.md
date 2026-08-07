@@ -16,7 +16,7 @@ Format per widget:
 - properties: `click?: Action`, `tooltip?: string`, `value: string | binding`, `format?: string`, `width?: number`, `height?: number`, `displayValue?: boolean`, `foregroundColor?: Color`, `backgroundColor?: Color`
 
 ### `calendar` *(since v1.0)*
-- properties: `click?: Action`, `tooltip?: string`, `eventColor?: Color`, `firstDayOfWeek?: number`, `onMonthChange?: Action`, `primaryColor?: Color`, `showHeader?: boolean`, `showWeekNumbers?: boolean`, `todayColor?: Color`, `height?: Dimension`, `selectedDate?: string | binding`, `events?: binding`, `firstDate?: string`, `lastDate?: string`, `view?: string`, `onChange?: Action`, `backgroundColor?: Color`, `change?: Action`, `selectedColor?: Color`, `width?: Dimension`
+- properties: `click?: Action`, `tooltip?: string`, `eventColor?: Color`, `firstDayOfWeek?: number`, `onMonthChange?: Action`, `primaryColor?: Color`, `showHeader?: boolean`, `showWeekNumbers?: boolean`, `todayColor?: Color`, `height?: Dimension`, `selectedDate?: string | binding`, `events?: array<object>`, `firstDate?: string`, `lastDate?: string`, `view?: string`, `onChange?: Action`, `backgroundColor?: Color`, `change?: Action`, `selectedColor?: Color`, `width?: Dimension`
 
 ### `canvas` *(since v1.3)*
 - properties: `click?: Action`, `tooltip?: string`, `width?: Dimension`
@@ -30,7 +30,7 @@ Format per widget:
 
 ### `dataTable` *(since v1.0)*
 - aliases: `dataGrid`
-- properties: `click?: Action`, `tooltip?: string`, `editable?: boolean`, `filterable?: boolean`, `resizableColumns?: boolean`, `virtualScroll?: boolean`, `rowHeight?: number`, `columns: array<Column>`, `columns[].key: string`, `columns[].label: string`, `columns[].width?: number`, `columns[].sortable?: boolean`, `columns[].align?: string`, `rows: array<object> | binding`, `selectable?: boolean`, `sortColumn?: binding`, `sortAscending?: binding`, `onSort?: Action`, `onRowTap?: Action`
+- properties: `click?: Action`, `tooltip?: string`, `editable?: boolean`, `filterable?: boolean`, `resizableColumns?: boolean`, `virtualScroll?: boolean`, `rowHeight?: number`, `columns: array<Column>`, `columns[].key: string`, `columns[].label: string`, `columns[].width?: number`, `columns[].sortable?: boolean`, `columns[].align?: string`, `rows: array<object> | binding`, `selectable?: boolean`, `sortColumn?: string`, `sortAscending?: boolean`, `onSort?: Action`, `onCellEdit?: Action`, `onRowTap?: Action`
 
 ### `diffViewer` *(since v1.4)*
 - properties: `click?: Action`, `tooltip?: string`, `oldValue: string | binding`, `newValue: string | binding`, `splitView?: boolean`, `language?: string`, `showLineNumbers?: boolean`, `contextLines?: number`, `highlightLines?: array<number>`
@@ -47,7 +47,7 @@ Format per widget:
 - properties: `click?: Action`, `tooltip?: string`, `value: number`, `min?: number`, `max?: number`, `segments?: array<Segment>`, `size?: number`, `strokeWidth?: number`, `backgroundColor?: Color`, `valueColor?: Color`, `showLabel?: boolean`, `labelFormat?: string`, `startAngle?: number`, `sweepAngle?: number`
 
 ### `graph` *(since v1.0)*
-- properties: `click?: Action`, `tooltip?: string`, `labelColor?: Color`, `data: array<Point> | binding`, `chartType?: string`, `width?: number`, `height?: number`, `showGrid?: boolean`, `showLabels?: boolean`, `lineColor?: Color`, `fillColor?: Color`, `gridColor?: Color`, `strokeWidth?: number`
+- properties: `click?: Action`, `tooltip?: string`, `labelColor?: Color`, `data: array<Point>`, `chartType?: string`, `width?: number`, `height?: number`, `showGrid?: boolean`, `showLabels?: boolean`, `lineColor?: Color`, `fillColor?: Color`, `gridColor?: Color`, `strokeWidth?: number`
 
 ### `heatmap` *(since v1.0)*
 - properties: `click?: Action`, `tooltip?: string`, `cellGap?: Dimension`, `colorScheme?: string`, `columns?: number`, `maxValue?: number`, `minValue?: number`, `showLabels?: boolean`, `data: array | binding`, `columnLabels?: array<string>`, `rowLabels?: array<string>`, `cellSize?: number`, `colorRange?: { low, high }`, `colorRange.low?: Color`, `colorRange.high?: Color`, `showValues?: boolean`, `onCellTap?: Action`
@@ -93,14 +93,14 @@ Format per widget:
 - properties: `click?: Action`, `tooltip?: string`, `textBaseline?: string`, `rows: array<object{ cells: array<Widget> }>`, `border?: { color, width }`, `defaultColumnWidth?: string | number`, `defaultVerticalAlignment?: string`, `columnWidths?: object`, `textDirection?: string`
 
 ### `terminal` *(since v1.0)*
-- properties: `click?: Action`, `tooltip?: string`, `lines?: binding`, `prompt?: string`, `showInput?: boolean`, `maxLines?: number`, `width?: number`, `height?: number`, `fontSize?: number`, `backgroundColor?: Color`, `textColor?: Color`, `promptColor?: Color`, `onCommand?: Action`, `theme?: string`
+- properties: `click?: Action`, `tooltip?: string`, `lines?: array<string>`, `prompt?: string`, `showInput?: boolean`, `maxLines?: number`, `width?: number`, `height?: number`, `fontSize?: number`, `backgroundColor?: Color`, `textColor?: Color`, `promptColor?: Color`, `onCommand?: Action`, `theme?: string`
 
 ### `timeline` *(since v1.0)*
 - properties: `click?: Action`, `tooltip?: string`, `nodeSize?: Dimension`, `lineWidth?: Dimension`, `spacing?: Dimension`, `items: array<TimelineItem>`, `items[].title: string`, `items[].subtitle?: string`, `items[].icon?: string`, `items[].time?: string`, `items[].color?: string`, `orientation?: string`, `itemTemplate?: Widget`, `lineColor?: Color`
 
 ### `tree` *(since v1.0)*
 - aliases: `treeView`
-- properties: `click?: Action`, `tooltip?: string`, `checkable?: boolean`, `checkedKeys?: array<string> | binding`, `draggable?: boolean`, `data: array | binding`, `childrenKey?: string`, `indentation?: number`, `itemPadding?: EdgeInsets`, `itemTemplate?: Widget`, `expandable?: boolean`, `initiallyExpanded?: boolean`, `selectable?: boolean`, `showLines?: boolean`, `selectedColor?: Color`, `lineColor?: Color`, `width?: number`, `height?: number`, `onNodeTap?: Action`, `onSelect?: Action`, `onExpand?: Action`, `onCollapse?: Action`
+- properties: `click?: Action`, `tooltip?: string`, `checkable?: boolean`, `checkedKeys?: array<string> | binding`, `draggable?: boolean`, `data: array | binding`, `childrenKey?: string`, `indentation?: number`, `itemPadding?: EdgeInsets`, `itemTemplate?: Widget`, `expandable?: boolean`, `initiallyExpanded?: boolean`, `selectable?: boolean`, `showLines?: boolean`, `selectedColor?: Color`, `lineColor?: Color`, `width?: number`, `height?: number`, `onDrop?: Action`, `onNodeTap?: Action`, `onSelect?: Action`, `onExpand?: Action`, `onCollapse?: Action`
 
 ### `webView` *(since v1.0)*
 - properties: `click?: Action`, `tooltip?: string`, `url?: string`, `html?: string`, `allowNavigation?: boolean`, `enableJavaScript?: boolean`, `enableZoom?: boolean`, `width?: number`, `height?: number`, `onPageStarted?: Action`, `onPageFinished?: Action`, `onError?: Action`, `backgroundColor?: Color`
@@ -225,7 +225,7 @@ Format per widget:
 ## Input
 
 ### `button`
-- properties: `click?: Action`, `tooltip?: string`, `fullWidth?: boolean`, `iconPosition?: string`, `ariaLabel?: string`, `borderWidth?: Dimension`, `size?: Dimension`, `label: string`, `variant?: string`, `elevation?: string`, `icon?: IconRef`, `enabled?: boolean`, `onTap?: Action`, `onDoubleTap?: Action`, `onLongPress?: Action`, `backgroundColor?: Color`, `borderColor?: Color`, `foregroundColor?: Color`, `loading?: boolean`, `onSubmit?: Action`, `submit?: Action`
+- properties: `click?: Action`, `tooltip?: string`, `fullWidth?: boolean`, `iconPosition?: string`, `ariaLabel?: string`, `borderWidth?: Dimension`, `size?: string`, `label: string`, `variant?: string`, `elevation?: string`, `icon?: IconRef`, `enabled?: boolean`, `onTap?: Action`, `onDoubleTap?: Action`, `onLongPress?: Action`, `backgroundColor?: Color`, `borderColor?: Color`, `foregroundColor?: Color`, `loading?: boolean`, `onSubmit?: Action`, `submit?: Action`
 
 ### `checkbox`
 - properties: `click?: Action`, `tooltip?: string`, `binding?: string`, `value?: string | number | boolean | object | array`, `enabled?: boolean`, `onChange?: Action`, `label?: string`, `tristate?: boolean`, `change?: Action`
@@ -352,7 +352,7 @@ Format per widget:
 
 ### `box` *(since v1.0)*
 - aliases: `container`, `constrained`
-- properties: `click?: Action`, `tooltip?: string`, `constraints?: object`, `width?: Dimension`, `height?: Dimension`, `minWidth?: number`, `maxWidth?: number`, `minHeight?: number`, `maxHeight?: number`, `padding?: string`, `margin?: EdgeInsets`, `alignment?: Alignment`, `color?: Color`, `decoration?: BoxDecoration`
+- properties: `click?: Action`, `tooltip?: string`, `constraints?: object`, `width?: Dimension`, `height?: Dimension`, `minWidth?: number`, `maxWidth?: number`, `minHeight?: number`, `maxHeight?: number`, `padding?: BoxSpacing`, `margin?: BoxSpacing`, `alignment?: Alignment`, `color?: Color`, `decoration?: BoxDecoration`
 - children: single (key: `child`)
 
 ### `center`

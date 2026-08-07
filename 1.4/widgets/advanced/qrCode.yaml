@@ -21,12 +21,11 @@ properties:
   errorCorrection:
     type: string
     enum: [low, medium, quartile, high]
-    default: "\"M\""
+    legacyValues: [L, M, Q, H]
+    default: "\"medium\""
     description: |
       Error-correction level: `low` (7%), `medium` (15%), `quartile` (25%),
-      `high` (30%). The QR standard writes these `L`/`M`/`Q`/`H`; §17.1.3
-      spells enum values in lower case, so those single letters are not part
-      of the canonical surface and a runtime MAY keep accepting them (§17.3).
+      `high` (30%).
   foregroundColor:
     type: Color
     description: "Module color. Contrast against `backgroundColor` must stay high enough to scan; a runtime SHOULD refuse to render below it rather than emit an unreadable code."

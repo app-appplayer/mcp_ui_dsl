@@ -24,8 +24,9 @@ properties:
   mediaType:
     type: "string"
     enum: ["audio", "video"]
-    default: "inferred"
-    description: "Media kind."
+    description: |
+      Media kind. Omitted, it is inferred from the source's extension — an
+      `.mp3` is audio — and anything unrecognised is treated as video.
   autoPlay:
     type: "boolean"
     default: false
