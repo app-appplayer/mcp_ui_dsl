@@ -70,7 +70,7 @@ Format per widget:
 - properties: `click?: Action`, `tooltip?: string`, `accentColor?: Color`, `controlsColor?: Color`, `onSeek?: Action`, `source: AssetRef`, `mediaType?: string`, `autoPlay?: boolean`, `loop?: boolean`, `muted?: boolean`, `volume?: number`, `controls?: boolean`, `poster?: AssetRef`, `waveform?: boolean`, `width?: number`, `height?: number`, `onPlay?: Action`, `onPause?: Action`, `onEnded?: Action`, `onTimeUpdate?: Action`, `onError?: Action`, `backgroundColor?: Color`, `duration?: Dimension`, `title?: string`
 
 ### `networkGraph` *(since v1.0)*
-- properties: `click?: Action`, `tooltip?: string`, `onNodeTap?: Action`, `edgeColor?: Color`, `edges?: array<object>`, `layout?: string`, `nodeColor?: Color`, `nodes?: array<object>`, `onEdgeTap?: Action`, `height?: Dimension`, `interactive?: boolean`, `labelColor?: Color`, `width?: Dimension`
+- properties: `click?: Action`, `tooltip?: string`, `onNodeTap?: Action`, `edgeColor?: Color`, `edges?: array<object> | binding`, `layout?: string`, `nodeColor?: Color`, `nodes?: array<object> | binding`, `onEdgeTap?: Action`, `height?: Dimension`, `interactive?: boolean`, `labelColor?: Color`, `width?: Dimension`
 
 ### `pdfViewer` *(since v1.4)*
 - properties: `click?: Action`, `tooltip?: string`, `height?: Dimension`, `src: AssetRef`, `page?: number | binding`, `zoom?: number | binding`, `showToolbar?: boolean`, `showPageNav?: boolean`, `showZoom?: boolean`, `fit?: string`

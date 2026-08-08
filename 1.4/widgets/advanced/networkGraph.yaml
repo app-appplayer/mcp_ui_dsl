@@ -12,8 +12,8 @@ properties:
     type: Color
     description: "Default colour for an edge with no colour of its own."
   edges:
-    type: array<object>
-    description: "Edges as `{ from, to, label?, color? }`."
+    type: "array<object> | binding"
+    description: "Edges as `{ from, to, label?, color? }`. Literal array or binding — a topology that comes from the server is bound like any other data (`heatmap.data`, `dataTable.rows`, `kanban.columns` all read this way)."
   layout:
     type: "string"
     description: "Placement algorithm: `force`, `circular`, `grid`, `tree`."
@@ -21,8 +21,8 @@ properties:
     type: Color
     description: "Default fill for a node with no colour of its own."
   nodes:
-    type: array<object>
-    description: "Nodes as `{ id, label?, color? }`."
+    type: "array<object> | binding"
+    description: "Nodes as `{ id, label?, color? }`. Literal array or binding."
   onEdgeTap:
     type: Action
     description: "Fired when an edge is tapped."

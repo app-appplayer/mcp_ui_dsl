@@ -13068,11 +13068,11 @@
           ]
         },
         "maxValue": {
-          "description": "Value mapped to the high end of the colour range.",
+          "description": "Value mapped to the high end of the colour range. Optional — when omitted the range is taken from the data, so a heatmap always renders as a scale rather than one flat block.",
           "anyOf": [
             {
               "type": "number",
-              "description": "Value mapped to the high end of the colour range."
+              "description": "Value mapped to the high end of the colour range. Optional — when omitted the range is taken from the data, so a heatmap always renders as a scale rather than one flat block."
             },
             {
               "type": "string",
@@ -13097,11 +13097,11 @@
           ]
         },
         "minValue": {
-          "description": "Value mapped to the low end of the colour range.",
+          "description": "Value mapped to the low end of the colour range. Optional — when omitted the range is taken from the data.",
           "anyOf": [
             {
               "type": "number",
-              "description": "Value mapped to the low end of the colour range."
+              "description": "Value mapped to the low end of the colour range. Optional — when omitted the range is taken from the data."
             },
             {
               "type": "string",
@@ -13126,11 +13126,11 @@
           ]
         },
         "showLabels": {
-          "description": "Draw the numeric value inside each cell.",
+          "description": "Show the row and column labels declared in `rowLabels` / `columnLabels`. Off by default: without it those labels draw nothing, and an author who declared them reads the blank axis as their own mistake. The numeric value inside a cell is `showValues`.",
           "anyOf": [
             {
               "type": "boolean",
-              "description": "Draw the numeric value inside each cell."
+              "description": "Show the row and column labels declared in `rowLabels` / `columnLabels`. Off by default: without it those labels draw nothing, and an author who declared them reads the blank axis as their own mistake. The numeric value inside a cell is `showValues`."
             },
             {
               "type": "string",
@@ -18284,29 +18284,38 @@
           ]
         },
         "edges": {
-          "description": "Edges as `{ from, to, label?, color? }`.",
-          "oneOf": [
+          "description": "Edges as `{ from, to, label?, color? }`. Literal array or binding — a topology that comes from the server is bound like any other data (`heatmap.data`, `dataTable.rows`, `kanban.columns` all read this way).",
+          "anyOf": [
             {
-              "type": "array",
-              "items": {
-                "description": "object",
-                "anyOf": [
-                  {
-                    "type": "object",
+              "oneOf": [
+                {
+                  "type": "array",
+                  "items": {
                     "description": "object",
-                    "additionalProperties": true
-                  },
-                  {
-                    "$ref": "#/$defs/Binding",
-                    "description": "Binding expression resolving to this value."
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "description": "object",
+                        "additionalProperties": true
+                      },
+                      {
+                        "$ref": "#/$defs/Binding",
+                        "description": "Binding expression resolving to this value."
+                      }
+                    ]
                   }
-                ]
-              }
+                },
+                {
+                  "type": "string",
+                  "pattern": "^\\{\\{.*\\}\\}$",
+                  "description": "Binding expression resolving to an array."
+                }
+              ]
             },
             {
               "type": "string",
-              "pattern": "^\\{\\{.*\\}\\}$",
-              "description": "Binding expression resolving to an array."
+              "pattern": "^\\{\\{.*\\}\\}$|^[a-zA-Z_][a-zA-Z0-9_.\\[\\]]*$",
+              "description": "State path (`\"form.email\"`) or expression (`\"{{form.email}}\"`)."
             }
           ]
         },
@@ -18328,29 +18337,38 @@
           ]
         },
         "nodes": {
-          "description": "Nodes as `{ id, label?, color? }`.",
-          "oneOf": [
+          "description": "Nodes as `{ id, label?, color? }`. Literal array or binding.",
+          "anyOf": [
             {
-              "type": "array",
-              "items": {
-                "description": "object",
-                "anyOf": [
-                  {
-                    "type": "object",
+              "oneOf": [
+                {
+                  "type": "array",
+                  "items": {
                     "description": "object",
-                    "additionalProperties": true
-                  },
-                  {
-                    "$ref": "#/$defs/Binding",
-                    "description": "Binding expression resolving to this value."
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "description": "object",
+                        "additionalProperties": true
+                      },
+                      {
+                        "$ref": "#/$defs/Binding",
+                        "description": "Binding expression resolving to this value."
+                      }
+                    ]
                   }
-                ]
-              }
+                },
+                {
+                  "type": "string",
+                  "pattern": "^\\{\\{.*\\}\\}$",
+                  "description": "Binding expression resolving to an array."
+                }
+              ]
             },
             {
               "type": "string",
-              "pattern": "^\\{\\{.*\\}\\}$",
-              "description": "Binding expression resolving to an array."
+              "pattern": "^\\{\\{.*\\}\\}$|^[a-zA-Z_][a-zA-Z0-9_.\\[\\]]*$",
+              "description": "State path (`\"form.email\"`) or expression (`\"{{form.email}}\"`)."
             }
           ]
         },

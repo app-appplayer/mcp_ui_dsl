@@ -2661,9 +2661,9 @@ Two-dimensional heatmap visualization.
 | `cellGap` | `Dimension` | no | — | Gap between adjacent cells. |
 | `colorScheme` | `string` | no | — | Named colour ramp used between `minValue` and `maxValue`. |
 | `columns` | `number` | no | — | Number of columns the values are laid out in. |
-| `maxValue` | `number` | no | — | Value mapped to the high end of the colour range. |
-| `minValue` | `number` | no | — | Value mapped to the low end of the colour range. |
-| `showLabels` | `boolean` | no | — | Draw the numeric value inside each cell. |
+| `maxValue` | `number` | no | — | Value mapped to the high end of the colour range. Optional — when omitted the range is taken from the data, so a heatmap always renders as a scale rather than one flat block. |
+| `minValue` | `number` | no | — | Value mapped to the low end of the colour range. Optional — when omitted the range is taken from the data. |
+| `showLabels` | `boolean` | no | — | Show the row and column labels declared in `rowLabels` / `columnLabels`. Off by default: without it those labels draw nothing, and an author who declared them reads the blank axis as their own mistake. The numeric value inside a cell is `showValues`. |
 | `data` | `array | binding` | yes | — | 2D numeric array (rows × columns). Literal array or binding. |
 | `columnLabels` | `array<string>` | no | — | Horizontal axis labels |
 | `rowLabels` | `array<string>` | no | — | Vertical axis labels |
@@ -3897,10 +3897,10 @@ Network topology graph. Same node/edge model as `graph`, with topology-oriented 
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `onNodeTap` | `Action` | no | — | Fired when a node is tapped. `{{event.value}}` carries its id. |
 | `edgeColor` | `Color` | no | — | Default colour for an edge with no colour of its own. |
-| `edges` | `array<object>` | no | — | Edges as `{ from, to, label?, color? }`. |
+| `edges` | `array<object> | binding` | no | — | Edges as `{ from, to, label?, color? }`. Literal array or binding — a topology that comes from the server is bound like any other data (`heatmap.data`, `dataTable.rows`, `kanban.columns` all read this way). |
 | `layout` | `string` | no | — | Placement algorithm: `force`, `circular`, `grid`, `tree`. |
 | `nodeColor` | `Color` | no | — | Default fill for a node with no colour of its own. |
-| `nodes` | `array<object>` | no | — | Nodes as `{ id, label?, color? }`. |
+| `nodes` | `array<object> | binding` | no | — | Nodes as `{ id, label?, color? }`. Literal array or binding. |
 | `onEdgeTap` | `Action` | no | — | Fired when an edge is tapped. |
 | `height` | `Dimension` | no | — | Fixed height. |
 | `interactive` | `boolean` | no | — | Whether the surface responds to pointer input. |
