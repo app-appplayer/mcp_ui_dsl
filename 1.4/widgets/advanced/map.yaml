@@ -1,6 +1,6 @@
 type: map
 category: advanced
-profile: Core
+profile: Advanced
 since: v1.0
 description: |
   Geographic map with markers and overlays.

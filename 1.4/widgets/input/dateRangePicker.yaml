@@ -24,7 +24,7 @@ properties:
     description: "Latest allowed date (constraint, one-way)."
   format:
     type: "string"
-    default: "\"yyyy-MM-dd\""
+    default: "yyyy-MM-dd"
     description: "Display format."
   locale:
     type: "string"

@@ -34,7 +34,7 @@ properties:
   target:
     type: string
     enum: [new, same]
-    default: "\"new\""
+    default: "new"
     description: "Hint for `url` links only; a host with no tabs MAY ignore it."
   activeWhen:
     type: "string | binding"
@@ -42,7 +42,7 @@ properties:
   underline:
     type: string
     enum: [always, hover, never]
-    default: "\"hover\""
+    default: "hover"
     description: "Underline policy."
   icon:
     type: IconRef

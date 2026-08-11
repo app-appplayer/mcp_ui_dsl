@@ -109,10 +109,10 @@ The `navigation` field on ApplicationDefinition declares the global navigation c
 | Field | Type | Required | Since | Description |
 |-------|------|:--------:|:-----:|-------------|
 | `type` | enum (`drawer` / `bottomBar` / `rail` / `tabs`) | yes | v1.0 | Chrome style. `drawer` = side drawer; `bottomBar` = bottom navigation; `rail` = vertical rail; `tabs` = tab strip. |
-| `items` | NavItem[] | no | v1.0 | Navigation entries. Each entry: `{ label, icon?, route, badge?, children?, onTap?, style? }`. |
+| `items` | NavItem[] | no | v1.0 | Navigation entries. Each entry: `{ label, icon?, activeIcon?, route, badge?, children?, onTap?, style? }` — `activeIcon` is shown in place of `icon` while that entry is selected. |
 | `header` | Widget | no | v1.0 | Optional header widget rendered above `items` (used by `drawer` / `rail`). |
 | `footer` | Widget | no | v1.0 | Optional footer widget rendered below `items` (used by `drawer` / `rail`). |
-| `style` | `NavigationStyle` | no | v1.3 | Visual styling for the navigation surface (backgroundColor / backgroundImage / indicatorColor / indicatorShape / dividerColor+thickness+indent / labelStyle / iconStyle / selectedColor / unselectedColor / elevation). Per-item overrides via `NavItem.style`. |
+| `style` | `NavigationStyle` | no | v1.3 | Visual styling for the navigation surface (backgroundColor / backgroundImage / indicatorColor / indicatorShape / `dividerColor` / `dividerThickness` / `dividerIndent` / labelStyle / iconStyle / selectedColor / unselectedColor / elevation). Per-item overrides via `NavItem.style`. |
 
 ```json
 {

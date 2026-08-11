@@ -24,7 +24,7 @@ properties:
   mode:
     type: string
     enum: [vertical, horizontal, inline]
-    default: "\"vertical\""
+    default: "vertical"
     description: "`inline` expands groups in place; `vertical`/`horizontal` open them as flyouts."
   collapsed:
     type: "boolean | binding"

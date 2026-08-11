@@ -12,7 +12,7 @@ properties:
     description: "Field label."
   format:
     type: "string"
-    default: "\"yyyy-MM-dd\""
+    default: "yyyy-MM-dd"
     description: "Display format."
   firstDate:
     type: "string"
@@ -23,7 +23,7 @@ properties:
   mode:
     type: "string"
     enum: [calendar, input, both]
-    default: "\"calendar\""
+    default: "calendar"
     description: "`calendar`, `input`, `both`."
   locale:
     type: "string"

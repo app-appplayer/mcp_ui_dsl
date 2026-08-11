@@ -90,7 +90,7 @@ Format per widget:
 - events: `onChange`, `onCellSelect`
 
 ### `table` *(since v1.0)*
-- properties: `click?: Action`, `tooltip?: string`, `textBaseline?: string`, `rows: array<object{ cells: array<Widget> }>`, `border?: { color, width }`, `defaultColumnWidth?: string | number`, `defaultVerticalAlignment?: string`, `columnWidths?: object`, `textDirection?: string`
+- properties: `click?: Action`, `tooltip?: string`, `textBaseline?: string`, `rows: array<TableRow>`, `border?: { color, width }`, `defaultColumnWidth?: string | number`, `defaultVerticalAlignment?: string`, `columnWidths?: object`, `textDirection?: string`
 
 ### `terminal` *(since v1.0)*
 - properties: `click?: Action`, `tooltip?: string`, `lines?: array<string>`, `prompt?: string`, `showInput?: boolean`, `maxLines?: number`, `width?: number`, `height?: number`, `fontSize?: number`, `backgroundColor?: Color`, `textColor?: Color`, `promptColor?: Color`, `onCommand?: Action`, `theme?: string`
@@ -206,7 +206,7 @@ Format per widget:
 - properties: `click?: Action`, `tooltip?: string`, `fallbackWidth?: number`, `fallbackHeight?: number`, `color?: Color`, `strokeWidth?: number`, `child?: Widget`
 
 ### `progressBar`
-- aliases: `linearProgressIndicator`, `loadingIndicator`, `loading-indicator`, `progress-bar`, `progress`
+- aliases: `linearProgressIndicator`, `circularProgressIndicator`, `loadingIndicator`, `loading-indicator`, `progress-bar`, `progress`
 - properties: `click?: Action`, `tooltip?: string`, `size?: Dimension`, `strokeWidth?: Dimension`, `value?: number | binding`, `indicatorType?: string`, `color?: Color`, `backgroundColor?: Color`
 
 ### `richText`
@@ -351,7 +351,7 @@ Format per widget:
 - properties: `click?: Action`, `tooltip?: string`, `aspectRatio?: number`, `child: Widget`
 
 ### `box` *(since v1.0)*
-- aliases: `container`, `constrained`
+- aliases: `container`, `constrained`, `decoratedBox`, `constrainedBox`
 - properties: `click?: Action`, `tooltip?: string`, `constraints?: object`, `width?: Dimension`, `height?: Dimension`, `minWidth?: number`, `maxWidth?: number`, `minHeight?: number`, `maxHeight?: number`, `padding?: BoxSpacing`, `margin?: BoxSpacing`, `alignment?: Alignment`, `color?: Color`, `decoration?: BoxDecoration`
 - children: single (key: `child`)
 

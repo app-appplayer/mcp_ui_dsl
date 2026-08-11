@@ -961,6 +961,19 @@
       "additionalProperties": true,
       "description": "One entry on a timeline.\n\nKeys the runtime reads are declared with their types; a document may carry\nfurther keys, which the runtime ignores rather than refusing — an item shape\nthat rejected an unknown key would break every document that carries one for\nits own bookkeeping."
     },
+    "TableRow": {
+      "type": "object",
+      "properties": {
+        "cells": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Widget"
+          }
+        }
+      },
+      "additionalProperties": true,
+      "description": "One row of a `table`. `cells` carries the widgets laid out across the row's\ncolumns — `table` is a layout table, not a data-bound one (§10.3), so a row\nnames its widgets rather than its values.\n\nNothing here is required and nothing is bounded, deliberately. `cells: []`\ncarried a `minItems: 1` for one revision — left behind when the narrowing\nthis file describes was reverted — and it did exactly what the paragraph\nbelow says not to do: refused the document at load.\n\nNothing here is required, deliberately. A row with no `cells` — `{}`, or the\ncolumn-keyed shape that belongs to `dataTable` (`{ \"name\": \"Flutter\" }`) —\ncannot be laid out, and the temptation is to refuse it in the schema. That\nrefusal happens at load, so it does not deprecate the old document, it stops\nthe whole document opening (§1.7.5). The runtime drops the rows it cannot\nlay out and draws the rest; the shape stays accepted."
+    },
     "Sliver": {
       "oneOf": [
         {
@@ -999,6 +1012,12 @@
             },
             "elevation": {
               "$ref": "#/$defs/Dimension"
+            },
+            "backgroundColor": {
+              "$ref": "#/$defs/Color"
+            },
+            "foregroundColor": {
+              "$ref": "#/$defs/Color"
             }
           },
           "required": [
@@ -1045,8 +1064,15 @@
               "const": "sliverList"
             },
             "items": {
-              "type": "string",
-              "pattern": "^\\{\\{.*\\}\\}$"
+              "anyOf": [
+                {
+                  "type": "array"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^\\{\\{.*\\}\\}$"
+                }
+              ]
             },
             "itemTemplate": {
               "$ref": "#/$defs/Widget"
@@ -1070,8 +1096,15 @@
               "const": "sliverGrid"
             },
             "items": {
-              "type": "string",
-              "pattern": "^\\{\\{.*\\}\\}$"
+              "anyOf": [
+                {
+                  "type": "array"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^\\{\\{.*\\}\\}$"
+                }
+              ]
             },
             "itemTemplate": {
               "$ref": "#/$defs/Widget"
@@ -1115,8 +1148,15 @@
               "$ref": "#/$defs/Dimension"
             },
             "items": {
-              "type": "string",
-              "pattern": "^\\{\\{.*\\}\\}$"
+              "anyOf": [
+                {
+                  "type": "array"
+                },
+                {
+                  "type": "string",
+                  "pattern": "^\\{\\{.*\\}\\}$"
+                }
+              ]
             },
             "itemTemplate": {
               "$ref": "#/$defs/Widget"
@@ -1135,7 +1175,7 @@
           "additionalProperties": false
         }
       ],
-      "description": "Scrollable region inside `scrollView.slivers`. Discriminated by\n`type`:\n\n- **sliverAppBar** — collapsing parallax masthead at the top of a\n  scroll view. Expands to `expandedHeight` then shrinks to a\n  fixed bar as the user scrolls. `flexibleSpace` paints the hero\n  area; `pinned`/`floating` control whether the bar sticks.\n- **sliverPersistentHeader** — section header that stays visible\n  while its section's items scroll. `minExtent`/`maxExtent` set\n  the size envelope; the runtime morphs the header within it.\n- **sliverList** — vertical list with variable-height items.\n  Same `items` + `itemTemplate` contract as the `list` widget.\n- **sliverGrid** — 2D grid with the same `items` / `columns`\n  contract as `grid`.\n- **sliverFixedExtentList** — list whose items all share the\n  same scroll-axis extent (uniform row height). Faster than\n  `sliverList` because the runtime can skip per-item measurement.\n\nEach shape carries the type discriminator on `type` and is only\nvalid inside a `scrollView.slivers` array. The runtime rejects\nthese shapes at the top level."
+      "description": "Scrollable region inside `scrollView.slivers`. Discriminated by\n`type`:\n\n- **sliverAppBar** — collapsing parallax masthead at the top of a\n  scroll view. Expands to `expandedHeight` then shrinks to a\n  fixed bar as the user scrolls. `flexibleSpace` paints the hero\n  area; `pinned`/`floating` control whether the bar sticks.\n  `backgroundColor` is the colour of the **bar itself**, which is\n  what the reader sees once the hero has faded out — without it a\n  `title` colour chosen against the hero becomes unreadable at the\n  moment the bar collapses, and the author has no way to say\n  otherwise. `foregroundColor` sets the title and icon colour for\n  the same reason.\n- **sliverPersistentHeader** — section header that stays visible\n  while its section's items scroll. `minExtent`/`maxExtent` set\n  the size envelope; the runtime morphs the header within it.\n- **sliverList** — vertical list with variable-height items.\n  Same `items` + `itemTemplate` contract as the `list` widget: an inline\n  array or a binding, either one. It accepted only the binding string for a\n  revision, so the ordinary inline form — legal in `list` and `grid` — was\n  refused at load in slivers alone.\n- **sliverGrid** — 2D grid with the same `items` / `columns`\n  contract as `grid`.\n- **sliverFixedExtentList** — list whose items all share the\n  same scroll-axis extent (uniform row height). Faster than\n  `sliverList` because the runtime can skip per-item measurement.\n\nEach shape carries the type discriminator on `type` and is only\nvalid inside a `scrollView.slivers` array. The runtime rejects\nthese shapes at the top level."
     },
     "Tab": {
       "type": "object",
@@ -1157,7 +1197,7 @@
         }
       },
       "additionalProperties": true,
-      "description": "One tab of a tab bar.\n\nKeys the runtime reads are declared with their types; a document may carry\nfurther keys, which the runtime ignores rather than refusing — an item shape\nthat rejected an unknown key would break every document that carries one for\nits own bookkeeping."
+      "description": "One tab of a tab bar.\n\nKeys the runtime reads are declared with their types; a document may carry\nfurther keys, which the runtime ignores rather than refusing — an item shape\nthat rejected an unknown key would break every document that carries one for\nits own bookkeeping.\n\nA tab that names none of `label` / `text` / `icon` shows nothing, and that\nis accepted: it was briefly required here, and requiring it rejects the\ndocument at load rather than drawing an empty tab (§1.7.5). The runtime\ndraws the empty tab."
     },
     "Span": {
       "oneOf": [
@@ -3325,7 +3365,7 @@
                 "warning",
                 "error"
               ],
-              "default": "\"info\"",
+              "default": "info",
               "description": "`info`, `success`, `warning`, `error`."
             },
             {
@@ -3430,7 +3470,7 @@
                 "itf",
                 "codabar"
               ],
-              "default": "\"code128\"",
+              "default": "code128",
               "description": "Symbology. `code128` accepts the widest payload and is the safe default."
             },
             {
@@ -3603,7 +3643,7 @@
         },
         "baselineType": {
           "type": "string",
-          "default": "\"alphabetic\"",
+          "default": "alphabetic",
           "description": "`alphabetic` or `ideographic`."
         },
         "child": {
@@ -4194,7 +4234,9 @@
           "enum": [
             "box",
             "container",
-            "constrained"
+            "constrained",
+            "decoratedBox",
+            "constrainedBox"
           ]
         },
         "click": {
@@ -4509,7 +4551,7 @@
         },
         "separator": {
           "type": "string",
-          "default": "\"/\"",
+          "default": "/",
           "description": "Glyph between entries. Decorative — hidden from assistive technology."
         },
         "maxItems": {
@@ -4667,7 +4709,7 @@
                 "text",
                 "icon"
               ],
-              "default": "\"elevated\"",
+              "default": "elevated",
               "description": "`elevated`, `filled`, `outlined`, `text`, `icon`."
             },
             {
@@ -4689,7 +4731,7 @@
                 "text",
                 "icon"
               ],
-              "default": "\"elevated\"",
+              "default": "elevated",
               "description": "`elevated`, `filled`, `outlined`, `text`, `icon`."
             },
             {
@@ -5427,7 +5469,7 @@
                 "horizontal",
                 "vertical"
               ],
-              "default": "\"horizontal\"",
+              "default": "horizontal",
               "description": "Scroll axis."
             },
             {
@@ -5472,7 +5514,7 @@
           "anyOf": [
             {
               "type": "boolean",
-              "default": "false",
+              "default": false,
               "description": "When true the list wraps around — last → first → last."
             },
             {
@@ -5572,7 +5614,7 @@
                 "coverflow",
                 "depth"
               ],
-              "default": "\"slide\"",
+              "default": "slide",
               "description": "Per-slide transition. `slide` is the default linear scroll;\n`fade` cross-fades between slides at the same position;\n`coverflow` rotates and depth-shifts neighbours; `depth`\nscales/translates Z-axis. `coverflow`/`depth` need a\nperspective-aware compositor — runtimes without it fall\nback to `slide`.\n"
             },
             {
@@ -5592,7 +5634,7 @@
                 "top",
                 "none"
               ],
-              "default": "\"bottom\"",
+              "default": "bottom",
               "description": "Page indicator dot bar."
             },
             {
@@ -6344,7 +6386,7 @@
         },
         "orientation": {
           "type": "string",
-          "default": "\"vertical\"",
+          "default": "vertical",
           "description": "`vertical` or `horizontal`."
         },
         "change": {
@@ -6496,7 +6538,7 @@
         },
         "variant": {
           "type": "string",
-          "default": "\"filled\"",
+          "default": "filled",
           "description": "`filled` or `outlined`."
         },
         "onDelete": {
@@ -7234,7 +7276,7 @@
                 "palette",
                 "both"
               ],
-              "default": "\"palette\"",
+              "default": "palette",
               "description": "`wheel` (a continuous hue strip), `palette` (preset swatches), or\n`both`. The default is `palette` — what every picker has drawn since it\nshipped. The registry said `wheel` while no implementation did that, and\nchanging the default would change screens that never named it.\n"
             },
             {
@@ -8366,7 +8408,7 @@
         },
         "format": {
           "type": "string",
-          "default": "\"yyyy-MM-dd\"",
+          "default": "yyyy-MM-dd",
           "description": "Display format."
         },
         "firstDate": {
@@ -8387,7 +8429,7 @@
                 "input",
                 "both"
               ],
-              "default": "\"calendar\"",
+              "default": "calendar",
               "description": "`calendar`, `input`, `both`."
             },
             {
@@ -8758,7 +8800,7 @@
         },
         "format": {
           "type": "string",
-          "default": "\"yyyy-MM-dd\"",
+          "default": "yyyy-MM-dd",
           "description": "Display format."
         },
         "locale": {
@@ -9109,7 +9151,7 @@
                 "rectangle",
                 "circle"
               ],
-              "default": "\"rectangle\"",
+              "default": "rectangle",
               "description": "Flat shorthand for `decoration.shape`."
             },
             {
@@ -10729,7 +10771,7 @@
                 "scaleDown",
                 "none"
               ],
-              "default": "\"contain\"",
+              "default": "contain",
               "description": "`cover`, `contain`, `fill`, `scaleDown`, `none`."
             },
             {
@@ -10825,7 +10867,7 @@
         },
         "fit": {
           "type": "string",
-          "default": "\"loose\"",
+          "default": "loose",
           "description": "`\"loose\"` or `\"tight\"`."
         },
         "child": {
@@ -11168,7 +11210,7 @@
         },
         "direction": {
           "type": "string",
-          "default": "\"horizontal\"",
+          "default": "horizontal",
           "description": "`horizontal` or `vertical`."
         },
         "spacing": {
@@ -11211,7 +11253,7 @@
                 "center",
                 "end"
               ],
-              "default": "\"start\"",
+              "default": "start",
               "description": "`start`, `center`, `end`."
             },
             {
@@ -11279,7 +11321,7 @@
                 "change",
                 "blur"
               ],
-              "default": "\"submit\"",
+              "default": "submit",
               "description": "`submit`, `change`, `blur`."
             },
             {
@@ -11493,7 +11535,7 @@
                 "quarter",
                 "year"
               ],
-              "default": "\"day\"",
+              "default": "day",
               "description": "Axis granularity."
             },
             {
@@ -13304,7 +13346,7 @@
           "anyOf": [
             {
               "type": "boolean",
-              "default": "false",
+              "default": false,
               "description": "When true, also morphs during gesture-driven back navigation\n(iOS swipe-from-edge). Adds slight render cost.\n"
             },
             {
@@ -13827,7 +13869,7 @@
                 "fitHeight",
                 "fitWidth"
               ],
-              "default": "\"contain\"",
+              "default": "contain",
               "description": "`cover`, `contain`, `fill`, `none`, `scaleDown`, `fitHeight`, `fitWidth`."
             },
             {
@@ -14551,7 +14593,7 @@
         },
         "itemKey": {
           "type": "string",
-          "default": "\"id\"",
+          "default": "id",
           "description": "Field identifying a card. Stable identity is what makes a move addressable."
         },
         "draggable": {
@@ -14723,7 +14765,7 @@
           "anyOf": [
             {
               "type": "boolean",
-              "default": "true",
+              "default": true,
               "description": "When true the animation reverses and replays continuously; when false it stops at the end position."
             },
             {
@@ -14784,7 +14826,7 @@
                 "fitWidth",
                 "fitHeight"
               ],
-              "default": "\"cover\"",
+              "default": "cover",
               "description": "How the image scales to its render bounds before the Ken Burns animation overlays."
             },
             {
@@ -15093,7 +15135,7 @@
           "anyOf": [
             {
               "type": "boolean",
-              "default": "true",
+              "default": true,
               "description": "Enable pinch-zoom (and double-tap-to-zoom). When false the lightbox shows the image at fit-bounds only."
             },
             {
@@ -15138,7 +15180,7 @@
           "anyOf": [
             {
               "type": "boolean",
-              "default": "true",
+              "default": true,
               "description": "Enable swipe-between-images. When false the lightbox shows only `images[initialIndex]`."
             },
             {
@@ -15216,12 +15258,11 @@
           "description": "Hover / long-press tooltip text. Runtime wraps the widget in a\n`Tooltip` surface.\n"
         },
         "maxWidth": {
-          "description": "Upper bound when width is unbounded.",
+          "description": "Upper bound applied when the parent gives unbounded width. Omitted, no\nbound is applied — written as a number, so the \"infinity\" a Flutter\nimplementation uses internally is not a value a document can carry.\n",
           "anyOf": [
             {
               "type": "number",
-              "default": "double.infinity",
-              "description": "Upper bound when width is unbounded."
+              "description": "Upper bound applied when the parent gives unbounded width. Omitted, no\nbound is applied — written as a number, so the \"infinity\" a Flutter\nimplementation uses internally is not a value a document can carry.\n"
             },
             {
               "type": "string",
@@ -15246,12 +15287,11 @@
           ]
         },
         "maxHeight": {
-          "description": "Upper bound when height is unbounded.",
+          "description": "Upper bound applied when the parent gives unbounded height. Omitted, no\nbound is applied.\n",
           "anyOf": [
             {
               "type": "number",
-              "default": "double.infinity",
-              "description": "Upper bound when height is unbounded."
+              "description": "Upper bound applied when the parent gives unbounded height. Omitted, no\nbound is applied.\n"
             },
             {
               "type": "string",
@@ -15365,17 +15405,17 @@
         },
         "direction": {
           "type": "string",
-          "default": "\"vertical\"",
+          "default": "vertical",
           "description": "`\"horizontal\"` or `\"vertical\"`."
         },
         "orientation": {
           "type": "string",
-          "default": "\"vertical\"",
+          "default": "vertical",
           "description": "Legacy alias of `direction`."
         },
         "scrollDirection": {
           "type": "string",
-          "default": "\"vertical\"",
+          "default": "vertical",
           "description": "Legacy alias of `direction`."
         },
         "alignment": {
@@ -15389,7 +15429,7 @@
                 "end",
                 "stretch"
               ],
-              "default": "\"start\"",
+              "default": "start",
               "description": "Cross-axis alignment: `start`, `center`, `end`, `stretch`."
             },
             {
@@ -15410,7 +15450,7 @@
                 "end",
                 "stretch"
               ],
-              "default": "\"start\"",
+              "default": "start",
               "description": "Cross-axis alignment: `start`, `center`, `end`, `stretch`."
             },
             {
@@ -15436,7 +15476,7 @@
                 "space-around",
                 "space-evenly"
               ],
-              "default": "\"start\"",
+              "default": "start",
               "description": "Main-axis distribution: `start` · `center` · `end` · `spaceBetween` ·\n`spaceAround` · `spaceEvenly` (§17.1.3 spells multi-word values in\ncamelCase).\n"
             },
             {
@@ -15462,7 +15502,7 @@
                 "space-around",
                 "space-evenly"
               ],
-              "default": "\"start\"",
+              "default": "start",
               "description": "Main-axis distribution: `start` · `center` · `end` · `spaceBetween` ·\n`spaceAround` · `spaceEvenly` (§17.1.3 spells multi-word values in\ncamelCase).\n"
             },
             {
@@ -15646,7 +15686,7 @@
                 "new",
                 "same"
               ],
-              "default": "\"new\"",
+              "default": "new",
               "description": "Hint for `url` links only; a host with no tabs MAY ignore it."
             },
             {
@@ -15679,7 +15719,7 @@
                 "hover",
                 "never"
               ],
-              "default": "\"hover\"",
+              "default": "hover",
               "description": "Underline policy."
             },
             {
@@ -15971,7 +16011,7 @@
         },
         "orientation": {
           "type": "string",
-          "default": "\"vertical\"",
+          "default": "vertical",
           "description": "`vertical` or `horizontal`."
         },
         "emptyMessage": {
@@ -17293,7 +17333,7 @@
           "anyOf": [
             {
               "type": "boolean",
-              "default": "false",
+              "default": false,
               "description": "Audio mode only. When true, the audio's amplitude waveform is\nrendered above the transport controls, advancing with playback.\nIgnored for video sources.\n"
             },
             {
@@ -17621,7 +17661,7 @@
                 "horizontal",
                 "inline"
               ],
-              "default": "\"vertical\"",
+              "default": "vertical",
               "description": "`inline` expands groups in place; `vertical`/`horizontal` open them as flyouts."
             },
             {
@@ -19238,7 +19278,7 @@
         },
         "curve": {
           "type": "string",
-          "default": "\"easeInOut\"",
+          "default": "easeInOut",
           "description": "Animation curve (when `animated: true`)."
         },
         "child": {
@@ -19424,7 +19464,7 @@
                 "numeric",
                 "alphanumeric"
               ],
-              "default": "\"numeric\"",
+              "default": "numeric",
               "description": "Restricts accepted characters and selects the on-screen keyboard."
             },
             {
@@ -19602,7 +19642,7 @@
                 "horizontal",
                 "vertical"
               ],
-              "default": "\"horizontal\"",
+              "default": "horizontal",
               "description": "Scroll axis."
             },
             {
@@ -19663,7 +19703,7 @@
           "anyOf": [
             {
               "type": "boolean",
-              "default": "false",
+              "default": false,
               "description": "When true the list wraps around — last → first."
             },
             {
@@ -19683,7 +19723,7 @@
                 "clamping",
                 "neverScrollable"
               ],
-              "default": "\"clamping\"",
+              "default": "clamping",
               "description": "Edge / overscroll behaviour. `bouncing` mirrors iOS rubber-band;\n`clamping` is the Android-style hard stop; `neverScrollable`\ndisables user dragging (use programmatic page change only).\n"
             },
             {
@@ -19698,7 +19738,7 @@
           "anyOf": [
             {
               "type": "boolean",
-              "default": "false",
+              "default": false,
               "description": "Pre-render the adjacent pages off-screen so subsequent swipes\nare instant (assistive-technology friendly). Costs memory.\n"
             },
             {
@@ -20162,7 +20202,7 @@
                 "height",
                 "page"
               ],
-              "default": "\"width\"",
+              "default": "width",
               "description": "Initial fit."
             },
             {
@@ -20243,7 +20283,7 @@
                 "dialog",
                 "banner"
               ],
-              "default": "\"inline\"",
+              "default": "inline",
               "description": "`inline`, `dialog`, `banner`."
             },
             {
@@ -20524,7 +20564,7 @@
                 "focus",
                 "manual"
               ],
-              "default": "\"tap\"",
+              "default": "tap",
               "description": "`manual` means only `open` controls it."
             },
             {
@@ -20546,7 +20586,7 @@
                 "end",
                 "auto"
               ],
-              "default": "\"auto\"",
+              "default": "auto",
               "description": "Preferred side. `auto` picks the side with room; any value flips when it would overflow."
             },
             {
@@ -21023,6 +21063,7 @@
           "enum": [
             "progressBar",
             "linearProgressIndicator",
+            "circularProgressIndicator",
             "loadingIndicator",
             "loading-indicator",
             "progress-bar",
@@ -21109,8 +21150,8 @@
         },
         "indicatorType": {
           "type": "string",
-          "default": "\"linear\"",
-          "description": "`linear` or `circular`."
+          "default": "circular",
+          "description": "`linear` or `circular`. The widget type can name the shape instead:\n`linearProgressIndicator` and `circularProgressIndicator` are linear and\ncircular respectively, and this property overrides either. Circular is\nthe default because a bar has no intrinsic width — a bare `progressBar`\ninside a row asserts at layout time rather than rendering.\n"
         },
         "color": {
           "description": "Foreground color.",
@@ -21227,7 +21268,7 @@
                 "Q",
                 "H"
               ],
-              "default": "\"medium\"",
+              "default": "medium",
               "description": "Error-correction level: `low` (7%), `medium` (15%), `quartile` (25%),\n`high` (30%).\n"
             },
             {
@@ -21641,7 +21682,7 @@
         },
         "orientation": {
           "type": "string",
-          "default": "\"vertical\"",
+          "default": "vertical",
           "description": "`vertical` or `horizontal`."
         },
         "direction": {
@@ -22590,7 +22631,7 @@
                 "center",
                 "justify"
               ],
-              "default": "\"start\"",
+              "default": "start",
               "description": "Alignment for the composed paragraph."
             },
             {
@@ -22658,7 +22699,7 @@
                 "fade",
                 "visible"
               ],
-              "default": "\"clip\"",
+              "default": "clip",
               "description": "Overflow behaviour when content exceeds `maxLines`."
             },
             {
@@ -22673,7 +22714,7 @@
           "anyOf": [
             {
               "type": "boolean",
-              "default": "true",
+              "default": true,
               "description": "When false, the paragraph never wraps and overflow rules apply at the right edge."
             },
             {
@@ -22724,7 +22765,7 @@
                 "html",
                 "markdown"
               ],
-              "default": "\"html\"",
+              "default": "html",
               "description": "Value format. `html` is limited to inline marks (`strong`, `em`, `u`, `s`, `code`, `a`), block elements (`p`, `h1`-`h6`, `ul`, `ol`, `li`, `blockquote`, `pre`), and `img` whose `src` is an `AssetRef`. Anything else is stripped, not escaped."
             },
             {
@@ -22911,7 +22952,7 @@
                 "none",
                 "scaleDown"
               ],
-              "default": "\"contain\"",
+              "default": "contain",
               "description": "How the artboard scales within its render bounds."
             },
             {
@@ -23345,7 +23386,7 @@
                 "vertical",
                 "horizontal"
               ],
-              "default": "\"vertical\"",
+              "default": "vertical",
               "description": "Scroll axis."
             },
             {
@@ -23378,7 +23419,7 @@
                 "clamping",
                 "neverScrollable"
               ],
-              "default": "\"clamping\"",
+              "default": "clamping",
               "description": "Edge / overscroll behaviour."
             },
             {
@@ -23644,7 +23685,7 @@
                 "tabs",
                 "buttons"
               ],
-              "default": "\"segmented\"",
+              "default": "segmented",
               "description": "`segmented`, `tabs`, `buttons`."
             },
             {
@@ -24429,7 +24470,7 @@
         },
         "direction": {
           "type": "string",
-          "default": "\"vertical\"",
+          "default": "vertical",
           "description": "Scroll direction."
         },
         "padding": {
@@ -25200,7 +25241,7 @@
                 "horizontal",
                 "vertical"
               ],
-              "default": "\"horizontal\"",
+              "default": "horizontal",
               "description": "Direction panes are laid along."
             },
             {
@@ -25634,7 +25675,7 @@
                 "expand",
                 "passthrough"
               ],
-              "default": "\"loose\"",
+              "default": "loose",
               "description": "Sizing of non-positioned children: `loose`, `expand`, `passthrough`."
             },
             {
@@ -25864,7 +25905,7 @@
                 "vertical",
                 "horizontal"
               ],
-              "default": "\"vertical\"",
+              "default": "vertical",
               "description": "Scroll axis."
             },
             {
@@ -26089,7 +26130,7 @@
         },
         "stepperType": {
           "type": "string",
-          "default": "\"vertical\"",
+          "default": "vertical",
           "description": "`vertical` or `horizontal`."
         },
         "onStepTapped": {
@@ -26565,17 +26606,14 @@
           "description": "Baseline used to align cells in a baseline-aligned row."
         },
         "rows": {
-          "description": "Row definitions",
+          "description": "Row definitions — each carries the widgets for its cells.",
           "oneOf": [
             {
               "type": "array",
               "items": {
-                "description": "object{ cells: array<Widget> }",
                 "anyOf": [
                   {
-                    "type": "object",
-                    "description": "object{ cells: array<Widget> }",
-                    "additionalProperties": true
+                    "$ref": "#/$defs/TableRow"
                   },
                   {
                     "$ref": "#/$defs/Binding",
@@ -27107,7 +27145,7 @@
                 "fade",
                 "visible"
               ],
-              "default": "\"clip\"",
+              "default": "clip",
               "description": "`clip`, `ellipsis`, `fade`, `visible`."
             },
             {
@@ -27130,7 +27168,7 @@
                 "left",
                 "right"
               ],
-              "default": "\"start\"",
+              "default": "start",
               "description": "`start`, `center`, `end`, `justify` follow the text\ndirection (`start` is right-hand in an RTL locale). `left` and `right`\nare absolute and do not — they are the way to pin a column of numbers\nto one side whatever the locale, so they are values, not aliases."
             },
             {
@@ -27708,7 +27746,7 @@
         },
         "format": {
           "type": "string",
-          "default": "\"HH:mm\"",
+          "default": "HH:mm",
           "description": "Display format."
         },
         "use24HourFormat": {
@@ -27736,7 +27774,7 @@
                 "input",
                 "dial"
               ],
-              "default": "\"spinner\"",
+              "default": "spinner",
               "description": "`spinner`, `input`, `dial`."
             },
             {
@@ -28671,7 +28709,7 @@
         },
         "curve": {
           "type": "string",
-          "default": "\"easeInOut\"",
+          "default": "easeInOut",
           "description": "Animation curve."
         },
         "child": {
@@ -29954,7 +29992,7 @@
         },
         "direction": {
           "type": "string",
-          "default": "\"horizontal\"",
+          "default": "horizontal",
           "description": "Primary flow direction."
         },
         "spacing": {
@@ -30019,7 +30057,7 @@
         },
         "alignment": {
           "type": "string",
-          "default": "\"start\"",
+          "default": "start",
           "description": "Alignment within a run."
         },
         "children": {
@@ -30579,6 +30617,7 @@
                 "conditional",
                 "dialog",
                 "event",
+                "identity",
                 "identity.promote",
                 "identity.release",
                 "media.pause",
@@ -30638,6 +30677,7 @@
                   "conditional",
                   "dialog",
                   "event",
+                  "identity",
                   "identity.promote",
                   "identity.release",
                   "media.pause",

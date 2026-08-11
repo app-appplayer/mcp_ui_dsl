@@ -1,6 +1,6 @@
 type: gauge
 category: advanced
-profile: Core
+profile: Advanced
 aliases: [meter]
 since: v1.0
 description: |

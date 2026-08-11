@@ -1,6 +1,6 @@
 type: dataTable
 category: advanced
-profile: Core
+profile: Advanced
 aliases: [dataGrid]
 since: v1.0
 description: |

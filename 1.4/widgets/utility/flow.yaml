@@ -10,7 +10,7 @@ properties:
     description: "Flow children."
   direction:
     type: "string"
-    default: "\"horizontal\""
+    default: "horizontal"
     description: "`horizontal` or `vertical`."
   spacing:
     type: "number"
@@ -19,6 +19,6 @@ properties:
   alignment:
     type: "string"
     enum: [start, center, end]
-    default: "\"start\""
+    default: "start"
     description: "`start`, `center`, `end`."
 # examples migrated verbatim from prose JSON fences.

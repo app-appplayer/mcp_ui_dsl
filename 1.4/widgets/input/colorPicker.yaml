@@ -18,7 +18,7 @@ properties:
   pickerType:
     type: "string"
     enum: [wheel, palette, both]
-    default: "\"palette\""
+    default: "palette"
     description: |
       `wheel` (a continuous hue strip), `palette` (preset swatches), or
       `both`. The default is `palette` — what every picker has drawn since it

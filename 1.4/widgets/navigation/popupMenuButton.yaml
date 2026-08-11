@@ -34,7 +34,7 @@ properties:
     description: "Elevation tint applied over the surface colour (M3)."
   icon:
     type: IconRef
-    default: "\"more_vert\""
+    default: "more_vert"
     description: "Trigger icon. Any `IconRef` form."
   items:
     type: "array<MenuItem>"

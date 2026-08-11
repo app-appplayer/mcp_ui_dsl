@@ -15,7 +15,7 @@ properties:
     description: "Whether this is the primary scroll view of the page."
   direction:
     type: "string"
-    default: "\"vertical\""
+    default: "vertical"
     description: "Scroll direction."
   padding:
     type: "EdgeInsets"

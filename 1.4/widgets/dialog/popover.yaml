@@ -31,12 +31,12 @@ properties:
   trigger:
     type: string
     enum: [tap, hover, focus, manual]
-    default: "\"tap\""
+    default: "tap"
     description: "`manual` means only `open` controls it."
   placement:
     type: string
     enum: [top, bottom, start, end, auto]
-    default: "\"auto\""
+    default: "auto"
     description: "Preferred side. `auto` picks the side with room; any value flips when it would overflow."
   openDelay:
     type: number

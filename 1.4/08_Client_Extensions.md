@@ -329,7 +329,15 @@ All prefixes below appear in [`17_Naming.md`](17_Naming.md) §17.2.5 and resolve
 |---------|---------|
 | `client.workingDirectory` | Current working directory (absolute path) |
 | `client.userName` | Logged-in user name |
-| `client.platform` | One of `macos`, `linux`, `windows`, `ios`, `android`, `web` |
+| `client.platform` | Device class the client belongs to: `mobile`, `desktop`, `web`, or `unknown`. **This is a class, not an OS name** — a document choosing between a touch layout and a pointer layout branches here. |
+| `client.platform.os` | The operating system itself: `macos`, `linux`, `windows`, `ios`, `android`, `web`, or `unknown`. A document choosing a file path or an OS-specific affordance branches here. |
+| `client.platform.category` | Alias of `client.platform`. |
+| `client.isWeb` | `true` in a browser. Equivalent to `client.platform.os == "web"`, and answered from the same reading so the two cannot disagree. |
+| `client.orientation` | `portrait` or `landscape`. |
+| `client.network.status` / `client.network.type` | Connectivity state and transport. |
+| `client.file.separator` | Path separator for the client filesystem (`/` in a browser). |
+| `client.system.os` / `client.system.version` | OS name and version string. |
+| `client.isDebug` / `client.isRelease` / `client.isProfile` | Which build this is. |
 | `client.locale` | IETF BCP 47 locale tag (e.g., `en-US`) |
 | `client.theme.*` | Host environment theme tokens — 11 slots matching the theme schema in [`05_Theme.md`](05_Theme.md) §5.3: `background`, `foreground`, `primary`, `secondary`, `surface`, `onSurface`, `error`, `success`, `warning`, `info`, `muted` |
 | `client.env.*` | Environment variables — allowlist-restricted and requires `system.info` permission |
@@ -337,6 +345,15 @@ All prefixes below appear in [`17_Naming.md`](17_Naming.md) §17.2.5 and resolve
 | `client.system.*` | System info populated by `client.getSystemInfo` results |
 | `permissions.<category>.status` | Live permission grant status per §8.4.5 |
 | `channels.<name>.*` | Channel state and latest payload (see §8.6.6) |
+
+> **`client.platform` is a device class (2026-08-10).** Earlier text defined
+> `client.platform` as the OS name. Every runtime and every document in the
+> field reads it as the device *class* — it is what a layout branches on — and
+> the OS name has been reachable as `client.platform.os` throughout. The table
+> above records what is implemented; a document that needs the OS name asks for
+> it by that name. Runtimes MUST answer both from one reading of the host, so
+> `client.platform`, `client.platform.os` and `client.isWeb` cannot contradict
+> each other.
 
 Resolution follows the order in [`03_Data_Binding.md`](03_Data_Binding.md); `client.*` bindings read through to the runtime capability layer and are inert on non-Client-Profile runtimes (they resolve to `null`, never throwing).
 
@@ -428,13 +445,15 @@ The channel declares its source and its per-push handler; buttons only start /
 stop it:
 
 ```json
-"channels": {
-  "advertisements": {
-    "type": "client.mcpStream",
-    "params": { "uri": "ble://scan", "params": { "minRssi": -70 } },
-    "onMessage": {
-      "type": "state", "action": "append",
-      "binding": "advertisements", "value": "{{data}}"
+{
+  "channels": {
+    "advertisements": {
+      "type": "client.mcpStream",
+      "params": { "uri": "ble://scan", "params": { "minRssi": -70 } },
+      "onMessage": {
+        "type": "state", "action": "append",
+        "binding": "advertisements", "value": "{{data}}"
+      }
     }
   }
 }

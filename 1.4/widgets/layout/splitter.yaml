@@ -16,7 +16,7 @@ properties:
   orientation:
     type: string
     enum: [horizontal, vertical]
-    default: "\"horizontal\""
+    default: "horizontal"
     description: "Direction panes are laid along."
   sizes:
     type: "array<number> | binding"

@@ -22,28 +22,28 @@ Run `dart run tools/spec_codegen/bin/spec_codegen.dart` to regenerate.
 | `baseline` | utility | Core | — | — |
 | `bottomNavigation` | navigation | Core | — | `bottomNav`, `bottomnavigationbar` |
 | `bottomSheet` | dialog | Core | — | — |
-| `box` | layout | Core | v1.0 | `container`, `constrained` |
+| `box` | layout | Core | v1.0 | `container`, `constrained`, `decoratedBox`, `constrainedBox` |
 | `breadcrumb` | navigation | Core | v1.4 | — |
 | `button` | input | Core | — | — |
-| `calendar` | advanced | Core | v1.0 | — |
-| `canvas` | advanced | Core | v1.3 | — |
+| `calendar` | advanced | Advanced | v1.0 | — |
+| `canvas` | advanced | Advanced | v1.3 | — |
 | `card` | display | Core | — | — |
 | `carousel` | list | Core | v1.3 | — |
 | `center` | layout | Core | — | — |
-| `chart` | advanced | Core | v1.0 | — |
+| `chart` | advanced | Advanced | v1.0 | — |
 | `checkbox` | input | Core | — | — |
 | `checkboxGroup` | input | Core | — | — |
 | `chip` | display | Core | — | `tag` |
 | `clipOval` | utility | Core | — | — |
 | `clipRRect` | utility | Core | — | — |
-| `codeEditor` | advanced | Core | v1.0 | `code` |
+| `codeEditor` | advanced | Advanced | v1.0 | `code` |
 | `colorPicker` | input | Core | — | — |
 | `combobox` | input | Core | v1.4 | `autocomplete` |
 | `conditional` | layout | Core | — | — |
 | `contextMenu` | interaction | Core | v1.4 | — |
 | `customDialog` | dialog | Core | — | `modal`, `dialog` |
 | `dashboard` | utility | Core | v1.3 | — |
-| `dataTable` | advanced | Core | v1.0 | `dataGrid` |
+| `dataTable` | advanced | Advanced | v1.0 | `dataGrid` |
 | `dateField` | input | Core | — | — |
 | `datePicker` | input | Core | — | — |
 | `dateRangePicker` | input | Core | — | — |
@@ -57,7 +57,7 @@ Run `dart run tools/spec_codegen/bin/spec_codegen.dart` to regenerate.
 | `errorBoundary` | utility | Core | — | — |
 | `errorRecovery` | utility | Core | — | — |
 | `expanded` | layout | Core | — | — |
-| `fileExplorer` | advanced | Core | v1.0 | — |
+| `fileExplorer` | advanced | Advanced | v1.0 | — |
 | `fileInput` | input | Core | v1.4 | — |
 | `fittedBox` | utility | Core | — | — |
 | `flexible` | layout | Core | — | — |
@@ -66,12 +66,12 @@ Run `dart run tools/spec_codegen/bin/spec_codegen.dart` to regenerate.
 | `form` | input | Core | — | — |
 | `fractionallySized` | layout | Core | — | — |
 | `gantt` | advanced | Advanced | v1.4 | — |
-| `gauge` | advanced | Core | v1.0 | `meter` |
+| `gauge` | advanced | Advanced | v1.0 | `meter` |
 | `gestureDetector` | interaction | Core | — | — |
-| `graph` | advanced | Core | v1.0 | — |
+| `graph` | advanced | Advanced | v1.0 | — |
 | `grid` | list | Core | — | `gridview` |
 | `headerBar` | navigation | Core | — | `appbar` |
-| `heatmap` | advanced | Core | v1.0 | — |
+| `heatmap` | advanced | Advanced | v1.0 | — |
 | `hero` | animation | Core | v1.3 | — |
 | `icon` | display | Core | — | — |
 | `iconButton` | input | Core | — | — |
@@ -85,22 +85,22 @@ Run `dart run tools/spec_codegen/bin/spec_codegen.dart` to regenerate.
 | `kenBurnsImage` | display | Core | v1.3 | — |
 | `layoutBuilder` | utility | Core | — | — |
 | `lazy` | utility | Core | v1.0 | — |
-| `lightbox` | advanced | Core | v1.3 | — |
+| `lightbox` | advanced | Advanced | v1.3 | — |
 | `limitedBox` | utility | Core | — | — |
 | `linear` | layout | Core | — | `row`, `column` |
 | `link` | navigation | Core | v1.4 | `navLink` |
 | `list` | list | Core | — | `listView`, `listview` |
 | `listItem` | list | Core | — | `listTile`, `list-tile` |
 | `lottieAnimation` | animation | Core | — | — |
-| `map` | advanced | Core | v1.0 | — |
+| `map` | advanced | Advanced | v1.0 | — |
 | `margin` | layout | Core | — | — |
-| `markdown` | advanced | Core | v1.0 | — |
-| `mediaPlayer` | advanced | Core | v1.0 | `video`, `audio` |
+| `markdown` | advanced | Advanced | v1.0 | — |
+| `mediaPlayer` | advanced | Advanced | v1.0 | `video`, `audio` |
 | `mediaQuery` | utility | Core | — | — |
 | `menu` | navigation | Core | v1.4 | — |
 | `multiSelect` | input | Core | v1.4 | — |
 | `navigationRail` | navigation | Core | — | — |
-| `networkGraph` | advanced | Core | v1.0 | — |
+| `networkGraph` | advanced | Advanced | v1.0 | — |
 | `numberField` | input | Core | — | `numberInput` |
 | `numberStepper` | input | Core | — | — |
 | `offlineFallback` | utility | Core | — | — |
@@ -115,7 +115,7 @@ Run `dart run tools/spec_codegen/bin/spec_codegen.dart` to regenerate.
 | `popover` | dialog | Core | v1.4 | `hoverCard` |
 | `popupMenuButton` | navigation | Core | — | `dropdownMenu` |
 | `positioned` | layout | Core | — | — |
-| `progressBar` | display | Core | — | `linearProgressIndicator`, `loadingIndicator`, `loading-indicator`, `progress-bar`, `progress` |
+| `progressBar` | display | Core | — | `linearProgressIndicator`, `circularProgressIndicator`, `loadingIndicator`, `loading-indicator`, `progress-bar`, `progress` |
 | `qrCode` | advanced | Advanced | v1.4 | — |
 | `radio` | input | Core | — | — |
 | `radioGroup` | input | Core | — | — |
@@ -131,7 +131,7 @@ Run `dart run tools/spec_codegen/bin/spec_codegen.dart` to regenerate.
 | `scrollView` | scroll | Core | — | `scrollArea` |
 | `segmentedControl` | input | Core | — | — |
 | `select` | input | Core | — | `dropdown` |
-| `signature` | advanced | Core | v1.0 | — |
+| `signature` | advanced | Advanced | v1.0 | — |
 | `simpleDialog` | dialog | Core | — | — |
 | `singleChildScrollView` | scroll | Core | — | — |
 | `sizedBox` | layout | Core | — | — |
@@ -145,23 +145,23 @@ Run `dart run tools/spec_codegen/bin/spec_codegen.dart` to regenerate.
 | `stepper` | input | Core | — | `steps` |
 | `tabBar` | navigation | Core | — | — |
 | `tabBarView` | navigation | Core | — | — |
-| `table` | advanced | Core | v1.0 | — |
-| `terminal` | advanced | Core | v1.0 | — |
+| `table` | advanced | Advanced | v1.0 | — |
+| `terminal` | advanced | Advanced | v1.0 | — |
 | `text` | display | Core | — | `label` |
 | `textInput` | input | Core | v1.0 | `textField`, `textfield`, `textFormField`, `text-form-field` |
 | `timeField` | input | Core | — | — |
 | `timePicker` | input | Core | — | — |
-| `timeline` | advanced | Core | v1.0 | — |
+| `timeline` | advanced | Advanced | v1.0 | — |
 | `toggle` | input | Core | — | `switch` |
 | `tooltip` | display | Core | — | — |
 | `transform` | animation | Core | v1.3 | — |
-| `tree` | advanced | Core | v1.0 | `treeView` |
+| `tree` | advanced | Advanced | v1.0 | `treeView` |
 | `use` | utility | Core | — | — |
 | `verticalDivider` | display | Core | — | — |
 | `view` | utility | Composition | v1.4 | — |
 | `visibility` | layout | Core | — | — |
 | `voiceInput` | input | Client | v1.4 | — |
-| `webView` | advanced | Core | v1.0 | — |
+| `webView` | advanced | Advanced | v1.0 | — |
 | `wrap` | layout | Core | — | — |
 
 ---
@@ -335,7 +335,7 @@ Aligns a single child at a specified alignment.
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `heightFactor` | `number` | no | — | Size to this multiple of the child height. |
 | `widthFactor` | `number` | no | — | Size to this multiple of the child width. |
-| `alignment` | `Alignment` | no | "center" | Alignment of the child within this widget's bounds. Defaults to `center` when omitted. |
+| `alignment` | `Alignment` | no | center | Alignment of the child within this widget's bounds. Defaults to `center` when omitted. |
 | `child` | `Widget` | yes | — | Aligned widget. |
 
 ### Examples
@@ -362,7 +362,7 @@ for slide-from-edge / settle-to-position micro-interactions.
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `alignment` | `Alignment` | yes | — | Target alignment. Changes are tweened. |
 | `duration` | `Dimension` | no | 300 | Animation duration in milliseconds. |
-| `curve` | `AnimationCurve` | no | "easeInOut" | Easing curve. |
+| `curve` | `AnimationCurve` | no | easeInOut | Easing curve. |
 | `onEnd` | `Action` | no | — | Fires when the animation completes. |
 | `child` | `Widget` | yes | — | Aligned child. |
 
@@ -400,7 +400,7 @@ builds the runtime tweens between the old and new values over
 | `clipBehavior` | `string` | no | — | How content crossing the bounds is clipped. |
 | `constraints` | `object` | no | — | Minimum / maximum width and height the box may take. |
 | `duration` | `Dimension` | no | 300 | Animation duration in milliseconds. |
-| `curve` | `AnimationCurve` | no | "easeInOut" | Easing curve. |
+| `curve` | `AnimationCurve` | no | easeInOut | Easing curve. |
 | `width` | `Dimension` | no | — | Animated width. |
 | `height` | `Dimension` | no | — | Animated height. |
 | `padding` | `EdgeInsets` | no | — | Animated inner padding. |
@@ -453,7 +453,7 @@ selected).
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `style` | `TextStyle` | yes | — | Target text style. Changes are tweened. |
 | `duration` | `Dimension` | no | 300 | Animation duration in milliseconds. |
-| `curve` | `AnimationCurve` | no | "easeInOut" | Easing curve. |
+| `curve` | `AnimationCurve` | no | easeInOut | Easing curve. |
 | `onEnd` | `Action` | no | — | Fires when the animation completes. |
 | `child` | `Widget` | yes | — | Subtree whose default text style is tweened. |
 
@@ -490,7 +490,7 @@ animation controllers.
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `opacity` | `number` | yes | — | Target opacity in `[0, 1]`. Changes are tweened. |
 | `duration` | `Dimension` | no | 300 | Animation duration in milliseconds. |
-| `curve` | `AnimationCurve` | no | "easeInOut" | Easing curve. |
+| `curve` | `AnimationCurve` | no | easeInOut | Easing curve. |
 | `onEnd` | `Action` | no | — | Fires when the animation completes. |
 | `child` | `Widget` | yes | — | Faded child. |
 
@@ -528,7 +528,7 @@ changes are tweened. Only valid as a `stack` child.
 | `width` | `Dimension` | no | — | Animated width. |
 | `height` | `Dimension` | no | — | Animated height. |
 | `duration` | `Dimension` | no | 300 | Animation duration in milliseconds. |
-| `curve` | `AnimationCurve` | no | "easeInOut" | Easing curve. |
+| `curve` | `AnimationCurve` | no | easeInOut | Easing curve. |
 | `onEnd` | `Action` | no | — | Fires when the animation completes. |
 | `child` | `Widget` | yes | — | Positioned child widget. |
 
@@ -647,7 +647,7 @@ Persistent message banner at the top of a section or page.
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `message` | `string` | yes | — | Banner text. |
-| `severity` | `string` | no | "info" | `info`, `success`, `warning`, `error`. |
+| `severity` | `string` | no | info | `info`, `success`, `warning`, `error`. |
 | `actions` | `array<BannerAction>` | no | — | Action buttons `{ label, onTap }`. |
 | `onClose` | `Action` | no | — | Fired when the banner is dismissed (close-button tap or programmatic hide). |
 
@@ -687,7 +687,7 @@ thirteen digits with a check digit, not arbitrary text.
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `value` | `string | binding` | yes | — | Encoded payload. MUST satisfy the chosen `format`; a runtime reports a violation rather than rendering an unscannable image. |
-| `format` | `string` | no | "code128" | Symbology. `code128` accepts the widest payload and is the safe default. |
+| `format` | `string` | no | code128 | Symbology. `code128` accepts the widest payload and is the safe default. |
 | `width` | `number` | no | — | Rendered width in logical pixels. Omitted means intrinsic — the natural width for the module count, which is what stays scannable. |
 | `height` | `number` | no | 80 | Bar height. |
 | `displayValue` | `boolean` | no | true | Print the payload under the bars. |
@@ -715,7 +715,7 @@ Aligns a child by its baseline.
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `baseline` | `number` | yes | — | Distance from the top to the child's baseline. |
-| `baselineType` | `string` | no | "alphabetic" | `alphabetic` or `ideographic`. |
+| `baselineType` | `string` | no | alphabetic | `alphabetic` or `ideographic`. |
 | `child` | `Widget` | yes | — | Baselined child. |
 
 ---
@@ -805,7 +805,7 @@ Modal bottom sheet with swipeable handle.
 
 ## `box`  *(layout · Core · v1.0)*
 
-**Aliases:** `container`, `constrained`
+**Aliases:** `container`, `constrained`, `decoratedBox`, `constrainedBox`
 
 Generic single-child container that applies size, padding, margin, and a
 decoration (background color, border, shadow, gradient, borderRadius). Most
@@ -888,7 +888,7 @@ where the separator goes and whether the last item is a link (it is not).
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `items` | `array<object>` | yes | — | `{ label, route?, params?, icon? }` in ancestor-first order. The final entry is the current location and MUST NOT be rendered as a link even if it carries a `route`. |
-| `separator` | `string` | no | "/" | Glyph between entries. Decorative — hidden from assistive technology. |
+| `separator` | `string` | no | / | Glyph between entries. Decorative — hidden from assistive technology. |
 | `maxItems` | `number` | no | — | Collapse the middle of a long trail behind an overflow control, keeping the first and last. |
 
 ### Events
@@ -928,9 +928,9 @@ Interactive button. The canonical label field is `label`.
 | `iconPosition` | `string` | no | — | Which side the icon sits on: `start` or `end`. |
 | `ariaLabel` | `string` | no | — | Label announced by a screen reader in place of the content. |
 | `borderWidth` | `Dimension` | no | — | Thickness of the outline. |
-| `size` | `string` | no | "medium" | Rendered size: the named steps `small` / `medium` / `large`, which the runtime's padding, icon size and spinner size are written against. It was declared as a `Dimension` here — a number, which the button reads as no size at all and falls back to `medium`, while the named steps it does honour were rejected before the document loaded. A number is still accepted so that documents carrying one keep loading; the button renders at `medium`.  |
+| `size` | `string` | no | medium | Rendered size: the named steps `small` / `medium` / `large`, which the runtime's padding, icon size and spinner size are written against. It was declared as a `Dimension` here — a number, which the button reads as no size at all and falls back to `medium`, while the named steps it does honour were rejected before the document loaded. A number is still accepted so that documents carrying one keep loading; the button renders at `medium`.  |
 | `label` *(aliases: `text`)* | `string` | yes | — | Button text. |
-| `variant` *(aliases: `style`)* | `string` | no | "elevated" | `elevated`, `filled`, `outlined`, `text`, `icon`. |
+| `variant` *(aliases: `style`)* | `string` | no | elevated | `elevated`, `filled`, `outlined`, `text`, `icon`. |
 | `elevation` | `string` | no | — | Shadow elevation. Accepts either a numeric dp value or an M3 elevation token shorthand (`level0` … `level5`) that resolves through `theme.elevation.<token>.shadow`. Honored only by the `elevated` variant; ignored by `filled`/`outlined`/`text`/`icon`.  |
 | `icon` | `IconRef` | no | — | Optional leading icon. Any `IconRef` form. |
 | `enabled` | `boolean` | no | true | Whether the button is interactive. |
@@ -959,7 +959,7 @@ Interactive button. The canonical label field is `label`.
 
 ---
 
-## `calendar`  *(advanced · Core · v1.0)*
+## `calendar`  *(advanced · Advanced · v1.0)*
 
 Calendar view for date selection and event display.
 
@@ -1009,7 +1009,7 @@ Calendar view for date selection and event display.
 
 ---
 
-## `canvas`  *(advanced · Core · v1.3)*
+## `canvas`  *(advanced · Advanced · v1.3)*
 
 General-purpose vector drawing via an ordered command array. All numeric and color properties support binding expressions, enabling data-driven graphics (progress rings, custom indicators, composable chart primitives).
 backgroundColor:
@@ -1110,13 +1110,13 @@ covers, album browsers, magazine front pages).
 | `items` | `array | binding` | no | — | Array source. Required when `children` is omitted. |
 | `itemTemplate` | `Widget` | no | — | Template rendered per bound item. Required with `items`. |
 | `children` | `array<Widget>` | no | — | Static slides. Mutually exclusive with `items` + `itemTemplate`. |
-| `scrollDirection` | `string` | no | "horizontal" | Scroll axis. |
+| `scrollDirection` | `string` | no | horizontal | Scroll axis. |
 | `viewportFraction` | `number` | no | 1.0 | Each slide's width as a fraction of the carousel width. `1.0` = one item fills the viewport (matches `pageView`); `0.85` leaves both neighbours peeking; `0.6` shows three items.  |
 | `loop` | `boolean` | no | false | When true the list wraps around — last → first → last. |
 | `autoPlay` | `boolean | number | binding` | no | — | When set, advances one item every `autoPlay` ms. Authors typically pair with `loop: true`.  |
 | `initialIndex` | `number` | no | 0 | Index of the slide rendered first. |
-| `transition` | `string` | no | "slide" | Per-slide transition. `slide` is the default linear scroll; `fade` cross-fades between slides at the same position; `coverflow` rotates and depth-shifts neighbours; `depth` scales/translates Z-axis. `coverflow`/`depth` need a perspective-aware compositor — runtimes without it fall back to `slide`.  |
-| `indicatorPosition` | `string` | no | "bottom" | Page indicator dot bar. |
+| `transition` | `string` | no | slide | Per-slide transition. `slide` is the default linear scroll; `fade` cross-fades between slides at the same position; `coverflow` rotates and depth-shifts neighbours; `depth` scales/translates Z-axis. `coverflow`/`depth` need a perspective-aware compositor — runtimes without it fall back to `slide`.  |
+| `indicatorPosition` | `string` | no | bottom | Page indicator dot bar. |
 | `onPageChanged` | `Action` | no | — | Fires after the active slide settles. `event.page` carries the new index. |
 
 ### Examples
@@ -1167,7 +1167,7 @@ Centers a single child within available space.
 
 ---
 
-## `chart`  *(advanced · Core · v1.0)*
+## `chart`  *(advanced · Advanced · v1.0)*
 
 Data visualization widget with multiple chart types.
 
@@ -1276,7 +1276,7 @@ Multi-selection checkbox group. Shared rows per §2.6.0; `binding` holds an `arr
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
 | `label` | `string` | no | — | Field label shown beside or above the control. |
 | `options` *(aliases: `items`)* | `array<Option>` | yes | — | `{ value, label }` entries. |
-| `orientation` | `string` | no | "vertical" | `vertical` or `horizontal`. |
+| `orientation` | `string` | no | vertical | `vertical` or `horizontal`. |
 | `change` | `Action` | no | — | Legacy alias of `onChange`. |
 | `direction` | `string` | no | — | `horizontal` or `vertical`. |
 
@@ -1318,7 +1318,7 @@ Compact element representing an attribute, action, or filter.
 | `label` | `string` | yes | — | Display text. |
 | `avatar` | `Widget` | no | — | Leading widget (icon or image). |
 | `selected` | `boolean` | no | false | Selected state. |
-| `variant` | `string` | no | "filled" | `filled` or `outlined`. |
+| `variant` | `string` | no | filled | `filled` or `outlined`. |
 | `onDelete` | `Action` | no | — | Action when delete icon is tapped. |
 | `onTap` | `Action` | no | — | Action when chip is tapped. |
 | `backgroundColor` | `Color` | no | — | Legacy alias of `color`. |
@@ -1376,7 +1376,7 @@ Clips a child to a rounded rectangle.
 
 ---
 
-## `codeEditor`  *(advanced · Core · v1.0)*
+## `codeEditor`  *(advanced · Advanced · v1.0)*
 
 **Aliases:** `code`
 
@@ -1450,7 +1450,7 @@ Color selection. Shared rows per §2.6.0; `value` is a hex color string.
 | `label` | `string` | no | — | Field label shown beside or above the control. |
 | `showAlpha` | `boolean` | no | false | Enable alpha channel. |
 | `showLabel` | `boolean` | no | true | Show hex label. |
-| `pickerType` | `string` | no | "palette" | `wheel` (a continuous hue strip), `palette` (preset swatches), or `both`. The default is `palette` — what every picker has drawn since it shipped. The registry said `wheel` while no implementation did that, and changing the default would change screens that never named it.  |
+| `pickerType` | `string` | no | palette | `wheel` (a continuous hue strip), `palette` (preset swatches), or `both`. The default is `palette` — what every picker has drawn since it shipped. The registry said `wheel` while no implementation did that, and changing the default would change screens that never named it.  |
 | `enableHistory` | `boolean` | no | false | Show recent colors. |
 
 ---
@@ -1642,7 +1642,7 @@ Renders a compact dashboard tile — the widget equivalent of the `ApplicationDe
 
 ---
 
-## `dataTable`  *(advanced · Core · v1.0)*
+## `dataTable`  *(advanced · Advanced · v1.0)*
 
 **Aliases:** `dataGrid`
 
@@ -1722,10 +1722,10 @@ Date input with calendar/text entry modes. Shared rows per §2.6.0; `value` is a
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
 | `errorText` | `string` | no | — | Error message shown under the field. Overrides validation output. |
 | `label` | `string` | no | — | Field label. |
-| `format` | `string` | no | "yyyy-MM-dd" | Display format. |
+| `format` | `string` | no | yyyy-MM-dd | Display format. |
 | `firstDate` | `string` | no | — | Earliest allowed date (ISO). |
 | `lastDate` | `string` | no | — | Latest allowed date (ISO). |
-| `mode` | `string` | no | "calendar" | `calendar`, `input`, `both`. |
+| `mode` | `string` | no | calendar | `calendar`, `input`, `both`. |
 | `locale` | `string` | no | — | Locale identifier. |
 
 ---
@@ -1775,7 +1775,7 @@ Date range selection. Exception to §2.6.0: instead of a single `binding`, the r
 | `label` | `string` | no | — | Field label. |
 | `firstDate` | `string` | no | — | Earliest allowed date (constraint, one-way). |
 | `lastDate` | `string` | no | — | Latest allowed date (constraint, one-way). |
-| `format` | `string` | no | "yyyy-MM-dd" | Display format. |
+| `format` | `string` | no | yyyy-MM-dd | Display format. |
 | `locale` | `string` | no | — | Locale identifier. |
 | `change` | `Action` | no | — | Legacy alias of `onChange`. |
 
@@ -1853,7 +1853,7 @@ fields may appear flat at the top level for ergonomic shorthand.
 | `gradient` | `Gradient` | no | — | Flat shorthand for `decoration.gradient`. |
 | `image` | `BackgroundImage` | no | — | Flat shorthand for `decoration.image`. |
 | `boxShadow` | `array<BoxShadow>` | no | — | Flat shorthand for `decoration.boxShadow`. |
-| `shape` | `string` | no | "rectangle" | Flat shorthand for `decoration.shape`. |
+| `shape` | `string` | no | rectangle | Flat shorthand for `decoration.shape`. |
 | `backdropBlur` | `number` | no | — | Flat shorthand for `decoration.backdropBlur` (Gaussian blur sigma). |
 | `child` | `Widget` | no | — | Decorated widget. Required when `children` is omitted. |
 | `children` | `array<Widget>` | no | — | Multiple widgets; runtime wraps them in a linear column. |
@@ -2076,7 +2076,7 @@ Flex child that expands to fill available space inside a `linear` parent.
 
 ---
 
-## `fileExplorer`  *(advanced · Core · v1.0)*
+## `fileExplorer`  *(advanced · Advanced · v1.0)*
 
 File and directory browser.
 
@@ -2214,8 +2214,8 @@ Scales and aligns its child to fit available space.
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `clipBehavior` | `string` | no | — | How content crossing the bounds is clipped. |
-| `fit` | `string` | no | "contain" | `cover`, `contain`, `fill`, `scaleDown`, `none`. |
-| `alignment` | `Alignment` | no | "center" | Alignment within the fitted bounds. |
+| `fit` | `string` | no | contain | `cover`, `contain`, `fill`, `scaleDown`, `none`. |
+| `alignment` | `Alignment` | no | center | Alignment within the fitted bounds. |
 | `child` | `Widget` | yes | — | Child widget. |
 
 ---
@@ -2231,7 +2231,7 @@ Flex child that may occupy up to its natural size.
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `flex` | `number` | no | 1 | Flex weight. |
-| `fit` | `string` | no | "loose" | `"loose"` or `"tight"`. |
+| `fit` | `string` | no | loose | `"loose"` or `"tight"`. |
 | `child` | `Widget` | yes | — | Child widget. |
 
 ---
@@ -2294,9 +2294,9 @@ Lightweight flowing layout that places each child along the main axis with fixed
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `children` | `array<Widget>` | yes | — | Flow children. |
-| `direction` | `string` | no | "horizontal" | `horizontal` or `vertical`. |
+| `direction` | `string` | no | horizontal | `horizontal` or `vertical`. |
 | `spacing` | `number` | no | 8 | Gap between children in logical pixels. |
-| `alignment` | `string` | no | "start" | `start`, `center`, `end`. |
+| `alignment` | `string` | no | start | `start`, `center`, `end`. |
 
 ---
 
@@ -2311,7 +2311,7 @@ Container that manages validation state for its child inputs.
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `children` | `array<Widget>` | yes | — | Form field widgets. |
-| `showErrorsOn` | `string` | no | "submit" | `submit`, `change`, `blur`. |
+| `showErrorsOn` | `string` | no | submit | `submit`, `change`, `blur`. |
 | `onSubmit` | `Action` | no | — | Fired on form submission. |
 
 ### Examples
@@ -2375,7 +2375,7 @@ reports an edit, and whether a move is legal is the server's answer.
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `tasks` | `array<object> | binding` | yes | — | `{ id, label, start, end, progress?, dependsOn?, group?, color? }`. `start`/`end` are ISO-8601. `dependsOn` holds task ids. |
-| `viewMode` | `string` | no | "day" | Axis granularity. |
+| `viewMode` | `string` | no | day | Axis granularity. |
 | `range` | `object` | no | — | `{ start, end }` window shown. Omitted fits all tasks. |
 | `editable` | `boolean` | no | false | Allow dragging bars to move them and dragging edges to reschedule. |
 | `showProgress` | `boolean` | no | true | Render each task's `progress` as a fill. |
@@ -2406,7 +2406,7 @@ reports an edit, and whether a move is legal is the server's answer.
 
 ---
 
-## `gauge`  *(advanced · Core · v1.0)*
+## `gauge`  *(advanced · Advanced · v1.0)*
 
 **Aliases:** `meter`
 
@@ -2499,7 +2499,7 @@ Detects touch and pointer gestures on its child.
 
 ---
 
-## `graph`  *(advanced · Core · v1.0)*
+## `graph`  *(advanced · Advanced · v1.0)*
 
 Time-series / numeric data graph (line, bar, area, scatter) drawn on a single set of axes. For node/edge topology visualization use `networkGraph` (§10.13).
 
@@ -2648,7 +2648,7 @@ Application header / toolbar at the top of a page.
 
 ---
 
-## `heatmap`  *(advanced · Core · v1.0)*
+## `heatmap`  *(advanced · Advanced · v1.0)*
 
 Two-dimensional heatmap visualization.
 
@@ -2870,8 +2870,8 @@ rest to `fallback` / `fallbackUrl` / `fallbackBehavior`.
 | `src` *(aliases: `source`, `backgroundImage`)* | `AssetRef` | yes | — | Image source. Any `AssetRef` form. |
 | `width` | `number` | no | — | Width in logical pixels. |
 | `height` | `number` | no | — | Height in logical pixels. |
-| `fit` | `string` | no | "contain" | `cover`, `contain`, `fill`, `none`, `scaleDown`, `fitHeight`, `fitWidth`. |
-| `alignment` | `Alignment` | no | "center" | Alignment within bounds. |
+| `fit` | `string` | no | contain | `cover`, `contain`, `fill`, `none`, `scaleDown`, `fitHeight`, `fitWidth`. |
+| `alignment` | `Alignment` | no | center | Alignment within bounds. |
 | `fallback` | `Widget` | no | — | Widget drawn when the source cannot be resolved (§6.12.4). |
 | `loading` | `Widget` | no | — | Widget drawn while the source is being read. |
 | `placeholder` | `string` | no | — | Placeholder text. |
@@ -2953,7 +2953,7 @@ Displays a single child selected by index. All children retain state.
 | `sizing` | `string` | no | — | How the stack sizes itself against its children: `loose`, `expand`, `passthrough`. |
 | `clipBehavior` | `string` | no | — | How content crossing the bounds is clipped. |
 | `index` | `number | binding` | no | 0 | Index of the child to display. |
-| `alignment` | `Alignment` | no | "topStart" | Alignment of the displayed child. |
+| `alignment` | `Alignment` | no | topStart | Alignment of the displayed child. |
 | `children` | `array<Widget>` | yes | — | Candidate children. |
 | `textDirection` | `string` | no | — | Resolution direction for `start`/`end` alignment. |
 
@@ -3063,7 +3063,7 @@ server-rejected move is not silently already applied on screen.
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `columns` | `array<object> | binding` | yes | — | `{ key, title, items, limit?, color? }`. `limit` caps a column's card count — a drop that would exceed it is refused at the gesture, not after. |
 | `itemTemplate` | `Widget` | yes | — | Card body. Rendered per item with `item` in scope, exactly as `list.itemTemplate`. |
-| `itemKey` | `string` | no | "id" | Field identifying a card. Stable identity is what makes a move addressable. |
+| `itemKey` | `string` | no | id | Field identifying a card. Stable identity is what makes a move addressable. |
 | `draggable` | `boolean` | no | true | Whether cards can be moved at all. False renders a read-only board. |
 | `columnWidth` | `Dimension` | no | — | Fixed column width. Omitted distributes available width. |
 | `optimistic` | `boolean` | no | false | Move the card on screen before `onCardMove` resolves. False keeps the board as the truth the server confirmed — the safer default when a move can be rejected. |
@@ -3108,13 +3108,13 @@ cropping outside the rendered rectangle.
 | `src` | `AssetRef` | yes | — | Image source. |
 | `duration` | `Dimension` | no | 8000 | Total animation duration in milliseconds. |
 | `intensity` | `number` | no | 0.15 | Zoom amount. The image zooms from 1.0 to (1.0 + `intensity`) across `duration`. Practical range: `0.05` (subtle) .. `0.30` (dramatic).  |
-| `startAlignment` | `Alignment` | no | "topStart" | Pan start position within the rendered bounds. |
-| `endAlignment` | `Alignment` | no | "bottomEnd" | Pan end position within the rendered bounds. |
+| `startAlignment` | `Alignment` | no | topStart | Pan start position within the rendered bounds. |
+| `endAlignment` | `Alignment` | no | bottomEnd | Pan end position within the rendered bounds. |
 | `loop` | `boolean` | no | true | When true the animation reverses and replays continuously; when false it stops at the end position. |
-| `curve` | `AnimationCurve` | no | "linear" | Easing curve over the zoom/pan progression. |
+| `curve` | `AnimationCurve` | no | linear | Easing curve over the zoom/pan progression. |
 | `width` | `Dimension` | no | — | Render width. |
 | `height` | `Dimension` | no | — | Render height. |
-| `fit` | `string` | no | "cover" | How the image scales to its render bounds before the Ken Burns animation overlays. |
+| `fit` | `string` | no | cover | How the image scales to its render bounds before the Ken Burns animation overlays. |
 
 ### Examples
 
@@ -3209,7 +3209,7 @@ Defer rendering of an expensive subtree until it enters the viewport (or until e
 
 ---
 
-## `lightbox`  *(advanced · Core · v1.3)*
+## `lightbox`  *(advanced · Advanced · v1.3)*
 
 Full-screen modal image viewer with pinch-zoom and swipe-between-
 images. Used as a tap target on a thumbnail image — opening the
@@ -3227,7 +3227,7 @@ Pairs naturally with `hero` for the cover-to-detail morph.
 | `allowZoom` | `boolean` | no | true | Enable pinch-zoom (and double-tap-to-zoom). When false the lightbox shows the image at fit-bounds only. |
 | `maxZoom` | `number` | no | 4.0 | Maximum zoom factor (1.0 = fit-bounds). |
 | `allowSwipe` | `boolean` | no | true | Enable swipe-between-images. When false the lightbox shows only `images[initialIndex]`. |
-| `backgroundColor` | `Color` | no | "#FF000000" | Backdrop color behind the image (typically black or theme.scrim). |
+| `backgroundColor` | `Color` | no | #FF000000 | Backdrop color behind the image (typically black or theme.scrim). |
 | `onIndexChanged` | `Action` | no | — | Fires when the user swipes to a new image. `event.index` carries the new index. |
 | `onClose` | `Action` | no | — | Fires when the user dismisses the lightbox. |
 
@@ -3261,8 +3261,8 @@ Limits a child's size only when it would otherwise be unbounded.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
-| `maxWidth` | `number` | no | double.infinity | Upper bound when width is unbounded. |
-| `maxHeight` | `number` | no | double.infinity | Upper bound when height is unbounded. |
+| `maxWidth` | `number` | no | — | Upper bound applied when the parent gives unbounded width. Omitted, no bound is applied — written as a number, so the "infinity" a Flutter implementation uses internally is not a value a document can carry.  |
+| `maxHeight` | `number` | no | — | Upper bound applied when the parent gives unbounded height. Omitted, no bound is applied.  |
 | `child` | `Widget` | yes | — | Bounded child. |
 
 ---
@@ -3284,9 +3284,9 @@ Main-axis sizing: when at least one child is `expanded` / `flexible` / `spacer` 
 | `wrap` | `boolean` | no | — | Let children flow onto another line instead of overflowing. |
 | `padding` | `EdgeInsets` | no | — | Space inside the surface, around its content. |
 | `mainAxisSize` | `string` | no | — | `max` fills the parent along `direction`; `min` shrink-wraps. Defaults to `max` when a flex child (`expanded`/`flexible`/`spacer`) is present, otherwise `min`. |
-| `direction` *(aliases: `orientation`, `scrollDirection`)* | `string` | yes | "vertical" | `"horizontal"` or `"vertical"`. |
-| `alignment` *(aliases: `crossAxisAlignment`)* | `string` | no | "start" | Cross-axis alignment: `start`, `center`, `end`, `stretch`. |
-| `distribution` *(aliases: `mainAxisAlignment`)* | `string` | no | "start" | Main-axis distribution: `start` · `center` · `end` · `spaceBetween` · `spaceAround` · `spaceEvenly` (§17.1.3 spells multi-word values in camelCase).  |
+| `direction` *(aliases: `orientation`, `scrollDirection`)* | `string` | yes | vertical | `"horizontal"` or `"vertical"`. |
+| `alignment` *(aliases: `crossAxisAlignment`)* | `string` | no | start | Cross-axis alignment: `start`, `center`, `end`, `stretch`. |
+| `distribution` *(aliases: `mainAxisAlignment`)* | `string` | no | start | Main-axis distribution: `start` · `center` · `end` · `spaceBetween` · `spaceAround` · `spaceEvenly` (§17.1.3 spells multi-word values in camelCase).  |
 | `spacing` *(aliases: `gap`, `itemSpacing`)* | `number` | no | 0 | Gap between children in logical pixels. |
 | `children` | `array<Widget>` | yes | — | Child widgets arranged along `direction`. |
 
@@ -3351,9 +3351,9 @@ whether it points at where you already are.
 | `route` | `string` | no | — | Internal route. Mutually exclusive with `url`. |
 | `params` | `object` | no | — | Route parameters. Ignored when `url` is set. |
 | `url` | `string` | no | — | External URL, opened per §4.3.3. Mutually exclusive with `route`. |
-| `target` | `string` | no | "new" | Hint for `url` links only; a host with no tabs MAY ignore it. |
+| `target` | `string` | no | new | Hint for `url` links only; a host with no tabs MAY ignore it. |
 | `activeWhen` | `string | binding` | no | — | Route (or expression) that marks this link as the current location. Sets the active style and `aria-current`. |
-| `underline` | `string` | no | "hover" | Underline policy. |
+| `underline` | `string` | no | hover | Underline policy. |
 | `icon` | `IconRef` | no | — | Leading icon. |
 | `child` | `Widget` | no | — | Rich content in place of `label`. |
 
@@ -3404,7 +3404,7 @@ Scrollable linear collection rendered from an array binding.
 | `itemTemplate` | `Widget` | no | — | Template rendered per bound item. Required with `items`. Iteration variables `item`, `index`, `isFirst`, `isLast`, `isEven`, `isOdd` are in scope. |
 | `children` | `array<Widget>` | no | — | Static list of widgets. Mutually exclusive with `items` + `itemTemplate`. |
 | `spacing` | `number` | no | 0 | Gap between items. |
-| `orientation` | `string` | no | "vertical" | `vertical` or `horizontal`. |
+| `orientation` | `string` | no | vertical | `vertical` or `horizontal`. |
 | `emptyMessage` | `string` | no | — | Displayed when the list is empty. |
 | `itemExtent` | `number` | no | — | Fixed item size for performance. |
 | `reverse` | `boolean` | no | — | When true, run the transition in reverse direction (for back navigation). |
@@ -3502,7 +3502,7 @@ Embedded Lottie/JSON animation playback.
 
 ---
 
-## `map`  *(advanced · Core · v1.0)*
+## `map`  *(advanced · Advanced · v1.0)*
 
 Geographic map with markers and overlays.
 
@@ -3613,7 +3613,7 @@ Applies outer margin around a single child.
 
 ---
 
-## `markdown`  *(advanced · Core · v1.0)*
+## `markdown`  *(advanced · Advanced · v1.0)*
 
 Markdown renderer.
 
@@ -3657,7 +3657,7 @@ Markdown renderer.
 
 ---
 
-## `mediaPlayer`  *(advanced · Core · v1.0)*
+## `mediaPlayer`  *(advanced · Advanced · v1.0)*
 
 **Aliases:** `video`, `audio`
 
@@ -3757,7 +3757,7 @@ that admin screens are built from.
 | `items` | `array<object>` | yes | — | `{ key, label, icon?, route?, params?, children?, enabled? }`. `children` nests one or more levels; an item with `children` is a group, not a destination. |
 | `selectedKey` | `string | binding` | no | — | Two-way bound key of the active item. |
 | `openKeys` | `array<string>` | no | — | Two-way bound keys of expanded groups. |
-| `mode` | `string` | no | "vertical" | `inline` expands groups in place; `vertical`/`horizontal` open them as flyouts. |
+| `mode` | `string` | no | vertical | `inline` expands groups in place; `vertical`/`horizontal` open them as flyouts. |
 | `collapsed` | `boolean | binding` | no | — | Collapse to icons only. Labels move into tooltips rather than disappearing. |
 
 ### Events
@@ -3885,7 +3885,7 @@ Vertical navigation rail for tablet/desktop layouts. Each item's text field is `
 
 ---
 
-## `networkGraph`  *(advanced · Core · v1.0)*
+## `networkGraph`  *(advanced · Advanced · v1.0)*
 
 Network topology graph. Same node/edge model as `graph`, with topology-oriented defaults (hierarchical layout, directed edges).
 
@@ -4013,7 +4013,7 @@ Wraps a child with opacity, with optional animation.
 | `opacity` | `number | binding` | yes | — | Opacity in `0.0..1.0`. |
 | `animated` | `boolean` | no | false | Animate opacity changes. |
 | `duration` | `number` | no | 300 | Animation duration in milliseconds (when `animated: true`). |
-| `curve` | `string` | no | "easeInOut" | Animation curve (when `animated: true`). |
+| `curve` | `string` | no | easeInOut | Animation curve (when `animated: true`). |
 | `child` | `Widget` | yes | — | Child widget. |
 
 ### Examples
@@ -4057,7 +4057,7 @@ that intent. None of the three can be recovered by the author.
 | `enabled` | `boolean` | no | true | Whether the widget accepts user input (§2.6.0). Default `true`. |
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
 | `length` | `number` | no | 6 | Number of cells. |
-| `inputType` | `string` | no | "numeric" | Restricts accepted characters and selects the on-screen keyboard. |
+| `inputType` | `string` | no | numeric | Restricts accepted characters and selects the on-screen keyboard. |
 | `onComplete` | `Action` | no | — | Fired once every digit is filled. Canonical §17.1.4 spelling; the older `autoSubmit` name is still accepted and does the same thing.  |
 | `masked` | `boolean` | no | false | Obscure entered characters. |
 | `autofill` | `boolean` | no | true | Declare one-time-code autofill to the platform. A runtime without it renders normally rather than failing. |
@@ -4117,11 +4117,11 @@ always one full page. Each child is rendered as a separate page.
 | `padEnds` | `boolean` | no | — | Pad the first and last page so they can centre. |
 | `pageSnapping` | `boolean` | no | — | Snap to page boundaries when the drag ends. |
 | `clipBehavior` | `string` | no | — | How content crossing the bounds is clipped. |
-| `direction` | `string` | no | "horizontal" | Scroll axis. |
+| `direction` | `string` | no | horizontal | Scroll axis. |
 | `children` | `array<Widget>` | yes | — | One child per page. |
 | `initialPage` | `number` | no | 0 | Index of the page rendered first. |
 | `loop` | `boolean` | no | false | When true the list wraps around — last → first. |
-| `scrollPhysics` | `string` | no | "clamping" | Edge / overscroll behaviour. `bouncing` mirrors iOS rubber-band; `clamping` is the Android-style hard stop; `neverScrollable` disables user dragging (use programmatic page change only).  |
+| `scrollPhysics` | `string` | no | clamping | Edge / overscroll behaviour. `bouncing` mirrors iOS rubber-band; `clamping` is the Android-style hard stop; `neverScrollable` disables user dragging (use programmatic page change only).  |
 | `allowImplicitScrolling` | `boolean` | no | false | Pre-render the adjacent pages off-screen so subsequent swipes are instant (assistive-technology friendly). Costs memory.  |
 | `onPageChanged` | `Action` | no | — | Fires after the active page settles. `event.page` carries the new index. |
 | `onChange` | `Action` | no | — | Fired when the visible page changes. `{{event.value}}` carries its index. |
@@ -4216,7 +4216,7 @@ picked file (`fileInput` writes a `data:` URI), or a server resource.
 | `showToolbar` | `boolean` | no | true | Render the built-in toolbar. False leaves navigation entirely to bindings. |
 | `showPageNav` | `boolean` | no | true | Page stepper within the toolbar. |
 | `showZoom` | `boolean` | no | true | Zoom controls within the toolbar. |
-| `fit` | `string` | no | "width" | Initial fit. |
+| `fit` | `string` | no | width | Initial fit. |
 
 ### Events
 
@@ -4248,7 +4248,7 @@ Presents a prompt for one or more client capabilities (e.g., clipboard, filesyst
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `permissions` | `array<string>` | no | — | Permission identifiers (e.g., `["client.clipboard"]`). Required when `permissionType` is omitted. |
 | `permissionType` | `string` | no | — | Single-permission shorthand for `permissions: [permissionType]`. |
-| `style` | `string` | no | "inline" | `inline`, `dialog`, `banner`. |
+| `style` | `string` | no | inline | `inline`, `dialog`, `banner`. |
 | `title` | `string` | no | — | Prompt title. |
 | `description` | `string` | no | — | Prompt body. |
 | `icon` | `IconRef` | no | — | Icon shown alongside the prompt. Any `IconRef` form. |
@@ -4303,8 +4303,8 @@ trigger on dismiss.
 | `content` | `Widget` | yes | — | Surface contents. May contain focusable widgets — that is what separates this from `tooltip`. |
 | `child` | `Widget` | yes | — | Anchor. The popover positions against this widget's box. |
 | `open` | `boolean | binding` | no | — | Two-way open state. Bind it to drive the popover from actions instead of the trigger. |
-| `trigger` | `string` | no | "tap" | `manual` means only `open` controls it. |
-| `placement` | `string` | no | "auto" | Preferred side. `auto` picks the side with room; any value flips when it would overflow. |
+| `trigger` | `string` | no | tap | `manual` means only `open` controls it. |
+| `placement` | `string` | no | auto | Preferred side. `auto` picks the side with room; any value flips when it would overflow. |
 | `openDelay` | `number` | no | 0 | Milliseconds before opening. Chiefly for `hover`. |
 | `closeDelay` | `number` | no | 0 | Milliseconds before closing after the trigger is released. |
 | `dismissOnOutside` | `boolean` | no | true | Close when the user interacts outside the surface. |
@@ -4352,7 +4352,7 @@ Button that reveals a popup menu of options.
 | `shape` | `object` | no | — | Outline of the surface, as a shape descriptor. |
 | `splashRadius` | `Dimension` | no | — | Radius the ripple expands to. |
 | `surfaceTintColor` | `Color` | no | — | Elevation tint applied over the surface colour (M3). |
-| `icon` | `IconRef` | no | "more_vert" | Trigger icon. Any `IconRef` form. |
+| `icon` | `IconRef` | no | more_vert | Trigger icon. Any `IconRef` form. |
 | `items` | `array<MenuItem>` | yes | — | `{ value, label, icon?, enabled? }` entries. |
 | `onSelect` | `Action` | no | — | Fired when an item is selected. |
 | `change` | `Action` | no | — | Legacy alias of `onChange`. |
@@ -4403,7 +4403,7 @@ Positions a child within a `stack` using offsets.
 
 ## `progressBar`  *(display · Core)*
 
-**Aliases:** `linearProgressIndicator`, `loadingIndicator`, `loading-indicator`, `progress-bar`, `progress`
+**Aliases:** `linearProgressIndicator`, `circularProgressIndicator`, `loadingIndicator`, `loading-indicator`, `progress-bar`, `progress`
 
 Progress indicator (linear or circular).
 
@@ -4416,7 +4416,7 @@ Progress indicator (linear or circular).
 | `size` | `Dimension` | no | — | Rendered size. |
 | `strokeWidth` | `Dimension` | no | — | Thickness of the drawn stroke. |
 | `value` | `number | binding` | no | — | Progress in `0.0..1.0`; omit for indeterminate. |
-| `indicatorType` | `string` | no | "linear" | `linear` or `circular`. |
+| `indicatorType` | `string` | no | circular | `linear` or `circular`. The widget type can name the shape instead: `linearProgressIndicator` and `circularProgressIndicator` are linear and circular respectively, and this property overrides either. Circular is the default because a bar has no intrinsic width — a bare `progressBar` inside a row asserts at layout time rather than rendering.  |
 | `color` | `Color` | no | theme primary | Foreground color. |
 | `backgroundColor` | `Color` | no | — | Track color. |
 
@@ -4453,7 +4453,7 @@ on arrival.
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `value` | `string | binding` | yes | — | Encoded payload. A URL, a `ui://` route, or an entry token. |
 | `size` | `number` | no | 200 | Edge length in logical pixels. The grid is square. |
-| `errorCorrection` | `string` | no | "medium" | Error-correction level: `low` (7%), `medium` (15%), `quartile` (25%), `high` (30%).  |
+| `errorCorrection` | `string` | no | medium | Error-correction level: `low` (7%), `medium` (15%), `quartile` (25%), `high` (30%).  |
 | `foregroundColor` | `Color` | no | — | Module color. Contrast against `backgroundColor` must stay high enough to scan; a runtime SHOULD refuse to render below it rather than emit an unreadable code. |
 | `backgroundColor` | `Color` | no | — | Quiet-zone and gap color. |
 | `margin` | `boolean` | no | true | Include the quiet zone. Omitting it breaks scanning against busy backgrounds. |
@@ -4509,7 +4509,7 @@ Single-selection radio group. Shared rows per §2.6.0.
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
 | `label` | `string` | no | — | Field label shown beside or above the control. |
 | `options` *(aliases: `items`)* | `array<Option>` | yes | — | `{ value, label }` entries. |
-| `orientation` | `string` | no | "vertical" | `vertical` or `horizontal`. |
+| `orientation` | `string` | no | vertical | `vertical` or `horizontal`. |
 | `direction` | `string` | no | — | `horizontal` or `vertical`. |
 
 ### Examples
@@ -4574,7 +4574,7 @@ Discrete rating control (e.g., star rating). Shared rows per §2.6.0; `value` is
 | `readOnly` | `boolean` | no | — | Display only — the value cannot be changed by touch. |
 | `size` | `Dimension` | no | — | Rendered size. |
 | `max` | `number` | no | 5 | Maximum rating value. |
-| `icon` | `IconRef` | no | "star" | Icon for each unit. Any `IconRef` form. |
+| `icon` | `IconRef` | no | star | Icon for each unit. Any `IconRef` form. |
 | `color` | `Color` | no | — | Icon color. |
 | `change` | `Action` | no | — | Legacy alias of `onChange`. |
 
@@ -4644,10 +4644,10 @@ span styles layer on top of.
 | `spans` | `array<Span>` | yes | — | Inline span list. Each entry is a `Span` (TextSpan or WidgetSpan). See the `Span` $def for the two shapes.  |
 | `style` | `TextStyle` | no | — | Paragraph base style applied to every span unless overridden. Use this for a uniform `lineHeight` / `letterSpacing` / `fontFamily` / `color` across the paragraph; per-span styles layer on top via `merge` semantics.  |
 | `dropCap` | `DropCap` | no | — | Render the first character of the first `TextSpan` as an enlarged drop cap that the paragraph flows around. Mutually exclusive with `maxLines`.  |
-| `textAlign` | `string` | no | "start" | Alignment for the composed paragraph. |
+| `textAlign` | `string` | no | start | Alignment for the composed paragraph. |
 | `textDirection` | `string` | no | — | Resolution direction for `start`/`end` alignment. |
 | `maxLines` | `number` | no | — | Maximum rendered lines. Mutually exclusive with `dropCap`. |
-| `overflow` | `string` | no | "clip" | Overflow behaviour when content exceeds `maxLines`. |
+| `overflow` | `string` | no | clip | Overflow behaviour when content exceeds `maxLines`. |
 | `softWrap` | `boolean` | no | true | When false, the paragraph never wraps and overflow rules apply at the right edge. |
 
 ### Examples
@@ -4725,7 +4725,7 @@ editor is not a licence to inject.
 |---|---|---|---|---|
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
-| `format` | `string` | no | "html" | Value format. `html` is limited to inline marks (`strong`, `em`, `u`, `s`, `code`, `a`), block elements (`p`, `h1`-`h6`, `ul`, `ol`, `li`, `blockquote`, `pre`), and `img` whose `src` is an `AssetRef`. Anything else is stripped, not escaped. |
+| `format` | `string` | no | html | Value format. `html` is limited to inline marks (`strong`, `em`, `u`, `s`, `code`, `a`), block elements (`p`, `h1`-`h6`, `ul`, `ol`, `li`, `blockquote`, `pre`), and `img` whose `src` is an `AssetRef`. Anything else is stripped, not escaped. |
 | `toolbar` | `array<string>` | no | — | Controls to show, e.g. `[bold, italic, link, bulletList, heading]`. Omitted means the runtime's default set. A control absent here MUST also be unreachable by keyboard shortcut, or the toolbar lies about what the document can contain. |
 | `placeholder` | `string` | no | — | Shown while empty. |
 | `minHeight` | `number` | no | — | Minimum editor height in logical pixels. |
@@ -4769,8 +4769,8 @@ better suited to time-driven motion graphics.
 | `animation` | `string` | no | — | Named timeline animation. Mutually exclusive with `stateMachine`. |
 | `stateMachine` | `string` | no | — | Named state machine. Mutually exclusive with `animation`. |
 | `inputs` | `object` | no | — | Map of state-machine input name → value. `boolean` / `number` / `trigger` (set to `true` to fire) — type matches the input's declared type in the Rive file.  |
-| `fit` | `string` | no | "contain" | How the artboard scales within its render bounds. |
-| `alignment` | `Alignment` | no | "center" | Alignment of the artboard within its render bounds. |
+| `fit` | `string` | no | contain | How the artboard scales within its render bounds. |
+| `alignment` | `Alignment` | no | center | Alignment of the artboard within its render bounds. |
 | `width` | `Dimension` | no | — | Render width in logical pixels. |
 | `height` | `Dimension` | no | — | Render height in logical pixels. |
 
@@ -4911,9 +4911,9 @@ mutually exclusive.
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `primary` | `boolean` | no | — | Whether this is the primary scroll view of the page. |
-| `direction` | `string` | no | "vertical" | Scroll axis. |
+| `direction` | `string` | no | vertical | Scroll axis. |
 | `padding` | `EdgeInsets` | no | — | Inner padding around the scrollable content. |
-| `scrollPhysics` | `string` | no | "clamping" | Edge / overscroll behaviour. |
+| `scrollPhysics` | `string` | no | clamping | Edge / overscroll behaviour. |
 | `child` | `Widget` | no | — | Single scrolled child. Mutually exclusive with `children` and `slivers`. |
 | `children` | `array<Widget>` | no | — | Multiple widgets wrapped in an implicit linear column along `direction`. Mutually exclusive with `child` and `slivers`. |
 | `slivers` | `array<Sliver>` | no | — | Sliver entries (sliverAppBar / sliverPersistentHeader / sliverList / sliverGrid / sliverFixedExtentList). Mutually exclusive with `child` and `children`.  |
@@ -4977,7 +4977,7 @@ Segmented selection, styled as tabs or buttons. Shared rows per §2.6.0.
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
 | `label` | `string` | no | — | Field label shown beside or above the control. |
 | `options` *(aliases: `segments`)* | `array<Option>` | yes | — | `{ value, label, icon? }` entries. |
-| `variant` | `string` | no | "segmented" | `segmented`, `tabs`, `buttons`. |
+| `variant` | `string` | no | segmented | `segmented`, `tabs`, `buttons`. |
 
 ### Examples
 
@@ -5042,7 +5042,7 @@ Single-value dropdown selection. Shared rows per §2.6.0.
 
 ---
 
-## `signature`  *(advanced · Core · v1.0)*
+## `signature`  *(advanced · Advanced · v1.0)*
 
 Signature capture pad.
 
@@ -5131,7 +5131,7 @@ Lightweight scrollable wrapper for a single child.
 | `clipBehavior` | `string` | no | — | How content crossing the bounds is clipped. |
 | `physics` | `string` | no | — | Scroll response: `bouncing`, `clamping`, `never`, `always`. |
 | `primary` | `boolean` | no | — | Whether this is the primary scroll view of the page. |
-| `direction` | `string` | no | "vertical" | Scroll direction. |
+| `direction` | `string` | no | vertical | Scroll direction. |
 | `padding` | `EdgeInsets` | no | — | Inner padding. |
 | `child` | `Widget` | no | — | Scrolled content. Required when `children` is omitted. |
 | `children` | `array<Widget>` | no | — | Multiple widgets; runtime wraps them in a linear column along `direction`. Mutually exclusive with `child`. |
@@ -5306,7 +5306,7 @@ space from one pane and gives it to the next, so the total never changes.
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `children` | `array<Widget>` | yes | — | Panes, in order. Gutters appear between adjacent panes. |
-| `orientation` | `string` | no | "horizontal" | Direction panes are laid along. |
+| `orientation` | `string` | no | horizontal | Direction panes are laid along. |
 | `sizes` | `array<number> | binding` | no | — | Pane sizes as fractions summing to 1. Two-way bindable so a layout can be restored. Omitted distributes evenly. |
 | `minSizes` | `array<number>` | no | — | Per-pane minimum fractions. A drag stops at them rather than collapsing a pane the author did not mark collapsible. |
 | `gutterSize` | `number` | no | 8 | Gutter thickness in logical pixels. Keep it large enough to hit with a finger where touch is possible. |
@@ -5401,8 +5401,8 @@ Overlapping children. Non-positioned children align per `alignment`; positioned 
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `clipBehavior` | `string` | no | — | How content crossing the bounds is clipped. |
-| `alignment` | `Alignment` | no | "topStart" | Alignment of non-positioned children. |
-| `fit` | `string` | no | "loose" | Sizing of non-positioned children: `loose`, `expand`, `passthrough`. |
+| `alignment` | `Alignment` | no | topStart | Alignment of non-positioned children. |
+| `fit` | `string` | no | loose | Sizing of non-positioned children: `loose`, `expand`, `passthrough`. |
 | `children` | `array<Widget>` | yes | — | Stacked children (rendered in order; later children render on top). |
 | `textDirection` | `string` | no | — | Resolution direction for `start`/`end` alignment. |
 
@@ -5445,7 +5445,7 @@ aspect ratios. Distinct from `grid` (uniform row alignment) and
 | `mainAxisSpacing` | `number` | no | 0 | Gap along the scroll axis (between consecutive items in a column). |
 | `crossAxisSpacing` | `number` | no | 0 | Gap across the scroll axis (between columns). |
 | `padding` | `EdgeInsets` | no | — | Inner padding around the grid. |
-| `scrollDirection` | `string` | no | "vertical" | Scroll axis. |
+| `scrollDirection` | `string` | no | vertical | Scroll axis. |
 
 ### Examples
 
@@ -5494,7 +5494,7 @@ Step-by-step wizard. Shared `binding` / `value` / `enabled` / `onChange` per §2
 | `physics` | `string` | no | — | Scroll response: `bouncing`, `clamping`, `never`, `always`. |
 | `steps` | `array<Step>` | yes | — | Each step: `{ title, subtitle?, state?, content, isActive? }`. |
 | `currentStep` | `number | binding` | no | 0 | One-way legacy property. Use §2.6.0 `binding` for two-way behavior. |
-| `stepperType` | `string` | no | "vertical" | `vertical` or `horizontal`. |
+| `stepperType` | `string` | no | vertical | `vertical` or `horizontal`. |
 | `onStepTapped` | `Action` | no | — | Fired when a step header is tapped. Receives `{{event.index}}`. |
 | `onStepContinue` | `Action` | no | — | Fired when the continue button is pressed. |
 | `onStepCancel` | `Action` | no | — | Fired when the cancel button is pressed. |
@@ -5603,7 +5603,7 @@ Content area that displays widgets corresponding to the currently selected tab.
 
 ---
 
-## `table`  *(advanced · Core · v1.0)*
+## `table`  *(advanced · Advanced · v1.0)*
 
 Layout table for arranging widgets in rows and columns. Not data-bound; each cell is a widget.
 
@@ -5614,7 +5614,7 @@ Layout table for arranging widgets in rows and columns. Not data-bound; each cel
 | `click` | `Action` | no | — | Action fired when the widget is tapped. Runtime wraps the widget in a gesture surface and dispatches the action on tap. Widget-local activation surfaces (`button.onTap`, `iconButton.onTap`, `richText.spans[].onTap`, …) remain canonical for those widgets and are NOT replaced by `click`; `click` is the universal fallback for widgets that have no dedicated activation slot.  |
 | `tooltip` | `string` | no | — | Hover / long-press tooltip text. Runtime wraps the widget in a `Tooltip` surface.  |
 | `textBaseline` | `string` | no | — | Baseline used to align cells in a baseline-aligned row. |
-| `rows` | `array<object{ cells: array<Widget> }>` | yes | — | Row definitions |
+| `rows` | `array<TableRow>` | yes | — | Row definitions — each carries the widgets for its cells. |
 | `border` | `{ color, width }` | no | — | Optional cell border |
 | `defaultColumnWidth` | `string | number` | no | flex | `flex`, `intrinsic`, or a fixed number (logical px). |
 | `defaultVerticalAlignment` | `string` | no | middle | Cell vertical alignment. |
@@ -5652,7 +5652,7 @@ Layout table for arranging widgets in rows and columns. Not data-bound; each cel
 
 ---
 
-## `terminal`  *(advanced · Core · v1.0)*
+## `terminal`  *(advanced · Advanced · v1.0)*
 
 ANSI-capable terminal emulator.
 
@@ -5724,8 +5724,8 @@ Renders a string. The canonical content field is `text`.
 | `style` | `TextStyle` | no | — | Inline `TextStyle` overrides (color, fontWeight, fontSize, decoration, shader, shadows, fontFeatures, …). Layered on top of `variant` when both are set. A binding expression `"{{theme.typography.<role>}}"` is also accepted and resolves to the same role's typography object — equivalent to writing `variant: "<role>"`.  |
 | `dropCap` | `DropCap` | no | — | Render the first character of `text` as an enlarged drop cap that the surrounding lines flow around (book / magazine ornament). Mutually exclusive with `maxLines`.  |
 | `maxLines` | `number` | no | — | Maximum rendered lines. |
-| `overflow` | `string` | no | "clip" | `clip`, `ellipsis`, `fade`, `visible`. |
-| `textAlign` | `string` | no | "start" | `start`, `center`, `end`, `justify` follow the text direction (`start` is right-hand in an RTL locale). `left` and `right` are absolute and do not — they are the way to pin a column of numbers to one side whatever the locale, so they are values, not aliases. |
+| `overflow` | `string` | no | clip | `clip`, `ellipsis`, `fade`, `visible`. |
+| `textAlign` | `string` | no | start | `start`, `center`, `end`, `justify` follow the text direction (`start` is right-hand in an RTL locale). `left` and `right` are absolute and do not — they are the way to pin a column of numbers to one side whatever the locale, so they are values, not aliases. |
 | `textDirection` | `string` | no | — | Resolution direction for `start`/`end` alignment. |
 | `value` | `string | number | boolean | object | array` | no | — | Measured from real documents (2026-08-04): any literal or binding — the §2.6.0 input contract shape. |
 
@@ -5878,9 +5878,9 @@ Time input. Shared rows per §2.6.0; `value` is a time string (e.g., `"14:30"`).
 | `onChange` | `Action` | no | — | Fired when the widget value changes (§2.6.0). Event payload exposes `event.value`. |
 | `errorText` | `string` | no | — | Error message shown under the field. Overrides validation output. |
 | `label` | `string` | no | — | Field label. |
-| `format` | `string` | no | "HH:mm" | Display format. |
+| `format` | `string` | no | HH:mm | Display format. |
 | `use24HourFormat` | `boolean` | no | false | 24-hour clock. The default follows what this field has drawn since it shipped; `timePicker` defaults the other way, and unifying them would change every screen that never set the property.  |
-| `mode` | `string` | no | "spinner" | `spinner`, `input`, `dial`. |
+| `mode` | `string` | no | spinner | `spinner`, `input`, `dial`. |
 
 ---
 
@@ -5908,7 +5908,7 @@ Standalone time picker surface. Shared rows per §2.6.0; `value` is a time strin
 
 ---
 
-## `timeline`  *(advanced · Core · v1.0)*
+## `timeline`  *(advanced · Advanced · v1.0)*
 
 Chronological timeline of events.
 
@@ -6041,7 +6041,7 @@ Geometric transformation (rotate, scale, translate) applied to a child.
 | `origin` | `object` | no | { "x": 0.5, "y": 0.5 } | Transform origin as fraction. |
 | `animated` | `boolean` | no | false | Animate transform changes. |
 | `duration` | `number` | no | 300 | Animation duration in milliseconds. |
-| `curve` | `string` | no | "easeInOut" | Animation curve. |
+| `curve` | `string` | no | easeInOut | Animation curve. |
 | `child` | `Widget` | yes | — | Child widget. |
 
 ### Examples
@@ -6064,7 +6064,7 @@ Geometric transformation (rotate, scale, translate) applied to a child.
 
 ---
 
-## `tree`  *(advanced · Core · v1.0)*
+## `tree`  *(advanced · Advanced · v1.0)*
 
 **Aliases:** `treeView`
 
@@ -6273,7 +6273,7 @@ all.
 
 ---
 
-## `webView`  *(advanced · Core · v1.0)*
+## `webView`  *(advanced · Advanced · v1.0)*
 
 Embedded web view.
 
@@ -6338,10 +6338,10 @@ Flow layout that wraps children to the next line when they exceed available widt
 | `runAlignment` | `string` | no | — | How the runs (lines) are aligned along the cross axis. |
 | `verticalDirection` | `string` | no | — | Order children are laid out vertically: `down` or `up`. |
 | `clipBehavior` | `string` | no | — | How content crossing the bounds is clipped. |
-| `direction` | `string` | no | "horizontal" | Primary flow direction. |
+| `direction` | `string` | no | horizontal | Primary flow direction. |
 | `spacing` | `number` | no | 0 | Gap between children on the same run. |
 | `runSpacing` | `number` | no | 0 | Gap between runs. |
-| `alignment` | `string` | no | "start" | Alignment within a run. |
+| `alignment` | `string` | no | start | Alignment within a run. |
 | `children` | `array<Widget>` | yes | — | Children to wrap. |
 | `crossAxisAlignment` | `string` | no | — | Legacy alias of `alignment`. |
 | `textDirection` | `string` | no | — | Resolution direction for `start`/`end` alignment. |

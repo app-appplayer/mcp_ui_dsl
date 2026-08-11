@@ -116,7 +116,7 @@ Layout table for arranging widgets in rows and columns. Not data-bound; each cel
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `rows` | `{ cells: Widget[] }[]` | required | Row definitions |
+| `rows` | `TableRow[]` | required | Row definitions — each carries the widgets for its cells (`{ cells: Widget[] }`). A row with no cells is accepted and skipped at render, so a document carrying one still opens. |
 | `border` | `{ color, width }` | null | Optional cell border |
 | `defaultColumnWidth` | string \| number | `flex` | `flex`, `intrinsic`, or a number (fixed px) |
 | `defaultVerticalAlignment` | enum | `middle` | `top`, `middle`, `bottom`, `baseline` |
@@ -716,7 +716,7 @@ Signature capture pad.
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
-| `binding` | binding | no | Target binding for signature data (base64 PNG or SVG path) Omitted, the pad still draws; the stroke goes nowhere. |
+| `binding` | binding | no | Target binding for the signature. Written as a `data:image/png;base64,…` URI once a stroke completes, and `null` once the pad is cleared. Omitted, the pad still draws; the stroke goes nowhere. |
 | `penColor` | string | `#000000` | Stroke color |
 | `penWidth` | number | 2.0 | Stroke width |
 | `width` | number | null | Widget width |
@@ -725,7 +725,7 @@ Signature capture pad.
 | `borderColor` | string | null | Pad border |
 | `showClearButton` | boolean | `true` | Show a clear-signature button |
 | `showGuide` | boolean | `true` | Show a signing guide line |
-| `onSignatureEnd` | Action | null | Fired when a stroke completes |
+| `onSignatureEnd` | Action | null | Fired when a stroke completes. `event.value` carries the same `data:` URI the binding receives; `event.strokes` carries the stroke coordinates for a document that wants the vector rather than the picture; `event.strokeCount` and `event.hasSignature` describe what is on the pad. Fired **after** the encode, so it is asynchronous with respect to the gesture. |
 | `onClear` | Action | null | Fired when the signature is cleared |
 
 ## 10.20 `canvas` *(since v1.3)*

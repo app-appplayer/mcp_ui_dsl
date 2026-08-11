@@ -20,7 +20,7 @@ properties:
   format:
     type: string
     enum: [html, markdown]
-    default: "\"html\""
+    default: "html"
     description: "Value format. `html` is limited to inline marks (`strong`, `em`, `u`, `s`, `code`, `a`), block elements (`p`, `h1`-`h6`, `ul`, `ol`, `li`, `blockquote`, `pre`), and `img` whose `src` is an `AssetRef`. Anything else is stripped, not escaped."
   toolbar:
     type: "array<string>"

@@ -41,7 +41,7 @@ properties:
   fit:
     type: string
     enum: [width, height, page]
-    default: "\"width\""
+    default: "width"
     description: "Initial fit."
 events:
   onLoad:

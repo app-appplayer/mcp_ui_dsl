@@ -11,7 +11,7 @@ properties:
   severity:
     type: "string"
     enum: [info, success, warning, error]
-    default: "\"info\""
+    default: "info"
     description: "`info`, `success`, `warning`, `error`."
   actions:
     type: "array<BannerAction>"

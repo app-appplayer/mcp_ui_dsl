@@ -1,6 +1,6 @@
 type: heatmap
 category: advanced
-profile: Core
+profile: Advanced
 since: v1.0
 description: |
   Two-dimensional heatmap visualization.

@@ -19,7 +19,7 @@ properties:
   direction:
     type: string
     enum: [horizontal, vertical]
-    default: "\"horizontal\""
+    default: "horizontal"
     description: Scroll axis.
   children:
     type: "array<Widget>"
@@ -31,19 +31,19 @@ properties:
     description: Index of the page rendered first.
   loop:
     type: boolean
-    default: "false"
+    default: false
     description: When true the list wraps around — last → first.
   scrollPhysics:
     type: string
     enum: [bouncing, clamping, neverScrollable]
-    default: "\"clamping\""
+    default: "clamping"
     description: |
       Edge / overscroll behaviour. `bouncing` mirrors iOS rubber-band;
       `clamping` is the Android-style hard stop; `neverScrollable`
       disables user dragging (use programmatic page change only).
   allowImplicitScrolling:
     type: boolean
-    default: "false"
+    default: false
     description: |
       Pre-render the adjacent pages off-screen so subsequent swipes
       are instant (assistive-technology friendly). Costs memory.

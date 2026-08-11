@@ -1,6 +1,6 @@
 type: terminal
 category: advanced
-profile: Core
+profile: Advanced
 since: v1.0
 description: |
   ANSI-capable terminal emulator.

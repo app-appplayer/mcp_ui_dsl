@@ -90,14 +90,19 @@ Full widget catalog in [`02_Widgets.md`](02_Widgets.md). Names below are normati
 | `popover` *(since v1.4)* | Transient surface anchored to a trigger |
 | `card` | Elevated container |
 | `divider`, `verticalDivider` | Visual separators |
+| `avatar` | Circular image or initials for a person or entity |
+| `badge` | Small count or status marker attached to a child |
+| `chip` | Compact label, optionally selectable or deletable |
+| `tooltip` | Explanatory text surfaced on hover or long-press |
+| `progressBar` | Determinate or indeterminate progress |
 
 #### Navigation widgets (Core Profile)
 
-`headerBar`, `bottomNavigation`, `tabBar`, `drawer`, `navigationRail`, `floatingActionButton`, `popupMenuButton`, `menu` *(since v1.4)*, `contextMenu` *(since v1.4)*, `breadcrumb` *(since v1.4)*, `pagination` *(since v1.4)*, `link` *(since v1.4)*
+`headerBar`, `bottomNavigation`, `tabBar`, `tabBarView`, `drawer`, `navigationRail`, `floatingActionButton`, `popupMenuButton`, `menu` *(since v1.4)*, `contextMenu` *(since v1.4)*, `breadcrumb` *(since v1.4)*, `pagination` *(since v1.4)*, `link` *(since v1.4)*
 
 #### Scroll and layout (Core Profile)
 
-`scrollView`, `singleChildScrollView`, `pageView`, `sizedBox`, `aspectRatio`, `fractionallySized`, `intrinsicHeight`, `intrinsicWidth`, `wrap`, `positioned`, `safeArea`, `margin`, `visibility`, `conditional`
+`scrollView`, `singleChildScrollView`, `scrollBar`, `pageView`, `sizedBox`, `aspectRatio`, `fractionallySized`, `intrinsicHeight`, `intrinsicWidth`, `limitedBox`, `wrap`, `flow`, `baseline`, `indexedStack`, `staggeredGrid`, `carousel`, `dashboard`, `layoutBuilder`, `mediaQuery`, `positioned`, `safeArea`, `margin`, `visibility`, `conditional`
 
 #### Form controls (Core Profile)
 
@@ -113,11 +118,11 @@ Full widget catalog in [`02_Widgets.md`](02_Widgets.md). Names below are normati
 
 #### Advanced widgets (Advanced Profile — see [`10_Advanced_Widgets.md`](10_Advanced_Widgets.md))
 
-`chart`, `table`, `dataTable`, `map`, `mediaPlayer`, `calendar`, `timeline`, `gauge`, `heatmap`, `tree`, `graph`, `networkGraph`, `codeEditor`, `terminal`, `fileExplorer`, `markdown`, `webView`, `signature`, `canvas` *(since v1.3)*, `qrCode` *(since v1.4)*, `barcode` *(since v1.4)*, `pdfViewer` *(since v1.4)*, `diffViewer` *(since v1.4)*, `richTextEditor` *(since v1.4)*, `splitter` *(since v1.4)*, `resizable` *(since v1.4)*, `kanban` *(since v1.4)*, `gantt` *(since v1.4)*, `spreadsheet` *(since v1.4)*
+`chart`, `table`, `dataTable`, `map`, `mediaPlayer`, `calendar`, `timeline`, `gauge`, `heatmap`, `tree`, `graph`, `networkGraph`, `codeEditor`, `terminal`, `fileExplorer`, `markdown`, `webView`, `signature`, `lightbox`, `canvas` *(since v1.3)*, `qrCode` *(since v1.4)*, `barcode` *(since v1.4)*, `pdfViewer` *(since v1.4)*, `diffViewer` *(since v1.4)*, `richTextEditor` *(since v1.4)*, `splitter` *(since v1.4)*, `resizable` *(since v1.4)*, `kanban` *(since v1.4)*, `gantt` *(since v1.4)*, `spreadsheet` *(since v1.4)*
 
 #### Animation widgets (Core Profile / v1.3)
 
-`animatedContainer`, `opacity` *(since v1.3)*, `transform` *(since v1.3)*, `lottieAnimation`
+`animatedContainer`, `animatedAlign`, `animatedOpacity`, `animatedPositioned`, `animatedDefaultTextStyle`, `opacity` *(since v1.3)*, `transform` *(since v1.3)*, `lottieAnimation`, `hero`, `imageFilter`, `kenBurnsImage`, `rive`, `scrollAnimated`
 
 #### Template widgets (Template Profile — see [`09_Templates.md`](09_Templates.md))
 
@@ -125,7 +130,11 @@ Full widget catalog in [`02_Widgets.md`](02_Widgets.md). Names below are normati
 
 #### Utility
 
-`placeholder`, `banner`, `accessibleWrapper`, `lazy`, `decoration`, `fittedBox`, `clipOval`, `clipRRect`
+`placeholder`, `banner`, `accessibleWrapper`, `lazy`, `decoration`, `fittedBox`, `clipOval`, `clipRRect`, `errorBoundary`, `errorRecovery`, `offlineFallback`, `permissionPrompt`
+
+#### Composition (Composition Profile — see [`18_Conformance.md`](18_Conformance.md) §18.7)
+
+`view` *(since v1.4)* — embeds a definition served by another origin; the embedded subtree resolves its tools, resources and assets against that origin (§6.11.3).
 
 #### Widgets requiring the Client Profile
 
@@ -141,7 +150,7 @@ Full catalog in [`04_Actions.md`](04_Actions.md).
 
 #### Client Profile
 
-`channel`, `permission`, `client.selectFile`, `client.readFile`, `client.writeFile`, `client.saveFile`, `client.listFiles`, `client.httpRequest`, `client.getSystemInfo`, `client.clipboard`, `client.exec`, `client.notification`, `client.storage.get`, `client.storage.set`, `client.storage.remove`, `permission.revoke`, `channel.start`, `channel.stop`, `channel.restart`, `channel.toggle`, `channel.send`, `identity.promote`, `identity.release`, `sound.play`, `sound.stop`, `media.play`, `media.pause`, `media.toggle`, `media.seek`
+`channel`, `permission`, `identity`, `client.selectFile`, `client.readFile`, `client.writeFile`, `client.saveFile`, `client.listFiles`, `client.httpRequest`, `client.getSystemInfo`, `client.clipboard`, `client.exec`, `client.notification`, `client.storage.get`, `client.storage.set`, `client.storage.remove`, `permission.revoke`, `channel.start`, `channel.stop`, `channel.restart`, `channel.toggle`, `channel.send`, `identity.promote`, `identity.release`, `sound.play`, `sound.stop`, `media.play`, `media.pause`, `media.toggle`, `media.seek`
 
 ### 17.2.3 Navigation Sub-Actions
 
@@ -209,13 +218,13 @@ Every entry is accepted by conformant runtimes. Emitters SHOULD prefer the canon
 
 | Canonical | Legacy aliases |
 |-----------|----------------|
-| `box` | `container`, `decoratedBox` |
+| `box` | `container`, `constrained`, `decoratedBox`, `constrainedBox` |
 | `linear` + `direction` | `row`, `column` |
 | `textInput` | `textField`, `textfield`, `textFormField` (Flutter/Material; form-aware semantics folded into `textInput` + `validation`) |
 | `toggle` | `switch` |
 | `listItem` | `listTile`, `list-tile` |
 | `select` | `dropdown` |
-| `progressBar` | `linearProgressIndicator`, `loadingIndicator`, `loading-indicator`, `progress-bar`, `progress` |
+| `progressBar` | `linearProgressIndicator`, `circularProgressIndicator`, `loadingIndicator`, `loading-indicator`, `progress-bar`, `progress` |
 | `bottomNavigation` | `bottomNav`, `bottomnavigationbar` |
 | `headerBar` | `appbar` |
 | `list` | `listView`, `listview` (Flutter-style casing) |

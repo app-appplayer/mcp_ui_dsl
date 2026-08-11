@@ -16,7 +16,7 @@ properties:
     description: "Index of the child to display."
   alignment:
     type: Alignment
-    default: "\"topStart\""
+    default: "topStart"
     description: Alignment of the displayed child.
   children:
     type: "array<Widget>"

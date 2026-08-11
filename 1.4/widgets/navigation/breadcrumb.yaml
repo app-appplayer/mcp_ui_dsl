@@ -14,7 +14,7 @@ properties:
     description: "`{ label, route?, params?, icon? }` in ancestor-first order. The final entry is the current location and MUST NOT be rendered as a link even if it carries a `route`."
   separator:
     type: "string"
-    default: "\"/\""
+    default: "/"
     description: "Glyph between entries. Decorative — hidden from assistive technology."
   maxItems:
     type: "number"

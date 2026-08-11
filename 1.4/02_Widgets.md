@@ -690,10 +690,18 @@ Persistent message banner at the top of a section or page.
 
 Progress indicator (linear or circular).
 
+> **The shape can be named by the widget type (2026-08-10).** `progressBar`
+> and `loadingIndicator` default to `circular`; `linearProgressIndicator` and
+> `circularProgressIndicator` name their shape outright, and `indicatorType`
+> overrides either. The default is `circular` because a linear bar has no
+> intrinsic width: a bare `progressBar` inside a row asserts at layout time
+> rather than rendering, and documents already in the field carry exactly that
+> shape.
+
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
 | `value` | number \| binding | no | — | Progress in `0.0..1.0`; omit for indeterminate. |
-| `indicatorType` | string | no | `"linear"` | `linear` or `circular`. |
+| `indicatorType` | string | no | `"circular"` | `linear` or `circular`. Legacy alias: `type` (avoid — it collides with the widget-type discriminator and is unreachable at the top level). |
 | `color` | string | no | theme primary | Foreground color. |
 | `backgroundColor` | string | no | — | Track color. |
 
@@ -723,6 +731,23 @@ Wraps a child with a decoration box (color, gradient, border, shadow, image, blu
 | `shape` | string | no | `"rectangle"` | `rectangle` or `circle`. |
 | `backdropBlur` | number | no | — | Gaussian backdrop-filter sigma. |
 | `child` | Widget | no | — | Decorated widget. Omitted, the decoration renders alone. |
+
+#### Decoration primitives
+
+The shapes the fields above take. Full definitions live in
+`configs/_primitive/` and `configs/widget/`; the keys are named here so a
+reader of the prose can see what a decoration is made of.
+
+| Shape | Keys |
+|-------|------|
+| `Gradient` | `type` (`linear` / `radial` / `sweep`), `colors`, `stops`, `begin`, `end`, `center`, `radius`, `startAngle`, `endAngle`, `tileMode` (`clamp` / `repeated` / `mirror` / `decal` — how the ramp continues past its ends) |
+| `BoxShadow` | `color`, `offset` (or `offsetX` / `offsetY`), `blurRadius` (alias `blur`), `spreadRadius` (alias `spread`) |
+| `BoxBorder` | `all` / `top` / `right` / `bottom` / `left`, each a `BorderSide` (`color`, `width`, `style`) |
+| `BackgroundImage` | `src`, `fit`, `repeat`, `alignment`, `opacity`, `colorFilter` |
+
+`begin` and `end` place a linear gradient's axis with an `Alignment`;
+`center`, `radius`, `startAngle` and `endAngle` position the radial and sweep
+forms.
 
 ### 2.5.16 `kenBurnsImage` *(since v1.3)*
 
@@ -1112,7 +1137,7 @@ Step-by-step wizard. Shared `binding` / `value` / `enabled` / `onChange` per §2
 
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
-| `steps` | Step[] | yes | — | Each step: `{ title, subtitle?, state?, content, isActive? }`. |
+| `steps` | Step[] | yes | — | Each step: `{ title, subtitle?, state?, content, isActive? }`. `title` takes a widget; `titleText` is the plain-string form for a step whose heading is only text. |
 | `currentStep` | number \| binding | no | `0` | One-way legacy property. Use §2.6.0 `binding` for two-way behavior. |
 | `stepperType` | string | no | `"vertical"` | `vertical` or `horizontal`. |
 | `onStepTapped` | Action | no | — | Fired when a step header is tapped. Receives `{{event.index}}`. |
@@ -1507,7 +1532,7 @@ Bottom navigation bar. Each item's text field is `label`.
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
 | `selectedIndex` | number \| binding | no | `0` | Currently selected index. |
-| `items` | NavItem[] | yes | — | `{ icon, label, route? }` entries. |
+| `items` | NavItem[] | yes | — | `{ icon, label, route?, activeIcon? }` entries. `activeIcon` replaces `icon` while that destination is the selected one. |
 | `onChange` | Action | no | — | Fired when selection changes. |
 
 ```json
@@ -1533,7 +1558,7 @@ Horizontal tab selector. Each tab's text field is `label`.
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
 | `selectedIndex` | number \| binding | no | `0` | Currently selected index. |
-| `tabs` | Tab[] | yes | — | `{ label, icon? }` entries. |
+| `tabs` | Tab[] | yes | — | `{ label, icon?, iconMargin?, height? }` entries. `iconMargin` insets the icon from the label; a tab naming neither a label nor an icon renders empty rather than being refused. |
 | `onChange` | Action | no | — | Fired when selection changes. |
 
 ```json
@@ -1604,7 +1629,7 @@ Vertical navigation rail for tablet/desktop layouts. Each item's text field is `
 | Property | Type | Required | Default | Description |
 |----------|------|----------|---------|-------------|
 | `selectedIndex` | number \| binding | no | — | Currently selected item. |
-| `items` | NavItem[] | yes | — | `{ icon, label, route? }` entries. |
+| `items` | NavItem[] | yes | — | `{ icon, label, route?, activeIcon? }` entries. `activeIcon` replaces `icon` while that destination is the selected one. |
 | `onChange` | Action | no | — | Fired when selection changes. |
 
 ```json
@@ -1751,6 +1776,12 @@ Scrollable viewport. Two layout modes — pick one per instance: linear mode (`c
 | `slivers` | array\<Sliver\> | no | — | Sliver entries (sliverAppBar / sliverPersistentHeader / sliverList / sliverGrid / sliverFixedExtentList). Mutually exclusive with `child` and `children`. |
 
 `Sliver` is one of five discriminated shapes — see `Sliver` in `configs/widget/Sliver.yaml`. Sliver mode unlocks collapsing app bars, sticky section headers, parallax mastheads, and mixing list/grid sections in one viewport.
+
+A collapsing `sliverAppBar` shows two surfaces in turn: the hero (`background` /
+`flexibleSpace`) while expanded, and the bar itself once the hero has faded out.
+`backgroundColor` and `foregroundColor` name the second one — a `title` colour
+picked to read against the hero is not the colour that reads against the bar,
+and without these the author cannot say so.
 
 ```json
 {

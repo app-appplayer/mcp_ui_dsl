@@ -70,12 +70,12 @@ properties:
   overflow:
     type: "string"
     enum: [clip, ellipsis, fade, visible]
-    default: "\"clip\""
+    default: "clip"
     description: "`clip`, `ellipsis`, `fade`, `visible`."
   textAlign:
     type: "string"
     enum: [start, center, end, justify, left, right]
-    default: "\"start\""
+    default: "start"
     description: "`start`, `center`, `end`, `justify` follow the text\ndirection (`start` is right-hand in an RTL locale). `left` and `right`\nare absolute and do not — they are the way to pin a column of numbers\nto one side whatever the locale, so they are values, not aliases."
   textDirection:
     type: "string"

@@ -261,6 +261,20 @@ The "no `theme` block" row is the key contract: a bundle that omits the `theme` 
 | `letterSpacing` | `number` | Logical px |
 | `fontFeatureSettings` | `string[]` | OpenType features (e.g. `["liga", "kern"]`) |
 
+A `TextStyle` written at a widget (`text.style`, `richText.spans[].style`,
+`NavigationStyle.labelStyle`, …) takes the same fields plus the ones a type
+scale has no use for:
+
+| Field | Type | Description |
+|---|---|---|
+| `fontStyle` | `"normal" \| "italic"` | Slant |
+| `wordSpacing` | `number` | Extra space between words, logical px |
+| `color`, `backgroundColor` | `Color` | Foreground and behind-the-glyphs fill |
+| `decoration` | `"none" \| "underline" \| "overline" \| "lineThrough"` | Line drawn with the text |
+| `decorationColor` | `Color` | Colour of that line; defaults to the text colour |
+| `decorationStyle` | `"solid" \| "double" \| "dotted" \| "dashed" \| "wavy"` | How the line is drawn |
+| `decorationThickness` | `number` | Multiplier on the font's own thickness |
+
 ### 5.4.3 M3 default scale
 
 | Role | size | weight | lineHeight | letterSpacing |

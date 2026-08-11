@@ -22,7 +22,7 @@ properties:
   direction:
     type: "string"
     required: true
-    default: "\"vertical\""
+    default: "vertical"
     description: "`\"horizontal\"` or `\"vertical\"`."
     aliases:
       - orientation
@@ -30,7 +30,7 @@ properties:
   alignment:
     type: "string"
     enum: [start, center, end, stretch]
-    default: "\"start\""
+    default: "start"
     description: "Cross-axis alignment: `start`, `center`, `end`, `stretch`."
     aliases:
       - crossAxisAlignment
@@ -38,7 +38,7 @@ properties:
     type: "string"
     enum: [start, center, end, spaceBetween, spaceAround, spaceEvenly]
     legacyValues: [space-between, space-around, space-evenly]
-    default: "\"start\""
+    default: "start"
     description: |
       Main-axis distribution: `start` · `center` · `end` · `spaceBetween` ·
       `spaceAround` · `spaceEvenly` (§17.1.3 spells multi-word values in

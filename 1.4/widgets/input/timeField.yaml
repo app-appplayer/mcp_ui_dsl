@@ -12,7 +12,7 @@ properties:
     description: "Field label."
   format:
     type: "string"
-    default: "\"HH:mm\""
+    default: "HH:mm"
     description: "Display format."
   use24HourFormat:
     type: "boolean"
@@ -24,6 +24,6 @@ properties:
   mode:
     type: "string"
     enum: [spinner, input, dial]
-    default: "\"spinner\""
+    default: "spinner"
     description: "`spinner`, `input`, `dial`."
 # examples migrated verbatim from prose JSON fences.

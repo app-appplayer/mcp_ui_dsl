@@ -11,7 +11,7 @@ properties:
   showErrorsOn:
     type: "string"
     enum: [submit, change, blur]
-    default: "\"submit\""
+    default: "submit"
     description: "`submit`, `change`, `blur`."
   onSubmit:
     type: "Action"

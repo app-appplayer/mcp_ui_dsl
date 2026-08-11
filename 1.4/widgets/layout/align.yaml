@@ -12,7 +12,7 @@ properties:
     description: "Size to this multiple of the child width."
   alignment:
     type: Alignment
-    default: "\"center\""
+    default: "center"
     description: Alignment of the child within this widget's bounds. Defaults to `center` when omitted.
   child:
     type: "Widget"

@@ -1,6 +1,6 @@
 type: graph
 category: advanced
-profile: Core
+profile: Advanced
 since: v1.0
 description: |
   Time-series / numeric data graph (line, bar, area, scatter) drawn on a single set of axes. For node/edge topology visualization use `networkGraph` (§10.13).

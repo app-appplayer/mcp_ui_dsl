@@ -21,7 +21,7 @@ properties:
   direction:
     type: string
     enum: [vertical, horizontal]
-    default: "\"vertical\""
+    default: "vertical"
     description: Scroll axis.
   padding:
     type: EdgeInsets
@@ -29,7 +29,7 @@ properties:
   scrollPhysics:
     type: string
     enum: [bouncing, clamping, neverScrollable]
-    default: "\"clamping\""
+    default: "clamping"
     description: Edge / overscroll behaviour.
   child:
     type: Widget

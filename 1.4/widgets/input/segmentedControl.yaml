@@ -16,7 +16,7 @@ properties:
   variant:
     type: "string"
     enum: [segmented, tabs, buttons]
-    default: "\"segmented\""
+    default: "segmented"
     description: "`segmented`, `tabs`, `buttons`."
 # examples migrated verbatim from prose JSON fences.
 examples:

@@ -22,7 +22,7 @@ properties:
     description: "Maximum rating value."
   icon:
     type: IconRef
-    default: "\"star\""
+    default: "star"
     description: "Icon for each unit. Any `IconRef` form."
   color:
     type: Color

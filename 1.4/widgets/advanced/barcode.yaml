@@ -16,7 +16,7 @@ properties:
   format:
     type: string
     enum: [code128, code39, ean13, ean8, upcA, upcE, itf, codabar]
-    default: "\"code128\""
+    default: "code128"
     description: "Symbology. `code128` accepts the widest payload and is the safe default."
   width:
     type: number

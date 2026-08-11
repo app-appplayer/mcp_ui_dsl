@@ -36,7 +36,7 @@ properties:
   scrollDirection:
     type: string
     enum: [vertical, horizontal]
-    default: "\"vertical\""
+    default: "vertical"
     description: Scroll axis.
 examples:
   - name: album_shelf

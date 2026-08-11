@@ -22,7 +22,7 @@ properties:
   viewMode:
     type: string
     enum: [hour, day, week, month, quarter, year]
-    default: "\"day\""
+    default: "day"
     description: "Axis granularity."
   range:
     type: "object"

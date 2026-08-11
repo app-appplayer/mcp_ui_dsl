@@ -33,7 +33,7 @@ properties:
   textAlign:
     type: string
     enum: [start, end, left, right, center, justify]
-    default: "\"start\""
+    default: "start"
     description: Alignment for the composed paragraph.
   textDirection:
     type: string
@@ -45,11 +45,11 @@ properties:
   overflow:
     type: string
     enum: [clip, ellipsis, fade, visible]
-    default: "\"clip\""
+    default: "clip"
     description: Overflow behaviour when content exceeds `maxLines`.
   softWrap:
     type: boolean
-    default: "true"
+    default: true
     description: When false, the paragraph never wraps and overflow rules apply at the right edge.
 examples:
   - name: text_run_with_emphasis

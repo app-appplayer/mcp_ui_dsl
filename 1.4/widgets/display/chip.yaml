@@ -36,7 +36,7 @@ properties:
     description: "Selected state."
   variant:
     type: "string"
-    default: "\"filled\""
+    default: "filled"
     description: "`filled` or `outlined`."
   onDelete:
     type: "Action"

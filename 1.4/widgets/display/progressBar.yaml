@@ -3,6 +3,7 @@ category: display
 profile: Core
 aliases:
   - linearProgressIndicator
+  - circularProgressIndicator
   - loadingIndicator
   - loading-indicator
   - progress-bar
@@ -21,8 +22,13 @@ properties:
     description: "Progress in `0.0..1.0`; omit for indeterminate."
   indicatorType:
     type: "string"
-    default: "\"linear\""
-    description: "`linear` or `circular`."
+    default: "circular"
+    description: |
+      `linear` or `circular`. The widget type can name the shape instead:
+      `linearProgressIndicator` and `circularProgressIndicator` are linear and
+      circular respectively, and this property overrides either. Circular is
+      the default because a bar has no intrinsic width — a bare `progressBar`
+      inside a row asserts at layout time rather than rendering.
   color:
     type: Color
     default: "theme primary"

@@ -33,11 +33,11 @@ properties:
   fit:
     type: "string"
     enum: [cover, contain, fill, none, scaleDown, fitHeight, fitWidth]
-    default: "\"contain\""
+    default: "contain"
     description: "`cover`, `contain`, `fill`, `none`, `scaleDown`, `fitHeight`, `fitWidth`."
   alignment:
     type: Alignment
-    default: "\"center\""
+    default: "center"
     description: "Alignment within bounds."
   fallback:
     type: Widget

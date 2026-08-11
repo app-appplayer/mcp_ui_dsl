@@ -1,6 +1,6 @@
 type: table
 category: advanced
-profile: Core
+profile: Advanced
 since: v1.0
 description: |
   Layout table for arranging widgets in rows and columns. Not data-bound; each cell is a widget.
@@ -9,9 +9,9 @@ properties:
     type: "string"
     description: "Baseline used to align cells in a baseline-aligned row."
   rows:
-    type: "array<object{ cells: array<Widget> }>"
+    type: "array<TableRow>"
     required: true
-    description: "Row definitions"
+    description: "Row definitions — each carries the widgets for its cells."
   border:
     type: "{ color, width }"
     default: null

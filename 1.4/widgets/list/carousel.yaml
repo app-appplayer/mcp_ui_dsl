@@ -22,7 +22,7 @@ properties:
   scrollDirection:
     type: string
     enum: [horizontal, vertical]
-    default: "\"horizontal\""
+    default: "horizontal"
     description: Scroll axis.
   viewportFraction:
     type: number
@@ -33,7 +33,7 @@ properties:
       `0.85` leaves both neighbours peeking; `0.6` shows three items.
   loop:
     type: boolean
-    default: "false"
+    default: false
     description: When true the list wraps around — last → first → last.
   autoPlay:
     type: "boolean | number | binding"
@@ -47,7 +47,7 @@ properties:
   transition:
     type: string
     enum: [slide, fade, coverflow, depth]
-    default: "\"slide\""
+    default: "slide"
     description: |
       Per-slide transition. `slide` is the default linear scroll;
       `fade` cross-fades between slides at the same position;
@@ -58,7 +58,7 @@ properties:
   indicatorPosition:
     type: string
     enum: [bottom, top, none]
-    default: "\"bottom\""
+    default: "bottom"
     description: Page indicator dot bar.
   onPageChanged:
     type: Action

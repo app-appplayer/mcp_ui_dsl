@@ -27,7 +27,7 @@ properties:
     description: "Card body. Rendered per item with `item` in scope, exactly as `list.itemTemplate`."
   itemKey:
     type: string
-    default: "\"id\""
+    default: "id"
     description: "Field identifying a card. Stable identity is what makes a move addressable."
   draggable:
     type: boolean

@@ -13,7 +13,7 @@ properties:
   style:
     type: "string"
     enum: [inline, dialog, banner]
-    default: "\"inline\""
+    default: "inline"
     description: "`inline`, `dialog`, `banner`."
   title:
     type: "string"

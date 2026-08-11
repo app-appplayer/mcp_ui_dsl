@@ -424,13 +424,15 @@ The channel declares its source and its per-push handler; buttons only start /
 stop it:
 
 ```json
-"channels": {
-  "advertisements": {
-    "type": "client.mcpStream",
-    "params": { "uri": "ble://scan", "params": { "minRssi": -70 } },
-    "onMessage": {
-      "type": "state", "action": "append",
-      "binding": "advertisements", "value": "{{data}}"
+{
+  "channels": {
+    "advertisements": {
+      "type": "client.mcpStream",
+      "params": { "uri": "ble://scan", "params": { "minRssi": -70 } },
+      "onMessage": {
+        "type": "state", "action": "append",
+        "binding": "advertisements", "value": "{{data}}"
+      }
     }
   }
 }

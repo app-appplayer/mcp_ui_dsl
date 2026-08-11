@@ -1,6 +1,6 @@
 type: mediaPlayer
 category: advanced
-profile: Core
+profile: Advanced
 aliases: [video, audio]
 since: v1.0
 description: |
@@ -52,7 +52,7 @@ properties:
     description: Preview image rendered before playback starts (video only).
   waveform:
     type: boolean
-    default: "false"
+    default: false
     description: |
       Audio mode only. When true, the audio's amplitude waveform is
       rendered above the transport controls, advancing with playback.

@@ -21,7 +21,7 @@ properties:
     description: "One-way legacy property. Use §2.6.0 `binding` for two-way behavior."
   stepperType:
     type: "string"
-    default: "\"vertical\""
+    default: "vertical"
     description: "`vertical` or `horizontal`."
   onStepTapped:
     type: "Action"

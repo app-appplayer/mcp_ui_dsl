@@ -10,11 +10,11 @@ properties:
   fit:
     type: "string"
     enum: [cover, contain, fill, scaleDown, none]
-    default: "\"contain\""
+    default: "contain"
     description: "`cover`, `contain`, `fill`, `scaleDown`, `none`."
   alignment:
     type: Alignment
-    default: "\"center\""
+    default: "center"
     description: "Alignment within the fitted bounds."
   child:
     type: "Widget"

@@ -22,7 +22,7 @@ properties:
     type: string
     enum: [low, medium, quartile, high]
     legacyValues: [L, M, Q, H]
-    default: "\"medium\""
+    default: "medium"
     description: |
       Error-correction level: `low` (7%), `medium` (15%), `quartile` (25%),
       `high` (30%).

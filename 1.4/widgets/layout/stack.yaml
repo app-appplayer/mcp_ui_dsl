@@ -9,12 +9,12 @@ properties:
     description: "How content crossing the bounds is clipped."
   alignment:
     type: Alignment
-    default: "\"topStart\""
+    default: "topStart"
     description: Alignment of non-positioned children.
   fit:
     type: "string"
     enum: [loose, expand, passthrough]
-    default: "\"loose\""
+    default: "loose"
     description: "Sizing of non-positioned children: `loose`, `expand`, `passthrough`."
   children:
     type: "array<Widget>"

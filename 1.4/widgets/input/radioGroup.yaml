@@ -15,7 +15,7 @@ properties:
       - items
   orientation:
     type: "string"
-    default: "\"vertical\""
+    default: "vertical"
     description: "`vertical` or `horizontal`."
   direction:
     type: "string"

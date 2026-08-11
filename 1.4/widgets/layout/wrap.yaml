@@ -15,7 +15,7 @@ properties:
     description: "How content crossing the bounds is clipped."
   direction:
     type: "string"
-    default: "\"horizontal\""
+    default: "horizontal"
     description: "Primary flow direction."
   spacing:
     type: "number"
@@ -27,7 +27,7 @@ properties:
     description: "Gap between runs."
   alignment:
     type: "string"
-    default: "\"start\""
+    default: "start"
     description: "Alignment within a run."
   children:
     type: "array<Widget>"

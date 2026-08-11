@@ -1,6 +1,6 @@
 type: networkGraph
 category: advanced
-profile: Core
+profile: Advanced
 since: v1.0
 description: |
   Network topology graph. Same node/edge model as `graph`, with topology-oriented defaults (hierarchical layout, directed edges).

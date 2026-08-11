@@ -51,7 +51,7 @@ properties:
     description: "Gap between items."
   orientation:
     type: "string"
-    default: "\"vertical\""
+    default: "vertical"
     description: "`vertical` or `horizontal`."
   emptyMessage:
     type: "string"
