@@ -1,5 +1,179 @@
 # MCP UI DSL — Changelog
 
+## [Unreleased]
+
+### `lineHeight` is the one name for line height; `height` is its legacy alias
+
+`TextStyle` — the shape shared by `theme.typography.<role>` and a widget's
+`style` — carried line height as `height` (a multiplier) while §5.4.2,
+§18.2.7 and the prose everywhere named it `lineHeight`. Two names for one
+concept, one in the machine-readable half and one in the normative half.
+
+- `configs/_primitive/TextStyle.yaml` declares `lineHeight` (§5.4.2: below 16 a
+  multiplier of `fontSize`, 16 and above logical px) and marks `height`
+  `deprecated`: a multiplier, accepted on input, never emitted; with both set,
+  `lineHeight` wins (§18.2.10). The object stays open, so no document that
+  validated before stops validating.
+- §17.3.2 registers `height` → `lineHeight` for `TextStyle`.
+- Schemas regenerated.
+
+### Editorial
+
+- 05_Theme: the second §5.17 / §5.18 (Migration, Conformance summary) are
+  §5.19 / §5.20.
+- 05b: the interchange text named the theme, the export and the runtime as
+  1.3; they are 1.4.
+
+## [1.4.3]
+
+### `location` — asking where the device is, and the rules that keep it an ask
+
+A document that needed to say where it was filed from had nothing to ask with.
+The shapes available were a tool call whose answer the document could not check
+and could not bound — which puts the question outside anything the
+specification governs, and there is no worse place for this particular one.
+
+**`location` action** (§4.25, Location Profile). One question, one answer.
+There is deliberately **no continuous form**, and that is the whole shape of the
+feature: a document that could follow someone is a different power from one that
+can ask where they are, and only the second is defined here. A runtime that
+added a feed would be claiming something this Profile does not describe.
+
+**`precision` is a ceiling, not a preference** (§4.25.2, §7.3.6). The document
+says what it needs; the host MAY answer coarser and MUST NOT answer finer.
+Without the ceiling a document collects precision by asking quietly, and the ask
+is the only place anyone can weigh it. `coarse` is the default because most
+questions are — an author who needs a building says so.
+
+**Coarse means never having read fine.** Rounding a precise reading at the
+client is a smaller number, not a smaller disclosure: the fine value existed in
+the process the document is running in. Where the platform can supply a
+reduced-accuracy fix, a host claiming this Profile asks for one.
+
+**The host owns the prompt** (§4.25.1). Consent is asked in the host's words,
+through the platform's own mechanism, and recorded where the platform records
+it. A document MUST NOT draw a prompt of its own — a consent dialog written by
+the party that benefits from the answer is not consent.
+
+**Asking is an act, not a state** (§4.25.3). No lifecycle hook, no timer, no
+binding evaluation, no background form, and no caching across dispatches. A
+second dispatch is a second question; a stored answer returned to avoid asking
+again is a stale position wearing the look of a current one.
+
+**A position is not an identity** (§4.25.4). It says where a device was, once.
+A host MUST NOT derive a principal from it or use it to satisfy an identity
+requirement — the guess is worst exactly where it matters, which is two people
+at one address.
+
+A refusal is an answer. `LOCATION_DENIED` reaches `onError`, the runtime does
+not re-ask, and a document that becomes unusable because someone declined has
+made the ask mandatory after the fact.
+
+Additive: `location` is its own Profile and Core does not include it, so a
+runtime that does not claim it fails the action visibly (§18.12.3) exactly as it
+already does for any action type it does not handle. No existing document
+changes meaning.
+
+## [1.4.2]
+
+### `payment` — asking the host to take money, and the rule that it is not proof
+
+A document could render a price and a button and had no way to say what the
+button was for. The only shape available was a tool call whose result the host
+opened as a URL, which puts the payment address in the document's data rather
+than in its declared surface — nothing validates it, and no rule constrains
+where it points.
+
+**`payment` action** (§4.24, Payment Profile). The document declares two things:
+`seller` and `itemId`. There is no field for an amount, a provider or a
+credential, and the omission is the design: a document that could set the amount
+could set it to zero, and a document that could name the provider would need that
+provider's keys reachable from inside a page. The host assembles the address
+against a payment surface it is configured for, and opens it outside the
+application.
+
+**The return link is a hint, not a settlement** (§4.24.2, §7.3.5). The outcome
+comes back on a link, and a link is a message from the device — another
+application, a browser page or a scanned code can send it. So the specification
+says what the runtime may conclude from it: which callback fires, and nothing
+more. Anything of value released on `onSuccess` is confirmed server-side by
+whoever releases it. Without that sentence the obvious document — `onSuccess`
+starting the machine — is a machine that starts for anyone who can open a link.
+
+Two rules make blind forgery expensive rather than free: the return address is a
+custom scheme registered by the host, and it carries a fresh unguessable token
+per dispatch that the host matches before the document is told anything.
+
+**`openUrl` was the only construct that left the runtime; now there are two.**
+§7.3.4's opening sentence said so and is corrected. The two are not symmetric:
+`openUrl` opens what the author wrote, `payment` opens where the host already
+points, so `payment` needs no scheme allowlist and gets a destination rule
+instead — the runtime MUST NOT accept a URL, an origin, a provider or an amount
+from the document.
+
+**Payment is its own Profile** (§18.11), not Core. Core is what every runtime
+must carry, and an embedded or display-only runtime carrying a payment port is
+the wrong default; making it Core would also have retroactively unclaimed every
+1.4.0 and 1.4.1 Core implementation. A runtime that does not claim it fails the
+action through `onError` with `PAYMENT_UNAVAILABLE` — visible, per §18.2.2,
+never silent. A runtime that can open the surface but cannot receive the return
+MUST NOT claim the Profile: half of this feature is a payment the application
+never learns the outcome of.
+
+### What the document may say about the payment, and what it may not
+
+Three of the four things a payment needs are the surface's, and the fourth is
+conditional.
+
+- **The receiving party** is named by the document *where the document knows
+  it* — a shop's own application. It is omitted where the party follows from
+  something the document cannot vouch for, such as which physical device
+  served it; there the host establishes the party by verifying that device's
+  identity. `seller` is therefore optional, and a host that cannot resolve an
+  unnamed party refuses. **Falling back to a default party is a payment to the
+  wrong person**, so §18.11 makes that non-conformant rather than lenient.
+- **The price** stays with the item, except where the item says the payer sets
+  it — a tip, a donation, a counter total. `amount` exists for exactly that
+  case, in major units, and an out-of-range value is **refused, not clamped**:
+  charging a corrected figure means charging what nobody agreed to.
+- **The provider** is never the document's. Where the receiving party offers
+  several, the host renders the choice; an abandoned choice is a cancel.
+
+### Where the surface appears is the host's answer
+
+`payment` was written as though the surface were always outside the
+application. It is not: a host that can run the payment provider's own front
+end reaches it without leaving, and one that cannot opens a browser. Both are
+conformant and a document must not depend on either.
+
+What does *not* vary: card entry ends on the provider's own domain, and a
+runtime MUST NOT frame a provider page inside the application to simulate an
+in-app surface. §7.3.5 carries that as a prohibition rather than a preference,
+because the framed version looks identical to the person paying.
+
+### Why this is 1.4.2 and not 1.5
+
+A new action type is not the same kind of addition as a new property. A
+property a runtime does not know is ignored and the document still opens; an
+action type it does not know fails the document at load, because the type enum
+lives in the schema the load gate checks. A document written against 1.4.2 and
+served to a 1.4.0 runtime therefore does not degrade — it does not open, and
+the two-part version stamp gives that runtime nothing to say about why.
+
+That argues for a minor. What settles it the other way is that **there is no
+1.4.0 runtime in the field**: every implementation of this specification is
+built from the same tree, and no third party has published one. A new version
+directory would double the surface that has to be kept in step for a hazard
+with nobody standing in it.
+
+So 1.4.2, and the first change made after an outside implementation exists
+takes the minor — that is the point where the version stamp starts carrying
+information rather than describing our own build.
+
+No slot narrowed (§1.7.5). `payment` is a new action type, `PAY-*` a new test
+prefix, and §1.7.3's profile list — which had also not been updated when
+Composition landed at 1.4 — now names both.
+
 ## [1.4.1]
 
 ### Promoted — 330 properties across 80 widgets that the runtime honoured and the registry did not name

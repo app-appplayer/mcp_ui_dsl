@@ -36,6 +36,9 @@ properties:
   columnWidth:
     type: Dimension
     description: "Fixed column width. Omitted distributes available width."
+  height:
+    type: Dimension
+    description: "Fixed board height. Omitted, the board fills its parent, which must then be bounded (§2.15) — the columns scroll, so the board has no height of its own to report."
   optimistic:
     type: boolean
     default: false

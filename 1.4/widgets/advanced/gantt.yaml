@@ -34,7 +34,7 @@ properties:
   showProgress:
     type: boolean
     default: true
-    description: "Render each task's `progress` as a fill."
+    description: "Render each task's `progress` as a fill: the completed fraction in the bar's colour, the remainder in a lighter tint of it."
   showDependencies:
     type: boolean
     default: true

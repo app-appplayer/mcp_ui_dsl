@@ -165,8 +165,32 @@ Material-style sortable, selectable data table bound to a row array.
 | `selectable` | boolean | `false` | Whether rows are selectable |
 | `sortColumn` | binding | null | Current sort column key |
 | `sortAscending` | binding | `true` | Current sort direction |
+| `editable` | boolean | `false` | Allow in-place cell editing. Edits report through `onCellEdit`; the widget does not mutate `rows` on its own |
+| `filterable` | boolean | `false` | Per-column filter row under the header |
+| `resizableColumns` | boolean | `false` | Drag column edges to resize |
+| `virtualScroll` | boolean | `false` | Build rows on demand. Requires `rowHeight` |
+| `rowHeight` | number | — | Fixed row height in logical pixels |
 | `onSort` | Action | null | Fired on header tap of a sortable column |
+| `onCellEdit` | Action | null | Fired when an edit is committed; `{ row, column, value, previous }` |
 | `onRowTap` | Action | null | Fired on row tap; `event.row` is the row object |
+
+**Two render paths, and which one a document gets.** `editable`, `virtualScroll` or
+`resizableColumns` selects a laid-out grid; without any of them the table is a Material
+`DataTable`. The distinction is not cosmetic: a `DataTable`'s cells are text, so `editable`
+alone drawing one gave a table marked editable with no editable cell. Both paths honour
+`columns[].align`, the header tap of a `sortable` column, and the declared `sortColumn` /
+`sortAscending`.
+
+Sorting compares two numbers as numbers whatever their subtype. An `int` and a `double` in
+one column are one kind of value; comparing them as strings puts `617.5` after `2160`.
+
+An editable cell is keyed by its **row's identity**, not its position, so a re-sort moves each
+field with its row. Keyed by position, the field at row *n* keeps the text it was built with
+while the event names the row now at *n* — the number typed lands visually in one line and is
+reported for another.
+
+With editable cells a tap focuses the field, so `onRowTap` fires only on the row's padding.
+That is inherent to the composition: a document that needs both puts the row action elsewhere.
 
 ## 10.5 `map` *(since v1.0)*
 
@@ -436,9 +460,32 @@ Hierarchical tree view with expandable nodes.
 | `itemTemplate` | Widget | no | — | Template rendered per node; `{{item}}` is node data. Omitted, each node draws its label. |
 | `expandable` | boolean | `true` | Allow expand/collapse |
 | `initiallyExpanded` | boolean | `false` | Expand all nodes on mount |
+| `selectable` | boolean | `false` | Tapping selects the node |
+| `selectedColor` | Color | theme primary @ 20% | Selection highlight |
+| `checkable` | boolean | `false` | Draw a checkbox per node |
+| `checkedKeys` | string[] \| binding | `[]` | Checked node ids |
+| `draggable` | boolean | `false` | Allow reordering and reparenting by drag. Reports through `onDrop`; the widget does not mutate the tree |
+| `showLines` | boolean | `true` | Draw guide lines |
+| `lineColor` | Color | theme outlineVariant | Guide line colour |
+| `indentation` | Dimension | `24` | Indent per depth level |
+| `itemPadding` | EdgeInsets | `{top:4, bottom:4, right:8}` | Padding inside every row; the vertical component is row density |
+| `width` / `height` | number | — | Fixed widget size |
 | `onNodeTap` | Action | null | Fired on node tap |
+| `onSelect` | Action | null | Fired on selection; requires `selectable` |
+| `onDrop` | Action | null | Fired when a dragged node is released on another |
 | `onExpand` | Action | null | Fired on node expand; `event.id` |
 | `onCollapse` | Action | null | Fired on node collapse; `event.id` |
+
+**`onDrop` carries where it landed.** `event.item` is the node that moved, `event.target` the
+node it was released on, and `event.position` one of `before` / `inside` / `after` — which edge
+of the target it landed on. A move that cannot say where it landed is a move the document
+cannot apply.
+
+Every node is a drag source and a drop target, **expandable nodes included**: dropping on a
+group's row with `position: "inside"` is the reparenting this event exists for, and a tree
+where only leaves accept a drop cannot express it. The edge is measured against the target
+**row**, not the widget, and a node is refused as a target for itself or anything in its own
+subtree — that move has no consistent result.
 
 ## 10.12 `graph` *(since v1.0)*
 
@@ -1077,9 +1124,25 @@ The widget owns presentation and gesture. It does **not** own the move: `onCardM
 | `itemKey` | string | `"id"` | Field identifying a card — stable identity is what makes a move addressable |
 | `draggable` | boolean | `true` | False renders a read-only board |
 | `columnWidth` | Dimension | — | Fixed width; omitted distributes available width |
+| `height` | Dimension | — | Board height. Omitted, the board fills its parent, which must then be bounded (§2.15) |
 | `optimistic` | boolean | `false` | Move on screen before `onCardMove` resolves. False keeps the board as the truth the server confirmed |
 
 Events: `onCardMove` (`{ item, from: {column, index}, to: {column, index} }` — the destination index matters, since a board without ordering is a list of columns), `onCardClick`.
+
+**The board cannot size to its content** — each column scrolls its own cards — so it needs a
+height from `height` or from a bounded parent. No default is invented when neither is given:
+a made-up height is a layout that looks deliberate and is not.
+
+**A drop lands anywhere in a column**: in the gaps between cards, on a card (its upper half
+inserts before it, its lower half after), and in the space below the last card. Gaps alone
+leave a column with cards in it mostly not a drop target.
+
+**`optimistic` holds while the bound data is unchanged**, and is replaced when the data
+changes. The board compares incoming `columns` by content: compared by identity, the state
+write that `onCardMove` itself provokes reads as new data and undoes the move on the next
+frame. One consequence for a document: a server refusal that leaves the data identical is
+"nothing changed" and the card stays, so a refusal that must show sends the data the server
+holds.
 
 ## 10.31 `gantt` *(since v1.4)*
 
@@ -1095,10 +1158,19 @@ Dependencies are drawn, not enforced: the widget renders the arrows and reports 
 | `viewMode` | enum | `day` | `hour`, `day`, `week`, `month`, `quarter`, `year` |
 | `range` | object | fits tasks | `{ start, end }` window shown |
 | `editable` | boolean | `false` | Drag bars to move, drag edges to reschedule |
-| `showProgress` / `showDependencies` / `todayMarker` | boolean | `true` | Rendering toggles |
+| `showProgress` | boolean | `true` | Render each task's `progress` as a fill: the completed fraction in the bar's colour, the remainder in a lighter tint of it |
+| `showDependencies` | boolean | `true` | Draw dependency arrows, from the end of each task a row depends on to the start of that row's task |
+| `todayMarker` | boolean | `true` | Mark the current instant on the axis |
 | `rowHeight` | number | — | Task row height |
 
 Events: `onTaskChange` (`{ id, start, end }` — the **proposed** schedule, not an applied one), `onTaskClick`.
+
+**The header labels by granularity.** A unit of a day or longer names a *span*, so its label is
+centred in the cell between two ticks, over the bar it dates — the reading every calendar and
+gantt trains. A unit shorter than a day names a *point*, so its label sits beside the tick and
+reads the time, with the date where the day turns. Ticks stay on cell boundaries in both. A
+label that would overlap the previous one is dropped rather than drawn over it, so a dense
+scale shows fewer dates instead of unreadable ones.
 
 ## 10.32 `spreadsheet` *(since v1.4)*
 

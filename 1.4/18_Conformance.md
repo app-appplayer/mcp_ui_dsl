@@ -18,6 +18,8 @@ A runtime implementation declares the set of **Profiles** it supports. Each Prof
 | **Advanced** *(since v1.0)* | Core | Advanced widgets (chart, canvas, code editor, terminal, etc.). |
 | **Template** *(since v1.1 / v1.3)* | Core | Template system — static invocation (v1.1), stateful + lifecycle + remote libraries (v1.3). |
 | **Composition** *(since v1.4)* | Core | Rendering definitions sourced from other origins — `DefinitionSource`, the `view` widget, origin-scoped dispatch, per-origin isolation. |
+| **Payment** *(since v1.4.2)* | Core | Taking payment for a declared item through a host-owned payment surface — the `payment` action, the outbound and return-link rules of [`07_Security.md`](07_Security.md) §7.3.5. Requirements in §18.11. |
+| **Location** *(since v1.4.3)* | Core | Answering where this device is, once, at a precision the document declared and the host may reduce — the `location` action and the rules of [`07_Security.md`](07_Security.md) §7.3.6. Requirements in §18.12. |
 
 ### 18.1.2 Implication Rule
 
@@ -53,7 +55,22 @@ Runtimes MUST parse and render every widget in [`17_Naming.md`](17_Naming.md) §
 - **Animation:** `animatedContainer`, `opacity` *(since v1.3)*, `transform` *(since v1.3)*, `lottieAnimation`
 - **Utility:** `fittedBox`, `clipOval`, `clipRRect`, `decoration`, `accessibleWrapper`, `lazy`
 
-Unknown widget types MUST NOT crash the runtime; the runtime MUST render an error placeholder and continue. See [`02_Widgets.md`](02_Widgets.md).
+Unknown widget types MUST NOT crash the runtime; the runtime MUST continue
+rendering the rest of the document, and MUST **report** the failure through a
+channel the host can observe (log, error hook, or the consumer's declared
+error surface).
+
+What it MUST NOT do is put developer text on an end user's screen. An earlier
+reading of this clause — "render an error placeholder" — was implemented as a
+red box carrying the message and the widget type in *every* build, so a single
+typo in a served document reached a customer as `Unknown widget type: …` while
+the operator, the one person who could fix it, got nothing. A runtime SHOULD
+draw the reason only where a developer is looking (a debug build), and collapse
+the slot in a release build.
+
+This is §6.13 applied one level up: a capability that is absent is reported and
+not faked, and a widget that cannot be built is reported and not narrated on
+the page. See [`02_Widgets.md`](02_Widgets.md).
 
 ### 18.2.2 Required Action Types
 
@@ -166,6 +183,7 @@ Collected from [`06_Runtime_Contract.md`](06_Runtime_Contract.md) §6.12. Applie
 
 - `data:` — inline bytes, base64 and url-encoded.
 - `assets/` — local asset paths declared by the consumer app.
+- `file:` — a local path, on platforms with a filesystem *(since v1.4.4)*; it is what a host produces under §6.12.7 placement 1, so a runtime that cannot draw it leaves such a host no form to hand over. A browser runtime omits it from its published set.
 - A **binding** in any `AssetRef` position, resolved before scheme dispatch (§6.12.2).
 - One resolution path shared by all `AssetRef` slots — two widgets given the same reference MUST resolve it identically (§6.12).
 - Unresolvable assets take the slot's declared fallback and never render an implementation detail on screen (§6.12.4).
@@ -409,6 +427,7 @@ Each Profile has an associated test suite. Test IDs are prefixed:
 | `BND-*` | Bundle | Metadata parsing, `bundle://` resolution, `ui://app/info`, adapters, dashboard. |
 | `ADV-*` | Advanced | Each advanced widget; canvas at v1.3+. |
 | `TPL-*` | Template | Static invocation (v1.1) and stateful / lifecycle / remote libraries (v1.3). |
+| `PAY-*` | Payment | The `payment` action, envelope mapping, return-link matching, and refusal when unclaimed. |
 
 A runtime passes a Profile suite when every MUST-level test returns green and SHOULD-level tests either pass or are documented as deliberate deviations. A runtime claiming multiple Profiles MUST pass every suite it claims.
 
@@ -449,4 +468,60 @@ Quick lookup of which profile each feature section belongs to.
 | [`14_Responsive_Events.md`](14_Responsive_Events.md) | Core |
 | [`15_Offline_Sync.md`](15_Offline_Sync.md) | Client |
 | [`16_Animations.md`](16_Animations.md) | Core (all animation widgets + `animation` action; optional advanced drivers degrade per §16.11) |
+| [`04_Actions.md`](04_Actions.md) §4.24 — `payment` | Payment (v1.4.2+) |
+| [`07_Security.md`](07_Security.md) §7.3.5 — Payment and return links | Payment (v1.4.2+) |
 | [`17_Naming.md`](17_Naming.md) — Canonical vocabulary and alias registry | Core (alias acceptance is a Core MUST) |
+
+---
+
+## 18.11 Payment Profile *(since v1.4.2)*
+
+### 18.11.1 Required
+
+A runtime claiming the Payment Profile MUST:
+
+1. **Dispatch `payment`** ([`04_Actions.md`](04_Actions.md) §4.24) — resolve the declared fields from bindings and hand them to a host payment port.
+2. **Own the destination** — assemble the payment address in the host, from a payment surface the host is configured against. A runtime MUST NOT accept a URL, an origin or a provider name from the document ([`07_Security.md`](07_Security.md) §7.3.5).
+3. **Resolve the receiving party** — use `seller` where the document names one; where it does not, resolve it from the verified identity of the serving origin and refuse with `PAYMENT_UNAVAILABLE` when that is not possible (§4.24.2). Falling back to a default party is non-conformant.
+4. **Carry an amount only where the item takes one** — send `amount` for customer-priced items only, refuse an out-of-range value rather than clamping it, and never present the document's number as the price of an item priced elsewhere (§4.24.3).
+5. **Present the provider choice** — where the receiving party offers several, the host renders the choice. A runtime MUST NOT let the document name the provider, and an abandoned choice is `PAYMENT_CANCELLED`.
+6. **Mint and match the return** — a custom-scheme return address carrying a fresh unguessable request token per dispatch, and discard returns that match no outstanding request.
+7. **Map the outcome to the §4.17 envelope** — `success` to `onSuccess` with `data.status`; cancel, unreadable return and host failure to `onError` with `PAYMENT_CANCELLED`, `PAYMENT_UNKNOWN` and `PAYMENT_UNAVAILABLE` respectively. A completed payment whose purchase did not reach the acting party is `PAYMENT_DELIVERY_FAILED`, never `PAYMENT_UNKNOWN`. Routing cancel or unknown to `onSuccess` is non-conformant.
+8. **Refuse visibly** — an unwired payment port MUST produce `onError` with `PAYMENT_UNAVAILABLE`. A no-op is non-conformant.
+9. **Refuse at `untrusted`** — MUST NOT dispatch `payment` from a document at trust level `untrusted`.
+10. **Claim no more than it does** — a runtime that presents the payment surface but cannot receive the return MUST NOT claim this Profile. Half of this feature is a payment the application never learns the outcome of.
+
+### 18.11.2 Not required
+
+The Profile says nothing about how payment is confirmed, because confirmation does not happen in the runtime ([`04_Actions.md`](04_Actions.md) §4.24.4). A conformant runtime delivers an outcome to a callback; whether the value behind that callback is released is decided server-side by whoever released it.
+
+### 18.11.3 Without the Payment Profile
+
+A runtime that does not claim it MUST fail `payment` through `onError` with `PAYMENT_UNAVAILABLE` per §18.2.2 — logged, graceful, no crash, and never silent.
+
+## 18.12 Location Profile *(since v1.4.3)*
+
+### 18.12.1 Required
+
+A runtime claiming the Location Profile MUST:
+
+1. **Dispatch `location`** ([`04_Actions.md`](04_Actions.md) §4.25) — resolve the declared fields from bindings and hand them to a host location port.
+2. **Own the prompt** — the host asks, in its own words, through the platform's own mechanism. A runtime MUST NOT render a consent prompt of its own and MUST NOT proceed on a prompt the document drew.
+3. **Treat `precision` as a ceiling** — MAY answer coarser, MUST NOT answer finer than asked, and MUST report what actually arrived in `precision` and `accuracyMeters` (§4.25.2).
+4. **Answer only to an act** — MUST NOT dispatch from a lifecycle hook, a timer or a binding evaluation, and MUST NOT read a position while the document is not being rendered (§4.25.3).
+5. **Not cache across dispatches** — a second dispatch is a second question. Returning a stored position to avoid asking again is non-conformant, because a stale position presented as current is a wrong answer that looks like a fast one.
+6. **Keep a refusal a refusal** — `LOCATION_DENIED` goes to `onError`, and the runtime MUST NOT re-ask on its own.
+7. **Map the outcome to the §4.17 envelope** — a position to `onSuccess` with `data.latitude`, `data.longitude`, `data.accuracyMeters`, `data.precision`, `data.at`; refusal and every host-side failure to `onError` with `LOCATION_DENIED` and `LOCATION_UNAVAILABLE` respectively.
+8. **Refuse visibly** — an unwired location port MUST produce `onError` with `LOCATION_UNAVAILABLE`. A no-op is non-conformant.
+9. **Refuse at `untrusted`** — MUST NOT dispatch `location` from a document at trust level `untrusted`.
+10. **Never answer identity with it** — MUST NOT derive a principal from a position or use one to satisfy an identity requirement (§4.25.4).
+
+### 18.12.2 Not required
+
+The Profile says nothing about **accuracy** — how close the answer is depends on the device, the sky and the platform, and a runtime that reports what it was given is conformant even when that is poor. What it may not do is report an accuracy it did not measure.
+
+Nor does it require a continuous form. There is none to require: §4.25 defines a single question, and a runtime that added a feed would be claiming something this Profile does not define.
+
+### 18.12.3 Without the Location Profile
+
+A runtime that does not claim it MUST fail `location` through `onError` with `LOCATION_UNAVAILABLE` per §18.2.2 — logged, graceful, no crash, and never silent. A host that can answer but is configured never to report position uses the same code: the document is told it cannot have one, never told that it asked wrongly.

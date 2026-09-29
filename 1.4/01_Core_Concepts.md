@@ -360,7 +360,7 @@ A runtime MAY use `version` to decide whether to accept version-gated fields (e.
 
 ### 1.7.3 Relationship to Profiles
 
-The `version` field is informational for feature introduction. It is **not** the conformance dimension. A runtime's support surface is declared in terms of Profiles (Core, Client, Bundle, Advanced, Template), defined in [`18_Conformance.md`](18_Conformance.md). A document carrying `version: "1.3"` may be served to a runtime that claims Core Profile only; the runtime accepts the parts inside its profile and rejects or ignores the rest per its documented policy.
+The `version` field is informational for feature introduction. It is **not** the conformance dimension. A runtime's support surface is declared in terms of Profiles (Core, Client, Bundle, Advanced, Template, Composition, Payment), defined in [`18_Conformance.md`](18_Conformance.md). A document carrying `version: "1.3"` may be served to a runtime that claims Core Profile only; the runtime accepts the parts inside its profile and rejects or ignores the rest per its documented policy.
 
 ### 1.7.4 `since:` Markers
 

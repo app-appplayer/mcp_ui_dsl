@@ -2,7 +2,7 @@
 
 An action is a JSON object describing an operation performed in response to a user gesture, a lifecycle event, or a watcher. Actions are the only way for a DSL page to cause side effects.
 
-Normative conformance requirements: [`18_Conformance.md`](18_Conformance.md) §18.2.2 (required actions), §18.2.3 (navigation sub-actions), §18.2.4 (state sub-actions), §18.2.5 (binding integration), §18.3 (Client Profile).
+Normative conformance requirements: [`18_Conformance.md`](18_Conformance.md) §18.2.2 (required actions), §18.2.3 (navigation sub-actions), §18.2.4 (state sub-actions), §18.2.5 (binding integration), §18.3 (Client Profile), §18.11 (Payment Profile).
 
 The full list of action type names is in [`17_Naming.md`](17_Naming.md) §17.2.2.
 
@@ -191,9 +191,9 @@ Operates on MCP resources.
 
 | Sub-action | Purpose |
 |------------|---------|
-| `subscribe` | Start a subscription; bind updates to `binding` |
+| `subscribe` | Start a subscription; bind updates **and the initial read** to `binding` |
 | `unsubscribe` | End a subscription |
-| `read` | One-time read; store result at `binding` |
+| `read` | One-time read; store result at `binding`. Holds no subscription |
 | `list` | List resources matching a URI pattern |
 
 | Field | Type | Required | Description |
@@ -213,6 +213,13 @@ Operates on MCP resources.
   "binding": "temperature"
 }
 ```
+
+**Where the payload lands.** A resource's payload is stored **at `binding`, as it arrives**, by
+every path that delivers it: the subscription's first read, each `notifications/resources/updated`,
+a one-shot `read`, and the re-read after a reconnect. A document therefore reads
+`{{binding.field}}`, and a page shows the current state on the frame it opens rather than on the
+first notification after it. A host that populates only some of those paths produces a page that
+looks like a stale cache: correct after an update, empty or one-update-behind before one.
 
 Lifecycle: a subscription persists until the author fires an explicit `unsubscribe`, the MCP connection closes, or — when `autoUnsubscribe: true` was set on the subscribing page — the page unmounts. A subscription is therefore connection-scoped by default; `autoUnsubscribe` is the only knob that ties it to page scope.
 
@@ -894,3 +901,158 @@ to `_events.<event>.timestamp`. Listeners read those paths like any other state:
 `_events` is runtime-owned. Documents SHOULD treat it as read-only outside this
 action — writing it directly bypasses the timestamp and makes an emit
 indistinguishable from a stale value.
+
+## 4.24 Payment Action *(since v1.4.2, Payment Profile)*
+
+Asks the host to take payment for a declared item. The document names **what** and, where it can, **whose**; the merchant, the provider, the credentials, the price and the session all belong to the payment surface the host opens. There is deliberately no field for a provider or a credential — a document that could name the provider would need that provider's keys to be reachable from inside a rendered page.
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `type` | string | yes | `"payment"` |
+| `action` | string | no | `"checkout"` — the default and the only sub-action defined |
+| `seller` | string \| binding | no | Opaque identifier of the receiving party, as issued by the payment surface. Not a merchant id and not an account number. Omitted where the receiving party is not the document's to name — see §4.24.2. |
+| `itemId` | string \| binding | yes | Identifier of the item **as the payment surface knows it**. A preselection, not a definition — the description and, for most items, the price live on the other side. |
+| `amount` | number \| binding | no | **Only for an item the payment surface prices as customer-entered** (a tip, a donation, a counter total). Major units, greater than zero. See §4.24.3. |
+| `onSuccess` | action | no | Fires on a `success` return. Read §4.24.4 before binding anything of value here. |
+| `onError` | action | no | Fires on cancel, on an unreadable return, and on every host-side failure. |
+
+```json
+{
+  "type": "payment",
+  "seller": "{{app.seller}}",
+  "itemId": "wash-premium",
+  "onSuccess": { "type": "navigation", "action": "push", "route": "/receipt" },
+  "onError": { "type": "state", "action": "set", "binding": "msg", "value": "{{event.message}}" }
+}
+```
+
+### 4.24.1 Dispatch
+
+1. The runtime resolves the declared fields from bindings.
+2. It hands them to the host's payment port. The host resolves the receiving party where the document did not name one (§4.24.2), assembles the payment address and mints the return address ([`07_Security.md`](07_Security.md) §7.3.5); **the document supplies none of those.**
+3. The host presents the payment surface. A runtime with no payment port, and a host that cannot present the surface, MUST report through `onError` and MUST NOT no-op. A payment button that does nothing is indistinguishable from a broken document.
+4. The outcome returns to the same action, which produces the §4.17 envelope.
+
+**Where the surface appears is the host's answer, not the document's.** It may be outside the application — the host's browser or a custom tab, leaving the trust boundary exactly as `openUrl` does (§4.3.3) — or it may be a payment surface the host renders itself. A host that can run the payment provider's own front end is not required to leave the application to reach it, and a document MUST NOT be written to depend on either answer.
+
+This is **not** the same as rendering a provider's payment page in a `webView`: card entry ends on the provider's own domain in every case, and a runtime MUST NOT frame a provider page inside the application to simulate an in-app surface.
+
+**Where the seller offers more than one provider, choosing between them is the host's screen.** The document is not told the candidates and does not pick one — a document that picked the provider would be naming where the money goes, which is what §7.3.5 takes away from it. A choice the person abandons is a `cancel`.
+
+| Outcome | Envelope |
+|---------|----------|
+| the payment surface's flow was completed | `{"success": true, "data": {"status": "success"}}` |
+| the person dismissed it | `error.code = "PAYMENT_CANCELLED"` |
+| the return carried no readable outcome, or no return arrived | `error.code = "PAYMENT_UNKNOWN"` |
+| no payment port, or the host refused to open the surface | `error.code = "PAYMENT_UNAVAILABLE"` |
+| the flow completed but what it bought did not reach the party that must act on it — a served device that never received the authority (platform spec 21 §6.1 step 7) *(since v1.4.4)* | `error.code = "PAYMENT_DELIVERY_FAILED"` |
+
+`{{event.status}}` reads the success branch; `{{event.code}}` and `{{event.message}}` read the error branch (§4.18). A runtime MUST NOT route `PAYMENT_CANCELLED` or `PAYMENT_UNKNOWN` to `onSuccess`. A runtime MUST NOT report `PAYMENT_DELIVERY_FAILED` as `PAYMENT_UNKNOWN`: the money moved, and the person must not be sent to pay again. Cancelling is a normal outcome, not a failure to hide, and an unknown outcome is the one case where guessing is most expensive.
+
+### 4.24.2 Who is being paid
+
+A document names `seller` when it knows it — a shop's own application, a page selling its own items.
+
+It omits `seller` when the receiving party is **not the document's to name**: a document served by a physical device, where who gets the money follows from which device this is, and the host establishes that by verifying the device's identity rather than by reading a field. A document that could name the receiving party in that situation could also name a different one.
+
+- Where `seller` is absent the host MUST resolve the receiving party from the **verified identity of the origin that served the document**, and MUST fail with `PAYMENT_UNAVAILABLE` if it has no way to do so. It MUST NOT fall back to a default party.
+- Where `seller` is present the host MUST use it, and MUST NOT substitute another party.
+- Either way the host, not the document, decides whether that party can take payment at all. A receiving party with no usable provider is a refusal, not an empty surface.
+
+### 4.24.3 Amounts
+
+Most items are priced by the payment surface, and a document that sent a price would be quoting one side of a sale to the other. `amount` exists for the items where the person paying decides — a tip, a donation, a counter total.
+
+- A runtime MUST send `amount` only for an item the payment surface prices as customer-entered. For any other item the surface derives the price and **ignores a supplied amount**; a runtime MUST NOT treat that as an error of its own, and MUST NOT show the document's number as the price.
+- An amount outside the bounds the item declares is **refused, not clamped**. Silently charging a corrected figure is worse than refusing: the person agreed to what they typed.
+- `amount` is in major units and MUST be greater than zero. The currency is never the document's — it comes from the item.
+
+### 4.24.4 The return is a hint, not a settlement
+
+`status: "success"` means **the person came back from the payment surface**, and nothing more. It arrives on a link that anything on the device can send — another application, a page in a browser, a scanned code — so a document that opens a door on it opens the door for whoever sends the link.
+
+- A runtime MUST NOT describe the return as verified payment in any surface it renders itself.
+- A document SHOULD treat `onSuccess` as a display transition: show a receipt view, start a poll, re-render a state the server owns. Capture is frequently asynchronous, so the authoritative record may still read as pending at the moment the person returns.
+- Where the callback releases something of value — starts a machine, unlocks content, ships goods — the **server side of that operation** MUST confirm the payment against the payment surface before acting. `{"type": "tool"}` in `onSuccess` is the normal shape, and the tool's implementation is where that check belongs. A tool that acts on being called has no way to tell a paid caller from any other.
+
+This is not a property of one payment surface. It holds for any hosted flow that reports its outcome through a link, because the link is a message from the device, not from the party that took the money.
+
+### 4.24.5 Runtimes that do not take payment
+
+`payment` is its own Profile ([`18_Conformance.md`](18_Conformance.md) §18.11) and Core does not include it. A runtime that does not claim the Payment Profile MUST fail the action through `onError` with `PAYMENT_UNAVAILABLE`, exactly as §18.2.2 requires for an action type it does not handle: logged, graceful, and visible to the document. Silence would teach an author that their document is wrong when it is the runtime that has nothing to open.
+
+## 4.25 Location Action *(since v1.4.3, Location Profile)*
+
+Asks the host **where this device is, once, now**. The document says how precise an answer it needs; whether it gets one, and whether the person is asked first, belong to the host.
+
+There is deliberately no continuous form. A document that could follow someone is a different thing from one that can ask where they are, and the second is what this action is for — a report that says where it was filed from, a form that fills in an address, a screen that shows what is nearby.
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `type` | string | yes | `"location"` |
+| `action` | string | no | `"current"` — the default and the only sub-action defined |
+| `precision` | string | no | `"coarse"` (default) or `"fine"`. What the document **needs**, not what it would like. See §4.25.2. |
+| `onSuccess` | action | no | Fires with the position in the §4.17 envelope. |
+| `onError` | action | no | Fires on refusal and on every host-side failure. |
+
+```json
+{
+  "type": "location",
+  "precision": "fine",
+  "onSuccess": {
+    "type": "state", "action": "set", "binding": "where",
+    "value": "{{event.latitude}},{{event.longitude}}"
+  },
+  "onError": {
+    "type": "state", "action": "set", "binding": "msg", "value": "{{event.message}}"
+  }
+}
+```
+
+### 4.25.1 Dispatch
+
+1. The runtime resolves the declared fields from bindings.
+2. It hands them to the host's location port. **The host owns the prompt** — whether the person is asked, in what words, and how the platform records their answer. A document MUST NOT draw a prompt of its own and MUST NOT be written to assume one appeared.
+3. The host answers with a position, or refuses.
+4. The outcome returns to the same action, which produces the §4.17 envelope.
+
+| Outcome | Envelope |
+|---------|----------|
+| a position was obtained | `{"success": true, "data": {"latitude": …, "longitude": …, "accuracyMeters": …, "precision": "coarse"\|"fine", "at": "<ISO 8601>"}}` |
+| the person refused, now or previously | `error.code = "LOCATION_DENIED"` |
+| no location port, the platform has it turned off, or no position could be obtained | `error.code = "LOCATION_UNAVAILABLE"` |
+
+`{{event.latitude}}` and the rest read the success branch; `{{event.code}}` and `{{event.message}}` read the error branch (§4.18).
+
+**A refusal is a normal outcome, not a failure to hide.** A runtime MUST route `LOCATION_DENIED` to `onError` and MUST NOT retry on its own. A document SHOULD stay usable without a position — a form that cannot be submitted because someone declined is a form that asked for consent it had already decided to require.
+
+### 4.25.2 Precision is a ceiling, not a preference
+
+`precision` says what the document needs. The host MAY answer with something coarser, and **MUST NOT answer with something finer than was asked**.
+
+- A document that asks `coarse` and is handed a street address has been given something it did not justify, and it now holds it. The ceiling is what keeps a document from collecting precision by asking softly.
+- `accuracyMeters` and the returned `precision` say what actually arrived. A document MUST NOT assume the value it asked for is the value it got.
+- The host decides how `coarse` is coarsened. Rounding at the client is not coarsening if the fine value was read to produce it — where the platform can request a reduced-accuracy fix, a host claiming this Profile SHOULD ask for one rather than degrading a precise reading.
+
+### 4.25.3 Asking is an act, not a state
+
+A position is read **in response to something a person did**, while the document is on screen.
+
+- A runtime MUST NOT dispatch `location` from a lifecycle hook, a timer, or a binding evaluation. It runs from an action a person triggered.
+- A runtime MUST NOT read a position while the document is not being rendered. There is no background form of this action.
+- Repeating the action is how a document gets a newer answer. A runtime MUST NOT cache a position across dispatches to avoid asking again — a stale position presented as current is a wrong answer that looks like a fast one.
+
+Where a document needs the person to understand that filing something will attach where they are, **the act that attaches it should be the one that says so** — the label on the button they press. That is the document's to write, and it is more honest than a prompt appearing after the fact.
+
+### 4.25.4 A position is not an identity
+
+A position says where a device was, once. It does not say who is holding it, and a runtime MUST NOT let it stand in for that.
+
+- A host MUST NOT derive a principal from a position, and MUST NOT use one to satisfy an identity requirement (see [`19-scan-entry-identity.md`](../../../platform/19-scan-entry-identity.md) §5).
+- A document that records where something was filed from is recording a circumstance. A document that decides *who* filed it from the same value is guessing, and the guess is worst exactly where it matters — two people at one address.
+
+### 4.25.5 Runtimes that do not answer
+
+`location` is its own Profile ([`18_Conformance.md`](18_Conformance.md) §18.12) and Core does not include it. A runtime that does not claim the Location Profile MUST fail the action through `onError` with `LOCATION_UNAVAILABLE`, exactly as §18.2.2 requires for an action type it does not handle: logged, graceful, and visible to the document.
+
+A host that *can* answer and chooses not to — a policy that this build never reports position — reports the same code. The document is told it cannot have one, never told that it asked wrongly.

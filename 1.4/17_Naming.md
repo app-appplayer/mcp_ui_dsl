@@ -49,6 +49,8 @@ Rationale: matches React's convention (the dominant component-based UI grammar).
 ### 17.1.6 Action Types — Single word or dotted namespace
 
 - Core: `state`, `navigation`, `tool`, `resource`, `dialog`, `batch`, `conditional`, `notification`, `parallel`, `sequence`, `cancel`, `animation`, `submit`, `event`
+- Payment Profile *(since v1.4.2)*: `payment`
+- Location Profile *(since v1.4.3)*: `location`
 - Namespaced (dotted): `client.selectFile`, `client.readFile`, `channel.start`, `channel.stop`, `permission.revoke`
 
 The dot separator indicates a family of related operations on one subsystem.
@@ -151,6 +153,14 @@ Full catalog in [`04_Actions.md`](04_Actions.md).
 #### Client Profile
 
 `channel`, `permission`, `identity`, `client.selectFile`, `client.readFile`, `client.writeFile`, `client.saveFile`, `client.listFiles`, `client.httpRequest`, `client.getSystemInfo`, `client.clipboard`, `client.exec`, `client.notification`, `client.storage.get`, `client.storage.set`, `client.storage.remove`, `permission.revoke`, `channel.start`, `channel.stop`, `channel.restart`, `channel.toggle`, `channel.send`, `identity.promote`, `identity.release`, `sound.play`, `sound.stop`, `media.play`, `media.pause`, `media.toggle`, `media.seek`
+
+#### Payment Profile *(since v1.4.2)*
+
+`payment`
+
+#### Location Profile *(since v1.4.3)*
+
+`location`
 
 ### 17.2.3 Navigation Sub-Actions
 
@@ -299,6 +309,7 @@ table naming `spaceBetween` as canonical.)*
 | `avatar` | `label` | `text` |
 | `avatar`, `card`, `box` | `color` | `backgroundColor` |
 | Template invocation (`use`) | `itemTemplate` | `template` |
+| `TextStyle` (theme typography role, widget `style`) | `lineHeight` | `height` (value is always a multiplier of `fontSize`; `lineHeight` below 16 is a multiplier, 16 and above px — §5.4.2) |
 
 ### 17.3.3 Callback Aliases
 
